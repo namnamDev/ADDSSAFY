@@ -1,15 +1,16 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from "react";
+import ProNavbar from "../components/basic/ProNavbar";
+import UserList from "../components/manage/UserList";
 
-interface Props {
-    
-}
+interface Props {}
 
 function ManageUser({}: Props): ReactElement {
-    return (
-        <div>
-            
-        </div>
-    )
+  return (
+    <div>
+      <ProNavbar />
+      <UserList />
+    </div>
+  );
 }
 
-export default ManageUser
+export default ManageUser;

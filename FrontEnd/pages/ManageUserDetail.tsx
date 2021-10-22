@@ -1,15 +1,9 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from "react";
 
-interface Props {
-    
-}
+interface Props {}
 
 function ManageUserDetail({}: Props): ReactElement {
-    return (
-        <div>
-            
-        </div>
-    )
+  return <div>test</div>;
 }
 
-export default ManageUserDetail
+export default ManageUserDetail;

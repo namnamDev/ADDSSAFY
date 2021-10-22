@@ -4,7 +4,7 @@ interface Props {
     
 }
 
-function Navbar({}: Props): ReactElement {
+function ManageMain({}: Props): ReactElement {
     return (
         <div>
             
@@ -12,4 +12,4 @@ function Navbar({}: Props): ReactElement {
     )
 }
 
-export default Navbar
+export default ManageMain
