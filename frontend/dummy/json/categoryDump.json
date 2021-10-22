@@ -1,11 +1,36 @@
-[
-  {
-    "title": "갯바위 낚시"
-  },
-  {
-    "title": "선상 낚시"
-  },
-  {
-    "title": "모두 보기"
-  }
-]
+{
+  "backend": [
+    {
+      "hashTagPK": 1,
+      "title": "자바",
+      "prop": "속성"
+    },
+    {
+      "hashTagPK": 2,
+      "title": "스프링",
+      "prop": "속성"
+    },
+    {
+      "hashTagPK": 3,
+      "title": "파이썬",
+      "prop": "속성"
+    }
+  ],
+  "frontend": [
+    {
+      "hashTagPK": 4,
+      "title": "리액트",
+      "prop": "속성"
+    },
+    {
+      "hashTagPK": 5,
+      "title": "자바스크립트",
+      "prop": "속성"
+    },
+    {
+      "hashTagPK": 6,
+      "title": "뷰",
+      "prop": "속성"
+    }
+  ]
+}
