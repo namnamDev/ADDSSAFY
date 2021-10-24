@@ -57,7 +57,7 @@ function ProNavbar({}: Props): ReactElement {
                 href="#"
                 className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
               >
-                학번, 이름
+                교육프로ID
               </a>
 
               <Menu as="div" className="ml-3 relative">
