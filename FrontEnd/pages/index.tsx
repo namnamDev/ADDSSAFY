@@ -1,9 +1,13 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 interface Props {}
 
 function Main({}: Props): ReactElement {
   const router = useRouter();
+  const [click, setclick] = useState<boolean>(false);
+  setTimeout(() => {
+    setclick(true);
+  }, 3900);
   return (
     <div>
       <div className="animation01">
@@ -45,7 +49,9 @@ function Main({}: Props): ReactElement {
       </div>
       <div className="animation02">
         <div className="name">
-          <p onClick={() => router.push(`/ManageMain`)}>+ SSAFY</p>
+          {click ? (
+            <p onClick={() => router.push(`/ManageMain`)}>+ SSAFY</p>
+          ) : null}
         </div>
       </div>
     </div>
