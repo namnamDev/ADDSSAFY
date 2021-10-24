@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 const people = [
   {
     name: "Jane Cooper",
@@ -101,10 +102,12 @@ function UserList({}: Props): ReactElement {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <img
+                          <Image
                             className="h-10 w-10 rounded-full"
                             src={person.image}
                             alt=""
+                            width="100%"
+                            height="100%"
                           />
                         </div>
                         <div className="ml-4">
