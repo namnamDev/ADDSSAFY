@@ -15,9 +15,12 @@ function ProNavbar({}: Props): ReactElement {
     <div>
       <div className="relative bg-white">
         <div className="mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-10">
+          <div className="flex justify-between items-center border-b-2 border-gray-200 py-4 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <div className="cursor-pointer" onClick={()=>router.push('/')}>
+              <div
+                className="cursor-pointer"
+                onClick={() => router.push("/ManageMain")}
+              >
                 <Image
                   className="h-8 w-8 rounded-full"
                   src="/images/S.jpg"
@@ -55,7 +58,7 @@ function ProNavbar({}: Props): ReactElement {
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a
                 href="#"
-                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                className="whitespace-nowrap text-xs font-medium text-gray-500 hover:text-gray-900"
               >
                 교육프로ID
               </a>
@@ -85,41 +88,38 @@ function ProNavbar({}: Props): ReactElement {
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href="#"
+                        <div
                           className={classNames(
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
                           )}
                         >
-                          Your Profile
-                        </a>
+                          Mypage
+                        </div>
                       )}
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href="#"
+                        <div
                           className={classNames(
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
                           )}
                         >
-                          Settings
-                        </a>
+                          #
+                        </div>
                       )}
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href="#"
+                        <div
                           className={classNames(
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
                           )}
                         >
-                          Sign out
-                        </a>
+                          Logout
+                        </div>
                       )}
                     </Menu.Item>
                   </Menu.Items>

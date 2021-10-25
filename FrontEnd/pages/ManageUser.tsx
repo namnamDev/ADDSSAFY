@@ -8,6 +8,7 @@ function ManageUser({}: Props): ReactElement {
   return (
     <div>
       <ProNavbar />
+      <br />
       <UserList />
     </div>
   );

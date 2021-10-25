@@ -1,18 +1,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ProNavbar from "../components/basic/ProNavbar";
-import { Fragment } from "react";
-import {
-  BriefcaseIcon,
-  CalendarIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  CurrencyDollarIcon,
-  LinkIcon,
-  LocationMarkerIcon,
-  PencilIcon,
-} from "@heroicons/react/solid";
-import { Menu, Transition } from "@headlessui/react";
+import { CalendarIcon, PencilIcon } from "@heroicons/react/solid";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");

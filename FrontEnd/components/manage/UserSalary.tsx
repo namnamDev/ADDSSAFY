@@ -4,108 +4,146 @@ interface Props {}
 
 function UserSalary({}: Props): ReactElement {
   const [month, setmonth] = useState<number>(1);
-  const people = [
+  const Unsubmission_students = [
     {
+      userId: 1,
       name: "Jane Cooper",
       title: "Regional Paradigm Technician",
-      department: "Optimization",
-      role: "Admin",
+      phone: "010-0000-0000",
+      status: "UnSubmission",
       email: "jane.cooper@example.com",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
     },
     {
+      userId: 2,
       name: "Jane Cooper",
       title: "Regional Paradigm Technician",
-      department: "Optimization",
-      role: "Admin",
+      phone: "010-0000-0000",
+      status: "UnSubmission",
       email: "jane.cooper@example.com",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
     },
     {
+      userId: 3,
       name: "Jane Cooper",
       title: "Regional Paradigm Technician",
-      department: "Optimization",
-      role: "Admin",
+      phone: "010-0000-0000",
+      status: "UnSubmission",
       email: "jane.cooper@example.com",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
     },
   ];
-
+  const Submission_students = [
+    {
+      userId: 1,
+      name: "Jane Cooper",
+      title: "Regional Paradigm Technician",
+      phone: "010-0000-0000",
+      status: "Submission",
+      email: "jane.cooper@example.com",
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      userId: 2,
+      name: "Jane Cooper",
+      title: "Regional Paradigm Technician",
+      phone: "010-0000-0000",
+      status: "Submission",
+      email: "jane.cooper@example.com",
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      userId: 3,
+      name: "Jane Cooper",
+      title: "Regional Paradigm Technician",
+      phone: "010-0000-0000",
+      status: "Submission",
+      email: "jane.cooper@example.com",
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+  ];
+  // 월별로 데이터 받아오기
+  function getdata(monthdata: number) {
+    setmonth(monthdata);
+  }
   return (
     <div className="mt-10">
       <div className="text-center">
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(1)}
+          onClick={() => getdata(1)}
         >
           1
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(2)}
+          onClick={() => getdata(2)}
         >
           2
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(3)}
+          onClick={() => getdata(3)}
         >
           3
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(4)}
+          onClick={() => getdata(4)}
         >
           4
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(5)}
+          onClick={() => getdata(5)}
         >
           5
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(6)}
+          onClick={() => getdata(6)}
         >
           6
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(7)}
+          onClick={() => getdata(7)}
         >
           7
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(8)}
+          onClick={() => getdata(8)}
         >
           8
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(9)}
+          onClick={() => getdata(9)}
         >
           9
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(10)}
+          onClick={() => getdata(10)}
         >
           10
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(11)}
+          onClick={() => getdata(11)}
         >
           11
         </div>
         <div
           className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium mx-2 cursor-pointer"
-          onClick={() => setmonth(12)}
+          onClick={() => getdata(12)}
         >
           12
         </div>
@@ -134,7 +172,7 @@ function UserSalary({}: Props): ReactElement {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Title
+                      Phone
                     </th>
                     <th
                       scope="col"
@@ -148,7 +186,7 @@ function UserSalary({}: Props): ReactElement {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {people.map((person) => (
+                  {Unsubmission_students.map((person) => (
                     <tr key={person.email}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -165,24 +203,24 @@ function UserSalary({}: Props): ReactElement {
                             <div className="text-sm font-medium text-gray-900">
                               {person.name}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              {person.email}
-                            </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {person.title}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {person.department}
+                          {person.phone}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Active
-                        </span>
+                        {person.status === "UnSubmission" ? (
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-black">
+                            UnSubmission
+                          </span>
+                        ) : (
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-black">
+                            Submission
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a
@@ -216,7 +254,7 @@ function UserSalary({}: Props): ReactElement {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Title
+                      phone
                     </th>
                     <th
                       scope="col"
@@ -230,7 +268,7 @@ function UserSalary({}: Props): ReactElement {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {people.map((person) => (
+                  {Submission_students.map((person) => (
                     <tr key={person.email}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -247,24 +285,24 @@ function UserSalary({}: Props): ReactElement {
                             <div className="text-sm font-medium text-gray-900">
                               {person.name}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              {person.email}
-                            </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {person.title}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {person.department}
+                          {person.phone}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Active
-                        </span>
+                        {person.status === "UnSubmission" ? (
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-black">
+                            UnSubmission
+                          </span>
+                        ) : (
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-black">
+                            Submission
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a
