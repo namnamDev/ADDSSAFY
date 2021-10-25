@@ -10,7 +10,7 @@ function Main({}: Props): ReactElement {
   }, 3900);
   return (
     <div>
-      <div className="animation01">
+      <div className="animation01 overflow-hidden">
         <div className="rhombus_small">
           <div className="rhombus">
             <div className="border_box">

@@ -4,8 +4,6 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* intro */
-  overflow: hidden;
 }
 
 a {
@@ -482,7 +480,7 @@ a {
   transform: translate(-50%, -50%);
   width: 30vw;
   height: 30vw;
-  animation: name 1s cubic-bezier(0.165, 0.84, 0.44, 1) 3.0s forwards;
+  animation: name 1s cubic-bezier(0.165, 0.84, 0.44, 1) 3s forwards;
   opacity: 0;
 }
 .name p {
