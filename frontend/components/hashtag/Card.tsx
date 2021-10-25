@@ -27,7 +27,9 @@ function Card({ title, hashTagPK, prop, image }: Props): ReactElement {
       className="w-max mx-2  px-2 rounded-2xl flex flex-row border-2 border-gray-300"
       style={{ opacity: isDragging ? 1 : 1 }}
     >
-      {image && <Image src={image} alt="아이콘" width="20px" height="1px" />} <div> {title}</div>
+      {image && <Image src={image} alt="아이콘" width="20px" height="1px" />}
+      <div>&nbsp;&nbsp;</div>
+      <div> {title}</div>
     </div>
   );
 }
