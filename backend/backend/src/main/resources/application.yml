@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://k5d204.p.ssafy.io:3306/
     username: ssafy
     password: ssafy
-    driverClass-name: com.mysql.cj.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
