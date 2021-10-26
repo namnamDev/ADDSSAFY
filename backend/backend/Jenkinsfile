@@ -35,13 +35,13 @@ pipeline {
             }
         }
         stage('Build') {
-                        agent {
-                            docker {
-                                image 'maven:3.8-openjdk-11-slim'
-                                args '-v /$HOME/.m2:/root/.m2'
-                            }
-                        }
-           steps {  
+            agent {
+                    docker {
+                        image 'maven:3.8-openjdk-11-slim'
+                        args '-v /$HOME/.m2:/root/.m2'
+                    }
+               }
+            steps {
                 script {
                     try {
                         mattermostSend (
