@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     stages {
         stage('Docker Image Remove'){
             steps{
@@ -35,12 +35,12 @@ pipeline {
             }
         }
         stage('Build') {
-            agent {
-                    docker {
-                        image 'maven:3.8-openjdk-11-slim'
-                        args '-v /$HOME/.m2:/root/.m2'
-                    }
-               }
+                    agent {
+                            docker {
+                                image 'maven:3.8-openjdk-11-slim'
+                                args '-v /$HOME/.m2:/root/.m2'
+                            }
+                       }
             steps {
                 script {
                     try {
@@ -48,8 +48,6 @@ pipeline {
                             color: "#2A42EE", 
                             message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                         )
-
-                        sh 'mvn -B -DskipTests -f ./backend/backend/ clean package'
                         sh 'docker build -t backend ./backend/backend/'
                     } catch(e) {
                         currentBuild.result = "FAILURE"
