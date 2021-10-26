@@ -1,7 +1,8 @@
 spring:
   datasource:
     #url: jdbc:mysql://localhost:3306/addssafy
-    url: jdbc:mysql://k5d204.p.ssafy.io:3306/addssafy?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    #url: jdbc:mysql://k5d204.p.ssafy.io:3306/addssafy?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://k5d204.p.ssafy.io:3306/
     username: ssafy
     password: ssafy
     driverClass-name: com.mysql.cj.jdbc.Driver
