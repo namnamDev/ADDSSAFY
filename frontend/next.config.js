@@ -14,6 +14,7 @@ module.exports = {
       "cdn-icons-png.flaticon.com",
       "media.vlpt.us",
       "upload.wikimedia.org",
+      "previews.123rf.com",
     ],
   },
 

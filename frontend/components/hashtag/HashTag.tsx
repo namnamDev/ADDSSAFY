@@ -3,14 +3,19 @@ import Category from "../../dummy/json/categoryDump.json";
 import axios from "axios";
 import Card from "./Card";
 import { useDrop } from "react-dnd";
-interface Props {}
+interface Props {
+  // onConditionChanged: (value: condition) => void;
+  onCanChanged: (value: list[]) => void;
+  onWantChanged: (value: list[]) => void;
+  onExceptChanged?: (value: list[]) => void;
+}
 interface list {
   hashTagPK: number;
   title: string;
   prop: string;
   image: string;
 }
-function HashTag({}: Props): ReactElement {
+function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): ReactElement {
   // const [Category, setCategory] = useState();
   const [index, setIndex] = useState(0);
   const [hashTagList, setHashTagList] = useState([
@@ -99,7 +104,23 @@ function HashTag({}: Props): ReactElement {
     }),
     [hashTagList, except]
   );
-
+  const canDelete = (value: number) => {
+    const TagList = can.filter((item) => value !== item.hashTagPK);
+    setCan(TagList);
+  };
+  const wantDelete = (value: number) => {
+    const TagList = want.filter((item) => value !== item.hashTagPK);
+    setWant(TagList);
+  };
+  const exceptDelete = (value: number) => {
+    const TagList = except.filter((item) => value !== item.hashTagPK);
+    setExcept(TagList);
+  };
+  const reset = () => {
+    setCan([]);
+    setWant([]);
+    setExcept([]);
+  };
   // const [dropList, setDropList] = useState();
   // useEffect( () =>  {
   //   const response = axios.get("https://jsonplaceholder.typicode.com/users");
@@ -119,28 +140,66 @@ function HashTag({}: Props): ReactElement {
       setHashTagList(Category.frontend);
     }
   }, [index]);
+
+  // 상위컴포넌트 can 바꾸기
+  useEffect(() => {
+    onCanChanged([...can]);
+  }, [can]);
+  // 상위컴포넌트 want 바꾸기
+  useEffect(() => {
+    onWantChanged([...want]);
+  }, [want]);
+  // 상위컴포넌트 except 바꾸기
+  useEffect(() => {
+    if (onExceptChanged) onExceptChanged([...except]);
+  }, [except]);
   return (
     <div>
       {/* 카테고리 */}
       <div className="grid grid-cols-5 align-middle text-center">
-        <div className="border-2" onClick={() => setIndex(0)}>
+        <div
+          className={
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 0 ? "bg-gray-200" : false)
+          }
+          onClick={() => setIndex(0)}
+        >
           백엔드
         </div>
-        <div className="border-2" onClick={() => setIndex(1)}>
+        <div
+          className={
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 1 ? "bg-gray-200" : false)
+          }
+          onClick={() => setIndex(1)}
+        >
           프론트엔드
         </div>
-        <div className="border-2" onClick={() => setIndex(2)}>
+        <div
+          className={
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 2 ? "bg-gray-200" : false)
+          }
+          onClick={() => setIndex(2)}
+        >
           CI/CD
         </div>
-        <div className="border-2" onClick={() => setIndex(3)}>
+        <div
+          className={
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 3 ? "bg-gray-200" : false)
+          }
+          onClick={() => setIndex(3)}
+        >
           4차 산업 기술
         </div>
-        <div className="border-2" onClick={() => setIndex(4)}>
+        <div
+          className={
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 4 ? "bg-gray-200" : false)
+          }
+          onClick={() => setIndex(4)}
+        >
           기타
         </div>
       </div>
       {/* 카테고리 별 목록 */}
-      <div className="border-2 flex flex-row flex-wrap ">
+      <div className="border-2 flex flex-row flex-wrap h-40">
         {hashTagList.map((value) => {
           return (
             <Card
@@ -154,55 +213,107 @@ function HashTag({}: Props): ReactElement {
         })}
       </div>
       {/* 드랍 */}
-      <div className="grid grid-cols-3 align-middle text-center  ">
-        <div>
-          <div>할 수 있어요</div>
-          <div className="border-2 flex flex-row flex-wrap" ref={dropCan}>
-            {can.map((value) => {
-              return (
-                <Card
-                  key={value.hashTagPK}
-                  title={value.title}
-                  hashTagPK={value.hashTagPK}
-                  prop={value.prop}
-                  image={value.image}
-                />
-              );
-            })}
+      {onExceptChanged ? (
+        <div className="grid grid-cols-3 align-middle text-center  ">
+          <div>
+            <div className="border-2">할 수 있어요</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropCan}>
+              {can.map((value) => {
+                return (
+                  <Card
+                    key={value.hashTagPK}
+                    title={value.title}
+                    hashTagPK={value.hashTagPK}
+                    prop={value.prop}
+                    image={value.image}
+                    cardDeleter={canDelete}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <div className="border-2">하고 싶어요</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropWant}>
+              {want.map((value) => {
+                return (
+                  <Card
+                    key={value.hashTagPK}
+                    title={value.title}
+                    hashTagPK={value.hashTagPK}
+                    prop={value.prop}
+                    image={value.image}
+                    cardDeleter={wantDelete}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <div className="border-2">제외</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropExcept}>
+              {except.map((value) => {
+                return (
+                  <Card
+                    key={value.hashTagPK}
+                    title={value.title}
+                    hashTagPK={value.hashTagPK}
+                    prop={value.prop}
+                    image={value.image}
+                    cardDeleter={exceptDelete}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
-        <div>
-          <div>하고 싶어요</div>
-          <div className="border-2 flex flex-row flex-wrap" ref={dropWant}>
-            {want.map((value) => {
-              return (
-                <Card
-                  key={value.hashTagPK}
-                  title={value.title}
-                  hashTagPK={value.hashTagPK}
-                  prop={value.prop}
-                  image={value.image}
-                />
-              );
-            })}
+      ) : (
+        <div className="grid grid-cols-2 align-middle text-center  ">
+          <div>
+            <div className="border-2">할 수 있어요</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropCan}>
+              {can.map((value) => {
+                return (
+                  <Card
+                    key={value.hashTagPK}
+                    title={value.title}
+                    hashTagPK={value.hashTagPK}
+                    prop={value.prop}
+                    image={value.image}
+                    cardDeleter={canDelete}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <div className="border-2">하고 싶어요</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropWant}>
+              {want.map((value) => {
+                return (
+                  <Card
+                    key={value.hashTagPK}
+                    title={value.title}
+                    hashTagPK={value.hashTagPK}
+                    prop={value.prop}
+                    image={value.image}
+                    cardDeleter={wantDelete}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
-        <div>
-          <div>제외</div>
-          <div className="border-2 flex flex-row flex-wrap" ref={dropExcept}>
-            {except.map((value) => {
-              return (
-                <Card
-                  key={value.hashTagPK}
-                  title={value.title}
-                  hashTagPK={value.hashTagPK}
-                  prop={value.prop}
-                  image={value.image}
-                />
-              );
-            })}
-          </div>
-        </div>
+      )}
+      {/* 초기화 버튼 */}
+      <div className="items-center flex flex-col">
+        <button
+          type="button"
+          className=" px-8 py-2 bg-red-600 text-white rounded-lg  shadow-sm hover:bg-red-500 focus:ring-2 focus:ring-indigo-200 m-2 "
+          onClick={reset}
+        >
+          초기화
+        </button>
       </div>
     </div>
   );
