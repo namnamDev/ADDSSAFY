@@ -195,7 +195,7 @@ function UserList({}: Props): ReactElement {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         type="button"
-                        className="text-indigo-600 hover:text-indigo-900"
+                        className="text-blue-600 hover:text-blue-900"
                         onClick={() =>
                           router.push(
                             `/ManageUserDetail/?userPK=${person.userId}`,

@@ -31,19 +31,19 @@ function StudentNavbar({}: Props): ReactElement {
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
               onClick={() => router.push(`/ManageUser`)}
             >
-              교육생관리
+              Menu
             </div>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
               onClick={() => router.push(`/ManageUserSalary`)}
             >
-              서명지원금관리
+              Menu
             </div>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
               onClick={() => router.push(`/ManageUserTeamBuilding`)}
             >
-              팀빌딩현황
+              Menu
             </div>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
@@ -55,9 +55,9 @@ function StudentNavbar({}: Props): ReactElement {
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a
                 href="#"
-                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                className="whitespace-nowrap text-xs font-medium text-gray-500 hover:text-gray-900"
               >
-                교육프로ID
+                교육생정보(ID, 학번)
               </a>
 
               <Menu as="div" className="ml-3 relative">

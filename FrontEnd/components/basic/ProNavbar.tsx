@@ -31,11 +31,12 @@ interface Props {}
 
 function ProNavbar({}: Props): ReactElement {
   const router = useRouter();
-  function gotoproject(projectNo: number) {
-    router.push(
+  async function gotoproject(projectNo: number) {
+    await router.push(
       `/ManageUserTeamBuilding/?projectNo=${projectNo}`,
       "/ManageUserTeamBuilding"
     );
+    window.location.reload();
   }
   return (
     <div>
