@@ -48,6 +48,7 @@ pipeline {
                             color: "#2A42EE", 
                             message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                         )
+                        sh 'mvn -B -D skipTests -f ./backend/backend/ clean package'
                         sh 'docker build -t backend ./backend/backend/'
                     } catch(e) {
                         currentBuild.result = "FAILURE"
