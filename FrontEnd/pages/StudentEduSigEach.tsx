@@ -1,12 +1,31 @@
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef, ReactElement } from "react";
 import StudentNavbar from "../components/basic/StudentNavbar";
-
+import SignaturePad from "signature_pad";
 interface Props {}
+
+let sigPad: any = null;
 
 function StudentEduSigEach({}: Props): ReactElement {
   const router = useRouter();
   const month = router.query.month;
+  //
+  const [sigPadData, setSigPadData] = useState(null);
+  useEffect(() => {
+    sigPad = new SignaturePad(document.querySelector("canvas")!, {
+      onBegin: () => {
+        setSigPadData(sigPad.toDataURL()); // data:image/png;base64,iVBORw0K...
+        /**
+         * signaturePad.toDataURL(); // save image as PNG
+         * signaturePad.toDataURL("image/jpeg"); // save image as JPEG
+         * signaturePad.toDataURL("image/svg+xml"); // save image as SVG
+         * */
+      },
+    });
+  }, []);
+  const handleRestSignature = () => {
+    sigPad.clear();
+  };
   return (
     <div>
       <StudentNavbar />
@@ -72,7 +91,10 @@ function StudentEduSigEach({}: Props): ReactElement {
               </div>
             </div>
             {/* 서명하는 공간 */}
-            <div></div>
+            <div className="Signature text-center">
+              <canvas className="" />
+              <button onClick={handleRestSignature}>Reset</button>
+            </div>
             <div className="px-4 py-3 text-right sm:px-6">
               <button
                 type="submit"
