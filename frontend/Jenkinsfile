@@ -24,7 +24,7 @@ pipeline {
                         message: "Docker build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                     )
 
-                    sh 'docker build -t frontend:latest ./frontend'
+                    sh 'docker build -t frontend:latest ./frontend/'
                     }catch(e) {
                     currentBuild.result = "FAILURE"
                     }finally {
