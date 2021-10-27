@@ -1,19 +1,10 @@
 spring:
   datasource:
-<<<<<<< HEAD
     url: jdbc:mysql://k5d204.p.ssafy.io:3306/addssafy
     #url: jdbc:mariadb://j5d102.p.ssafy.io:3306/blockChain
     username: ssafy
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
-=======
-    #url: jdbc:mysql://localhost:3306/addssafy
-    url: jdbc:mysql://k5d204.p.ssafy.io:3306/addssafy?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
-    #url: jdbc:mysql://k5d204.p.ssafy.io:3306/addssafy
-    username: ssafy
-    password: ssafy
-    driverClassName: com.mysql.cj.jdbc.Driver
->>>>>>> fe6335d098d171ea67b489d4698ba205b079a10e
 
   jpa:
     hibernate:
