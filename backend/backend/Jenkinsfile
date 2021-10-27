@@ -77,6 +77,7 @@ pipeline {
                               color: "good",
                               message: "Docker build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                           )
+                        }
                     }
                 }
             }
@@ -92,7 +93,7 @@ pipeline {
                     )
                     mattermostSend (
                         color: "#2A42EE",
-                        message: "Docker run STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                        message: "Docker build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                     )
                 // 현재 동작중인 컨테이너 중 frontend의 이름을 가진 컨테이너를 stop 한다
 //                 sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
@@ -115,12 +116,12 @@ pipeline {
                        if(currentBuild.result == "FAILURE") {
                            mattermostSend (
                                color: "danger",
-                               message: "Docker run FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                               message: "Docker build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                            )
                     } else {
                            mattermostSend (
                                color: "good",
-                               message: "Docker run SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                               message: "Docker build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                            )
                     }
                 }
