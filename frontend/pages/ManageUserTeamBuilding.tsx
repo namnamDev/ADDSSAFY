@@ -14,7 +14,7 @@ function ManageUserTeamBuilding({}: Props): ReactElement {
 
   // 카운트다운 만들기
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
-  const endTime = moment("2021-10-26 24:00:00");
+  const endTime = moment("2021-12-25 24:00:00");
   var duration = moment.duration(endTime.diff(nowTime));
   var rest = duration.asSeconds();
 

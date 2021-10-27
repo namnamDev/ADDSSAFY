@@ -29,7 +29,7 @@ function StudentEduSigEach({}: Props): ReactElement {
   return (
     <div>
       <StudentNavbar />
-      <div className="mt-5 mx-8">
+      <div className="mt-5 mx-60">
         <form action="#" method="POST">
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
@@ -92,7 +92,7 @@ function StudentEduSigEach({}: Props): ReactElement {
             </div>
             {/* 서명하는 공간 */}
             <div className="Signature text-center">
-              <canvas className="" />
+              <canvas className="m-auto border-gray-300" />
               <button onClick={handleRestSignature}>Reset</button>
             </div>
             <div className="px-4 py-3 text-right sm:px-6">
