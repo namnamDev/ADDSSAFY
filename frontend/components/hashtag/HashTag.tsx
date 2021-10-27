@@ -15,7 +15,11 @@ interface list {
   prop: string;
   image: string;
 }
-function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): ReactElement {
+function HashTag({
+  onCanChanged,
+  onWantChanged,
+  onExceptChanged,
+}: Props): ReactElement {
   // const [Category, setCategory] = useState();
   const [index, setIndex] = useState(0);
   const [hashTagList, setHashTagList] = useState([
@@ -42,7 +46,9 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
       }
     });
     if (check) {
-      const TagList = hashTagList.filter((item) => input.hashTagPK === item.hashTagPK);
+      const TagList = hashTagList.filter(
+        (item) => input.hashTagPK === item.hashTagPK
+      );
       setCan((can) => [...can, TagList[0]]);
     }
   };
@@ -66,7 +72,9 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
       }
     });
     if (check) {
-      const TagList = hashTagList.filter((item) => input.hashTagPK === item.hashTagPK);
+      const TagList = hashTagList.filter(
+        (item) => input.hashTagPK === item.hashTagPK
+      );
       setWant((want) => [...want, TagList[0]]);
     }
   };
@@ -90,7 +98,9 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
       }
     });
     if (check) {
-      const TagList = hashTagList.filter((item) => input.hashTagPK === item.hashTagPK);
+      const TagList = hashTagList.filter(
+        (item) => input.hashTagPK === item.hashTagPK
+      );
       setExcept((except) => [...except, TagList[0]]);
     }
   };
@@ -159,7 +169,8 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
       <div className="grid grid-cols-5 align-middle text-center">
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 0 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " +
+            (index === 0 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(0)}
         >
@@ -167,7 +178,8 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 1 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " +
+            (index === 1 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(1)}
         >
@@ -175,7 +187,8 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 2 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " +
+            (index === 2 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(2)}
         >
@@ -183,7 +196,8 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 3 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " +
+            (index === 3 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(3)}
         >
@@ -191,7 +205,8 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 4 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " +
+            (index === 4 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(4)}
         >
@@ -217,7 +232,10 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
         <div className="grid grid-cols-3 align-middle text-center  ">
           <div>
             <div className="border-2">할 수 있어요</div>
-            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropCan}>
+            <div
+              className="border-2 flex flex-row flex-wrap h-40"
+              ref={dropCan}
+            >
               {can.map((value) => {
                 return (
                   <Card
@@ -234,7 +252,10 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
           </div>
           <div>
             <div className="border-2">하고 싶어요</div>
-            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropWant}>
+            <div
+              className="border-2 flex flex-row flex-wrap h-40"
+              ref={dropWant}
+            >
               {want.map((value) => {
                 return (
                   <Card
@@ -251,7 +272,10 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
           </div>
           <div>
             <div className="border-2">제외</div>
-            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropExcept}>
+            <div
+              className="border-2 flex flex-row flex-wrap h-40"
+              ref={dropExcept}
+            >
               {except.map((value) => {
                 return (
                   <Card
@@ -271,7 +295,10 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
         <div className="grid grid-cols-2 align-middle text-center  ">
           <div>
             <div className="border-2">할 수 있어요</div>
-            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropCan}>
+            <div
+              className="border-2 flex flex-row flex-wrap h-40"
+              ref={dropCan}
+            >
               {can.map((value) => {
                 return (
                   <Card
@@ -288,7 +315,10 @@ function HashTag({ onCanChanged, onWantChanged, onExceptChanged }: Props): React
           </div>
           <div>
             <div className="border-2">하고 싶어요</div>
-            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropWant}>
+            <div
+              className="border-2 flex flex-row flex-wrap h-40"
+              ref={dropWant}
+            >
               {want.map((value) => {
                 return (
                   <Card

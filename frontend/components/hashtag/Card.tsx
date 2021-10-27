@@ -29,10 +29,10 @@ function Card({ title, hashTagPK, prop, image, cardDeleter }: Props): ReactEleme
   return (
     <div
       ref={drag}
-      className="w-max mx-2 h-6  px-2 rounded-2xl flex flex-row border-2 border-gray-300 hover:bg-gray-100 cursor-pointer "
+      className="w-max mx-2 h-10  px-2 rounded-2xl flex flex-row border-2 border-gray-300 hover:bg-gray-100 cursor-pointer "
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
-      {image && <Image src={image} alt="아이콘" width="20px" height="1px" />}
+      {image && <Image src={image} alt="아이콘" width="30px" height="1px" />}
       <div>&nbsp;&nbsp;</div>
       <div> {title}</div>
       <div>&nbsp;&nbsp;</div>
