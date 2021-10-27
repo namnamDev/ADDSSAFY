@@ -20,13 +20,13 @@ pipeline {
             }
             options { skipDefaultCheckout(false) }
             steps {
-                sh 'mvn -B -DskipTests -f ./backend/webcuration clean package'
-            }   
+                sh 'mvn -B -DskipTests -f ./backend/backend/ clean package'
+            }
         }
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t backend:latest ./backend/webcuration'
+                sh 'docker build -t backend:latest ./backend/backend/'
                 sh 'docker build -t frontend:latest ./frontend'
             }
         }
