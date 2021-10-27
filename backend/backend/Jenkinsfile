@@ -27,25 +27,25 @@ pipeline {
             agent any
             steps {
                 sh 'docker build -t backend:latest ./backend/backend/'
-                sh 'docker build -t frontend:latest ./frontend'
+//                 sh 'docker build -t frontend:latest ./frontend'
             }
         }
         stage('Docker run') {
             agent any
             steps {
                 // 현재 동작중인 컨테이너 중 frontend의 이름을 가진 컨테이너를 stop 한다
-                sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
+//                 sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
                 // 현재 동작중인 컨테이너 중 backend의 이름을 가진 컨테이너를 stop 한다
                 sh 'docker ps -f name=backend -q | xargs --no-run-if-empty docker container stop'
                 // frontend의 이름을 가진 컨테이너를 삭제한다.
-                sh 'docker container ls -a -f name=frontend -q | xargs -r docker container rm'
+//                 sh 'docker container ls -a -f name=frontend -q | xargs -r docker container rm'
                 // backend의 이름을 가진 컨테이너를 삭제한다.
                 sh 'docker container ls -a -f name=backend -q | xargs -r docker container rm'
                 // docker image build 시 기존에 존재하던 이미지는 dangling 상태가 되기 때문에 이미지를 일괄 삭제
                 sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
                 // docker container 실행
                 sh 'docker run -d --name backend -v /home/ubuntu/img:/home/img --network mokomoko -p 8080:8080 backend:latest'
-                sh 'docker run -d --name frontend -v /home/ubuntu/img:/home/img -v /home/ubuntu/key:/home/key --network mokomoko -p 80:80 -p 443:443 frontend:latest'
+//                 sh 'docker run -d --name frontend -v /home/ubuntu/img:/home/img -v /home/ubuntu/key:/home/key --network mokomoko -p 80:80 -p 443:443 frontend:latest'
             }
         }
     }
