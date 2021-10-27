@@ -1,57 +1,44 @@
-# # build stage
-# FROM node as build-stage
-# # 이미지 내에서 명령어를 실행할 디렉토리 설정
-# WORKDIR /home/node/app
-# COPY package*.json ./
-# # bable-plugin error 생길시
-# # npm install @vue/babel-preset-app --save-dev
-# # RUN npm install --production
-# # RUN npm install -g @vue/cli-service
-# RUN npm install
-# COPY . .
-# RUN npm run build
-# # production stage
-# FROM nginx:stable-alpine as production-stage
-# RUN rm /etc/nginx/conf.d/default.conf
-# COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
-# COPY --from=build-stage home/node/app /usr/share/nginx/html/homepage
+# Install dependencies only when needed
+FROM node:alpine AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock ./
+# RUN yarn install --frozen-lockfile
+RUN yarn install
 
-# #COPY --from=build-stage home/node /usr/share/nginx/html
-# #COPY --from=build-stage home/node/app/dist /usr/share/nginx/html
-# EXPOSE 80
-# # 컨테이너 실행시 실행할 명령어
-# CMD ["nginx", "-g", "daemon off;"]
-FROM node:12.18.2 as build
 
-ARG REACT_APP_SERVICES_HOST=/services/m
+# Rebuild the source code only when needed
+FROM node:alpine AS builder
+WORKDIR /app
+COPY . .
+COPY --from=deps /app/node_modules ./node_modules
+RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
+# Production image, copy all the files and run next
+FROM node:alpine AS runner
 WORKDIR /app
 
-COPY ./package.json /app/package*.json
-# COPY ./package-lock.json /app/package-lock.json
+ENV NODE_ENV production
 
-RUN yarn install
-COPY . .
-RUN yarn build
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
-FROM nginx
-COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-# FROM node:12.17.0 as build
-# WORKDIR /app
-# COPY package*.json ./
+USER nextjs
 
-# RUN npm cache clean --force
-# RUN rm package-lock.json
-# RUN npm install
-# COPY . .
-# RUN npm run build
+EXPOSE 80 443 3000
 
-# FROM nginx
-# COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
-# COPY --from=build /app/build /usr/share/nginx/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry.
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD ["next", "build"]
+CMD ["yarn", "start"]
