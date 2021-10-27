@@ -18,7 +18,7 @@ function NoticeDetail({}: Props): ReactElement {
   return (
     <div>
       <ProNavbar />
-      <div className="lg:flex lg:items-center lg:justify-between mx-8 mt-5">
+      <div className="lg:flex lg:items-center lg:justify-between mx-40 mt-5">
         <div className="flex-1 min-w-0">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
             {No}번 공지사항
@@ -29,7 +29,7 @@ function NoticeDetail({}: Props): ReactElement {
                 className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
-              Closing on January 9, 2020
+              2021-10-31
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@ function NoticeDetail({}: Props): ReactElement {
         </div>
       </div>
       {/* 내용 */}
-      <div className="mx-8 mt-5 whitespace-pre-line">
+      <div className="mx-40 mt-5 whitespace-pre-line">
         다음달 시행하는 `단계적 일상회복`의 밑그림이 오늘(25일) 공개됩니다.
         정부는 오늘 오후 2시 `코로나19 단계적 일상회복 이행계획 공청회`를 열고
         방역의료 분야의 일상회복 이행계획 초안을 공개할 예정입니다. 초안 공개 후
