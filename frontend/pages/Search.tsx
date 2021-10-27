@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import HashTag from "../components/hashtag/HashTag";
 import StudentNavbar from "../components/basic/StudentNavbar";
+import HashTag from "../components/hashtag/HashTag";
 import TeamList from "../components/Team/TeamList";
 import TeamDump from "../dummy/json/teamDump.json";
 import { DndProvider } from "react-dnd";
@@ -33,7 +33,6 @@ function Search({}: Props): ReactElement {
   return (
     <div>
       <StudentNavbar />
-
       <div className=" mx-20">
         {/* 팀/교육생 검색 */}
         <div className="">
