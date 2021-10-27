@@ -123,6 +123,7 @@ pipeline {
                                color: "good",
                                message: "Docker build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                            )
+                        }
                     }
                 }
             }
