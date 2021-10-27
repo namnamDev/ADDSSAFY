@@ -24,7 +24,7 @@ pipeline {
                         message: "Docker build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                     )
 
-                    sh 'docker build -t frontend:latest ./frontend'
+                    sh 'docker build -t frontend:latest ./frontend/'
                     }catch(e) {
                     currentBuild.result = "FAILURE"
                     }finally {
@@ -66,7 +66,7 @@ pipeline {
                 // docker image build 시 기존에 존재하던 이미지는 dangling 상태가 되기 때문에 이미지를 일괄 삭제
                 sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
                 // docker container 실행
-                sh 'docker run -d -p 80:80 --name frontend frontend'
+                sh 'docker run -d -p 80:80 --name frontend frontend:latest'
 //                 sh 'docker run -d --name backend -v /home/ubuntu/img:/home/img --network mokomoko -p 8080:8080 backend:latest'
 //                 sh 'docker run -d --name frontend -v /home/ubuntu/img:/home/img -v /home/ubuntu/key:/home/key --network mokomoko -p 80:80 -p 443:443 frontend:latest'
 
