@@ -70,6 +70,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Kotlin noArg -->
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-maven-noarg</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+
 
 		<!-- JWT -->
 		<dependency>
