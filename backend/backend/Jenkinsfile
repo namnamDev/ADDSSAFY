@@ -24,11 +24,11 @@ pipeline {
                     try {
                         mattermostSend (
                                 color: "#000000",
-                                essage: "*************************************************************************"
+                                message: "*************************************************************************"
                             )
                             mattermostSend (
                                 color: "#2A42EE",
-                                message: "Remove STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                message: "Build and Test STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                             )
                         sh 'mvn -B -DskipTests -f ./backend/backend/ clean package'
                         }catch(e) {
@@ -37,12 +37,12 @@ pipeline {
                          if(currentBuild.result == "FAILURE") {
                              mattermostSend (
                                  color: "danger",
-                                 message: "Remove FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                 message: "Build and Test FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                              )
                          } else {
                              mattermostSend (
                                  color: "good",
-                                 message: "Remove SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                 message: "Build and Test SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                              )
                          }
                      }
@@ -52,13 +52,48 @@ pipeline {
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t backend:latest ./backend/backend/'
-//                 sh 'docker build -t frontend:latest ./frontend'
+                script{
+                    try{
+                    mattermostSend (
+                        color: "#000000",
+                        message: "*************************************************************************"
+                    )
+                    mattermostSend (
+                        color: "#2A42EE",
+                        message: "Docker build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    )
+                    sh 'docker build -t backend:latest ./backend/backend/'
+    //                 sh 'docker build -t frontend:latest ./frontend'
+                    }catch(e) {
+                    currentBuild.result = "FAILURE"
+                    }finally {
+                      if(currentBuild.result == "FAILURE") {
+                          mattermostSend (
+                              color: "danger",
+                              message: "Docker build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                          )
+                    } else {
+                          mattermostSend (
+                              color: "good",
+                              message: "Docker build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                          )
+                    }
+                }
             }
         }
         stage('Docker run') {
             agent any
             steps {
+                script{
+                try{
+                    mattermostSend (
+                        color: "#000000",
+                        message: "*************************************************************************"
+                    )
+                    mattermostSend (
+                        color: "#2A42EE",
+                        message: "Docker run STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    )
                 // 현재 동작중인 컨테이너 중 frontend의 이름을 가진 컨테이너를 stop 한다
 //                 sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
                 // 현재 동작중인 컨테이너 중 backend의 이름을 가진 컨테이너를 stop 한다
@@ -73,6 +108,22 @@ pipeline {
                 sh 'docker run -d -p 8080:8080 --name backend backend'
 //                 sh 'docker run -d --name backend -v /home/ubuntu/img:/home/img --network mokomoko -p 8080:8080 backend:latest'
 //                 sh 'docker run -d --name frontend -v /home/ubuntu/img:/home/img -v /home/ubuntu/key:/home/key --network mokomoko -p 80:80 -p 443:443 frontend:latest'
+
+                    }catch(e) {
+                        currentBuild.result = "FAILURE"
+                    }finally {
+                       if(currentBuild.result == "FAILURE") {
+                           mattermostSend (
+                               color: "danger",
+                               message: "Docker run FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                           )
+                    } else {
+                           mattermostSend (
+                               color: "good",
+                               message: "Docker run SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                           )
+                    }
+                }
             }
         }
     }
