@@ -7,10 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TokenDTO {
+public class TokenDto {
 
     private String grantType;
     private String accessToken;
     private String refreshToken;
     private Long accessTokenExpiresIn;
+
 }
