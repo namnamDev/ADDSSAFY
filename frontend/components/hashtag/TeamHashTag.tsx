@@ -6,7 +6,6 @@ import { useDrop } from "react-dnd";
 interface Props {
   // onConditionChanged: (value: condition) => void;
   onCanChanged: (value: list[]) => void;
-  onWantChanged: (value: list[]) => void;
   onExceptChanged?: (value: list[]) => void;
 }
 interface list {
@@ -15,11 +14,7 @@ interface list {
   prop: string;
   image: string;
 }
-function HashTag({
-  onCanChanged,
-  onWantChanged,
-  onExceptChanged,
-}: Props): ReactElement {
+function TeamHashTag({ onCanChanged, onExceptChanged }: Props): ReactElement {
   // const [Category, setCategory] = useState();
   const [index, setIndex] = useState(0);
   const [hashTagList, setHashTagList] = useState([
@@ -33,12 +28,15 @@ function HashTag({
   // 할 수 있는 기술스택
   const [can, setCan] = useState<list[]>([]);
   // 하고 싶은 기술스택
-  const [want, setWant] = useState<list[]>([]); // 제외 할 기술스택
   const [except, setExcept] = useState<list[]>([]);
 
   // 할 수 있는 기술 스택
   const addTagToCan = (input: list) => {
     let check = true;
+    if (input.prop === "기타") {
+      alert("기타 항목의 해쉬태그는 구해요에 추가하실 수 없습니다.");
+      return;
+    }
     can.forEach((item) => {
       if (item.hashTagPK === input.hashTagPK) {
         check = false;
@@ -46,9 +44,7 @@ function HashTag({
       }
     });
     if (check) {
-      const TagList = hashTagList.filter(
-        (item) => input.hashTagPK === item.hashTagPK
-      );
+      const TagList = hashTagList.filter((item) => input.hashTagPK === item.hashTagPK);
       setCan((can) => [...can, TagList[0]]);
     }
   };
@@ -62,35 +58,10 @@ function HashTag({
     }),
     [hashTagList, can]
   );
-  // 하고 싶은 기술 스택
-  const addTagToWant = (input: list) => {
-    let check = true;
-    want.forEach((item) => {
-      if (item.hashTagPK === input.hashTagPK) {
-        check = false;
-        alert("이미 존재하는 해쉬태그입니다.");
-      }
-    });
-    if (check) {
-      const TagList = hashTagList.filter(
-        (item) => input.hashTagPK === item.hashTagPK
-      );
-      setWant((want) => [...want, TagList[0]]);
-    }
-  };
-  const [{ wantIsOver }, dropWant] = useDrop(
-    () => ({
-      accept: "tag",
-      drop: (item: list) => addTagToWant(item),
-      collect: (monitor) => ({
-        wantIsOver: !!monitor.isOver(),
-      }),
-    }),
-    [hashTagList, want]
-  );
   // 제외 할 기술 스택
   const addTagToExcept = (input: list) => {
     let check = true;
+
     except.forEach((item) => {
       if (item.hashTagPK === input.hashTagPK) {
         check = false;
@@ -98,9 +69,7 @@ function HashTag({
       }
     });
     if (check) {
-      const TagList = hashTagList.filter(
-        (item) => input.hashTagPK === item.hashTagPK
-      );
+      const TagList = hashTagList.filter((item) => input.hashTagPK === item.hashTagPK);
       setExcept((except) => [...except, TagList[0]]);
     }
   };
@@ -118,17 +87,12 @@ function HashTag({
     const TagList = can.filter((item) => value !== item.hashTagPK);
     setCan(TagList);
   };
-  const wantDelete = (value: number) => {
-    const TagList = want.filter((item) => value !== item.hashTagPK);
-    setWant(TagList);
-  };
   const exceptDelete = (value: number) => {
     const TagList = except.filter((item) => value !== item.hashTagPK);
     setExcept(TagList);
   };
   const reset = () => {
     setCan([]);
-    setWant([]);
     setExcept([]);
   };
   // const [dropList, setDropList] = useState();
@@ -155,10 +119,6 @@ function HashTag({
   useEffect(() => {
     onCanChanged([...can]);
   }, [can]);
-  // 상위컴포넌트 want 바꾸기
-  useEffect(() => {
-    onWantChanged([...want]);
-  }, [want]);
   // 상위컴포넌트 except 바꾸기
   useEffect(() => {
     if (onExceptChanged) onExceptChanged([...except]);
@@ -169,8 +129,7 @@ function HashTag({
       <div className="grid grid-cols-5 align-middle text-center">
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " +
-            (index === 0 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 0 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(0)}
         >
@@ -178,8 +137,7 @@ function HashTag({
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " +
-            (index === 1 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 1 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(1)}
         >
@@ -187,8 +145,7 @@ function HashTag({
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " +
-            (index === 2 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 2 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(2)}
         >
@@ -196,8 +153,7 @@ function HashTag({
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " +
-            (index === 3 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 3 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(3)}
         >
@@ -205,8 +161,7 @@ function HashTag({
         </div>
         <div
           className={
-            "border-2 cursor-pointer hover:bg-gray-200 " +
-            (index === 4 ? "bg-gray-200" : false)
+            "border-2 cursor-pointer hover:bg-gray-200 " + (index === 4 ? "bg-gray-200" : false)
           }
           onClick={() => setIndex(4)}
         >
@@ -228,14 +183,11 @@ function HashTag({
         })}
       </div>
       {/* 드랍 */}
-      {onExceptChanged ? (
-        <div className="grid grid-cols-3 align-middle text-center  ">
+      {!onExceptChanged ? (
+        <div className="grid grid-cols-1 align-middle text-center  ">
           <div>
-            <div className="border-2">할 수 있어요</div>
-            <div
-              className="border-2 flex flex-row flex-wrap h-40"
-              ref={dropCan}
-            >
+            <div className="border-2">구해요</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropCan}>
               {can.map((value) => {
                 return (
                   <Card
@@ -245,46 +197,6 @@ function HashTag({
                     prop={value.prop}
                     image={value.image}
                     cardDeleter={canDelete}
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <div className="border-2">하고 싶어요</div>
-            <div
-              className="border-2 flex flex-row flex-wrap h-40"
-              ref={dropWant}
-            >
-              {want.map((value) => {
-                return (
-                  <Card
-                    key={value.hashTagPK}
-                    title={value.title}
-                    hashTagPK={value.hashTagPK}
-                    prop={value.prop}
-                    image={value.image}
-                    cardDeleter={wantDelete}
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <div className="border-2">제외</div>
-            <div
-              className="border-2 flex flex-row flex-wrap h-40"
-              ref={dropExcept}
-            >
-              {except.map((value) => {
-                return (
-                  <Card
-                    key={value.hashTagPK}
-                    title={value.title}
-                    hashTagPK={value.hashTagPK}
-                    prop={value.prop}
-                    image={value.image}
-                    cardDeleter={exceptDelete}
                   />
                 );
               })}
@@ -294,11 +206,8 @@ function HashTag({
       ) : (
         <div className="grid grid-cols-2 align-middle text-center  ">
           <div>
-            <div className="border-2">할 수 있어요</div>
-            <div
-              className="border-2 flex flex-row flex-wrap h-40"
-              ref={dropCan}
-            >
+            <div className="border-2">구해요</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropCan}>
               {can.map((value) => {
                 return (
                   <Card
@@ -314,12 +223,9 @@ function HashTag({
             </div>
           </div>
           <div>
-            <div className="border-2">하고 싶어요</div>
-            <div
-              className="border-2 flex flex-row flex-wrap h-40"
-              ref={dropWant}
-            >
-              {want.map((value) => {
+            <div className="border-2">제외</div>
+            <div className="border-2 flex flex-row flex-wrap h-40" ref={dropExcept}>
+              {except.map((value) => {
                 return (
                   <Card
                     key={value.hashTagPK}
@@ -327,7 +233,7 @@ function HashTag({
                     hashTagPK={value.hashTagPK}
                     prop={value.prop}
                     image={value.image}
-                    cardDeleter={wantDelete}
+                    cardDeleter={exceptDelete}
                   />
                 );
               })}
@@ -349,4 +255,4 @@ function HashTag({
   );
 }
 
-export default HashTag;
+export default TeamHashTag;

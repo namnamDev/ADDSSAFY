@@ -1,6 +1,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import StudentNavbar from "../components/basic/StudentNavbar";
-import HashTag from "../components/hashtag/HashTag";
+import UserHashTag from "../components/hashtag/UserHashTag";
+import TeamHashTag from "../components/hashtag/TeamHashTag";
 import TeamList from "../components/Team/TeamList";
 import TeamDump from "../dummy/json/teamDump.json";
 import { DndProvider } from "react-dnd";
@@ -40,8 +41,7 @@ function Search({}: Props): ReactElement {
           <div className="grid grid-cols-2 align-middle text-center">
             <div
               className={
-                "border-2 cursor-pointer hover:bg-gray-200 " +
-                (index === 0 ? "bg-gray-200" : false)
+                "border-2 cursor-pointer hover:bg-gray-200 " + (index === 0 ? "bg-gray-200" : false)
               }
               onClick={() => setIndex(0)}
             >
@@ -49,8 +49,7 @@ function Search({}: Props): ReactElement {
             </div>
             <div
               className={
-                "border-2 cursor-pointer hover:bg-gray-200 " +
-                (index === 1 ? "bg-gray-200" : false)
+                "border-2 cursor-pointer hover:bg-gray-200 " + (index === 1 ? "bg-gray-200" : false)
               }
               onClick={() => setIndex(1)}
             >
@@ -59,11 +58,15 @@ function Search({}: Props): ReactElement {
           </div>
         </div>
         <DndProvider backend={HTML5Backend}>
-          <HashTag
-            onCanChanged={setCan}
-            onWantChanged={setWant}
-            onExceptChanged={setExcept}
-          ></HashTag>
+          {index === 0 ? (
+            <TeamHashTag onCanChanged={setCan} />
+          ) : (
+            <UserHashTag
+              onCanChanged={setCan}
+              onWantChanged={setWant}
+              onExceptChanged={setExcept}
+            />
+          )}
         </DndProvider>
         {/* 검색 버튼 */}
         <div className="items-center flex flex-col">
