@@ -40,7 +40,9 @@ function TeamCard({ teamPK }: Props): ReactElement {
       {/* 팀 정보 */}
       <div>
         {/* <h2>{teamPK}팀</h2> */}
-        <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
+        <h3 className="text-gray-500">
+          프로젝트 트랙(블록체인, 미정, 빅데이터 추천)
+        </h3>
         <h2 className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</h2>
         <h3 className="text-gray-500">팀 소개</h3>
         <h3 className="text-gray-500">현재인원 : 4명</h3>
@@ -83,7 +85,21 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
-                      <UserDetail userPK={123}/>
+                      <UserDetail
+                        userPK={123}
+                        userdata={{
+                          userId: 0,
+                          name: "",
+                          classNo: 0,
+                          address: "",
+                          class: "",
+                          email: "",
+                          phone: "",
+                          status: "",
+                          image: "",
+                          sigfiles: [],
+                        }}
+                      />
                     </p>
                   </div>
 
