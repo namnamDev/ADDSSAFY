@@ -123,13 +123,6 @@ function UserDetail({ userPK }: Props): ReactElement {
           >
             정보수정
           </button>
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
-            onClick={() => history.go(-1)}
-          >
-            나가기
-          </button>
         </span>
       </div>
     </div>

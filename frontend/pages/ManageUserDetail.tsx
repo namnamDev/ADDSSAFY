@@ -8,7 +8,6 @@ function ManageUserDetail({}: Props): ReactElement {
   return (
     <div>
       <ProNavbar />
-      <UserDetail />
     </div>
   );
 }
