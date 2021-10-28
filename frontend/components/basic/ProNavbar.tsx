@@ -38,6 +38,11 @@ function ProNavbar({}: Props): ReactElement {
     );
     window.location.reload();
   }
+  // 로그아웃
+  function logout() {
+    localStorage.clear();
+    router.push("/");
+  }
   return (
     <div>
       <div className="relative bg-white">
@@ -170,8 +175,9 @@ function ProNavbar({}: Props): ReactElement {
                         <div
                           className={classNames(
                             active ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700"
+                            "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                           )}
+                          onClick={() => router.push("/ProMypage")}
                         >
                           Mypage
                         </div>
@@ -182,20 +188,9 @@ function ProNavbar({}: Props): ReactElement {
                         <div
                           className={classNames(
                             active ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700"
+                            "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                           )}
-                        >
-                          #
-                        </div>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <div
-                          className={classNames(
-                            active ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700"
-                          )}
+                          onClick={logout}
                         >
                           Logout
                         </div>
