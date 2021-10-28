@@ -1,10 +1,11 @@
 import React, { EventHandler, ReactElement, useState } from "react";
-import HashTag from "../components/hashtag/HashTag";
+import HashTag from "../components/hashtag/UserHashTag";
 import StudentNavbar from "../components/basic/StudentNavbar";
 import axios from "axios";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import TeamHashTag from "../components/hashtag/TeamHashTag";
 
 interface Props {}
 
@@ -67,7 +68,7 @@ function Search({}: Props): ReactElement {
         </div>
         {/* 해쉬태그 컴포넌트 */}
         <DndProvider backend={HTML5Backend}>
-          <HashTag onCanChanged={setCan} onWantChanged={setWant}></HashTag>
+          <TeamHashTag onCanChanged={setCan}></TeamHashTag>
         </DndProvider>
         {/* 팀 생성 버튼 */}
         <div className="items-center flex flex-col">
