@@ -11,6 +11,7 @@ module.exports = {
         "9/10": "90%",
       },
       minWidth: {
+        lg: "1024px",
         xl: "1280px",
       },
     },
@@ -18,5 +19,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };

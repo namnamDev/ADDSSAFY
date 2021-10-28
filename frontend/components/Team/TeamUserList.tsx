@@ -78,20 +78,24 @@ const people = [
 
 interface Props {
   teamPK: number;
+  showUser: (value: boolean) => void;
 }
 
-function TeamUserList({ teamPK }: Props): ReactElement {
+function TeamUserList({ teamPK, showUser }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
     alert("message");
   }
+  const userDetail = () => {
+    showUser(true);
+  };
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <div className="text-lg text-left text-black mt-3">팀원 정보</div>
+            <div className="text-lg text-left text-black mt-3 ml-4">팀원 정보</div>
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -107,12 +111,7 @@ function TeamUserList({ teamPK }: Props): ReactElement {
                   >
                     Class Info
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Address
-                  </th>
+
                   <th
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -131,12 +130,6 @@ function TeamUserList({ teamPK }: Props): ReactElement {
                   >
                     MM
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    <span className="sr-only">Edit</span>
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -154,26 +147,28 @@ function TeamUserList({ teamPK }: Props): ReactElement {
                           />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{person.name}</div>
-                          <div className="text-sm text-gray-500">{person.classNo}</div>
+                          <div
+                            className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
+                            onClick={() => showUser(true)}
+                          >
+                            {person.name}
+                          </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{person.class}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{person.address}</div>
-                    </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">{person.phone}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {person.status === "leave" ? (
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
-                          {person.status}
+                          팀장
                         </span>
                       ) : (
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          {person.status}
+                          팀원
                         </span>
                       )}
                     </td>
@@ -184,20 +179,6 @@ function TeamUserList({ teamPK }: Props): ReactElement {
                       >
                         MatterMost
                       </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        type="button"
-                        className="text-blue-600 hover:text-blue-900"
-                        onClick={() =>
-                          router.push(
-                            `/ManageUserDetail/?userPK=${person.userId}`,
-                            "/ManageUserDetail"
-                          )
-                        }
-                      >
-                        Detail
-                      </button>
                     </td>
                   </tr>
                 ))}
