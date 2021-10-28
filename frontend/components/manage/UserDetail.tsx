@@ -15,9 +15,11 @@ const person = {
   sigfiles: ["1월지원금", "2월지원금", "3월지원금", "5월지원금", "6월지원금"],
 };
 
-interface Props {}
+interface Props {
+  userPK: number;
+}
 
-function UserDetail({}: Props): ReactElement {
+function UserDetail({ userPK }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   // 퇴소처리
@@ -25,7 +27,7 @@ function UserDetail({}: Props): ReactElement {
     return;
   }
   return (
-    <div className="mx-48">
+    <div className="mx-3">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
