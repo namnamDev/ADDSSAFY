@@ -1,9 +1,10 @@
-import React, { ReactElement, Fragment, useState, useRef } from "react";
+import React, { ReactElement, Fragment, useState, useRef, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import TeamUserList from "./TeamUserList";
 import TeamDetail from "./TeamDetail";
-import UserDetail from "../manage/UserDetail";
+import UserDetail from "../user/UserDetail";
+import { ArrowLeftIcon } from "@heroicons/react/solid";
 interface Props {
   teamPK: number;
 }
@@ -21,6 +22,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
   const apply = () => {
     alert(`${teamPK}팀에 지원했습니다.`);
   };
+
   return (
     <div
       className="flex items-center m-2 mt-5 space-x-4 rounded-xl
@@ -40,10 +42,10 @@ function TeamCard({ teamPK }: Props): ReactElement {
       {/* 팀 정보 */}
       <div>
         {/* <h2>{teamPK}팀</h2> */}
-        <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
-        <h2 className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</h2>
-        <h3 className="text-gray-500">팀 소개</h3>
-        <h3 className="text-gray-500">현재인원 : 4명</h3>
+        <div className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</div>
+        <div className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</div>
+        <div className="text-gray-500">팀 소개</div>
+        <div className="text-gray-500">현재인원 : 4명</div>
       </div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
@@ -77,9 +79,11 @@ function TeamCard({ teamPK }: Props): ReactElement {
                 <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 text-center"
+                    className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
+                    onClick={() => setShowUser(false)}
                   >
-                    {teamPK}교육생 정보
+                    <ArrowLeftIcon className="text-sm" width="20px" />
+                    뒤로 가기
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
@@ -93,7 +97,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={apply}
                     >
-                      제안하기
+                      MM 보내기
                     </button>
                     <button
                       type="button"
