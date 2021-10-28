@@ -3,20 +3,24 @@ import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import TeamUserList from "./TeamUserList";
 import TeamDetail from "./TeamDetail";
+import UserDetail from "../manage/UserDetail";
 interface Props {
   teamPK: number;
 }
 
 function TeamCard({ teamPK }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
-  const scroll = useRef(null);
+  const [showUser, setShowUser] = useState(false);
   function closeModal() {
     setIsOpen(false);
+    setShowUser(false);
   }
   function openModal(teamPK: number) {
     setIsOpen(true);
   }
-
+  const apply = () => {
+    alert(`${teamPK}팀에 지원했습니다.`);
+  };
   return (
     <div
       className="flex items-center m-2 mt-5 space-x-4 rounded-xl
@@ -36,19 +40,16 @@ function TeamCard({ teamPK }: Props): ReactElement {
       {/* 팀 정보 */}
       <div>
         {/* <h2>{teamPK}팀</h2> */}
-        <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
+        <h3 className="text-gray-500">
+          프로젝트 트랙(블록체인, 미정, 빅데이터 추천)
+        </h3>
         <h2 className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</h2>
         <h3 className="text-gray-500">팀 소개</h3>
+        <h3 className="text-gray-500">현재인원 : 4명</h3>
       </div>
-      {/* 팀 정보 모달 다이얼로그 */}
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="transform fixed inset-y-0 left-1/2 -translate-x-1/2 z-10 "
-          onClose={closeModal}
-          initialFocus={scroll}
-        >
-          <div className=" text-center m-8 mx-10 max-w-5xl h-9/10 bg-white shadow-xl rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
+        <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
+          <div className="flex justify-center my-8  text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -58,11 +59,11 @@ function TeamCard({ teamPK }: Props): ReactElement {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 " />
+              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block align-middle" aria-hidden="true">
+            <span className="inline-block align-middle " aria-hidden="true">
               &#8203;
             </span>
             <Transition.Child
@@ -74,31 +75,84 @@ function TeamCard({ teamPK }: Props): ReactElement {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block max-w-5xl p-6 overflow-auto transition-all transform text-left">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 text-center"
-                >
-                  {teamPK}팀 정보
-                </Dialog.Title>
-                <div className="mt-2 ">
-                  <p className="text-sm text-gray-500  ">
-                    <TeamDetail teamPK={teamPK} />
-                    <TeamUserList teamPK={teamPK} />
-                  </p>
-                </div>
-
-                <div className="mt-4 items-center flex flex-col">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
-                    ref={scroll}
+              {showUser ? (
+                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900 text-center"
                   >
-                    창 닫기
-                  </button>
+                    {teamPK}교육생 정보
+                  </Dialog.Title>
+                  <div className="mt-2 ">
+                    <p className="text-sm text-gray-500  ">
+                      <UserDetail
+                        userPK={123}
+                        userdata={{
+                          userId: 0,
+                          name: "",
+                          classNo: 0,
+                          address: "",
+                          class: "",
+                          email: "",
+                          phone: "",
+                          status: "",
+                          image: "",
+                          sigfiles: [],
+                        }}
+                      />
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex flex-row space-x-2 justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={apply}
+                    >
+                      제안하기
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={closeModal}
+                    >
+                      창 닫기
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900 text-center"
+                  >
+                    {teamPK}팀 정보
+                  </Dialog.Title>
+                  <div className="mt-2 ">
+                    <p className="text-sm text-gray-500  ">
+                      <TeamDetail teamPK={teamPK} />
+                      <TeamUserList teamPK={teamPK} showUser={setShowUser} />
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex flex-row space-x-2 justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={apply}
+                    >
+                      지원하기
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={closeModal}
+                    >
+                      창 닫기
+                    </button>
+                  </div>
+                </div>
+              )}
             </Transition.Child>
           </div>
         </Dialog>

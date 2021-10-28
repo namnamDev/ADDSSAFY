@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import LoginModal from "../components/user/LoginModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
+import Image from "next/image";
 
 interface Props {}
 
@@ -115,6 +116,12 @@ function Main({}: Props): ReactElement {
                   </button>
                 </div>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <Image
+                  src="/images/mmlogo.png"
+                  alt=""
+                  width="500"
+                  height="95"
+                />
                   <LoginModal />
                 </div>
               </div>

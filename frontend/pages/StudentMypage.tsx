@@ -1,10 +1,9 @@
 import React, { ReactElement, useEffect } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 interface Props {}
 
-function ProMypage({}: Props): ReactElement {
+function StudentMypage({}: Props): ReactElement {
   const person = {
     userId: 1,
     userName: "김철수",
@@ -109,4 +108,4 @@ function ProMypage({}: Props): ReactElement {
   );
 }
 
-export default ProMypage;
+export default StudentMypage;
