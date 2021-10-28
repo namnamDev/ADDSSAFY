@@ -2,34 +2,36 @@ import React, { ReactElement } from "react";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 
-const person = {
-  name: "Jane Cooper",
-  userId: 1,
-  title: "Regional Paradigm Technician",
-  department: "Optimization",
-  role: "Admin",
-  email: "jane.cooper@example.com",
-  image:
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  address: "ssafy@ssafy.com",
-  sigfiles: ["1월지원금", "2월지원금", "3월지원금", "5월지원금", "6월지원금"],
-};
+interface Props {
+  userPK?: number;
+  userdata: {
+    userId: number;
+    name: string;
+    classNo: number;
+    address: string;
+    class: string;
+    email: string;
+    phone: string;
+    status: string;
+    image: string;
+    sigfiles: string[];
+  };
+}
 
-interface Props {}
-
-function UserDetail({}: Props): ReactElement {
+function UserDetail({ userdata, userPK }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   // 퇴소처리
-  function leave(PK: number) {
+  function leave(data: number) {
+    console.log(data);
     return;
   }
   return (
-    <div className="mx-48">
+    <div className="mx-3">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            교육생 정보
+            {userdata.userId}교육생 정보
           </h3>
         </div>
         <div className="border-t border-gray-200">
@@ -37,13 +39,13 @@ function UserDetail({}: Props): ReactElement {
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이름</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {person.name}
+                {userdata.name}
               </dd>
             </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">주소</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {person.address}
+                {userdata.address}
               </dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -55,7 +57,7 @@ function UserDetail({}: Props): ReactElement {
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이메일주소</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {person.address}
+                {userdata.address}
               </dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -73,7 +75,7 @@ function UserDetail({}: Props): ReactElement {
                   role="list"
                   className="border border-gray-200 rounded-md divide-y divide-gray-200"
                 >
-                  {person.sigfiles.map((month, i) => (
+                  {userdata.sigfiles.map((month, i) => (
                     <li
                       className="pl-3 pr-4 py-3 flex items-center justify-between text-sm"
                       key="i"
@@ -105,7 +107,7 @@ function UserDetail({}: Props): ReactElement {
           <button
             type="button"
             className="inline-flex items-center px-4 py-2 border bg-red-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-red-50"
-            onClick={() => leave(person.userId)}
+            onClick={() => leave(userdata.userId)}
           >
             퇴소
           </button>
@@ -120,13 +122,6 @@ function UserDetail({}: Props): ReactElement {
             }
           >
             정보수정
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
-            onClick={() => history.go(-1)}
-          >
-            나가기
           </button>
         </span>
       </div>
