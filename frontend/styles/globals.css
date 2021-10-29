@@ -31,73 +31,73 @@ a {
 }
 
 .manage_main_li:nth-child(1) {
-  transform: translate(-50%, -50%) rotate(0deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(0deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(2) {
-  transform: translate(-50%, -50%) rotate(30deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(30deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(3) {
-  transform: translate(-50%, -50%) rotate(60deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(60deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(4) {
-  transform: translate(-50%, -50%) rotate(90deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(90deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(5) {
-  transform: translate(-50%, -50%) rotate(120deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(120deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(6) {
-  transform: translate(-50%, -50%) rotate(150deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(150deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(7) {
-  transform: translate(-50%, -50%) rotate(180deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(180deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(8) {
-  transform: translate(-50%, -50%) rotate(210deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(210deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(9) {
-  transform: translate(-50%, -50%) rotate(240deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(240deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(10) {
-  transform: translate(-50%, -50%) rotate(270deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(270deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(11) {
-  transform: translate(-50%, -50%) rotate(300deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(300deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
 
 .manage_main_li:nth-child(12) {
-  transform: translate(-50%, -50%) rotate(330deg) translateY(-540px)
+  transform: translate(-50%, -50%) rotate(330deg) translateY(-480px)
     rotateX(90deg);
   cursor: pointer;
 }
@@ -504,4 +504,10 @@ a {
   }
 }
 /*  */
+/* 학생메인페이지의 싸피로고 가운데 */
+.stmainssafy {
+  position: absolute;
+  left: 43%;
+  top: 42%;
+}
 /*  */

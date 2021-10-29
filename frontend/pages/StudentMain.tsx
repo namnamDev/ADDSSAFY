@@ -10,9 +10,9 @@ function StudentMain({ }: Props): ReactElement {
   return (
     <div className="">
       <StudentNavbar />
-      <div className="h-full w-full">
+      <div className="">
         <MoveRound />
-        <div className="absolute top-1/2 left-1/2">
+        <div className="stmainssafy">
           <Image
             width="200%"
             height="100%"
