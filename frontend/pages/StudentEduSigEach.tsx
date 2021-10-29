@@ -30,7 +30,7 @@ function StudentEduSigEach({}: Props): ReactElement {
     <div>
       <StudentNavbar />
       <div className="flex items-stretch">
-        <div className="mt-10 w-3/4">
+        <div className="mt-10 w-3/4 mx-auto">
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">

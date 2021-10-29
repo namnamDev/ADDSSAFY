@@ -12,11 +12,13 @@ const boards = [
     No: 1,
     name: "칭찬합니다",
     description: "저의 훌륭한 동료를 칭찬합니다 😘",
+    url: "BoardCompliment",
   },
   {
     No: 2,
     name: "죄송합니다",
     description: "죄송합니다, 용서해주세요... 😥",
+    url: "BoardConfession",
   },
 ];
 const projects = [
@@ -45,11 +47,8 @@ function StudentNavbar({}: Props): ReactElement {
     localStorage.clear();
     router.push("/");
   }
-  async function gotoboard(projectNo: number) {
-    await router.push(
-      `/ManageUserTeamBuilding/?projectNo=${projectNo}`,
-      "/ManageUserTeamBuilding"
-    );
+  async function gotoboard(board: string) {
+    await router.push(`/${board}`);
     window.location.reload();
   }
   async function gototeammenu(teammenu: number) {
@@ -177,7 +176,7 @@ function StudentNavbar({}: Props): ReactElement {
                               <div
                                 key={board.No}
                                 className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 cursor-pointer"
-                                onClick={() => gotoboard(board.No)}
+                                onClick={() => gotoboard(board.url)}
                               >
                                 <div className="ml-4">
                                   <p className="text-base font-medium text-gray-900">
@@ -199,7 +198,7 @@ function StudentNavbar({}: Props): ReactElement {
             </Popover.Group>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
-              onClick={() => router.push(`/Notice`)}
+              onClick={() => router.push(`/StudentNotice`)}
             >
               공지사항
             </div>
