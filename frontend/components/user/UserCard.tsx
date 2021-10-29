@@ -1,31 +1,29 @@
-import React, { ReactElement, Fragment, useState, useRef, useEffect } from "react";
+import React, { ReactElement, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Image from "next/image";
-import TeamUserList from "./TeamUserList";
-import TeamDetail from "./TeamDetail";
 import UserDetail from "../user/UserDetail";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
+import Image from "next/image";
 interface Props {
-  teamPK: number;
+  person: object;
 }
 
-function TeamCard({ teamPK }: Props): ReactElement {
+function UserCard({ person }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
   }
-  function openModal(teamPK: number) {
+  function openModal(person: number) {
     setIsOpen(true);
   }
   const apply = () => {
-    alert(`${teamPK}팀에 지원했습니다.`);
+    alert(`${person}팀에 지원했습니다.`);
   };
-
+  function SendMM() {
+    alert("message");
+  }
   return (
-    
-      <tr>
+    <tr>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
@@ -42,7 +40,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
               className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
               onClick={() => setIsOpen(true)}
             >
-              팀이름
+              이름
             </div>
           </div>
         </div>
@@ -63,7 +61,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
           </span>
         )} */}
         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          팀원 구인 중
+          무소속
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -74,7 +72,6 @@ function TeamCard({ teamPK }: Props): ReactElement {
           MatterMost
         </span>
       </td>
-    
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
           <div className="flex justify-center my-8  text-center">
@@ -103,15 +100,12 @@ function TeamCard({ teamPK }: Props): ReactElement {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              {showUser ? (
                 <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
                     onClick={() => setShowUser(false)}
                   >
-                    <ArrowLeftIcon className="text-sm" width="20px" />
-                    뒤로 가기
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
@@ -125,7 +119,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={apply}
                     >
-                      MM 보내기
+                      제안 보내기
                     </button>
                     <button
                       type="button"
@@ -136,45 +130,13 @@ function TeamCard({ teamPK }: Props): ReactElement {
                     </button>
                   </div>
                 </div>
-              ) : (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 text-center"
-                  >
-                    {teamPK}팀 정보
-                  </Dialog.Title>
-                  <div className="mt-2 ">
-                    <p className="text-sm text-gray-500  ">
-                      <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} />
-                    </p>
-                  </div>
-
-                  <div className="mt-4 flex flex-row space-x-2 justify-center">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
-                    >
-                      지원하기
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModal}
-                    >
-                      창 닫기
-                    </button>
-                  </div>
-                </div>
-              )}
+             
             </Transition.Child>
           </div>
         </Dialog>
       </Transition>
-      </tr>
+    </tr>
   );
 }
 
-export default TeamCard;
+export default UserCard;

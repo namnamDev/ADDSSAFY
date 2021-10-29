@@ -29,6 +29,8 @@ function Search({}: Props): ReactElement {
     console.log(except);
     setSearchList(TeamDump);
   };
+  const[person,setPerson]=useState();
+
   useEffect(() => {
     setSearchList([]);
   }, [index]);
