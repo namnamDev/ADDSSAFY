@@ -3,11 +3,9 @@ package com.add.ssafy.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,11 +19,15 @@ public class EducationGrant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn
+    private Member member;
     
     private Integer month;
     
     private String fileName;
 
+    @Column(updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @CreationTimestamp
     private LocalDateTime submitDate;
 }

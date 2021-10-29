@@ -18,9 +18,13 @@ public class WantMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn
+    private Member member;
 
-    private Long hashTagId;
+    @ManyToOne
+    @JoinColumn
+    private HashTag hashTag;
 
     @Enumerated(EnumType.STRING)
     private Division division;
