@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.16",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
     "axios": "^0.23.0",
@@ -22,6 +19,7 @@
     "react-dnd": "^14.0.4",
     "react-dnd-html5-backend": "^14.0.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
     "react-moment": "^1.1.1",
     "react-use": "^17.3.1",
     "signature_pad": "^3.0.0-beta.4",

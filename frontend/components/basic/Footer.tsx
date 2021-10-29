@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { FaFacebook, FaTwitter, FaYoutube, FaGithub } from 'react-icons/fa';
 
 interface Props { }
 
@@ -87,31 +88,13 @@ function Footer({ }: Props): ReactElement {
                 </div>
                 <div className="w-full lg:w-1/2 px-6 flex flex-col justify-between">
                   <div className="flex items-center mb-6">
-                    <span className="
-          inline-flex
-          sm:ml-auto sm:mt-0
-          mt-2
-          justify-center
-          sm:justify-start
-        ">
-                      <a className="text-gray-500">
-                        <i className="fab fa-facebook-f" />
-                      </a>
-                      <a className="ml-3 text-gray-500">
-                        <i className="fab fa-twitter" />
-                      </a>
-                      <a className="ml-3 text-gray-500">
-                        <i className="fab fa-linkedin-in" />
-                      </a>
-                      <a className="ml-3 text-gray-500">
-                        <i className="fab fa-youtube" />
-                      </a>
-                      <a className="ml-3 text-gray-500">
-                        <i className="fab fa-instagram" />
-                      </a>
+                    <span>
+                      <FaFacebook />
+                      <FaTwitter />
+                      <FaYoutube />
+                      <FaGithub />
                     </span>
                   </div>
-
                 </div>
               </div>
             </div>
