@@ -15,7 +15,7 @@ interface list {
   image: string;
 }
 
-function TeamCreate({}: Props): ReactElement {
+function TeamModify({}: Props): ReactElement {
   const [can, setCan] = useState<list[]>([]);
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
@@ -43,7 +43,7 @@ function TeamCreate({}: Props): ReactElement {
       <div className=" mx-20">
         {/* 팀 소개, 팀 웹엑스 링크 */}
         <div className="my-4">
-          <div className="font-bold text-2xl mb-4">팀 만들기</div>
+          <div className="font-bold text-2xl mb-4">팀 정보 수정</div>
           <div className="">
             팀 소개
             <input
@@ -74,7 +74,7 @@ function TeamCreate({}: Props): ReactElement {
             className=" px-8 py-2 bg-blue-600 text-white rounded-lg  shadow-sm hover:bg-blue-500 focus:ring-2 focus:ring-indigo-200 m-2 "
             onClick={create}
           >
-            팀 생성
+            팀 정보 수정
           </button>
         </div>
       </div>
@@ -82,4 +82,4 @@ function TeamCreate({}: Props): ReactElement {
   );
 }
 
-export default TeamCreate;
+export default TeamModify;
