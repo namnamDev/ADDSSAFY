@@ -11,11 +11,6 @@ interface Props {}
 
 function StudentNavbar({}: Props): ReactElement {
   const router = useRouter();
-  // 로그아웃
-  function logout() {
-    localStorage.clear();
-    router.push("/");
-  }
   return (
     <div>
       <div className="relative bg-white">
@@ -90,28 +85,41 @@ function StudentNavbar({}: Props): ReactElement {
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <Menu.Item>
                       {({ active }) => (
-                        <div
+                        <a
+                          href="#"
                           className={classNames(
                             active ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                            "block px-4 py-2 text-sm text-gray-700"
                           )}
-                          onClick={() => router.push("/StudentMypage")}
                         >
-                          Mypage
-                        </div>
+                          Your Profile
+                        </a>
                       )}
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <div
+                        <a
+                          href="#"
                           className={classNames(
                             active ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
+                            "block px-4 py-2 text-sm text-gray-700"
                           )}
-                          onClick={logout}
                         >
-                          Logout
-                        </div>
+                          Settings
+                        </a>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <a
+                          href="#"
+                          className={classNames(
+                            active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-gray-700"
+                          )}
+                        >
+                          Sign out
+                        </a>
                       )}
                     </Menu.Item>
                   </Menu.Items>

@@ -18,11 +18,13 @@ interface list {
 
 function Search({}: Props): ReactElement {
   const [can, setCan] = useState<list[]>([]);
+  const [want, setWant] = useState<list[]>([]);
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
   const create = () => {
     console.log(`team소개: ${teamIntro}  team 웹엑스 링크: ${teamWebex}`);
     console.log(can);
+    console.log(want);
     // const res=axios.post("/team/create", {
     //   introduceTeam: teamIntro,
     //   webex: teamWebex,
