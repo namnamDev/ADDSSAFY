@@ -1,8 +1,6 @@
-import React, { ReactElement, useState, useRef, Fragment } from "react";
+import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Dialog, Transition } from "@headlessui/react";
-import UserDetail from "./UserDetail";
 const people = [
   {
     userId: 1,
@@ -15,7 +13,6 @@ const people = [
     status: "leave",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    sigfiles: ["1월", "2월", "3월"],
   },
   {
     userId: 2,
@@ -28,9 +25,7 @@ const people = [
     status: "Studying",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    sigfiles: ["1월", "2월", "3월"],
   },
-
   {
     userId: 3,
     name: "Jane Cooper",
@@ -42,7 +37,6 @@ const people = [
     status: "Studying",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    sigfiles: ["1월", "2월", "3월"],
   },
   {
     userId: 4,
@@ -55,7 +49,6 @@ const people = [
     status: "leave",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    sigfiles: ["1월", "2월", "3월"],
   },
   {
     userId: 5,
@@ -68,34 +61,21 @@ const people = [
     status: "leave",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    sigfiles: ["1월", "2월", "3월"],
   },
   {
     userId: 6,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
-    class: "2반",
+    class: "구미2반",
     email: "jane.cooper@example.com",
     phone: "01000000000",
     status: "Studying",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    sigfiles: ["1월", "2월", "3월"],
   },
 ];
-export interface userdata {
-  userId: number;
-  name: string;
-  classNo: number;
-  address: string;
-  class: string;
-  email: string;
-  phone: string;
-  status: string;
-  image: string;
-  sigfiles: string[];
-}
+
 interface Props {}
 
 function UserList({}: Props): ReactElement {
@@ -104,25 +84,6 @@ function UserList({}: Props): ReactElement {
   function SendMM() {
     alert("message");
   }
-  // 데이터 모달로
-  const [modal, setmodal] = useState(false);
-  function openmodal(data: userdata) {
-    setmodal(true);
-    setuserdata(data);
-  }
-  const [userdata, setuserdata] = useState<userdata>({
-    userId: 0,
-    name: "",
-    classNo: 0,
-    address: "",
-    class: "",
-    email: "",
-    phone: "",
-    status: "",
-    image: "",
-    sigfiles: [],
-  });
-
   return (
     <div className="flex flex-col mx-40 mt-2 text-center">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
@@ -235,7 +196,12 @@ function UserList({}: Props): ReactElement {
                       <button
                         type="button"
                         className="text-blue-600 hover:text-blue-900"
-                        onClick={() => openmodal(person)}
+                        onClick={() =>
+                          router.push(
+                            `/ManageUserDetail/?userPK=${person.userId}`,
+                            "/ManageUserDetail"
+                          )
+                        }
                       >
                         Detail
                       </button>
@@ -247,63 +213,6 @@ function UserList({}: Props): ReactElement {
           </div>
         </div>
       </div>
-      <Transition.Root show={modal} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed z-10 inset-0 overflow-y-auto"
-          onClose={setmodal}
-        >
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full min-w-lg">
-                <div className="bg-white">
-                  <div className="">
-                    <div className="mt-3 text-center mx-auto">
-                      <UserDetail userdata={userdata} />
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                  <button
-                    type="button"
-                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setmodal(false)}
-                  >
-                    나가기
-                  </button>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
     </div>
   );
 }
