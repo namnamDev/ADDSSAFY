@@ -12,24 +12,23 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-// id, 회원id, 제목, 내용, 생성일, 게시판 종류
-public class Board {
+// id, 회원id, 뱃지이름, 회득일
+public class TakeBadge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn
     private Member member;
 
-    private String subject;
-
-    private String content;
+    @ManyToOne
+    @JoinColumn
+    private Badge badge;
 
     @Column(updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	@CreationTimestamp
-    private LocalDateTime createDate;
+    @CreationTimestamp
+    private LocalDateTime getDate;
 
-    private Integer type;
 }

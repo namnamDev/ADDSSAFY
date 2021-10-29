@@ -3,11 +3,9 @@ package com.add.ssafy.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,12 +19,19 @@ public class Propose {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long teamId;
 
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn
+    private Team team;
+
+    @ManyToOne
+    @JoinColumn
+    private Member member;
 
     private Boolean direction;
 
+    @Column(updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @CreationTimestamp
     private LocalDateTime proposeDate;
 
     private Boolean accept;

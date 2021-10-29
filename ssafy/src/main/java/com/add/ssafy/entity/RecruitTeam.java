@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -21,7 +18,11 @@ public class RecruitTeam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long teamId;
+    @ManyToOne
+    @JoinColumn
+    private Team team;
 
-    private Long hashTagId;
+    @ManyToOne
+    @JoinColumn
+    private HashTag hashTag;
 }
