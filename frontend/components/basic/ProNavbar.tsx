@@ -74,7 +74,6 @@ function ProNavbar({}: Props): ReactElement {
             >
               서명지원금관리
             </div>
-
             <Popover.Group as="nav" className="hidden md:flex space-x-10">
               <Popover className="relative">
                 {({ open }) => (
