@@ -24,8 +24,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
   };
 
   return (
-    
-      <tr>
+    <tr>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
@@ -69,12 +68,12 @@ function TeamCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => SendMM()}
+          // onClick={() => SendMM()}
         >
           MatterMost
         </span>
       </td>
-    
+
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
           <div className="flex justify-center my-8  text-center">
@@ -104,7 +103,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
               leaveTo="opacity-0 scale-95"
             >
               {showUser ? (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
+                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl  overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
@@ -137,7 +136,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   </div>
                 </div>
               ) : (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
+                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 text-center"
@@ -173,7 +172,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
           </div>
         </Dialog>
       </Transition>
-      </tr>
+    </tr>
   );
 }
 
