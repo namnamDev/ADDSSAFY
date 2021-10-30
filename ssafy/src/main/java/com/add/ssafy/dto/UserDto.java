@@ -1,12 +1,10 @@
 package com.add.ssafy.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
-@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
 
     private Long userPk;
