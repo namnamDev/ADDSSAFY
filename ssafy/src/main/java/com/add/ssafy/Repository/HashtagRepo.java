@@ -1,7 +1,8 @@
 package com.add.ssafy.Repository;
 
 import com.add.ssafy.entity.Badge;
+import com.add.ssafy.entity.HashTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BadgeRepo extends JpaRepository<Badge, Long> ,BadgeRepoCustom{
+public interface HashtagRepo extends JpaRepository<HashTag, Long> , HashtagRepoCustom {
 }

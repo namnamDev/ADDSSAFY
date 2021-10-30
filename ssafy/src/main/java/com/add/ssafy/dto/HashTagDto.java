@@ -1,11 +1,14 @@
 package com.add.ssafy.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.add.ssafy.enums.HashTagProps;
+import lombok.*;
 
-@Getter
-@Setter
-@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class HashTagDto {
+    private Long HashTagPK;
+    private String HashTagName;
+    private com.add.ssafy.enums.HashTagProps HashTagProp;
+
 }

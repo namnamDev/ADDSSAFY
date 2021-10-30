@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class BadgeRepoImpl implements BadgeRepoCustom{
+public class TeamMemberRepoImpl implements TeamMemberRepoCustom {
     private final JPAQueryFactory queryFactory;
 
 }

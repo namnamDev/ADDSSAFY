@@ -7,4 +7,8 @@ public interface AdminSvcInter {
     BaseResponse InsertMember();
 
     BaseResponse InsertHashTag();
+
+    BaseResponse InsertTeam();
+
+    BaseResponse InsertMemberHashTag();
 }
