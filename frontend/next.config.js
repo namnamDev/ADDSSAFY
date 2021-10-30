@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: "/api/v4/:path*",
+        destination: `https://ssafy.ssafy.com/:path*`,
+      },
+    ];
+  },
   reactStrictMode: true,
   images: {
     domains: [

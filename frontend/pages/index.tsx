@@ -16,7 +16,7 @@ function Main({}: Props): ReactElement {
   // 로그인 상태 체크
   setTimeout(() => {
     setclick(true);
-  }, 3900);
+  }, 3000);
   // +ssafy 클릭했을때 실행
   function enter() {
     // 로그인돼있는지 확인 토큰으로
