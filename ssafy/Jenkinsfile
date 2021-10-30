@@ -104,7 +104,7 @@ pipeline {
                 // backend의 이름을 가진 컨테이너를 삭제한다.
                 sh 'docker container ls -a -f name=backend -q | xargs -r docker container rm'
                 // docker image build 시 기존에 존재하던 이미지는 dangling 상태가 되기 때문에 이미지를 일괄 삭제
-                sh 'docker images -f "dangling=true" -q | xargs -r docker rmi -f'
+                sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
                 // docker container 실행
                 sh 'docker run -d -p 8080:8080 --name backend backend'
 //                 sh 'docker run -d --name backend -v /home/ubuntu/img:/home/img --network mokomoko -p 8080:8080 backend:latest'
