@@ -42,8 +42,6 @@ interface Props {}
 
 function StudentNavbar({}: Props): ReactElement {
   const router = useRouter();
-<<<<<<< HEAD
-=======
   // 로그아웃
   function logout() {
     localStorage.clear();
@@ -60,7 +58,6 @@ function StudentNavbar({}: Props): ReactElement {
     );
     window.location.reload();
   }
->>>>>>> frontend
   return (
     <div>
       <div className="relative bg-white">
