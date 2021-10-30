@@ -33,9 +33,9 @@ const notices = [
     email: "jane.cooper@example.com",
   },
 ];
-interface Props {}
+interface Props { }
 
-function StudentNotice({}: Props): ReactElement {
+function StudentNotice({ }: Props): ReactElement {
   const router = useRouter();
   return (
     <div>

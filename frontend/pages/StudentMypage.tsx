@@ -1,9 +1,9 @@
 import React, { ReactElement, useEffect } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
 import { useRouter } from "next/router";
-interface Props {}
+interface Props { }
 
-function StudentMypage({}: Props): ReactElement {
+function StudentMypage({ }: Props): ReactElement {
   const person = {
     userId: 1,
     userName: "김철수",
@@ -24,7 +24,7 @@ function StudentMypage({}: Props): ReactElement {
   }
   // 로그인정보 헤더 보내서 유저정보 가져오기
   useEffect(() => {
-    return () => {};
+    return () => { };
   }, []);
   return (
     <div>
@@ -87,10 +87,10 @@ function StudentMypage({}: Props): ReactElement {
             <button
               type="button"
               className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
-              //   onClick={() =>
-              //     router.push(
-              //     )
-              //   }
+            //   onClick={() =>
+            //     router.push(
+            //     )
+            //   }
             >
               정보수정
             </button>
