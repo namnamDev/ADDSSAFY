@@ -6,6 +6,11 @@ module.exports = {
         source: "/api/v4/:path*",
         destination: `https://meeting.ssafy.com/api/v4/:path*`,
       },
+      // backend
+      {
+        source: "/api/:path*",
+        destination: `https://meeting.ssafy.com/api/:path*`,
+      },
     ];
   },
   reactStrictMode: true,

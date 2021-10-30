@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
 import Countdown from "react-countdown";
+import Footer from "../components/basic/Footer";
 
-interface Props {}
+interface Props { }
 
-function ManageUserTeamBuilding({}: Props): ReactElement {
+function ManageUserTeamBuilding({ }: Props): ReactElement {
   const router = useRouter();
   const projectNo = router.query.projectNo;
   // projectNo와 교육프로정보 같이보내서 기간 정보 가져오기
@@ -263,6 +264,7 @@ function ManageUserTeamBuilding({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

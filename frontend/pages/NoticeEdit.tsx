@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
 import axios from "axios";
-interface Props {}
+import Footer from "../components/basic/Footer";
+interface Props { }
 
-function NoticeEdit({}: Props): ReactElement {
+function NoticeEdit({ }: Props): ReactElement {
   return (
     <div>
       <ProNavbar />
@@ -45,6 +46,7 @@ function NoticeEdit({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

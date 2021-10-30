@@ -11,6 +11,7 @@ import {
   LightningBoltIcon,
   ScaleIcon,
 } from "@heroicons/react/outline";
+import Footer from "../components/basic/Footer";
 const menus = [
   {
     id: 1,
@@ -33,9 +34,9 @@ const menus = [
     href: "Notice",
   },
 ];
-interface Props {}
+interface Props { }
 
-function ManageMain({}: Props): ReactElement {
+function ManageMain({ }: Props): ReactElement {
   const router = useRouter();
   // 시간
   const [nowtime, setnowtime] = useState(Date.now());
@@ -76,6 +77,7 @@ function ManageMain({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

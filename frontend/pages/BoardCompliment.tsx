@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import { PencilIcon } from "@heroicons/react/solid";
 import StudentNavbar from "../components/basic/StudentNavbar";
+import Footer from "../components/basic/Footer";
 const notices = [
   {
     No: 1,
@@ -34,9 +35,9 @@ const notices = [
   },
 ];
 
-interface Props {}
+interface Props { }
 
-function BoardCompliment({}: Props): ReactElement {
+function BoardCompliment({ }: Props): ReactElement {
   const router = useRouter();
   return (
     <div>
@@ -139,6 +140,7 @@ function BoardCompliment({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
 import { useRouter } from "next/router";
+import Footer from "../components/basic/Footer";
 interface Props { }
 
 function StudentMypage({ }: Props): ReactElement {
@@ -104,6 +105,7 @@ function StudentMypage({ }: Props): ReactElement {
           </span>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

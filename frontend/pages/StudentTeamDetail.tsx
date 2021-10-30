@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect } from 'react'
 import StudentNavbar from '../components/basic/StudentNavbar'
 import Image from 'next/image'
+import Footer from '../components/basic/Footer'
 
 interface Props {
 
@@ -74,6 +75,7 @@ function StudentTeamDetail({ }: Props): ReactElement {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

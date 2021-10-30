@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
+import Footer from "../components/basic/Footer";
 import StudentNavbar from "../components/basic/StudentNavbar";
 
-interface Props {}
+interface Props { }
 
-function BoardConfessionCreate({}: Props): ReactElement {
+function BoardConfessionCreate({ }: Props): ReactElement {
   return (
     <div>
       <StudentNavbar />
@@ -45,6 +46,7 @@ function BoardConfessionCreate({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

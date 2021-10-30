@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
 import Countdown from "react-countdown";
+import Footer from "../components/basic/Footer";
 
 interface Props { }
 
@@ -117,6 +118,7 @@ function StudentTeamBuildingCurrent({ }: Props): ReactElement {
           </table>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
