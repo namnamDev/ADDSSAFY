@@ -5,9 +5,9 @@ import Image from "next/image";
 import moment from "moment";
 import Countdown from "react-countdown";
 
-interface Props {}
+interface Props { }
 
-function StudentTeamBuildingCurrent({}: Props): ReactElement {
+function StudentTeamBuildingCurrent({ }: Props): ReactElement {
   const router = useRouter();
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
