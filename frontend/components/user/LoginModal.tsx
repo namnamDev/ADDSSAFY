@@ -11,8 +11,6 @@ function LoginModal({ }: Props): ReactElement {
   const [loginid, setloginid] = useState<string>("");
   const [loginpw, setloginpw] = useState<string>("");
   function login() {
-    console.log(loginid)
-    console.log(loginpw)
     axios
       .post("/api/v4/users/login", {
         login_id: loginid,
@@ -29,6 +27,7 @@ function LoginModal({ }: Props): ReactElement {
     <div className="min-h-full flex items-center justify-center pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="rounded-md shadow-sm -space-y-px">
+
           <div>
             <input
               id="MM-ID"
