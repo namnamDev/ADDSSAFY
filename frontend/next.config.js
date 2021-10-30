@@ -3,12 +3,8 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: "/api/v4/:path*",
-        destination: `https://ssafy.ssafy.com/:path*`,
-      },
-      {
-        source: "/api/v1/:path*",
-        destination: `https://ssafy.ssafy.com/:path*`,
+        source: "/api/:path*",
+        destination: `https://meeting.ssafy.com/:path*`,
       },
     ];
   },

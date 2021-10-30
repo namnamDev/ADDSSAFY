@@ -4,14 +4,16 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-interface Props {}
+interface Props { }
 
-function LoginModal({}: Props): ReactElement {
+function LoginModal({ }: Props): ReactElement {
   const router = useRouter();
   // 로그인
   const [loginid, setloginid] = useState<string>("");
   const [loginpw, setloginpw] = useState<string>("");
   function login() {
+    console.log(loginid)
+    console.log(loginpw)
     axios
       .post("/api/v4/users/login", {
         login_id: loginid,
@@ -23,6 +25,7 @@ function LoginModal({}: Props): ReactElement {
         router.push("/ManageMain");
       });
   }
+
   return (
     <div className="min-h-full flex items-center justify-center pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
