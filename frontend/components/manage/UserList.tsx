@@ -96,9 +96,9 @@ export interface userdata {
   image: string;
   sigfiles: string[];
 }
-interface Props {}
+interface Props { }
 
-function UserList({}: Props): ReactElement {
+function UserList({ }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -167,12 +167,6 @@ function UserList({}: Props): ReactElement {
                   >
                     MM
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    <span className="sr-only">Edit</span>
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -190,10 +184,11 @@ function UserList({}: Props): ReactElement {
                           />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-gray-900 cursor-pointer"
+                            onClick={() => openmodal(person)}>
                             {person.name}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-gray-500 text-xs">
                             {person.classNo}
                           </div>
                         </div>
@@ -230,15 +225,6 @@ function UserList({}: Props): ReactElement {
                       >
                         MatterMost
                       </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        type="button"
-                        className="text-blue-600 hover:text-blue-900"
-                        onClick={() => openmodal(person)}
-                      >
-                        Detail
-                      </button>
                     </td>
                   </tr>
                 ))}

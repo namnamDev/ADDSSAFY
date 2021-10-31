@@ -9,7 +9,7 @@ module.exports = {
       // backend
       {
         source: "/api/:path*",
-        destination: `https://meeting.ssafy.com/api/:path*`,
+        destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
       },
     ];
   },
