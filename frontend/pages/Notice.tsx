@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
 import { useRouter } from "next/router";
 import { PencilIcon } from "@heroicons/react/solid";
+import Footer from "../components/basic/Footer";
 const notices = [
   {
     No: 1,
@@ -33,9 +34,9 @@ const notices = [
     email: "jane.cooper@example.com",
   },
 ];
-interface Props {}
+interface Props { }
 
-function Notice({}: Props): ReactElement {
+function Notice({ }: Props): ReactElement {
   const router = useRouter();
   return (
     <div>
@@ -132,6 +133,7 @@ function Notice({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

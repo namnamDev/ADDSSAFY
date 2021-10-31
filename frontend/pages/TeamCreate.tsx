@@ -6,8 +6,9 @@ import axios from "axios";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TeamHashTag from "../components/hashtag/TeamHashTag";
+import Footer from "../components/basic/Footer";
 
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -16,7 +17,7 @@ interface list {
   image: string;
 }
 
-function Search({}: Props): ReactElement {
+function Search({ }: Props): ReactElement {
   const [can, setCan] = useState<list[]>([]);
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
@@ -79,6 +80,7 @@ function Search({}: Props): ReactElement {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

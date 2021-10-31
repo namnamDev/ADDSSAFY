@@ -6,8 +6,9 @@ import TeamList from "../components/Team/TeamList";
 import TeamDump from "../dummy/json/teamDump.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Footer from "../components/basic/Footer";
 
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -16,7 +17,7 @@ interface list {
   image: string;
 }
 
-function Search({}: Props): ReactElement {
+function Search({ }: Props): ReactElement {
   const [can, setCan] = useState<list[]>([]);
   const [want, setWant] = useState<list[]>([]);
   const [except, setExcept] = useState<list[]>([]);
@@ -84,6 +85,7 @@ function Search({}: Props): ReactElement {
           {index === 0 ? <TeamList list={searchList} /> : "교육생 검색"}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

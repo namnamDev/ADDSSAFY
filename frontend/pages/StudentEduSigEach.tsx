@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef, ReactElement } from "react";
 import StudentNavbar from "../components/basic/StudentNavbar";
 import SignaturePad from "signature_pad";
-interface Props {}
+import Footer from "../components/basic/Footer";
+interface Props { }
 
 let sigPad: any = null;
 
-function StudentEduSigEach({}: Props): ReactElement {
+function StudentEduSigEach({ }: Props): ReactElement {
   const router = useRouter();
   const month = router.query.month;
   //
@@ -106,6 +107,7 @@ function StudentEduSigEach({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

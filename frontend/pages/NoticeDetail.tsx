@@ -2,18 +2,19 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ProNavbar from "../components/basic/ProNavbar";
 import { CalendarIcon, PencilIcon } from "@heroicons/react/solid";
+import Footer from "../components/basic/Footer";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-interface Props {}
+interface Props { }
 
-function NoticeDetail({}: Props): ReactElement {
+function NoticeDetail({ }: Props): ReactElement {
   const router = useRouter();
   const No = router.query.NoticeNo;
   //   No를 가지고 통신하기
   useEffect(() => {
-    return () => {};
+    return () => { };
   }, []);
   return (
     <div>
@@ -63,6 +64,7 @@ function NoticeDetail({}: Props): ReactElement {
         일상회복 전환 시기, 거리두기와 방역 완화의 단계별 적용 시점 등 구체적
         내용이 담길 것으로 보입니다.
       </div>
+      <Footer />
     </div>
   );
 }

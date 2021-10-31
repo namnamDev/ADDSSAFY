@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
 import Countdown from "react-countdown";
+import Footer from "../components/basic/Footer";
+import SearchCopy from "./SearchCopy";
 
 interface Props { }
 
@@ -116,7 +118,11 @@ function StudentTeamBuildingCurrent({ }: Props): ReactElement {
             </tbody>
           </table>
         </div>
+        <div className="mt-5">
+          <SearchCopy />
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

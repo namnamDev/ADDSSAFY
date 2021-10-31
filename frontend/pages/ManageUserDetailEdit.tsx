@@ -2,10 +2,11 @@ import React, { ReactElement } from "react";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import ProNavbar from "../components/basic/ProNavbar";
 import { useRouter } from "next/router";
+import Footer from "../components/basic/Footer";
 
-interface Props {}
+interface Props { }
 
-function ManageUserDetailEdit({}: Props): ReactElement {
+function ManageUserDetailEdit({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const person = {
@@ -152,6 +153,7 @@ function ManageUserDetailEdit({}: Props): ReactElement {
           </span>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

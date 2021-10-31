@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
+import Footer from "../components/basic/Footer";
 import ProNavbar from "../components/basic/ProNavbar";
 
-interface Props {}
+interface Props { }
 
-function NoticeCreate({}: Props): ReactElement {
+function NoticeCreate({ }: Props): ReactElement {
   return (
     <div>
       <ProNavbar />
@@ -45,6 +46,7 @@ function NoticeCreate({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

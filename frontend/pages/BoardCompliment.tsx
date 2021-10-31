@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import { PencilIcon } from "@heroicons/react/solid";
 import StudentNavbar from "../components/basic/StudentNavbar";
+import Footer from "../components/basic/Footer";
 const notices = [
   {
     No: 1,
@@ -34,9 +35,9 @@ const notices = [
   },
 ];
 
-interface Props {}
+interface Props { }
 
-function BoardCompliment({}: Props): ReactElement {
+function BoardCompliment({ }: Props): ReactElement {
   const router = useRouter();
   return (
     <div>
@@ -78,12 +79,6 @@ function BoardCompliment({}: Props): ReactElement {
                       scope="col"
                       className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Writer
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
                       Date
                     </th>
                   </tr>
@@ -105,11 +100,6 @@ function BoardCompliment({}: Props): ReactElement {
                           }
                         >
                           {person.title}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900">
-                          {person.Writer}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -139,6 +129,7 @@ function BoardCompliment({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
