@@ -51,8 +51,7 @@ function BoardConfession({ }: Props): ReactElement {
           <p className="mt-4 text-xs text-gray-500 lg:mx-auto">
             교육생 누군가에게 죄송한 마음을 전해보세요.
             <br />
-            당신의 행동이 누군가에게 상처가 되어 관계가 서먹해졌다면,
-            &apos;죄송합니다&apos;게시판을 이용해보세요.
+            당신의 트롤행위가 누군가의 마음을 아프게합니다
           </p>
         </div>
         <br />
@@ -73,12 +72,6 @@ function BoardConfession({ }: Props): ReactElement {
                       className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Title
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Writer
                     </th>
                     <th
                       scope="col"
@@ -105,11 +98,6 @@ function BoardConfession({ }: Props): ReactElement {
                           }
                         >
                           {person.title}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900">
-                          {person.Writer}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
