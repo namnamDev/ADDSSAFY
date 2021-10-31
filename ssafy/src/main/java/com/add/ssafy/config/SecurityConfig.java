@@ -32,27 +32,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource()).and().csrf().disable() // 토큰 방식이라서 사용한다고 함
+//        http.cors().configurationSource(corsConfigurationSource()).and().csrf().disable() // 토큰 방식이라서 사용한다고 함
+//
+//                // exception을 만든 것으로 추가
+//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .accessDeniedHandler(jwtAccessDeniedHandler)
+//
+//                // Session을 사용안하기 때문에 설정을 STATELESS 지정
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//
+//                .and().authorizeRequests() // HttpServletReuqest를 사용하는 요청에 대한 접근 제한 설정하겠다.
+//                .antMatchers("/user/**", "/auth/**", "/post/**", "/child/**", "/comment/**", "/likes/**",
+//                        "/relation/**")
+//                .permitAll()
+//                // .hasRole("USER") // 특정 path 요청은 인증이 필요하지 않다.
+//                .antMatchers("/api/**", "/auth/**").permitAll()
+//                .antMatchers("/webcuration/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
+//                .permitAll().anyRequest().authenticated()
+//                // 나머지 요청은 모두 인증이 필요하다.
+//
+//                // JwtFilter를 addFilterBefore로 등록했던 JwtSecurityConfig 클래스도 적용
+//                .and().apply(new JwtSecurityConfig(tokenProvider));
 
-                // exception을 만든 것으로 추가
+        http.csrf().disable() //csrf비활성화
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and().cors()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+//			.addFilter(corsFilter)
+                .formLogin().disable()
 
-                // Session을 사용안하기 때문에 설정을 STATELESS 지정
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and().authorizeRequests() // HttpServletReuqest를 사용하는 요청에 대한 접근 제한 설정하겠다.
-                .antMatchers("/user/**", "/auth/**", "/post/**", "/child/**", "/comment/**", "/likes/**",
-                        "/relation/**")
-                .permitAll()
-                // .hasRole("USER") // 특정 path 요청은 인증이 필요하지 않다.
-                .antMatchers("/api/**", "/auth/**").permitAll()
-                .antMatchers("/webcuration/**", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
-                .permitAll().anyRequest().authenticated()
-                // 나머지 요청은 모두 인증이 필요하다.
-
-                // JwtFilter를 addFilterBefore로 등록했던 JwtSecurityConfig 클래스도 적용
-                .and().apply(new JwtSecurityConfig(tokenProvider));
+                .httpBasic().disable()
+                .authorizeRequests()
+                .antMatchers("/user/**").authenticated()
+                //.antMatchers("/Admin/**").hasRole("ADMIN")//어드민만 들어갈 수잇다.
+                .anyRequest().permitAll()
+                .and().apply(new JwtSecurityConfig(tokenProvider));//위에 걸어둔거 말고는 누구든 들어올 수 있다.
 
     }
 

@@ -1,9 +1,7 @@
 package com.add.ssafy.entity;
 
 import com.add.ssafy.enums.Authority;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 // id, 이름, 학번, 이메일, 패스워드, 블로그, 백준id, 자기소개, MBTI, 과목평균, 월말평균, 프로필, 지역, 반, 주소, 권한
 public class Member {
 
@@ -47,6 +47,7 @@ public class Member {
 
     private String address;
 
+    private String mmid;
     @Enumerated(EnumType.STRING)
     private Authority authority;
 

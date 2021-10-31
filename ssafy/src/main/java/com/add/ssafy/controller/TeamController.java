@@ -16,8 +16,13 @@ public class TeamController {
     TeamSvcInter teamSvcInter;
 
     @GetMapping("/teamuser/{teamPK}")
-    public ResponseEntity<BaseResponse> getTeamList(@PathVariable(name="teamPK") Long teamPK){
+    public ResponseEntity<BaseResponse> getTeamUserList(@PathVariable(name="teamPK") Long teamPK){
         return ResponseEntity.ok(teamSvcInter.getTeamUserList(teamPK));
+    }
+
+    @GetMapping("/{projectCode}")
+    public ResponseEntity<BaseResponse> getTeamList(@PathVariable(name="projectCode")int projectCode){
+        return ResponseEntity.ok(teamSvcInter.getTeamList(projectCode));
     }
 
 }
