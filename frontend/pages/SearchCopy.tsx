@@ -1,4 +1,4 @@
-import React, { ReactElement, useState,useEffect } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from '@headlessui/react'
 import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid'
 import UserHashTag from "../components/hashtag/UserHashTag";
@@ -11,23 +11,54 @@ const filters = [
     id: 'can',
     name: 'can',
     options: [
-      { value: 'white', label: 'White', checked: false },
-      { value: 'beige', label: 'Beige', checked: false },
-      { value: 'blue', label: 'Blue', checked: true },
-      { value: 'brown', label: 'Brown', checked: false },
-      { value: 'green', label: 'Green', checked: false },
-      { value: 'purple', label: 'Purple', checked: false },
+      { value: 'Spring', label: 'Spring', checked: false },
+      { value: 'Django', label: 'Django', checked: false },
+      { value: 'OracleDB', label: 'OracleDB', checked: false },
+      { value: 'JPA', label: 'JPA', checked: false },
+      { value: 'QueryDSL', label: 'QueryDSL', checked: false },
+      { value: 'Mybatis', label: 'Mybatis', checked: false },
+      { value: 'STS', label: 'STS', checked: false },
+      { value: 'Intellij', label: 'Intellij', checked: false },
+      { value: 'Vue', label: 'Vue', checked: false },
+      { value: 'TypeScript', label: 'TypeScript', checked: false },
+      { value: 'Bootstrap', label: 'Bootstrap', checked: false },
+      { value: 'JavaScript', label: 'JavaScript', checked: false },
+      { value: 'Node.Js', label: 'Node.Js', checked: false },
+      { value: 'Jenkins', label: 'Jenkins', checked: false },
+      { value: 'AI', label: 'AI', checked: false },
+      { value: 'BigData', label: 'BigData', checked: false },
+      { value: 'BlockChain', label: 'BlockChain', checked: false },
+      { value: 'IOT', label: 'IOT', checked: false },
+      { value: 'UCC', label: 'UCC', checked: false },
+      { value: 'PPT', label: 'PPT', checked: false },
+      { value: 'Presentation', label: 'Presentation', checked: false },
     ],
   },
   {
     id: 'want',
     name: 'want',
     options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false },
+      { value: 'Spring', label: 'Spring', checked: false },
+      { value: 'Django', label: 'Django', checked: false },
+      { value: 'OracleDB', label: 'OracleDB', checked: false },
+      { value: 'JPA', label: 'JPA', checked: false },
+      { value: 'QueryDSL', label: 'QueryDSL', checked: false },
+      { value: 'Mybatis', label: 'Mybatis', checked: false },
+      { value: 'STS', label: 'STS', checked: false },
+      { value: 'Intellij', label: 'Intellij', checked: false },
+      { value: 'Vue', label: 'Vue', checked: false },
+      { value: 'TypeScript', label: 'TypeScript', checked: false },
+      { value: 'Bootstrap', label: 'Bootstrap', checked: false },
+      { value: 'JavaScript', label: 'JavaScript', checked: false },
+      { value: 'Node.Js', label: 'Node.Js', checked: false },
+      { value: 'Jenkins', label: 'Jenkins', checked: false },
+      { value: 'AI', label: 'AI', checked: false },
+      { value: 'BigData', label: 'BigData', checked: false },
+      { value: 'BlockChain', label: 'BlockChain', checked: false },
+      { value: 'IOT', label: 'IOT', checked: false },
+      { value: 'UCC', label: 'UCC', checked: false },
+      { value: 'PPT', label: 'PPT', checked: false },
+      { value: 'Presentation', label: 'Presentation', checked: false },
     ],
   },
   {
@@ -39,7 +70,7 @@ const filters = [
       { value: '12l', label: '12L', checked: false },
       { value: '18l', label: '18L', checked: false },
       { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true },
+      { value: '40l', label: '40L', checked: false },
     ],
   },
 ]
@@ -62,6 +93,35 @@ function Search({ }: Props): ReactElement {
   const [except, setExcept] = useState<list[]>([]);
   const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
+  const [checked, setchecked] = useState<any>([])
+
+  const check = (section: any, option: any) => {
+    if (section === "can") {
+      // 추가하는부분
+      if (option.checked === false) {
+        option.checked = true
+        console.log(option.checked)
+      }
+      // 빼는부분
+      else if (option.checked === true) {
+        option.checked = false
+        console.log(option.checked)
+      }
+    }
+    else if (section === "want") {
+      // 추가하는부분
+      if (option.checked === false) {
+        option.checked = true
+        console.log(option.checked)
+      }
+      // 빼는부분
+      else if (option.checked === true) {
+        option.checked = false
+        console.log(option.checked)
+      }
+    }
+
+  }
   const search = () => {
     console.log(can);
     console.log(want);
@@ -109,6 +169,7 @@ function Search({ }: Props): ReactElement {
                                   type="checkbox"
                                   defaultChecked={option.checked}
                                   className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                  onClick={() => check(section.name, option)}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -132,16 +193,11 @@ function Search({ }: Props): ReactElement {
                   검색
                 </button>
               </form>
-
-              {/* Product grid */}
               <div className="lg:col-span-3">
-                {/* Replace with your content */}
                 <div className="">
                   <div className="font-bold text-2xl mb-4">검색 결과</div>
                   {index === 0 ? <TeamList list={searchList} /> : "교육생 검색"}
                 </div>
-                {/* <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" /> */}
-                {/* /End replace */}
               </div>
             </div>
           </section>

@@ -19,7 +19,7 @@ function LoginModal({ }: Props): ReactElement {
       .then((res: unknown | any) => {
         console.log(res.data);
         // 데이터정보 날려주기
-        axios.post('/api/userlogin')
+        // axios.post('/api/userlogin')
         // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
         // router.push("/ManageMain");
         // router.push("/StudentMain")
