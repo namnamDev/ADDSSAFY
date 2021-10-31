@@ -4,4 +4,6 @@ import com.add.ssafy.dto.response.BaseResponse;
 
 public interface TeamSvcInter {
     BaseResponse getTeamUserList(Long teamPK);
+
+    BaseResponse getTeamList(int projectCode);
 }

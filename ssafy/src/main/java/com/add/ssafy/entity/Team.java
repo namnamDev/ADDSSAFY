@@ -29,4 +29,6 @@ public class Team {
     private Boolean prize;
 
     private String introduce;
+
+    private String webexLink;
 }

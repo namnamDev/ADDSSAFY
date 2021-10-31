@@ -1,19 +1,20 @@
 package com.add.ssafy.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
-@Getter
-@Setter
-@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TeamDto {
     private Long teamPK;
-    private String sebexLink;
+    private String name;
+    private String introduce;
+    private String webexLink;
     private String ppt;
-    private List<HashTagDto> want;
-    private List<HashTagDto> need;
-    private Long userQuanty;
+//    private Long userQuanty;
+    private List<UserDto> teamuser;
+//    private Map<String,Object> need;
 }
