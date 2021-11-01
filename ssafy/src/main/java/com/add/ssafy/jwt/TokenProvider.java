@@ -45,8 +45,12 @@ public class TokenProvider {
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
 
         // accessToken 생성
-        String accessToken = Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512).setExpiration(accessTokenExpiresIn).compact();
+        String accessToken = Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setExpiration(accessTokenExpiresIn)
+                .compact();
 
         // RefreshToken 생성
         String refreshToken = Jwts.builder().setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
