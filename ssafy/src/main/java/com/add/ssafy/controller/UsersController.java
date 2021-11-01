@@ -6,10 +6,7 @@ import com.add.ssafy.entity.Member;
 import com.add.ssafy.service.MemberSvcInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,5 +19,9 @@ public class UsersController {
 
         memberSvcInter.loginOrSignup(userRequest);
         return ResponseEntity.ok(memberSvcInter.login(userRequest));
+    }
+    @GetMapping("/detail/{userPK}")
+    public ResponseEntity getUserDetail(@PathVariable(name="userPK")Long userPK ){
+        return ResponseEntity.ok(memberSvcInter.getUserDetail(userPK));
     }
 }

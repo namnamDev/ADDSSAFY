@@ -48,6 +48,10 @@ public class Member {
     private String address;
 
     private String mmid;
+
+    private boolean isLeave;
+
+    private String userPhone;
     @Enumerated(EnumType.STRING)
     private Authority authority;
 

@@ -8,4 +8,6 @@ public interface MemberSvcInter {
     Member loginOrSignup(UserRequest userRequest);
 
     BaseResponse login(UserRequest userRequest);
+
+    BaseResponse getUserDetail(Long userPK);
 }
