@@ -52,10 +52,10 @@ function StudentNavbar({}: Props): ReactElement {
     window.location.reload();
   }
   async function gototeammenu(teammenu: number) {
-    await router.push(
-      `/StudentTeamBuildingCurrent/?projectNo=${teammenu}`,
-      "/StudentTeamBuildingCurrent"
-    );
+    await router.push({
+      pathname: `/StudentTeamBuildingCurrent`,
+      query: { projectNo: teammenu },
+    });
     window.location.reload();
   }
   return (
@@ -182,9 +182,7 @@ function StudentNavbar({}: Props): ReactElement {
                                   <p className="text-base font-medium text-gray-900">
                                     {board.name}
                                   </p>
-                                  <p className="mt-1 text-sm text-gray-500">
-                                    {board.description}
-                                  </p>
+                                  <p className="mt-1 text-sm text-gray-500">{board.description}</p>
                                 </div>
                               </div>
                             ))}

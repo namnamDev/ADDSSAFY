@@ -1,12 +1,21 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import StudentNavbar from "../components/basic/StudentNavbar";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
-import Countdown from "react-countdown";
 import Footer from "../components/basic/Footer";
-import SearchCopy from "./SearchCopy";
-
+import TeamSearchHashTag from "../components/hashtag/TeamSearchHashTag";
+import UserSearchHashTag from "../components/hashtag/UserSearchHashTag";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import TeamDump from "../dummy/json/teamDump.json";
+import TeamOfferList from "../components/Team/TeamOfferList";
+import TeamOfferedList from "../components/Team/TeamOfferedList";
+import UserOfferList from "../components/user/UserOfferList";
+import UserOfferedList from "../components/user/UserOfferedList";
 interface Props {}
 
 function StudentTeamBuildingCurrent({}: Props): ReactElement {
@@ -15,6 +24,20 @@ function StudentTeamBuildingCurrent({}: Props): ReactElement {
   const endTime = moment("2021-12-25 24:00:00");
   var duration = moment.duration(endTime.diff(nowTime));
   var rest = duration.asSeconds();
+
+  const [value, setValue] = React.useState("1");
+  const [searchList, setSearchList] = useState<number[]>(TeamDump);
+  const [isTeam, setIsTeam] = useState(false);
+  const handleChange = (event: any, newValue: string) => {
+    setValue(newValue);
+  };
+  const myTeam = () => {
+    router.push(`/StudentTeamDetail`);
+  };
+  const createTeam = () => {
+    router.push(`/StudentTeamCreate`);
+  };
+  const idx = router.query.projectNo;
 
   // 팀 현황
   const Teams = [
@@ -44,6 +67,30 @@ function StudentTeamBuildingCurrent({}: Props): ReactElement {
     <div className="">
       <StudentNavbar />
       <div className="text-center w-2/3 mx-auto">
+        <div className="grid grid-cols-2 mt-4">
+          <div className="self-center place-self-start ml-4 font-bold text-xl">
+            {idx === "1" ? "공통 프로젝트" : idx === "2" ? "특화 프로젝트" : "자율 프로젝트"}
+          </div>
+          <div className="place-self-end">
+            {isTeam ? (
+              <button
+                type="button"
+                className=" px-8 py-2 bg-gray-600 text-white rounded-lg  shadow-sm hover:bg-gray-500 focus:ring-2 focus:ring-indigo-200 m-2 "
+                onClick={myTeam}
+              >
+                내 팀 보기
+              </button>
+            ) : (
+              <button
+                type="button"
+                className=" px-8 py-2 bg-gray-600 text-white rounded-lg  shadow-sm hover:bg-gray-500 focus:ring-2 focus:ring-indigo-200 m-2 "
+                onClick={createTeam}
+              >
+                팀 생성
+              </button>
+            )}
+          </div>
+        </div>
         <div className="mb-3 font-bold text-black my-5">생성된 팀목록</div>
         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
@@ -116,8 +163,47 @@ function StudentTeamBuildingCurrent({}: Props): ReactElement {
             </tbody>
           </table>
         </div>
-        <div className="mt-5">
-          <SearchCopy />
+        {/* 받은 제안 보기 */}
+        {isTeam ? (
+          <div className="grid grid-cols-2 mt-4">
+            <div>
+              <div className="font-bold">교육생에게 보낸 제안</div>
+              <UserOfferList list={searchList} />
+            </div>
+            <div>
+              <div className="font-bold">교육생에게 받은 제안</div>
+              <UserOfferedList list={searchList} />
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 mt-4">
+            <div>
+              <div className="font-bold">팀에게 보낸 제안</div>
+              <TeamOfferList list={searchList} />
+            </div>
+            <div>
+              <div className="font-bold">팀에게 받은 제안</div>
+              <TeamOfferedList list={searchList} />
+            </div>
+          </div>
+        )}
+
+        {/* 검색 기능 */}
+        <div className="mt-4">
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList onChange={handleChange} aria-label="lab API tabs example">
+                <Tab label="팀 검색" value="1" />
+                <Tab label="교육생 검색" value="2" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <TeamSearchHashTag />
+            </TabPanel>
+            <TabPanel value="2">
+              <UserSearchHashTag />
+            </TabPanel>
+          </TabContext>
         </div>
       </div>
       <Footer />

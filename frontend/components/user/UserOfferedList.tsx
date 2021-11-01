@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
-import TeamOfferCard from "./TeamOfferCard";
+import Image from "next/image";
+import UserOfferedCard from "./UserOfferedCard";
 const people = [
   {
     userId: 1,
@@ -80,7 +81,7 @@ interface Props {
   list: number[];
 }
 
-function TeamOfferList({ list }: Props): ReactElement {
+function UserOfferedList({ list }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -92,7 +93,7 @@ function TeamOfferList({ list }: Props): ReactElement {
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 h-16">
                 <tr>
                   <th
                     scope="col"
@@ -104,19 +105,25 @@ function TeamOfferList({ list }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Status
+                    Class Info
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Cancel
+                    Accept
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Refusal
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {list.map((teamPk) => (
-                  <TeamOfferCard key={teamPk} teamPK={teamPk} />
+                {people.map((person) => (
+                  <UserOfferedCard key={person.userId} person={person} />
                 ))}
               </tbody>
             </table>
@@ -127,4 +134,4 @@ function TeamOfferList({ list }: Props): ReactElement {
   );
 }
 
-export default TeamOfferList;
+export default UserOfferedList;

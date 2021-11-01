@@ -7,6 +7,8 @@ import Link from "next/link";
 import UserHashTag from "../components/hashtag/UserHashTag";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
+import Footer from "../components/basic/Footer";
 interface Props {}
 
 interface list {
@@ -30,8 +32,8 @@ function StudentMypage({}: Props): ReactElement {
   };
   const router = useRouter();
   const PK = router.query.userPK;
-  const [can, setCan] = useState<list[]>([]);
-  const [want, setWant] = useState<list[]>([]);
+  const [can, setCan] = useState<number[]>([]);
+  const [want, setWant] = useState<number[]>([]);
   // 퇴소처리
   function leave(PK: number) {
     return;
@@ -43,6 +45,8 @@ function StudentMypage({}: Props): ReactElement {
   useEffect(() => {
     return () => {};
   }, []);
+  console.log(can);
+  console.log(want);
   return (
     <div>
       <StudentNavbar />
@@ -92,10 +96,10 @@ function StudentMypage({}: Props): ReactElement {
             </dl>
           </div>
         </div>
-        <div className="mt-4 font-bold text-lg">기술스택 등록</div>
-        <DndProvider backend={HTML5Backend}>
+        <UserCreateHashTag onCanChanged={setCan} onWantChanged={setWant} />
+        {/* <DndProvider backend={HTML5Backend}>
           <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
-        </DndProvider>
+        </DndProvider> */}
 
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
@@ -119,6 +123,7 @@ function StudentMypage({}: Props): ReactElement {
           </span>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

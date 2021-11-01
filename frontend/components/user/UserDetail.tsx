@@ -16,11 +16,9 @@ const person = {
   sigfiles: ["공통프로젝트", "특화프로젝트"],
 };
 
-interface Props {
-  userPK: number;
-}
+interface Props {}
 
-function UserDetail({ userPK }: Props): ReactElement {
+function UserDetail({}: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const Router = useRouter();
