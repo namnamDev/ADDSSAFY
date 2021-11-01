@@ -1,15 +1,14 @@
 package com.add.ssafy.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@Builder
+@Builder @NoArgsConstructor
+@AllArgsConstructor
 // id, 팀id, 팀장유무
 public class TeamMember {
 
