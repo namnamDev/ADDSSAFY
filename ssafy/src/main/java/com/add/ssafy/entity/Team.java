@@ -1,8 +1,6 @@
 package com.add.ssafy.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +10,8 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-@Builder
+@Builder @NoArgsConstructor
+@AllArgsConstructor
 // id, 팀명, ppt주소, 팀 구분, 상 여부, 팀 소개
 public class Team {
 
