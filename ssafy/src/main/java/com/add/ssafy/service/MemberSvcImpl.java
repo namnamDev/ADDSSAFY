@@ -1,7 +1,11 @@
 package com.add.ssafy.service;
 
+import com.add.ssafy.Repository.MemberHashtagRepo;
 import com.add.ssafy.Repository.MemberRepo;
+import com.add.ssafy.dto.HashTagsDto;
+import com.add.ssafy.dto.MemberAddTagsDto;
 import com.add.ssafy.dto.TokenDto;
+import com.add.ssafy.dto.UserDetailDto;
 import com.add.ssafy.dto.request.UserRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.Member;
@@ -16,6 +20,9 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,6 +31,9 @@ import java.util.Optional;
 public class MemberSvcImpl implements MemberSvcInter {
     @Autowired
     MemberRepo memberRepo;
+
+    @Autowired
+    MemberHashtagRepo memberHashtagRepo;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -78,5 +88,21 @@ public class MemberSvcImpl implements MemberSvcInter {
         return BaseResponse.builder().status("200").msg("login").data(jwt).build();
 
 
+    }
+    @Override
+    public BaseResponse getUserDetail(Long userPK){
+
+        UserDetailDto tempMember = memberRepo.findUserDetailDTOById(userPK);
+
+        MemberAddTagsDto res = new MemberAddTagsDto();
+        Map<String,Object> memberHashtags = new HashMap<>();
+        List<HashTagsDto> tempTags = memberHashtagRepo.gethashtags(userPK);
+        for(int g = 0 ; g < tempTags.size();g++){
+            HashTagsDto temp = tempTags.get(g);
+            memberHashtags.put(temp.getHashTagProp().toString(), temp.getHashtags());
+        }
+        res.setMemberHashTags(memberHashtags);
+        res.setUserDetailDto(tempMember);
+        return BaseResponse.builder().status("200").msg("성공").data(res).build();
     }
 }
