@@ -81,7 +81,7 @@ interface Props {
   list: number[];
 }
 
-function TeamList({ list }: Props): ReactElement {
+function TeamOfferList({ list }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -141,4 +141,4 @@ function TeamList({ list }: Props): ReactElement {
   );
 }
 
-export default TeamList;
+export default TeamOfferList;

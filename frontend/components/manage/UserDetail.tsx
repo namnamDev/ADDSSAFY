@@ -28,46 +28,32 @@ function UserDetail({}: Props): ReactElement {
     <div className="mx-48">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            교육생 정보
-          </h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">교육생 정보</h3>
         </div>
         <div className="border-t border-gray-200">
           <dl>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이름</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {person.name}
-              </dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{person.name}</dd>
             </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">주소</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {person.address}
-              </dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{person.address}</dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">연락처</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                ?
-              </dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">?</dd>
             </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이메일주소</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {person.address}
-              </dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{person.address}</dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">퇴소유무</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                $120,000
-              </dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">$120,000</dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                교육지원금 서명파일
-              </dt>
+              <dt className="text-sm font-medium text-gray-500">교육지원금 서명파일</dt>
               <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <ul
                   role="list"
@@ -80,15 +66,10 @@ function UserDetail({}: Props): ReactElement {
                     >
                       <div className="w-0 flex-1 flex items-center">
                         <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                        <span className="ml-2 flex-1 w-0 truncate">
-                          {month}.jpg
-                        </span>
+                        <span className="ml-2 flex-1 w-0 truncate">{month}.jpg</span>
                       </div>
                       <div className="ml-4 flex-shrink-0">
-                        <a
-                          href="#"
-                          className="font-medium text-blue-600 hover:text-blue-500"
-                        >
+                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
                           Download
                         </a>
                       </div>
@@ -113,10 +94,7 @@ function UserDetail({}: Props): ReactElement {
             type="button"
             className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
             onClick={() =>
-              router.push(
-                `/ManageUserDetailEdit/?userId=${PK}`,
-                "/ManageUserDetailEdit"
-              )
+              router.push(`/ManageUserDetailEdit/?userId=${PK}`, "/ManageUserDetailEdit")
             }
           >
             정보수정

@@ -6,6 +6,7 @@ import TeamList from "../components/Team/TeamList";
 import TeamDump from "../dummy/json/teamDump.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import UserList from "../components/user/UserList";
 
 interface Props {}
 
@@ -28,6 +29,8 @@ function Search({}: Props): ReactElement {
     console.log(except);
     setSearchList(TeamDump);
   };
+  const[person,setPerson]=useState();
+
   useEffect(() => {
     setSearchList([]);
   }, [index]);
@@ -81,7 +84,7 @@ function Search({}: Props): ReactElement {
         {/* 검색 결과 */}
         <div className="">
           <div className="font-bold text-2xl mb-4">검색 결과</div>
-          {index === 0 ? <TeamList list={searchList} /> : "교육생 검색"}
+          {index === 0 ? <TeamList list={searchList} /> : <UserList list={searchList} />}
         </div>
       </div>
     </div>

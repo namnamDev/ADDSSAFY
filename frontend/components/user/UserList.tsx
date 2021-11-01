@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import TeamCard from "./TeamCard";
+import UserCard from "./UserCard";
 const people = [
   {
     userId: 1,
@@ -81,7 +81,7 @@ interface Props {
   list: number[];
 }
 
-function TeamList({ list }: Props): ReactElement {
+function UserList({ list }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -129,8 +129,8 @@ function TeamList({ list }: Props): ReactElement {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {list.map((teamPk) => (
-                  <TeamCard key={teamPk} teamPK={teamPk} />
+                {people.map((person) => (
+                  <UserCard key={person.userId} person={person} />
                 ))}
               </tbody>
             </table>
@@ -141,4 +141,4 @@ function TeamList({ list }: Props): ReactElement {
   );
 }
 
-export default TeamList;
+export default UserList;
