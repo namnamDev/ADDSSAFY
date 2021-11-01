@@ -3,10 +3,11 @@ import StudentNavbar from "../components/basic/StudentNavbar";
 import UserHashTag from "../components/hashtag/UserHashTag";
 import TeamHashTag from "../components/hashtag/TeamHashTag";
 import TeamList from "../components/Team/TeamList";
+import UserList from "../components/user/UserList";
 import TeamDump from "../dummy/json/teamDump.json";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import UserList from "../components/user/UserList";
+import Footer from "../components/basic/Footer";
 
 interface Props {}
 
@@ -29,7 +30,7 @@ function Search({}: Props): ReactElement {
     console.log(except);
     setSearchList(TeamDump);
   };
-  const[person,setPerson]=useState();
+  const [person, setPerson] = useState();
 
   useEffect(() => {
     setSearchList([]);
@@ -87,6 +88,7 @@ function Search({}: Props): ReactElement {
           {index === 0 ? <TeamList list={searchList} /> : <UserList list={searchList} />}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

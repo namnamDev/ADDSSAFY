@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import LoginModal from "../components/user/LoginModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
+import Image from "next/image";
 
-interface Props {}
+interface Props { }
 
-function Main({}: Props): ReactElement {
+function Main({ }: Props): ReactElement {
   const router = useRouter();
 
   const cancelButtonRef = useRef(null);
@@ -16,7 +17,7 @@ function Main({}: Props): ReactElement {
   // 로그인 상태 체크
   setTimeout(() => {
     setclick(true);
-  }, 3900);
+  }, 3000);
   // +ssafy 클릭했을때 실행
   function enter() {
     // 로그인돼있는지 확인 토큰으로
@@ -115,6 +116,12 @@ function Main({}: Props): ReactElement {
                   </button>
                 </div>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <Image
+                    src="/images/mmlogo.png"
+                    alt=""
+                    width="500"
+                    height="95"
+                  />
                   <LoginModal />
                 </div>
               </div>

@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import ProNavbar from "../components/basic/ProNavbar";
 import { useRouter } from "next/router";
 import { PencilIcon } from "@heroicons/react/solid";
+import StudentNavbar from "../components/basic/StudentNavbar";
 import Footer from "../components/basic/Footer";
 const notices = [
   {
@@ -36,11 +36,11 @@ const notices = [
 ];
 interface Props { }
 
-function Notice({ }: Props): ReactElement {
+function StudentNotice({ }: Props): ReactElement {
   const router = useRouter();
   return (
     <div>
-      <ProNavbar />
+      <StudentNavbar />
       <div className="flex flex-col mx-8">
         <br />
         <div className="flex-1 min-w-0 text-center">
@@ -138,4 +138,4 @@ function Notice({ }: Props): ReactElement {
   );
 }
 
-export default Notice;
+export default StudentNotice;

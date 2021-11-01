@@ -1,13 +1,17 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, Fragment } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
+import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
 import Countdown from "react-countdown";
+import Footer from "../components/basic/Footer";
+import axios from "axios";
 
-interface Props {}
 
-function ManageUserTeamBuilding({}: Props): ReactElement {
+interface Props { }
+
+function ManageUserTeamBuilding({ }: Props): ReactElement {
   const router = useRouter();
   const projectNo = router.query.projectNo;
   // projectNo와 교육프로정보 같이보내서 기간 정보 가져오기
@@ -18,6 +22,7 @@ function ManageUserTeamBuilding({}: Props): ReactElement {
   var duration = moment.duration(endTime.diff(nowTime));
   var rest = duration.asSeconds();
 
+  axios.get('/api/team/teamuser/3').then((res:any) => console.log(res.data.data)).catch()
   // 팀없는사람 목록
   const NoTeam = [
     {
@@ -222,12 +227,6 @@ function ManageUserTeamBuilding({}: Props): ReactElement {
                   >
                     Team Member5
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Team Member5
-                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -263,6 +262,7 @@ function ManageUserTeamBuilding({}: Props): ReactElement {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

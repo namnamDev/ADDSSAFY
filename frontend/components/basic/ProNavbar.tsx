@@ -27,9 +27,9 @@ const projects = [
     href: "#",
   },
 ];
-interface Props {}
+interface Props { }
 
-function ProNavbar({}: Props): ReactElement {
+function ProNavbar({ }: Props): ReactElement {
   const router = useRouter();
   async function gotoproject(projectNo: number) {
     await router.push(
@@ -74,7 +74,6 @@ function ProNavbar({}: Props): ReactElement {
             >
               서명지원금관리
             </div>
-
             <Popover.Group as="nav" className="hidden md:flex space-x-10">
               <Popover className="relative">
                 {({ open }) => (
@@ -141,12 +140,12 @@ function ProNavbar({}: Props): ReactElement {
             </div>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <a
-                href="#"
+              <div
+
                 className="whitespace-nowrap text-xs font-medium text-gray-500 hover:text-gray-900"
               >
                 교육프로ID
-              </a>
+              </div>
 
               <Menu as="div" className="ml-3 relative">
                 <div>

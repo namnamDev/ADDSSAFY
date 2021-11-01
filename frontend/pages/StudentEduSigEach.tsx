@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef, ReactElement } from "react";
 import StudentNavbar from "../components/basic/StudentNavbar";
 import SignaturePad from "signature_pad";
-interface Props {}
+import Footer from "../components/basic/Footer";
+interface Props { }
 
 let sigPad: any = null;
 
-function StudentEduSigEach({}: Props): ReactElement {
+function StudentEduSigEach({ }: Props): ReactElement {
   const router = useRouter();
   const month = router.query.month;
   //
@@ -29,8 +30,8 @@ function StudentEduSigEach({}: Props): ReactElement {
   return (
     <div>
       <StudentNavbar />
-      <div className="mt-5 mx-60">
-        <form action="#" method="POST">
+      <div className="flex items-stretch">
+        <div className="mt-10 w-3/4 mx-auto">
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
@@ -104,8 +105,9 @@ function StudentEduSigEach({}: Props): ReactElement {
               </button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

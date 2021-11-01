@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
-import ProNavbar from "../components/basic/ProNavbar";
-import axios from "axios";
 import Footer from "../components/basic/Footer";
+import StudentNavbar from "../components/basic/StudentNavbar";
+
 interface Props { }
 
-function NoticeEdit({ }: Props): ReactElement {
+function BoardConfessionCreate({ }: Props): ReactElement {
   return (
     <div>
-      <ProNavbar />
-      <div className="mt-5 md:mt-0 md:col-span-2">
+      <StudentNavbar />
+      <div className="mt-5 mx-48">
         <div className="shadow overflow-hidden sm:rounded-md">
           <div className="px-4 py-5 bg-white sm:p-6">
             <div className="">
@@ -41,7 +41,7 @@ function NoticeEdit({ }: Props): ReactElement {
               type="submit"
               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Save
+              Submit
             </button>
           </div>
         </div>
@@ -51,4 +51,4 @@ function NoticeEdit({ }: Props): ReactElement {
   );
 }
 
-export default NoticeEdit;
+export default BoardConfessionCreate;

@@ -5,6 +5,7 @@ import axios from "axios";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TeamHashTag from "../components/hashtag/TeamHashTag";
+import Footer from "../components/basic/Footer";
 
 interface Props {}
 
@@ -78,6 +79,7 @@ function TeamCreate({}: Props): ReactElement {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -2,9 +2,10 @@ import React, { ReactElement } from "react";
 import StudentNavbar from "../components/basic/StudentNavbar";
 import { CheckIcon, LinkIcon, PencilIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-interface Props {}
+import Footer from "../components/basic/Footer";
+interface Props { }
 
-function StudentEduSigMain({}: Props): ReactElement {
+function StudentEduSigMain({ }: Props): ReactElement {
   const router = useRouter();
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   return (
@@ -83,6 +84,7 @@ function StudentEduSigMain({}: Props): ReactElement {
           </div>
         </div>
       ))}
+      <Footer />
     </div>
   );
 }
