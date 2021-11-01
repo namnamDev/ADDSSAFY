@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment } from "react";
+import React, { ReactElement, Fragment, useEffect } from "react";
 import ProNavbar from "../components/basic/ProNavbar";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/router";
@@ -14,15 +14,22 @@ interface Props { }
 function ManageUserTeamBuilding({ }: Props): ReactElement {
   const router = useRouter();
   const projectNo = router.query.projectNo;
-  // projectNo와 교육프로정보 같이보내서 기간 정보 가져오기
 
+  // projectNo와 교육프로정보 같이보내서 기간 정보 가져오기
+  // 팀 현황
+  const Teams: object[] = [];
+  useEffect(() => {
+    axios.get(`/api/team/${projectNo}`, {
+      headers: { Authorization: JSON.parse(localStorage.getItem("token")!) }
+    })
+      .then((res) => console.log(res))
+
+  }, [])
   // 카운트다운 만들기
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
   var duration = moment.duration(endTime.diff(nowTime));
   var rest = duration.asSeconds();
-
-  axios.get('/api/team/teamuser/3').then((res:any) => console.log(res.data.data)).catch()
   // 팀없는사람 목록
   const NoTeam = [
     {
@@ -74,30 +81,7 @@ function ManageUserTeamBuilding({ }: Props): ReactElement {
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
     },
   ];
-  // 팀 현황
-  const Teams = [
-    {
-      teamId: 1,
-      leader: "Jane Cooper",
-      members: ["a", "b", "c", "d", "e"],
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-    {
-      teamId: 2,
-      leader: "Jane Cooper",
-      members: ["a", "b", "c", "d", "e"],
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-    {
-      teamId: 3,
-      leader: "Jane Cooper",
-      members: ["a", "b", "c", "d", "e"],
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-  ];
+
   return (
     <div className="text-center">
       <ProNavbar />
@@ -229,7 +213,7 @@ function ManageUserTeamBuilding({ }: Props): ReactElement {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              {/* <tbody className="bg-white divide-y divide-gray-200">
                 {Teams.map((team) => (
                   <tr key={team.teamId}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -257,7 +241,7 @@ function ManageUserTeamBuilding({ }: Props): ReactElement {
                     ))}
                   </tr>
                 ))}
-              </tbody>
+              </tbody> */}
             </table>
           </div>
         </div>
