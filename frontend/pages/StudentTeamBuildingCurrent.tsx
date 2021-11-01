@@ -7,9 +7,9 @@ import Countdown from "react-countdown";
 import Footer from "../components/basic/Footer";
 import SearchCopy from "./SearchCopy";
 
-interface Props { }
+interface Props {}
 
-function StudentTeamBuildingCurrent({ }: Props): ReactElement {
+function StudentTeamBuildingCurrent({}: Props): ReactElement {
   const router = useRouter();
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
@@ -102,14 +102,12 @@ function StudentTeamBuildingCurrent({ }: Props): ReactElement {
                         />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          {team.leader}
-                        </div>
+                        <div className="text-sm font-medium text-gray-900">{team.leader}</div>
                       </div>
                     </div>
                   </td>
                   {team.members.map((member) => (
-                    <td className="px-6 py-4 whitespace-nowrap" key="member">
+                    <td className="px-6 py-4 whitespace-nowrap" key={member}>
                       <div className="text-sm text-gray-900">{member}</div>
                     </td>
                   ))}

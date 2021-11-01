@@ -1,134 +1,183 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import { Disclosure } from '@headlessui/react'
-import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid'
+import { Disclosure } from "@headlessui/react";
+import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import UserHashTag from "../components/hashtag/UserHashTag";
 import TeamHashTag from "../components/hashtag/TeamHashTag";
 import TeamList from "../components/Team/TeamList";
 import TeamDump from "../dummy/json/teamDump.json";
-
-const filters = [
+import axios from "axios";
+import { filter } from "vue/types/umd";
+const filters: filters[] = [
   {
-    id: 'can',
-    name: 'can',
+    id: "can",
+    name: "can",
     options: [
-      { value: 'Spring', label: 'Spring', checked: false },
-      { value: 'Django', label: 'Django', checked: false },
-      { value: 'OracleDB', label: 'OracleDB', checked: false },
-      { value: 'JPA', label: 'JPA', checked: false },
-      { value: 'QueryDSL', label: 'QueryDSL', checked: false },
-      { value: 'Mybatis', label: 'Mybatis', checked: false },
-      { value: 'STS', label: 'STS', checked: false },
-      { value: 'Intellij', label: 'Intellij', checked: false },
-      { value: 'Vue', label: 'Vue', checked: false },
-      { value: 'TypeScript', label: 'TypeScript', checked: false },
-      { value: 'Bootstrap', label: 'Bootstrap', checked: false },
-      { value: 'JavaScript', label: 'JavaScript', checked: false },
-      { value: 'Node.Js', label: 'Node.Js', checked: false },
-      { value: 'Jenkins', label: 'Jenkins', checked: false },
-      { value: 'AI', label: 'AI', checked: false },
-      { value: 'BigData', label: 'BigData', checked: false },
-      { value: 'BlockChain', label: 'BlockChain', checked: false },
-      { value: 'IOT', label: 'IOT', checked: false },
-      { value: 'UCC', label: 'UCC', checked: false },
-      { value: 'PPT', label: 'PPT', checked: false },
-      { value: 'Presentation', label: 'Presentation', checked: false },
+      // { value: "Spring", label: "Spring", checked: false },
+      // { value: "Django", label: "Django", checked: false },
+      // { value: "OracleDB", label: "OracleDB", checked: false },
+      // { value: "JPA", label: "JPA", checked: false },
+      // { value: "QueryDSL", label: "QueryDSL", checked: false },
+      // { value: "Mybatis", label: "Mybatis", checked: false },
+      // { value: "STS", label: "STS", checked: false },
+      // { value: "Intellij", label: "Intellij", checked: false },
+      // { value: "Vue", label: "Vue", checked: false },
+      // { value: "TypeScript", label: "TypeScript", checked: false },
+      // { value: "Bootstrap", label: "Bootstrap", checked: false },
+      // { value: "JavaScript", label: "JavaScript", checked: false },
+      // { value: "Node.Js", label: "Node.Js", checked: false },
+      // { value: "Jenkins", label: "Jenkins", checked: false },
+      // { value: "AI", label: "AI", checked: false },
+      // { value: "BigData", label: "BigData", checked: false },
+      // { value: "BlockChain", label: "BlockChain", checked: false },
+      // { value: "IOT", label: "IOT", checked: false },
+      // { value: "UCC", label: "UCC", checked: false },
+      // { value: "PPT", label: "PPT", checked: false },
+      // { value: "Presentation", label: "Presentation", checked: false },
     ],
   },
   {
-    id: 'want',
-    name: 'want',
+    id: "want",
+    name: "want",
     options: [
-      { value: 'Spring', label: 'Spring', checked: false },
-      { value: 'Django', label: 'Django', checked: false },
-      { value: 'OracleDB', label: 'OracleDB', checked: false },
-      { value: 'JPA', label: 'JPA', checked: false },
-      { value: 'QueryDSL', label: 'QueryDSL', checked: false },
-      { value: 'Mybatis', label: 'Mybatis', checked: false },
-      { value: 'STS', label: 'STS', checked: false },
-      { value: 'Intellij', label: 'Intellij', checked: false },
-      { value: 'Vue', label: 'Vue', checked: false },
-      { value: 'TypeScript', label: 'TypeScript', checked: false },
-      { value: 'Bootstrap', label: 'Bootstrap', checked: false },
-      { value: 'JavaScript', label: 'JavaScript', checked: false },
-      { value: 'Node.Js', label: 'Node.Js', checked: false },
-      { value: 'Jenkins', label: 'Jenkins', checked: false },
-      { value: 'AI', label: 'AI', checked: false },
-      { value: 'BigData', label: 'BigData', checked: false },
-      { value: 'BlockChain', label: 'BlockChain', checked: false },
-      { value: 'IOT', label: 'IOT', checked: false },
-      { value: 'UCC', label: 'UCC', checked: false },
-      { value: 'PPT', label: 'PPT', checked: false },
-      { value: 'Presentation', label: 'Presentation', checked: false },
+      // { value: "Spring", label: "Spring", checked: false },
+      // { value: "Django", label: "Django", checked: false },
+      // { value: "OracleDB", label: "OracleDB", checked: false },
+      // { value: "JPA", label: "JPA", checked: false },
+      // { value: "QueryDSL", label: "QueryDSL", checked: false },
+      // { value: "Mybatis", label: "Mybatis", checked: false },
+      // { value: "STS", label: "STS", checked: false },
+      // { value: "Intellij", label: "Intellij", checked: false },
+      // { value: "Vue", label: "Vue", checked: false },
+      // { value: "TypeScript", label: "TypeScript", checked: false },
+      // { value: "Bootstrap", label: "Bootstrap", checked: false },
+      // { value: "JavaScript", label: "JavaScript", checked: false },
+      // { value: "Node.Js", label: "Node.Js", checked: false },
+      // { value: "Jenkins", label: "Jenkins", checked: false },
+      // { value: "AI", label: "AI", checked: false },
+      // { value: "BigData", label: "BigData", checked: false },
+      // { value: "BlockChain", label: "BlockChain", checked: false },
+      // { value: "IOT", label: "IOT", checked: false },
+      // { value: "UCC", label: "UCC", checked: false },
+      // { value: "PPT", label: "PPT", checked: false },
+      // { value: "Presentation", label: "Presentation", checked: false },
     ],
   },
   {
-    id: 'except',
-    name: 'except',
+    id: "except",
+    name: "except",
     options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: false },
+      // { value: "2l", label: "2L", checked: false },
+      // { value: "6l", label: "6L", checked: false },
+      // { value: "12l", label: "12L", checked: false },
+      // { value: "18l", label: "18L", checked: false },
+      // { value: "20l", label: "20L", checked: false },
+      // { value: "40l", label: "40L", checked: false },
     ],
   },
-]
+];
 function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
-interface Props { }
+interface Props {}
 
 interface list {
   hashTagPK: number;
-  title: string;
-  prop: string;
-  image: string;
+  hashTagName: string;
+  hashTagProp: string;
+  check: boolean;
 }
-
-function Search({ }: Props): ReactElement {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+interface filters {
+  id: string;
+  name: string;
+  options: list[];
+}
+function Search({}: Props): ReactElement {
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [can, setCan] = useState<list[]>([]);
   const [want, setWant] = useState<list[]>([]);
   const [except, setExcept] = useState<list[]>([]);
   const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
-  const [checked, setchecked] = useState<any>([])
-
+  const [checked, setchecked] = useState<any>([]);
+  const [hashTagList, setHashTagList] = useState();
   const check = (section: any, option: any) => {
     if (section === "can") {
       // 추가하는부분
-      if (option.checked === false) {
-        option.checked = true
-        console.log(option.checked)
+      if (option.check === false) {
+        option.check = true;
+        can.push(option.hashTagPK);
       }
       // 빼는부분
       else if (option.checked === true) {
-        option.checked = false
-        console.log(option.checked)
+        option.checked = false;
+        const temp = can.filter((value) => {
+          value != option.hashTagPK;
+        });
+        setCan(temp);
       }
-    }
-    else if (section === "want") {
+    } else if (section === "want") {
       // 추가하는부분
       if (option.checked === false) {
-        option.checked = true
-        console.log(option.checked)
+        option.check = true;
+        want.push(option.hashTagPK);
       }
       // 빼는부분
       else if (option.checked === true) {
-        option.checked = false
-        console.log(option.checked)
+        option.checked = false;
+        const temp = want.filter((value) => {
+          value != option.hashTagPK;
+        });
+        setWant(temp);
+      }
+    } else if (section === "except") {
+      // 추가하는부분
+      if (option.checked === false) {
+        option.check = true;
+        except.push(option.hashTagPK);
+      }
+      // 빼는부분
+      else if (option.checked === true) {
+        option.checked = false;
+        const temp = except.filter((value) => {
+          value != option.hashTagPK;
+        });
+        setExcept(temp);
       }
     }
-
-  }
+  };
   const search = () => {
     console.log(can);
     console.log(want);
     console.log(except);
     setSearchList(TeamDump);
   };
+  const getHashTagList = () => {
+    axios.get("/api/search/hashtag").then(function (res: any) {
+      // 할 수 있다.can
+      filters[0].options.push(...res.data.data.BE);
+      filters[0].options.push(...res.data.data.DEVOPS);
+      filters[0].options.push(...res.data.data.ETC);
+      filters[0].options.push(...res.data.data.FE);
+      filters[0].options.push(...res.data.data.FOUR);
+      filters[0].options.push(...res.data.data.GOODBADGE);
+      // 할 수 있다.can
+      filters[1].options.push(...res.data.data.BE);
+      filters[1].options.push(...res.data.data.DEVOPS);
+      filters[1].options.push(...res.data.data.ETC);
+      filters[1].options.push(...res.data.data.FE);
+      filters[1].options.push(...res.data.data.FOUR);
+      filters[1].options.push(...res.data.data.GOODBADGE);
+      // 제외 except
+      filters[2].options.push(...res.data.data.BADBADGE);
+      filters.map((value) => {
+        value.options.map((val) => {
+          val.check = false;
+        });
+      });
+    });
+  };
   useEffect(() => {
+    getHashTagList();
     setSearchList([]);
   }, [index]);
   return (
@@ -161,21 +210,24 @@ function Search({ }: Props): ReactElement {
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
                             {section.options.map((option, optionIdx) => (
-                              <div key={option.value} className="flex items-center">
+                              <div
+                                key={option.hashTagPK + section.name + optionIdx}
+                                className="flex items-center"
+                              >
                                 <input
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
-                                  defaultValue={option.value}
+                                  defaultValue={option.hashTagPK}
                                   type="checkbox"
-                                  defaultChecked={option.checked}
+                                  defaultChecked={option.check}
                                   className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                  onClick={() => check(section.name, option)}
+                                  onClick={() => check(section.name, option.check)}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
                                   className="ml-3 text-sm text-gray-600"
                                 >
-                                  {option.label}
+                                  {option.hashTagName}
                                 </label>
                               </div>
                             ))}
