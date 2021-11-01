@@ -105,23 +105,12 @@ function UserList({ }: Props): ReactElement {
     alert("message");
   }
   // 데이터 모달로
+  const [userdata, setuserdata] = useState<number>(0);
   const [modal, setmodal] = useState(false);
-  function openmodal(data: userdata) {
+  function openmodal(data: number) {
     setmodal(true);
     setuserdata(data);
   }
-  const [userdata, setuserdata] = useState<userdata>({
-    userId: 0,
-    name: "",
-    classNo: 0,
-    address: "",
-    class: "",
-    email: "",
-    phone: "",
-    status: "",
-    image: "",
-    sigfiles: [],
-  });
 
   return (
     <div className="flex flex-col mx-40 mt-2 text-center">
@@ -185,7 +174,7 @@ function UserList({ }: Props): ReactElement {
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900 cursor-pointer"
-                            onClick={() => openmodal(person)}>
+                            onClick={() => openmodal(person.userId)}>
                             {person.name}
                           </div>
                           <div className="text-gray-500 text-xs">
@@ -272,7 +261,7 @@ function UserList({ }: Props): ReactElement {
                 <div className="bg-white">
                   <div className="">
                     <div className="mt-3 text-center mx-auto">
-                      <UserDetail userdata={userdata} />
+                      <UserDetail userPK={userdata} />
                     </div>
                   </div>
                 </div>

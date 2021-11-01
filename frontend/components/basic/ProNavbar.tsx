@@ -34,7 +34,7 @@ function ProNavbar({ }: Props): ReactElement {
   async function gotoproject(projectNo: number) {
     await router.push(
       `/ManageUserTeamBuilding/?projectNo=${projectNo}`,
-      "/ManageUserTeamBuilding"
+      // "/ManageUserTeamBuilding"
     );
     window.location.reload();
   }

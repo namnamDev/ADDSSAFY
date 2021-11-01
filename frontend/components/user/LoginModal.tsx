@@ -30,7 +30,9 @@ function LoginModal({ }: Props): ReactElement {
           // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
           .then((res: any) => {
             console.log(res);
-            localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+            if (typeof window !== 'undefined') {
+              localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+            }
           })
       })
       .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
