@@ -85,6 +85,14 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                 , qMember.blog
                                 , qMember.blog
                                 , qMember.mmid
+
+                                , qMember.authority
+                                , qMember.region
+                                , qMember.classNumber
+                                , qMember.userPhone
+                                , qMember.address
+                                , qMember.studentNumber
+                                , qMember.isLeave
                         )
                 )
                 .from(qMember)
@@ -92,5 +100,41 @@ public class MemberRepoImpl implements MemberRepoCustom{
                 .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
                 .where(qMember.classNumber.eq(ban))
                 .fetch();
+    }
+
+    @Override
+    public UserDetailDto findUserDetailDTOById(Long userPK){
+        QMember qMember = QMember.member;
+        QTeam qTeam= QTeam.team;
+        QTeamMember qTeamMember = QTeamMember.teamMember;
+
+        return  queryFactory.select(
+                        Projections.constructor(
+                                UserDetailDto.class
+                                , qMember.id
+                                , qMember.name
+                                , qMember.email
+                                , qMember.introduce
+                                , qTeam.isNotNull()
+                                , qMember.blog
+                                , qMember.baekjoonId
+                                , qMember.blog
+                                , qMember.blog
+                                , qMember.mmid
+
+                                , qMember.authority
+                                , qMember.region
+                                , qMember.classNumber
+                                , qMember.userPhone
+                                , qMember.address
+                                , qMember.studentNumber
+                                , qMember.isLeave
+                        )
+                )
+                .from(qMember)
+                .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
+                .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
+                .where(qMember.id.eq(userPK))
+                .fetchOne();
     }
 }

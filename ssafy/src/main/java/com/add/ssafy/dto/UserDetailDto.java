@@ -18,4 +18,12 @@ public class UserDetailDto {
     private String portfolio;
     private String git;
     private String mmid;
+
+    private com.add.ssafy.enums.Authority status;
+    private String classRegion;
+    private String classNumber;
+    private String userPhone;
+    private String userAddress;
+    private String studentNumber;
+    private Boolean isleave;
 }
