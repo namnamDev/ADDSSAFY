@@ -1,22 +1,20 @@
 import React, { EventHandler, ReactElement, useState } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import axios from "axios";
-
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import TeamHashTag from "../components/hashtag/TeamHashTag";
+import Footer from "../components/basic/Footer";
+import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
 
 interface Props {}
 
-interface list {
-  hashTagPK: number;
-  title: string;
-  prop: string;
-  image: string;
-}
+// interface list {
+//   hashTagPK: number;
+//   title: string;
+//   prop: string;
+//   image: string;
+// }
 
 function TeamModify({}: Props): ReactElement {
-  const [can, setCan] = useState<list[]>([]);
+  const [can, setCan] = useState<number[]>([]);
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
   const create = () => {
@@ -39,45 +37,58 @@ function TeamModify({}: Props): ReactElement {
   };
   return (
     <div>
-      <StudentNavbar />
-      <div className=" mx-20">
-        {/* 팀 소개, 팀 웹엑스 링크 */}
-        <div className="my-4">
-          <div className="font-bold text-2xl mb-4">팀 정보 수정</div>
-          <div className="">
-            팀 소개
-            <input
-              className="border-2 border-black rounded-lg"
-              value={teamIntro}
-              onChange={onTeamIntroChanged}
-              placeholder="팀 소개를 입력해주세요"
-            ></input>
+      <Navbar />
+      <div className="mx-48">
+        <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
+          <div className="px-4 py-5 sm:px-6">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">팀 만들기</h3>
           </div>
-          <div className="">
-            팀 웹엑스 링크
-            <input
-              className="border-2 border-black rounded-lg"
-              value={teamWebex}
-              onChange={onTeamWebexChanged}
-              placeholder="팀 웹엑스 링크를 입력해주세요"
-            ></input>
+          <div className="border-t border-gray-200">
+            <dl>
+              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">팀 소개</dt>
+                <input
+                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                  placeholder="팀 소개를 입력해주세요"
+                  onChange={(e) => onTeamIntroChanged(e)}
+                />
+              </div>
+              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">웹엑스 주소</dt>
+                <input
+                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                  placeholder="웹엑스 주소를 입력해주세요"
+                  onChange={(e) => onTeamWebexChanged(e)}
+                />
+              </div>
+            </dl>
           </div>
         </div>
-        {/* 해쉬태그 컴포넌트 */}
-        <DndProvider backend={HTML5Backend}>
-          <TeamHashTag onCanChanged={setCan}></TeamHashTag>
-        </DndProvider>
-        {/* 팀 생성 버튼 */}
-        <div className="items-center flex flex-col">
-          <button
-            type="button"
-            className=" px-8 py-2 bg-blue-600 text-white rounded-lg  shadow-sm hover:bg-blue-500 focus:ring-2 focus:ring-indigo-200 m-2 "
-            onClick={create}
-          >
-            팀 정보 수정
-          </button>
+        <TeamCreateHashTag onCanChanged={setCan} />
+        {/* <DndProvider backend={HTML5Backend}>
+          <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
+        </DndProvider> */}
+
+        <div className="mt-5 text-right">
+          <span className="hidden sm:block">
+            <button
+              type="button"
+              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
+              onClick={create}
+            >
+              팀 정보 수정
+            </button>
+            <button
+              type="button"
+              className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
+              onClick={() => history.go(-1)}
+            >
+              나가기
+            </button>
+          </span>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

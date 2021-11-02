@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import UserCard from "./UserCard";
+import UserOfferCard from "./UserOfferCard";
 const people = [
   {
     userId: 1,
@@ -93,7 +93,7 @@ function UserOfferList({ list }: Props): ReactElement {
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 h-16">
                 <tr>
                   <th
                     scope="col"
@@ -112,25 +112,13 @@ function UserOfferList({ list }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Phone
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    MM
+                    Cancel
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {people.map((person) => (
-                  <UserCard key={person.userId} person={person} />
+                  <UserOfferCard key={person.userId} person={person} />
                 ))}
               </tbody>
             </table>

@@ -23,7 +23,7 @@ function Main({ }: Props): ReactElement {
     // 로그인돼있는지 확인 토큰으로
     // 로그인 되어 있으면
     // 토큰에 담긴 유저 타입에 따라 메인페이지로 이동
-    // router.push('/StudentMain')
+    // router.push('/Main')
     // router.push(`/ManageMain`)
     // 안돼있으면 로그인 모달 띄우기
     setLoginModal(true);

@@ -16,8 +16,9 @@ function LoginModal({ }: Props): ReactElement {
         login_id: loginid,
         password: loginpw,
       })
+
       .then((res: unknown | any) => {
-        console.log(res);
+        console.log(res.data.id);
         // 데이터정보 날려주기
         axios.post('/api/users/login',
           {
@@ -29,10 +30,7 @@ function LoginModal({ }: Props): ReactElement {
           // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
           .then((res: any) => {
             console.log(res);
-            if (typeof window !== 'undefined') {
-              localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
-            };
-            router.push('/StudentMain')
+            localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
           })
       })
       .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
