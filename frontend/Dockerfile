@@ -9,6 +9,7 @@ RUN yarn install
 
 
 # Rebuild the source code only when needed
+# FROM node:alpine AS builder
 FROM node:16.13-alpine AS builder
 WORKDIR /app
 COPY . .
