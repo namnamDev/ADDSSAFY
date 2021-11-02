@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import Footer from "../components/basic/Footer";
 
 interface Props {}
 
-function StudentMypage({}: Props): ReactElement {
+function Mypage({}: Props): ReactElement {
   const person = {
     name: "Jane Cooper",
     userId: 1,
@@ -33,7 +33,7 @@ function StudentMypage({}: Props): ReactElement {
   }, []);
   return (
     <div>
-      <StudentNavbar />
+      <Navbar />
       <div className="mx-48">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"></div>
@@ -165,4 +165,4 @@ function StudentMypage({}: Props): ReactElement {
   );
 }
 
-export default StudentMypage;
+export default Mypage;

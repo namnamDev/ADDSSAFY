@@ -1,10 +1,7 @@
 import React, { EventHandler, ReactElement, useState } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import axios from "axios";
 
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import TeamHashTag from "../components/hashtag/TempTeamHashTag";
 import Footer from "../components/basic/Footer";
 import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
 
@@ -17,7 +14,7 @@ interface Props {}
 //   image: string;
 // }
 
-function StudentTeamCreate({}: Props): ReactElement {
+function TeamCreate({}: Props): ReactElement {
   const [can, setCan] = useState<number[]>([]);
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
@@ -41,7 +38,7 @@ function StudentTeamCreate({}: Props): ReactElement {
   };
   return (
     <div>
-      <StudentNavbar />
+      <Navbar />
       <div className="mx-48 bg-white">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
@@ -105,4 +102,4 @@ function StudentTeamCreate({}: Props): ReactElement {
   );
 }
 
-export default StudentTeamCreate;
+export default TeamCreate;

@@ -1,5 +1,5 @@
 import React, { EventHandler, ReactElement, useState } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import axios from "axios";
 import Footer from "../components/basic/Footer";
 import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
@@ -13,7 +13,7 @@ interface Props {}
 //   image: string;
 // }
 
-function StudentTeamModify({}: Props): ReactElement {
+function TeamModify({}: Props): ReactElement {
   const [can, setCan] = useState<number[]>([]);
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
@@ -37,7 +37,7 @@ function StudentTeamModify({}: Props): ReactElement {
   };
   return (
     <div>
-      <StudentNavbar />
+      <Navbar />
       <div className="mx-48">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
@@ -93,4 +93,4 @@ function StudentTeamModify({}: Props): ReactElement {
   );
 }
 
-export default StudentTeamModify;
+export default TeamModify;

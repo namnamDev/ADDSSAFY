@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
@@ -18,7 +18,7 @@ import UserOfferList from "../components/user/UserOfferList";
 import UserOfferedList from "../components/user/UserOfferedList";
 interface Props {}
 
-function StudentTeamBuildingCurrent({}: Props): ReactElement {
+function TeamBuildingCurrent({}: Props): ReactElement {
   const router = useRouter();
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
@@ -27,15 +27,15 @@ function StudentTeamBuildingCurrent({}: Props): ReactElement {
 
   const [value, setValue] = React.useState("1");
   const [searchList, setSearchList] = useState<number[]>(TeamDump);
-  const [isTeam, setIsTeam] = useState(false);
+  const [isTeam, setIsTeam] = useState(true);
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
   };
   const myTeam = () => {
-    router.push(`/StudentTeamDetail`);
+    router.push(`/TeamDetail`);
   };
   const createTeam = () => {
-    router.push(`/StudentTeamCreate`);
+    router.push(`/TeamCreate`);
   };
   const idx = router.query.projectNo;
 
@@ -65,7 +65,7 @@ function StudentTeamBuildingCurrent({}: Props): ReactElement {
   ];
   return (
     <div className="">
-      <StudentNavbar />
+      <Navbar />
       <div className="text-center w-2/3 mx-auto">
         <div className="grid grid-cols-2 mt-4">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
@@ -211,4 +211,4 @@ function StudentTeamBuildingCurrent({}: Props): ReactElement {
   );
 }
 
-export default StudentTeamBuildingCurrent;
+export default TeamBuildingCurrent;

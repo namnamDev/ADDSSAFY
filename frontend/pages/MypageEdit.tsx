@@ -1,12 +1,8 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
-import UserHashTag from "../components/hashtag/UserHashTag";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
 interface Props {}
@@ -17,7 +13,7 @@ interface list {
   prop: string;
   image: string;
 }
-function StudentMypage({}: Props): ReactElement {
+function Mypage({}: Props): ReactElement {
   const person = {
     name: "Jane Cooper",
     userId: 1,
@@ -49,7 +45,7 @@ function StudentMypage({}: Props): ReactElement {
   console.log(want);
   return (
     <div>
-      <StudentNavbar />
+      <Navbar />
       <div className="mx-48">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
@@ -128,4 +124,4 @@ function StudentMypage({}: Props): ReactElement {
   );
 }
 
-export default StudentMypage;
+export default Mypage;
