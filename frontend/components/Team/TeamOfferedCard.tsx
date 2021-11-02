@@ -9,7 +9,7 @@ interface Props {
   teamPK: number;
 }
 
-function TeamCard({ teamPK }: Props): ReactElement {
+function TeamOfferedCard({ teamPK }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
   function closeModal() {
@@ -46,21 +46,8 @@ function TeamCard({ teamPK }: Props): ReactElement {
           </div>
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">반</div>
-      </td>
 
-      <td className="px-6 py-4 whitespace-nowrap">010-5303-1984</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {/* {person.status === "leave" ? (
-          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
-            팀장
-          </span>
-        ) : (
-          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-            팀원
-          </span>
-        )} */}
         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
           팀원 구인 중
         </span>
@@ -70,10 +57,17 @@ function TeamCard({ teamPK }: Props): ReactElement {
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
           // onClick={() => SendMM()}
         >
-          MatterMost
+          수락
         </span>
       </td>
-
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <span
+          className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
+          // onClick={() => SendMM()}
+        >
+          거절
+        </span>
+      </td>
       {/* 팀 정보
       <div>
         <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
@@ -197,4 +191,4 @@ function TeamCard({ teamPK }: Props): ReactElement {
   );
 }
 
-export default TeamCard;
+export default TeamOfferedCard;

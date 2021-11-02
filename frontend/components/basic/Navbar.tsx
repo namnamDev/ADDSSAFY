@@ -40,7 +40,7 @@ const projects = [
 ];
 interface Props {}
 
-function StudentNavbar({}: Props): ReactElement {
+function Navbar({}: Props): ReactElement {
   const router = useRouter();
   // 로그아웃
   function logout() {
@@ -52,10 +52,10 @@ function StudentNavbar({}: Props): ReactElement {
     window.location.reload();
   }
   async function gototeammenu(teammenu: number) {
-    await router.push(
-      `/StudentTeamBuildingCurrent/?projectNo=${teammenu}`,
-      "/StudentTeamBuildingCurrent"
-    );
+    await router.push({
+      pathname: `/TeamBuildingCurrent`,
+      query: { projectNo: teammenu },
+    });
     window.location.reload();
   }
   return (
@@ -76,7 +76,7 @@ function StudentNavbar({}: Props): ReactElement {
             </div>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
-              onClick={() => router.push(`/StudentEduSigMain`)}
+              onClick={() => router.push(`/EduSigMain`)}
             >
               교육지원금 서류제출
             </div>
@@ -182,9 +182,7 @@ function StudentNavbar({}: Props): ReactElement {
                                   <p className="text-base font-medium text-gray-900">
                                     {board.name}
                                   </p>
-                                  <p className="mt-1 text-sm text-gray-500">
-                                    {board.description}
-                                  </p>
+                                  <p className="mt-1 text-sm text-gray-500">{board.description}</p>
                                 </div>
                               </div>
                             ))}
@@ -198,7 +196,7 @@ function StudentNavbar({}: Props): ReactElement {
             </Popover.Group>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
-              onClick={() => router.push(`/StudentNotice`)}
+              onClick={() => router.push(`/Notice`)}
             >
               공지사항
             </div>
@@ -241,7 +239,7 @@ function StudentNavbar({}: Props): ReactElement {
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                           )}
-                          onClick={() => router.push("/StudentMypage")}
+                          onClick={() => router.push("/Mypage")}
                         >
                           Mypage
                         </div>
@@ -271,4 +269,4 @@ function StudentNavbar({}: Props): ReactElement {
   );
 }
 
-export default StudentNavbar;
+export default Navbar;

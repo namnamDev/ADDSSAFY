@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
-import TeamOfferCard from "./TeamOfferCard";
+import TeamOfferedCard from "./TeamOfferedCard";
 const people = [
   {
     userId: 1,
@@ -80,7 +80,7 @@ interface Props {
   list: number[];
 }
 
-function TeamOfferList({ list }: Props): ReactElement {
+function TeamOfferedList({ list }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -110,13 +110,19 @@ function TeamOfferList({ list }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Cancel
+                    accept
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    refusal
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {list.map((teamPk) => (
-                  <TeamOfferCard key={teamPk} teamPK={teamPk} />
+                  <TeamOfferedCard key={teamPk} teamPK={teamPk} />
                 ))}
               </tbody>
             </table>
@@ -127,4 +133,4 @@ function TeamOfferList({ list }: Props): ReactElement {
   );
 }
 
-export default TeamOfferList;
+export default TeamOfferedList;

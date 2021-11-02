@@ -1,12 +1,10 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import StudentNavbar from "../components/basic/StudentNavbar";
+import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
-import UserHashTag from "../components/hashtag/UserHashTag";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
+import Footer from "../components/basic/Footer";
 interface Props {}
 
 interface list {
@@ -15,7 +13,7 @@ interface list {
   prop: string;
   image: string;
 }
-function StudentMypage({}: Props): ReactElement {
+function Mypage({}: Props): ReactElement {
   const person = {
     name: "Jane Cooper",
     userId: 1,
@@ -30,8 +28,8 @@ function StudentMypage({}: Props): ReactElement {
   };
   const router = useRouter();
   const PK = router.query.userPK;
-  const [can, setCan] = useState<list[]>([]);
-  const [want, setWant] = useState<list[]>([]);
+  const [can, setCan] = useState<number[]>([]);
+  const [want, setWant] = useState<number[]>([]);
   // 퇴소처리
   function leave(PK: number) {
     return;
@@ -43,9 +41,11 @@ function StudentMypage({}: Props): ReactElement {
   useEffect(() => {
     return () => {};
   }, []);
+  console.log(can);
+  console.log(want);
   return (
     <div>
-      <StudentNavbar />
+      <Navbar />
       <div className="mx-48">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
@@ -92,10 +92,10 @@ function StudentMypage({}: Props): ReactElement {
             </dl>
           </div>
         </div>
-        <div className="mt-4 font-bold text-lg">기술스택 등록</div>
-        <DndProvider backend={HTML5Backend}>
+        <UserCreateHashTag onCanChanged={setCan} onWantChanged={setWant} />
+        {/* <DndProvider backend={HTML5Backend}>
           <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
-        </DndProvider>
+        </DndProvider> */}
 
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
@@ -119,8 +119,9 @@ function StudentMypage({}: Props): ReactElement {
           </span>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
 
-export default StudentMypage;
+export default Mypage;
