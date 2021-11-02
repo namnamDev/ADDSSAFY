@@ -4,6 +4,7 @@ import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import TeamList from "../Team/TeamList";
 import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
+
 const filters: filters[] = [
   {
     id: "can",
@@ -41,7 +42,7 @@ function TeamSearchHashTag({}: Props): ReactElement {
       // 빼는부분
       else if (option.check === true) {
         option.check = !option.check;
-        const result = can.filter((value) => value != option.hashTagPK);
+        const result = can.filter((value:any) => value != option.hashTagPK);
         console.log(result);
         setCan(result);
       }
