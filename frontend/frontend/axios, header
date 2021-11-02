@@ -1,0 +1,16 @@
+// token타입지정해주고, query받아야되는거있으면 useEffect에 index자리채워주고
+useEffect(() => {
+    if (router.query.projectNo) {
+      const token: string | null = localStorage.getItem("token")
+      if (typeof token === "string") {
+        axios.get(`/api/team/${router.query.projectNo}`, {
+          headers: { Authorization: token }
+        })
+          .then((res: any) => {
+            console.log(res.data.data);
+            setteamlist([...res.data.data])
+          })
+          .catch((err) => alert(err))
+      }
+    }
+  }, [router.query.projectNo])

@@ -1,0 +1,42 @@
+{
+  "backend": [
+    {
+      "hashTagPK": 1,
+      "title": "자바",
+      "prop": "속성",
+      "image": "https://cdn-icons-png.flaticon.com/512/226/226777.png"
+    },
+    {
+      "hashTagPK": 2,
+      "title": "스프링",
+      "prop": "속성",
+      "image": "https://media.vlpt.us/images/chs98412/post/06333f8b-07fd-45c3-9fc0-a86ce28759cc/103466606-760a4000-4d14-11eb-9941-2f3d00371471.png"
+    },
+    {
+      "hashTagPK": 3,
+      "title": "파이썬",
+      "prop": "속성",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/768px-Python-logo-notext.svg.png"
+    }
+  ],
+  "frontend": [
+    {
+      "hashTagPK": 4,
+      "title": "리액트",
+      "prop": "속성",
+      "image": "https://w7.pngwing.com/pngs/452/495/png-transparent-react-javascript-angularjs-ionic-github-text-logo-symmetry-thumbnail.png"
+    },
+    {
+      "hashTagPK": 5,
+      "title": "자바스크립트",
+      "prop": "속성",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png"
+    },
+    {
+      "hashTagPK": 6,
+      "title": "지각교육생",
+      "prop": "기타",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png"
+    }
+  ]
+}
