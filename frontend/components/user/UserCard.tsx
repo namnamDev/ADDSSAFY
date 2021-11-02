@@ -17,7 +17,7 @@ function UserCard({ person }: Props): ReactElement {
     setIsOpen(true);
   }
   const apply = () => {
-    alert(`${person}팀에 지원했습니다.`);
+    alert(`${person}팀에 지원했습니다!.`);
   };
   function SendMM() {
     alert("message");
