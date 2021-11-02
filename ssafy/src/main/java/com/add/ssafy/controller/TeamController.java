@@ -1,6 +1,7 @@
 package com.add.ssafy.controller;
 
 import com.add.ssafy.dto.request.CreateTeamRequest;
+import com.add.ssafy.dto.request.TeamUpdateRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.service.TeamSvcInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,13 @@ public class TeamController {
         return ResponseEntity.ok(teamSvcInter.getTeamList(projectCode));
     }
     @PostMapping("/create")
-    public ResponseEntity<BaseResponse>InsertTeam(@RequestBody CreateTeamRequest createTeamRequest){
-        return ResponseEntity.ok(teamSvcInter.InsertTeam(createTeamRequest));
+    public ResponseEntity<BaseResponse> insertTeam(@RequestBody CreateTeamRequest createTeamRequest){
+        return ResponseEntity.ok(teamSvcInter.insertTeam(createTeamRequest));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<BaseResponse>updateTeam(@RequestBody TeamUpdateRequest teamUpdateRequest){
+        return ResponseEntity.ok(teamSvcInter.updateTeam(teamUpdateRequest));
     }
 
 }

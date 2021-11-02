@@ -1,9 +1,7 @@
 package com.add.ssafy.entity;
 
 import com.add.ssafy.enums.HashTagProps;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 // id, 해시태그 Props, 해시태그 이름
 public class HashTag {
 

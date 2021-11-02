@@ -2,9 +2,7 @@ package com.add.ssafy.Repository;
 
 import com.add.ssafy.dto.HashTagDto;
 import com.add.ssafy.dto.HashTagsDto;
-import com.add.ssafy.entity.QHashTag;
-import com.add.ssafy.entity.QMember;
-import com.add.ssafy.entity.QTeamHashtag;
+import com.add.ssafy.entity.*;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,5 +38,14 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
                 );
         return aa;
     }
-
+    @Override
+    public List<TeamHashtag> getTeamHashtagByTeam(Long teamPK){
+        QTeam qTeam = QTeam.team;
+        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
+        return queryFactory
+                .selectFrom(qTeamHashtag)
+                .where(qTeam.id.eq(teamPK))
+                .join(qTeam).on(qTeamHashtag.team().eq(qTeam))
+                .fetch();
+    }
 }
