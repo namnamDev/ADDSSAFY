@@ -1,6 +1,7 @@
 package com.add.ssafy.service;
 
 import com.add.ssafy.dto.request.CreateTeamRequest;
+import com.add.ssafy.dto.request.TeamUpdateRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 
 public interface TeamSvcInter {
@@ -8,5 +9,7 @@ public interface TeamSvcInter {
 
     BaseResponse getTeamList(int projectCode);
 
-    BaseResponse InsertTeam(CreateTeamRequest createTeamRequest);
+    BaseResponse insertTeam(CreateTeamRequest createTeamRequest);
+
+    BaseResponse updateTeam(TeamUpdateRequest teamUpdateRequest);
 }

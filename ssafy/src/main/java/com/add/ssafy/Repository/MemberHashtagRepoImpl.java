@@ -2,9 +2,7 @@ package com.add.ssafy.Repository;
 
 import com.add.ssafy.dto.HashTagDto;
 import com.add.ssafy.dto.HashTagsDto;
-import com.add.ssafy.entity.QHashTag;
-import com.add.ssafy.entity.QMember;
-import com.add.ssafy.entity.QMemberHashtag;
+import com.add.ssafy.entity.*;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -39,4 +37,21 @@ public class MemberHashtagRepoImpl implements MemberHashtagRepoCustom {
                 );
         return aa;
     }
+    @Override
+    public List<MemberHashtag> getHashtagEntity(Long memberPK){
+        QMember qMember = QMember.member;
+        QHashTag qHashTag = QHashTag.hashTag;
+        QMemberHashtag qMemberHashtag = QMemberHashtag.memberHashtag;
+        return queryFactory.selectFrom(qMemberHashtag)
+                .where(qMemberHashtag.member().id.eq(memberPK))
+                .fetch();
+
+    }
+
+//
+//    public void deleteByMemberId(Long memberPK){
+//        QHashTag qHashTag = QHashTag.hashTag;
+//        QMemberHashtag qMemberHashtag = QMemberHashtag.memberHashtag;
+//        queryFactory.delete(qMemberHashtag).where(qMemberHashtag.member().id.eq(memberPK)).
+//    }
 }
