@@ -12,7 +12,7 @@ public class UserDetailDto {
     private String userName;
     private String email;
     private String introduce;
-    private boolean isTeam;
+    private List<TeamForUserDetailDto> teamList;
     private String blog;
     private String backjun;
     private String portfolio;

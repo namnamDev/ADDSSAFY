@@ -1,14 +1,19 @@
 package com.add.ssafy.service;
 
+import com.add.ssafy.Repository.HashtagRepo;
 import com.add.ssafy.Repository.MemberHashtagRepo;
 import com.add.ssafy.Repository.MemberRepo;
+import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.MemberAddTagsDto;
 import com.add.ssafy.dto.TokenDto;
 import com.add.ssafy.dto.UserDetailDto;
+import com.add.ssafy.dto.request.UpdateMemberRequest;
 import com.add.ssafy.dto.request.UserRequest;
 import com.add.ssafy.dto.response.BaseResponse;
+import com.add.ssafy.entity.HashTag;
 import com.add.ssafy.entity.Member;
+import com.add.ssafy.entity.MemberHashtag;
 import com.add.ssafy.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +36,8 @@ import java.util.Optional;
 public class MemberSvcImpl implements MemberSvcInter {
     @Autowired
     MemberRepo memberRepo;
-
+    @Autowired
+    HashtagRepo hashtagRepo;
     @Autowired
     MemberHashtagRepo memberHashtagRepo;
 
@@ -104,5 +110,31 @@ public class MemberSvcImpl implements MemberSvcInter {
         res.setMemberHashTags(memberHashtags);
         res.setUserDetailDto(tempMember);
         return BaseResponse.builder().status("200").msg("성공").data(res).build();
+    }
+
+    @Override
+    public BaseResponse updateMember(Long userPK, UpdateMemberRequest updateMemberRequest){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+
+        member.setBlog(updateMemberRequest.getBlog());
+        member.setIntroduce(updateMemberRequest.getIntroduce());
+        member.setUserPhone(updateMemberRequest.getPhone());
+        List<Long>can = updateMemberRequest.getCan();
+        memberRepo.save(member);
+        Long memberPK = member.getId();
+        List<MemberHashtag> beforeUpdate= memberHashtagRepo.getHashtagEntity(memberPK);
+        for(int i = 0 ; i < beforeUpdate.size();i++){
+            memberHashtagRepo.delete(beforeUpdate.get(i));
+        }
+
+        for(int i =0;i<can.size();i++){
+            Optional<HashTag> hashTag= hashtagRepo.findById(can.get(i));
+            if(hashTag.isPresent()) {
+                memberHashtagRepo.save(MemberHashtag.builder().member(member).hashTag(hashTag.get()).build());
+            }
+        }
+
+
+        return BaseResponse.builder().status("200").msg("성공").data(true).build();
     }
 }

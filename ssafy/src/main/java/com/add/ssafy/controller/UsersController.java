@@ -1,5 +1,6 @@
 package com.add.ssafy.controller;
 
+import com.add.ssafy.dto.request.UpdateMemberRequest;
 import com.add.ssafy.dto.request.UserRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.Member;
@@ -24,4 +25,9 @@ public class UsersController {
     public ResponseEntity getUserDetail(@PathVariable(name="userPK")Long userPK ){
         return ResponseEntity.ok(memberSvcInter.getUserDetail(userPK));
     }
+    @PutMapping("/{userPK}")
+    public ResponseEntity updateUser(@PathVariable(name="userPK")Long userPK, @RequestBody UpdateMemberRequest updateMemberRequest){
+        return ResponseEntity.ok(memberSvcInter.updateMember(userPK,updateMemberRequest));
+    }
+
 }

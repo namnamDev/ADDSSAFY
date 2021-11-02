@@ -1,27 +1,19 @@
 package com.add.ssafy.service;
 
-import com.add.ssafy.Repository.MemberRepo;
-import com.add.ssafy.Repository.TeamHashtagRepo;
-import com.add.ssafy.Repository.TeamMemberRepo;
-import com.add.ssafy.Repository.TeamRepo;
+import com.add.ssafy.Repository.*;
 import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.TeamAddTagsDto;
 import com.add.ssafy.dto.TeamDto;
 import com.add.ssafy.dto.request.CreateTeamRequest;
+import com.add.ssafy.dto.request.TeamUpdateRequest;
 import com.add.ssafy.dto.response.BaseResponse;
-import com.add.ssafy.entity.Member;
-import com.add.ssafy.entity.Team;
-import com.add.ssafy.entity.TeamMember;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.add.ssafy.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -34,6 +26,8 @@ public class TeamSvcImpl implements TeamSvcInter{
     MemberRepo memberRepo;
     @Autowired
     TeamMemberRepo teamMemberRepo;
+    @Autowired
+    HashtagRepo hashtagRepo;
     @Override
     public BaseResponse getTeamUserList(Long teamPK){
 
@@ -63,7 +57,7 @@ public class TeamSvcImpl implements TeamSvcInter{
     }
 
     @Override
-    public BaseResponse InsertTeam(CreateTeamRequest createTeamRequest){
+    public BaseResponse insertTeam(CreateTeamRequest createTeamRequest){
         String msg ="";
         String status = "";
         try{
@@ -95,5 +89,28 @@ public class TeamSvcImpl implements TeamSvcInter{
             return BaseResponse.builder().status(status).msg(msg).build();
 
 
+    }
+
+    @Override
+    public BaseResponse updateTeam(TeamUpdateRequest teamUpdateRequest){
+        String msg = "";
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Team team = teamRepo.findById(teamUpdateRequest.getTeamPK()).orElseThrow(()->new IllegalStateException("해당 팀이 존재하지 않습니다."));
+        Team tempTeam = Team.builder().introduce(teamUpdateRequest.getIntroduceTeam())
+                .webexLink(teamUpdateRequest.getWebex())
+                .build();
+        teamRepo.save(tempTeam);
+        List<Long>want = teamUpdateRequest.getWant();
+        List<TeamHashtag>beforeUpdate = teamHashtagRepo.getTeamHashtagByTeam(team.getId());
+
+        for(int i = 0; i < beforeUpdate.size();i++){
+            teamHashtagRepo.delete(beforeUpdate.get(i));
+        }
+
+        for(int i =0;i< want.size();i++){
+            Optional<HashTag> hashTag= hashtagRepo.findById(want.get(i));
+            teamHashtagRepo.save(TeamHashtag.builder().team(team).hashTag(hashTag.get()).build());
+        }
+        return BaseResponse.builder().status("200").msg("성공").data(true).build();
     }
 }

@@ -1,11 +1,15 @@
 package com.add.ssafy.Repository;
 
+import com.add.ssafy.dto.TeamForUserDetailDto;
 import com.add.ssafy.dto.UserDetailDto;
 import com.add.ssafy.dto.UserDto;
 import com.add.ssafy.entity.Member;
 import com.add.ssafy.entity.QMember;
 import com.add.ssafy.entity.QTeam;
 import com.add.ssafy.entity.QTeamMember;
+import com.add.ssafy.enums.Authority;
+import com.querydsl.core.group.GroupBy;
+import com.querydsl.core.group.GroupByList;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,6 +18,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -79,7 +84,10 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                 , qMember.name
                                 , qMember.email
                                 , qMember.introduce
-                                , qTeam.isNotNull()
+                                , GroupBy.list(Projections.constructor(
+                                        TeamForUserDetailDto.class
+                                        , qTeam.id
+                                        , qTeam.name))
                                 , qMember.blog
                                 , qMember.baekjoonId
                                 , qMember.blog
@@ -108,33 +116,46 @@ public class MemberRepoImpl implements MemberRepoCustom{
         QTeam qTeam= QTeam.team;
         QTeamMember qTeamMember = QTeamMember.teamMember;
 
-        return  queryFactory.select(
-                        Projections.constructor(
-                                UserDetailDto.class
-                                , qMember.id
-                                , qMember.name
-                                , qMember.email
-                                , qMember.introduce
-                                , qTeam.isNotNull()
-                                , qMember.blog
-                                , qMember.baekjoonId
-                                , qMember.blog
-                                , qMember.blog
-                                , qMember.mmid
-
-                                , qMember.authority
-                                , qMember.region
-                                , qMember.classNumber
-                                , qMember.userPhone
-                                , qMember.address
-                                , qMember.studentNumber
-                                , qMember.isLeave
-                        )
-                )
-                .from(qMember)
+        Map<Long, UserDetailDto> transform = queryFactory.from(qMember)
                 .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
                 .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
-                .where(qMember.id.eq(userPK))
-                .fetchOne();
+                .where(qMember.id.eq(userPK).and(qMember.authority.eq(Authority.ROLE_USER)))
+                .transform(GroupBy.groupBy(qMember.id)
+                        .as(
+                                Projections.constructor(
+                                        UserDetailDto.class
+                                        , qMember.id
+                                        , qMember.name
+                                        , qMember.email
+                                        , qMember.introduce
+                                        , GroupBy.list(Projections.constructor(
+                                                TeamForUserDetailDto.class
+                                                , qTeam.id
+                                                , qTeam.name
+                                                , qTeamMember.leader
+                                                , qTeam.type))
+                                        , qMember.blog
+                                        , qMember.baekjoonId
+                                        , qMember.blog
+                                        , qMember.blog
+                                        , qMember.mmid
+
+                                        , qMember.authority
+                                        , qMember.region
+                                        , qMember.classNumber
+                                        , qMember.userPhone
+                                        , qMember.address
+                                        , qMember.studentNumber
+                                        , qMember.isLeave
+                                )
+                        )
+                );
+        System.out.println(transform);
+                return transform.get(userPK);
+//                .groupBy(qMember.id)
+//                .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
+//                .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
+//                .where(qMember.id.eq(userPK).and(qMember.authority.eq(Authority.ROLE_USER)))
+//                .fetchOne();
     }
 }
