@@ -34,7 +34,12 @@ COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
-EXPOSE 80 443 3000
+# EXPOSE 80 443 3000
+FROM nginx
+COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -43,3 +48,4 @@ EXPOSE 80 443 3000
 
 CMD ["next", "build"]
 CMD ["yarn", "start"]
+CMD ["nginx", "-g", "daemon off;"]
