@@ -108,7 +108,7 @@ function UserCard({ person }: Props): ReactElement {
                 ></Dialog.Title>
                 <div className="mt-2 ">
                   <p className="text-sm text-gray-500  ">
-                    <UserDetail />
+                    
                   </p>
                 </div>
 
