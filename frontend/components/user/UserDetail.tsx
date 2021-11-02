@@ -17,10 +17,10 @@ const person = {
 };
 
 interface Props {
-  userPK: number;
+
 }
 
-function UserDetail({ userPK }: Props): ReactElement {
+function UserDetail({  }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const Router = useRouter();
