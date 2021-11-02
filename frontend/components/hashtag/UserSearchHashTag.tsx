@@ -50,7 +50,7 @@ function UserSearchHashTag({}: Props): ReactElement {
       // 빼는부분
       else if (option.check === true) {
         option.check = !option.check;
-        const result = can.filter((value) => value != option.hashTagPK);
+        const result = can.filter((value: any) => value != option.hashTagPK);
         setCan(result);
       }
     } else if (section === "want") {
@@ -62,7 +62,7 @@ function UserSearchHashTag({}: Props): ReactElement {
       // 빼는부분
       else if (option.check === true) {
         option.check = false;
-        const result = want.filter((value) => value != option.hashTagPK);
+        const result = want.filter((value: any) => value != option.hashTagPK);
         setWant(result);
       }
     } else if (section === "except") {
@@ -74,7 +74,7 @@ function UserSearchHashTag({}: Props): ReactElement {
       // 빼는부분
       else if (option.check === true) {
         option.check = false;
-        const result = except.filter((value) => value != option.hashTagPK);
+        const result = except.filter((value: any) => value != option.hashTagPK);
         setExcept(result);
       }
     }
