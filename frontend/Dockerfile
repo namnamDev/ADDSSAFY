@@ -37,7 +37,7 @@ USER nextjs
 # EXPOSE 80 443 3000
 FROM nginx
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
 
 
