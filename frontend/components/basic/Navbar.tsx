@@ -74,7 +74,16 @@ function Navbar({ }: Props): ReactElement {
                 />
               </div>
             </div>
-
+            <div
+              className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+            >
+              공통프로젝트
+            </div>
+            <div
+              className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+            >
+              특화프로젝트
+            </div>
             <Popover.Group as="nav" className="md:flex space-x-10">
               <Popover className="relative">
                 {({ open }) => (
@@ -86,7 +95,7 @@ function Navbar({ }: Props): ReactElement {
                       )}
                     >
                       <div className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer">
-                        팀빌딩
+                        자율프로젝트
                       </div>
                       <ChevronDownIcon
                         className={classNames(

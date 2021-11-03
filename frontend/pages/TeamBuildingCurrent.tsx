@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import moment from "moment";
 import Footer from "../components/basic/Footer";
+import MyTeamDetail from "../components/Team/MyTeamDetail";
 import TeamSearchHashTag from "../components/hashtag/TeamSearchHashTag";
 import UserSearchHashTag from "../components/hashtag/UserSearchHashTag";
 import Box from "@mui/material/Box";
@@ -16,9 +17,9 @@ import TeamOfferList from "../components/Team/TeamOfferList";
 import TeamOfferedList from "../components/Team/TeamOfferedList";
 import UserOfferList from "../components/user/UserOfferList";
 import UserOfferedList from "../components/user/UserOfferedList";
-interface Props {}
+interface Props { }
 
-function TeamBuildingCurrent({}: Props): ReactElement {
+function TeamBuildingCurrent({ }: Props): ReactElement {
   const router = useRouter();
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
@@ -67,6 +68,7 @@ function TeamBuildingCurrent({}: Props): ReactElement {
     <div className="">
       <Navbar />
       <div className="text-center w-2/3 mx-auto">
+        <MyTeamDetail />
         <div className="grid grid-cols-2 mt-4">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
             {idx === "1" ? "공통 프로젝트" : idx === "2" ? "특화 프로젝트" : "자율 프로젝트"}
@@ -187,7 +189,6 @@ function TeamBuildingCurrent({}: Props): ReactElement {
             </div>
           </div>
         )}
-
         {/* 검색 기능 */}
         <div className="mt-4">
           <TabContext value={value}>
