@@ -18,7 +18,11 @@ function LoginModal({ }: Props): ReactElement {
       })
 
       .then((res: unknown | any) => {
-        console.log(res.data.id);
+        console.log(res);
+        localStorage.setItem("MMtoken", "Bearer " + res.headers.token);
+        localStorage.setItem("MMid", res.data.id);
+        localStorage.setItem("username", res.data.username);
+
         // 데이터정보 날려주기
         axios.post('/api/users/login',
           {
@@ -31,6 +35,7 @@ function LoginModal({ }: Props): ReactElement {
           .then((res: any) => {
             console.log(res);
             localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+            router.push('/Main')
           })
       })
       .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
