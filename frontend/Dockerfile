@@ -34,7 +34,7 @@ COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
-EXPOSE 80 443 3000
+# EXPOSE 80 443 3000
 FROM nginx
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/.next /usr/share/nginx/html
@@ -46,8 +46,8 @@ EXPOSE 80
 # Uncomment the following line in case you want to disable telemetry.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["next", "build"]
-CMD ["yarn", "start"]
+# CMD ["next", "build"]
+# CMD ["yarn", "start"]
 CMD ["nginx", "-g", "daemon off;"]
 # stage1 as builder
 
