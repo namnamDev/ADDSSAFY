@@ -48,7 +48,7 @@ EXPOSE 80 443 3000
 
 CMD ["next", "build"]
 CMD ["yarn", "start"]
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
 # stage1 as builder
 
 
