@@ -87,19 +87,15 @@ function UserDetail({ userPk }: Props): ReactElement {
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">기술스택 (할 수 있어요)</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {
-                  Object.keys(usertags).map((section: any, i: number) => (
-                    <div key={i}>
-                      {usertags[section].hashTagName}
-                      {/* {section.map((tag: any, j: number) => {
-                        <div key={j}>
-                          test
-                          {tag.hashTagName}
-                        </div>
-                      })} */}
-                    </div>
-                  ))
-                }
+                {Object.keys(usertags).map((section: any, i: number) => (
+                  <div key={i}>
+                    {usertags[section].map((tag: any, j: any) =>
+                      <div className="j">
+                        {tag.hashTagName}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </dd>
             </div>
             {/*  */}
