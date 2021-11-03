@@ -31,15 +31,16 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
 
   const [value, setValue] = React.useState("1");
   const [searchList, setSearchList] = useState<number[]>(TeamDump);
-  const [isTeam, setIsTeam] = useState(true);
+  const [isTeam, setIsTeam] = useState(false);
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
   };
   const myTeam = () => {
     router.push(`/TeamDetail`);
   };
+  // 팀생성
   const createTeam = () => {
-    router.push(`/TeamCreate`);
+    router.push(`/TeamCreate/?projectNo=${idx}`);
   };
   const idx = router.query.projectNo;
 
@@ -64,7 +65,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const [userPkdata, setuserPkdata] = useState<number>(0)
-  function userdetail(userPk:number) {
+  function userdetail(userPk: number) {
     setIsOpen(true)
     setuserPkdata(userPk)
   }
@@ -79,11 +80,16 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   return (
     <div className="">
       <Navbar />
-      <div className="text-center w-2/3 mx-auto">
-        <MyTeamDetail />
+      <div className="text-center w-3/4 mx-auto">
+        {
+          isTeam
+            ? <MyTeamDetail />
+            : null
+        }
+
         <div className="grid grid-cols-2 mt-4">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
-            {idx === "1" ? "공통 프로젝트" : idx === "2" ? "특화 프로젝트" : "자율 프로젝트"}
+            {idx === "0" ? "공통 프로젝트" : idx === "1" ? "특화 프로젝트" : "자율 프로젝트"}
           </div>
           <div className="place-self-end">
             {isTeam ? (
@@ -150,7 +156,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                   </td>
                   {team.teamDto.teamuser.map((member: any, i: number) => (
                     <td className="px-6 py-4 whitespace-nowrap" key={i}>
-                      <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={()=>userdetail(member.userPk)}>{member.userName}</div>
+                      <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => userdetail(member.userPk)}>{member.userName}</div>
                     </td>
                   ))}
                 </tr>
@@ -171,11 +177,6 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                 >
                   <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                 </Transition.Child>
-
-                {/* This element is to trick the browser into centering the modal contents. */}
-                <span className="inline-block align-middle " aria-hidden="true">
-                  &#8203;
-                </span>
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -185,16 +186,11 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
-                      onClick={() => setShowUser(false)}
-                    ></Dialog.Title>
+                  <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                     <div className="mt-2 ">
                       <p className="text-sm text-gray-500  ">
-                        {/* userdetail */}
-                        <UserDetail userPk={userPkdata}/>
+
+                        <UserDetail userPk={userPkdata} />
                       </p>
                     </div>
 
@@ -216,24 +212,24 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (
-          <div className="grid grid-cols-2 mt-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4">
             <div>
-              <div className="font-bold">교육생에게 보낸 제안</div>
+              <div className="font-bold my-5">교육생에게 보낸 제안</div>
               <UserOfferList list={searchList} />
             </div>
             <div>
-              <div className="font-bold">교육생에게 받은 제안</div>
+              <div className="font-bold my-5">교육생에게 받은 제안</div>
               <UserOfferedList list={searchList} />
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 mt-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4">
             <div>
-              <div className="font-bold">팀에게 보낸 제안</div>
+              <div className="font-bold my-5">팀에게 보낸 제안</div>
               <TeamOfferList list={searchList} />
             </div>
             <div>
-              <div className="font-bold">팀에게 받은 제안</div>
+              <div className="font-bold my-5">팀에게 받은 제안</div>
               <TeamOfferedList list={searchList} />
             </div>
           </div>

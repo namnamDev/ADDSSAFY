@@ -1,11 +1,12 @@
 import React, { EventHandler, ReactElement, useState } from "react";
 import Navbar from "../components/basic/Navbar";
 import axios from "axios";
-
 import Footer from "../components/basic/Footer";
 import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
+import { useRouter } from "next/router";
+import moment from 'moment'
 
-interface Props {}
+interface Props { }
 
 // interface list {
 //   hashTagPK: number;
@@ -14,23 +15,71 @@ interface Props {}
 //   image: string;
 // }
 
-function TeamCreate({}: Props): ReactElement {
+function TeamCreate({ }: Props): ReactElement {
+  const router = useRouter()
+  const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
+  const [teamtitle, setteamtitle] = useState<string>("");
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
-  const create = () => {
-    console.log(`team소개: ${teamIntro}  team 웹엑스 링크: ${teamWebex}`);
-    console.log(can);
-    // const res=axios.post("/team/create", {
-    //   introduceTeam: teamIntro,
-    //   webex: teamWebex,
-    //   can: can,
-    //   want: want,
-    //   except: [],
-    // });
-    // console.log(res);
-  };
+  // const create = () => {
+  //   console.log(`team소개: ${teamIntro}  team 웹엑스 링크: ${teamWebex}`);
+  //   console.log(can);
+
+  // };
+  function create() {
+    // token
+    const token: string | null = localStorage.getItem("token")
+    const MMtoken: string | null = localStorage.getItem("mmtoken")
+    const username: string | null = localStorage.getItem("username")
+    const now = moment().format('YYYYMMDDHHmmss')
+    // mattermost 채널생성
+    if (typeof MMtoken === "string" && typeof username == "string") {
+      axios.post('/api/v4/channels', {
+        team_id: "tfctt9yko7f93jge3itn1tseoo",
+        type: "P",
+        display_name: username + "님의 프로젝트",
+        name: now + username,
+      },
+        {
+          headers: { Authorization: MMtoken }
+        })
+        .then((res: any) => {
+          console.log(can)
+          if (typeof token === "string") {
+            const channelId = res.data.id
+            axios.post('/team/create', {
+              introduceTeam: teamIntro,
+              webex: teamWebex,
+              want: can,
+              name: teamtitle,
+              projectCode: idx,
+              mmChannel: channelId
+            },
+              { headers: { Authorization: token } }
+            )
+          }
+        })
+    }
+    //   if (typeof token === "string") {
+    //     axios.post('/team/create', {
+    //       headers: { Authorization: token },
+    //       introduceTeam: teamIntro,
+    //       webex: teamWebex,
+    //       name: "",
+    //       projectCode: idx,
+
+    //     })
+    //       .then((res: any) => {
+
+    //       })
+    //       .catch((err) => alert(err))
+    //   }
+  }
   const onTeamIntroChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setteamtitle(e.target.value);
+  };
+  const onTeamTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTeamIntro(e.target.value);
   };
   const onTeamWebexChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +88,7 @@ function TeamCreate({}: Props): ReactElement {
   return (
     <div>
       <Navbar />
-      <div className="mx-48 bg-white">
+      <div className="w-2/3 mx-auto">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">팀 만들기</h3>
@@ -51,7 +100,7 @@ function TeamCreate({}: Props): ReactElement {
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
                   placeholder="팀 이름을 입력해주세요"
-                  onChange={(e) => onTeamIntroChanged(e)}
+                  onChange={(e) => onTeamTitleChanged(e)}
                 />
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

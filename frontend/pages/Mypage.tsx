@@ -31,7 +31,7 @@ function Mypage({}: Props): ReactElement {
   return (
     <div>
       <Navbar />
-      <div className="mx-48">
+      <div className="w-2/3 mx-auto text-center">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"></div>
           <div className="px-4 py-5 sm:px-6">
