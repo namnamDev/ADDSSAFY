@@ -32,5 +32,8 @@ public class TeamController {
     public ResponseEntity<BaseResponse>updateTeam(@RequestBody TeamUpdateRequest teamUpdateRequest){
         return ResponseEntity.ok(teamSvcInter.updateTeam(teamUpdateRequest));
     }
-
+    @GetMapping("/detail/{teamPK}")
+    public ResponseEntity<BaseResponse>getTeamDtoByTeamPK(@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(teamSvcInter.getTeamDtoByTeamPK(teamPK));
+    }
 }
