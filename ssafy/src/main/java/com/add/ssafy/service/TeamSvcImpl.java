@@ -72,6 +72,7 @@ public class TeamSvcImpl implements TeamSvcInter{
                 .introduce(createTeamRequest.getIntroduceTeam())
                 .webexLink(createTeamRequest.getWebex())
                 .type(createTeamRequest.getProjectCode())
+                .mmChannel(createTeamRequest.getMmChannel())
                 .build();
         Team savedTeam=teamRepo.save(insertTeam);
         teamRepo.flush();
