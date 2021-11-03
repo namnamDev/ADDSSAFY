@@ -53,18 +53,19 @@
 FROM node:16.13-alpine as builder
 
 # copy the package.json to install dependencies
-COPY package.json yarn.lock ./
+COPY package.json package.json ./
 
 # Install the dependencies and make the folder
-RUN yarn install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
+# RUN yarn install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
+RUN npm install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
 
 WORKDIR /nextjs-ui
 
 COPY . .
 
 # Build the project and copy the files
-RUN yarn run build
-
+# RUN yarn run build
+RUN npm run build
 
 FROM nginx:alpine
 
