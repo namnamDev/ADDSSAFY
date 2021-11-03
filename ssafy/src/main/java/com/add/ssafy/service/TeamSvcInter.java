@@ -12,4 +12,6 @@ public interface TeamSvcInter {
     BaseResponse insertTeam(CreateTeamRequest createTeamRequest);
 
     BaseResponse updateTeam(TeamUpdateRequest teamUpdateRequest);
+
+    BaseResponse getTeamDtoByTeamPK(Long teamPK);
 }

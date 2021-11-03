@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -61,6 +62,7 @@ public class TeamRepoImpl implements TeamRepoCustom {
                                 , qTeam.introduce
                                 , qTeam.webexLink
                                 , qTeam.ppt
+                                , qTeam.mmChannel
                                 ,GroupBy.list(Projections.constructor(
                                                 UserDto.class
                                                 , qMember.id
@@ -80,5 +82,42 @@ public class TeamRepoImpl implements TeamRepoCustom {
         return Optional.ofNullable(queryFactory.selectFrom(qTeamMember)
                 .where(qTeamMember.member().id.eq(memberPK).and(qTeamMember.team().type.eq(projectCode)))
                 .fetchOne());
+    }
+    @Override
+    public TeamDto getTeamDtoByTeamPK(Long teamPK){
+        QTeam qTeam= QTeam.team;
+        QTeamMember qTeamMember = QTeamMember.teamMember;
+        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
+        QHashTag qHashTag = QHashTag.hashTag;
+
+        QMember qMember = QMember.member;
+        Map<Long, TeamDto> res = queryFactory
+                .from(qTeam)
+                .where(qTeam.id.eq(teamPK))
+                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
+                .join(qMember).on(qTeamMember.member().eq(qMember))
+                .leftJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
+                .leftJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
+                .transform(GroupBy.groupBy(qTeam.id)
+                        .as(
+                                Projections.constructor(
+                                        TeamDto.class
+                                        , qTeam.id
+                                        , qTeam.name
+                                        , qTeam.introduce
+                                        , qTeam.webexLink
+                                        , qTeam.ppt
+                                        , qTeam.mmChannel
+                                        ,GroupBy.list(Projections.constructor(
+                                                UserDto.class
+                                                , qMember.id
+                                                , qMember.name
+                                                , qTeamMember.leader
+                                                , qMember.profile
+                                        ))
+                                )
+                        )
+                );
+        return res.get(teamPK);
     }
 }

@@ -14,6 +14,7 @@ public class TeamDto {
     private String introduce;
     private String webexLink;
     private String ppt;
+    private String mmChannel;
 //    private Long userQuanty;
     private List<UserDto> teamuser;
 //    private Map<String,Object> need;

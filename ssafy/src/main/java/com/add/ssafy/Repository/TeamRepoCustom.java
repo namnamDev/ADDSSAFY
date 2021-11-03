@@ -13,4 +13,6 @@ public interface TeamRepoCustom {
     List<TeamDto> getTeamList(int projectCode);
 
     Optional<TeamMember> ifUsrHasTeam(Long memberPK, int projectCode);
+
+    TeamDto getTeamDtoByTeamPK(Long teamPK);
 }
