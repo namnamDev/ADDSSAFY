@@ -18,7 +18,7 @@ public class UsersController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserRequest userRequest){
 
-        memberSvcInter.loginOrSignup(userRequest);
+//        memberSvcInter.loginOrSignup(userRequest);
         return ResponseEntity.ok(memberSvcInter.login(userRequest));
     }
     @GetMapping("/detail/{userPK}")

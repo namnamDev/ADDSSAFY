@@ -52,6 +52,10 @@ public class Member {
     private boolean isLeave;
 
     private String userPhone;
+
+    private String userName;
+
+    private String userNick;
     @Enumerated(EnumType.STRING)
     private Authority authority;
 

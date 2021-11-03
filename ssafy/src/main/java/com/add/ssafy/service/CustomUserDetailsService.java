@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional//여기서 username은 UsernamePasswordAuthenticationToken 에서의 username임 우리 서비스에서는 email임
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> tempMember = Optional.ofNullable(memberRepository.findByEmail(username));
+        Optional<Member> tempMember = Optional.ofNullable(memberRepository.findByMmid(username));
         System.out.println(tempMember.get().getEmail()+" "+tempMember.get().getMmid() + " "+tempMember.get().getPassword());
         System.out.println("loadUserByUsername!!!!");
         return tempMember
