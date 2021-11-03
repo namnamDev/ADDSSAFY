@@ -6,20 +6,16 @@ import com.add.ssafy.enums.Authority;
 //import com.web.webcuration.Entity.Provide;
 import com.add.ssafy.entity.Member;
 
+import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserRequest {
 
     @NotNull
@@ -30,12 +26,18 @@ public class UserRequest {
 
     @NotNull
     private String password;
+
+    @NotNull
+    private String username;
+
+    @NotNull
+    private String nickname;
     public Member toUser(PasswordEncoder passwordEncoder) {
-        return Member.builder().email(this.email).password(passwordEncoder.encode(this.password)).mmid(this.mmid)
+        return Member.builder().email(this.mmid).password(passwordEncoder.encode(this.password))
                 .authority(Authority.ROLE_USER).build();
     }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(this.email, this.password);
+        return new UsernamePasswordAuthenticationToken(this.mmid, this.password);
     }
 }
