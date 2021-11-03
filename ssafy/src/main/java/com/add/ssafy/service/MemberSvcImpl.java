@@ -51,6 +51,7 @@ public class MemberSvcImpl implements MemberSvcInter {
         //mmid가 먼저 존재하는지 조회
         Member signupMember = userRequest.toUser(passwordEncoder);
         Optional<Member> tempMember = Optional.ofNullable(memberRepo.findByMmid(signupMember.getMmid()));
+
         if (!tempMember.isPresent()) {
             //그게 없다면 회원가입
             Member savedMember = memberRepo.save(signupMember);
@@ -63,23 +64,23 @@ public class MemberSvcImpl implements MemberSvcInter {
     @Override
     public BaseResponse login(UserRequest userRequest) {
 
+        System.out.println(userRequest.toString());
+
         // 유저 정보 검증
 
         // -------- 토큰 생성
         // 유저 id, password를 통해 UsernamePasswordAuthenticationToken객체 생성
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userRequest.getEmail(), userRequest.getPassword());
-        System.out.println(authenticationToken);
-        System.out.println("svc.login"+ userRequest.getEmail() + " " + userRequest.getPassword());
+                userRequest.getMmid(), "test");
         // authenticationToken를 이용해서 authenticate메소드가 실행이 될때
         // 아까만든 CustomUserDetailsService의 loadUserByUsername 메소드가 실행됨
         // 그 결과값을 가지고 Authentication객체가 생성됨
-//        System.out.println(authenticationToken);
+        System.out.println("----"+authenticationToken);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 //        SecurityContextHolder.getContext().setAuthentication(authentication);//Authentication객체를 SecurityContext에 저장
 
         // memberName 가져와서 토큰만들때 집어넣음
-        String memberEmail = userRequest.getEmail();
+        String memberEmail = userRequest.getMmid();
         // Authentication를 이용해 jwt토큰 생성
         TokenDto jwt = tokenProvider.createToken(authentication);
         System.out.println(jwt);
@@ -90,6 +91,15 @@ public class MemberSvcImpl implements MemberSvcInter {
 //                .build();
 //        System.out.println(refreshToken);
 //        refreshTokenRepository.save(refreshToken);
+        
+        //로그인 개선안
+        Member member =memberRepo.findByMmid(userRequest.getMmid());
+        member.setUserNick(userRequest.getNickname());
+        member.setUserName(userRequest.getUsername());
+        member.setEmail(userRequest.getEmail());
+        memberRepo.save(member);
+
+
 
         return BaseResponse.builder().status("200").msg("login").data(jwt).build();
 
