@@ -27,5 +27,7 @@ public class CreateTeamRequest {
     private List<Long> want;
 
     @NotNull
+    private String mmChannel;
+    @NotNull
     private int projectCode;
 }
