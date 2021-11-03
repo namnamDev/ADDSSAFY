@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect, Fragment } from "react";
 import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -17,6 +17,9 @@ import TeamOfferList from "../components/Team/TeamOfferList";
 import TeamOfferedList from "../components/Team/TeamOfferedList";
 import UserOfferList from "../components/user/UserOfferList";
 import UserOfferedList from "../components/user/UserOfferedList";
+import { Dialog, Transition } from "@headlessui/react";
+import UserDetail from "../components/user/UserDetail";
+import axios from 'axios'
 interface Props { }
 
 function TeamBuildingCurrent({ }: Props): ReactElement {
@@ -41,29 +44,38 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   const idx = router.query.projectNo;
 
   // 팀 현황
-  const Teams = [
-    {
-      teamId: 1,
-      leader: "Jane Cooper",
-      members: ["a", "b", "c", "d", "e"],
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-    {
-      teamId: 2,
-      leader: "Jane Cooper",
-      members: ["a", "b", "c", "d", "e"],
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-    {
-      teamId: 3,
-      leader: "Jane Cooper",
-      members: ["a", "b", "c", "d", "e"],
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-  ];
+  const [teamlist, setteamlist] = useState<any>([])
+  useEffect(() => {
+    if (router.query.projectNo) {
+      const token: string | null = localStorage.getItem("token")
+      if (typeof token === "string") {
+        axios.get(`/api/team/${router.query.projectNo}`, {
+          headers: { Authorization: token }
+        })
+          .then((res: any) => {
+            console.log(res.data.data);
+            setteamlist([...res.data.data])
+          })
+          .catch((err) => alert(err))
+      }
+    }
+  }, [router.query.projectNo])
+  // 유저정보 모달창
+  const [isOpen, setIsOpen] = useState(false);
+  const [showUser, setShowUser] = useState(false);
+  const [userPkdata, setuserPkdata] = useState<number>(0)
+  function userdetail(userPk:number) {
+    setIsOpen(true)
+    setuserPkdata(userPk)
+  }
+  function closeModal() {
+    setIsOpen(false);
+    setShowUser(false);
+  }
+  function openModal(person: number) {
+    setIsOpen(true);
+  }
+  // 팀생성
   return (
     <div className="">
       <Navbar />
@@ -75,13 +87,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           </div>
           <div className="place-self-end">
             {isTeam ? (
-              <button
-                type="button"
-                className=" px-8 py-2 bg-gray-600 text-white rounded-lg  shadow-sm hover:bg-gray-500 focus:ring-2 focus:ring-indigo-200 m-2 "
-                onClick={myTeam}
-              >
-                내 팀 보기
-              </button>
+              null
             ) : (
               <button
                 type="button"
@@ -102,7 +108,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                   scope="col"
                   className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Team Leader
+                  Team Name
                 </th>
                 <th
                   scope="col"
@@ -137,33 +143,76 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {Teams.map((team) => (
-                <tr key={team.teamId}>
+              {teamlist.map((team: any, i: number) => (
+                <tr key={i}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <Image
-                          className="h-10 w-10 rounded-full"
-                          src={team.image}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{team.leader}</div>
-                      </div>
-                    </div>
+                    <div className="text-sm font-medium text-gray-900">{team.teamDto.name}</div>
                   </td>
-                  {team.members.map((member) => (
-                    <td className="px-6 py-4 whitespace-nowrap" key={member}>
-                      <div className="text-sm text-gray-900">{member}</div>
+                  {team.teamDto.teamuser.map((member: any, i: number) => (
+                    <td className="px-6 py-4 whitespace-nowrap" key={i}>
+                      <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={()=>userdetail(member.userPk)}>{member.userName}</div>
                     </td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
+          <Transition appear show={isOpen} as={Fragment}>
+            <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
+              <div className="flex justify-center my-8  text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                </Transition.Child>
+
+                {/* This element is to trick the browser into centering the modal contents. */}
+                <span className="inline-block align-middle " aria-hidden="true">
+                  &#8203;
+                </span>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
+                      onClick={() => setShowUser(false)}
+                    ></Dialog.Title>
+                    <div className="mt-2 ">
+                      <p className="text-sm text-gray-500  ">
+                        {/* userdetail */}
+                        <UserDetail userPk={userPkdata}/>
+                      </p>
+                    </div>
+
+                    <div className="mt-4 flex flex-row space-x-2 justify-center">
+
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={closeModal}
+                      >
+                        창 닫기
+                      </button>
+                    </div>
+                  </div>
+                </Transition.Child>
+              </div>
+            </Dialog>
+          </Transition>
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (

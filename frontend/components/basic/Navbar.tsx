@@ -76,15 +76,23 @@ function Navbar({ }: Props): ReactElement {
             </div>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+              onClick={() => gototeammenu(1)}
             >
               공통프로젝트
             </div>
             <div
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+              onClick={() => gototeammenu(2)}
             >
               특화프로젝트
             </div>
-            <Popover.Group as="nav" className="md:flex space-x-10">
+            <div
+              className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+              onClick={() => gototeammenu(3)}
+            >
+              특화프로젝트
+            </div>
+            {/* <Popover.Group as="nav" className="md:flex space-x-10">
               <Popover className="relative">
                 {({ open }) => (
                   <>
@@ -141,7 +149,7 @@ function Navbar({ }: Props): ReactElement {
                   </>
                 )}
               </Popover>
-            </Popover.Group>
+            </Popover.Group> */}
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a
                 href="#"

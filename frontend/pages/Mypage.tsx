@@ -23,10 +23,7 @@ function Mypage({}: Props): ReactElement {
   };
   const router = useRouter();
   const PK = router.query.userPK;
-  // 퇴소처리
-  function leave(PK: number) {
-    return;
-  }
+  console.log(PK)
   // 로그인정보 헤더 보내서 유저정보 가져오기
   useEffect(() => {
     return () => {};
