@@ -1,84 +1,87 @@
-# # Install dependencies only when needed
-# FROM node:alpine AS deps
-# # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-# RUN apk add --no-cache libc6-compat
-# WORKDIR /app
-# COPY package.json yarn.lock ./
-# # RUN yarn install --frozen-lockfile
-# RUN yarn install
+# Install dependencies only when needed
+FROM node:alpine AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock ./
+# RUN yarn install --frozen-lockfile
+RUN yarn install
 
 
-# # Rebuild the source code only when needed
-# # FROM node:alpine AS builder
-# FROM node:16.13-alpine AS builder
-# WORKDIR /app
-# COPY . .
-# COPY --from=deps /app/node_modules ./node_modules
-# RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
+# Rebuild the source code only when needed
+# FROM node:alpine AS builder
+FROM node:16.13-alpine AS builder
+WORKDIR /app
+COPY . .
+COPY --from=deps /app/node_modules ./node_modules
+RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
-# # Production image, copy all the files and run next
-# FROM node:alpine AS runner
-# WORKDIR /app
+# Production image, copy all the files and run next
+FROM node:alpine AS runner
+WORKDIR /app
 
-# ENV NODE_ENV production
+ENV NODE_ENV production
 
-# RUN addgroup -g 1001 -S nodejs
-# RUN adduser -S nextjs -u 1001
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-# # You only need to copy next.config.js if you are NOT using the default configuration
-# COPY --from=builder /app/next.config.js ./
-# COPY --from=builder /app/public ./public
-# COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-# COPY --from=builder /app/node_modules ./node_modules
-# COPY --from=builder /app/package.json ./package.json
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
-# USER nextjs
+USER nextjs
 
-# # EXPOSE 80 443 3000
+EXPOSE 80 443 3000
 # FROM nginx
 # COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
 # COPY --from=builder /app/node_modules /usr/share/nginx/html
 # EXPOSE 80
 
 
-# # Next.js collects completely anonymous telemetry data about general usage.
-# # Learn more here: https://nextjs.org/telemetry
-# # Uncomment the following line in case you want to disable telemetry.
-# # ENV NEXT_TELEMETRY_DISABLED 1
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry.
+# ENV NEXT_TELEMETRY_DISABLED 1
 
-# CMD ["next", "build"]
-# CMD ["yarn", "start"]
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["next", "build"]
+CMD ["yarn", "start"]
+CMD ["nginx", "-g", "daemon off;"]
 # stage1 as builder
-FROM node:16.13-alpine as builder
 
-# copy the package.json to install dependencies
-COPY package.json package.json ./
 
-# Install the dependencies and make the folder
-RUN yarn install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
-# RUN npm install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
 
-WORKDIR /nextjs-ui
+# FROM node:16.13-alpine as builder
 
-COPY . .
+# # copy the package.json to install dependencies
+# COPY package.json package.json ./
 
-# Build the project and copy the files
-RUN yarn run build
-# RUN npm run build
+# # Install the dependencies and make the folder
+# RUN yarn install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
+# # RUN npm install && mkdir /nextjs-ui && mv ./node_modules ./nextjs-ui
 
-FROM nginx:alpine
+# WORKDIR /nextjs-ui
 
-#!/bin/sh
+# COPY . .
 
-COPY ./nginx/homepage.conf /etc/nginx/nginx.conf
+# # Build the project and copy the files
+# RUN yarn run build
+# # RUN npm run build
 
-## Remove default nginx index page
-RUN rm -rf /usr/share/nginx/html/*
+# FROM nginx:alpine
 
-# Copy from the stahg 1
-COPY --from=builder /nextjs-ui/builder /usr/share/nginx/html
+# #!/bin/sh
 
-EXPOSE 3000 80
+# COPY ./nginx/homepage.conf /etc/nginx/nginx.conf
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# ## Remove default nginx index page
+# RUN rm -rf /usr/share/nginx/html/*
+
+# # Copy from the stahg 1
+# COPY --from=builder /nextjs-ui/builder /usr/share/nginx/html
+
+# EXPOSE 3000 80
+
+# ENTRYPOINT ["nginx", "-g", "daemon off;"]
