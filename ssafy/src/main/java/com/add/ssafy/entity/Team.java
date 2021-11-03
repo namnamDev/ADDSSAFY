@@ -30,4 +30,6 @@ public class Team {
     private String introduce;
 
     private String webexLink;
+
+    private String mmChannel;
 }

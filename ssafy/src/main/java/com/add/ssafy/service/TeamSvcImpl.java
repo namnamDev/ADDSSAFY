@@ -113,4 +113,9 @@ public class TeamSvcImpl implements TeamSvcInter{
         }
         return BaseResponse.builder().status("200").msg("성공").data(true).build();
     }
+
+    @Override
+    public BaseResponse getTeamDtoByTeamPK(Long teamPK){
+        return BaseResponse.builder().status("200").msg("성공").data(teamRepo.getTeamDtoByTeamPK(teamPK)).build();
+    }
 }
