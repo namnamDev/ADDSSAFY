@@ -20,6 +20,9 @@ function LoginModal({ }: Props): ReactElement {
       .then((res: unknown | any) => {
         console.log(res);
         localStorage.setItem("MMtoken", "Bearer " + res.headers.token);
+        localStorage.setItem("MMid", res.data.id);
+        localStorage.setItem("username", res.data.username);
+
         // 데이터정보 날려주기
         axios.post('/api/users/login',
           {
