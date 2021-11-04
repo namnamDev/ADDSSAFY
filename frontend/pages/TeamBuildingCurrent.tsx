@@ -43,6 +43,25 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
     router.push(`/TeamCreate/?projectNo=${idx}`);
   };
   const idx = router.query.projectNo;
+  // 팀이 있는지 체크
+  const [myteamPk, setmyteamPk] = useState<number>(0)
+  useEffect(() => {
+    if (router.query.projectNo) {
+      const token: string | null = localStorage.getItem("token")
+      if (typeof token === "string") {
+        axios.get(`/api/team/myteam/${router.query.projectNo}`, {
+          headers: { Authorization: token }
+        })
+          .then((res: any) => {
+            console.log(res)
+            setmyteamPk(res.data.data)
+            if (res.data.data !== 0) {
+              setIsTeam(true)
+            }
+          })
+      }
+    }
+  }, [router.query.projectNo])
 
   // 팀 현황
   const [teamlist, setteamlist] = useState<any>([])
@@ -83,7 +102,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
       <div className="text-center w-3/4 mx-auto">
         {
           isTeam
-            ? <MyTeamDetail />
+            ? <MyTeamDetail teamPK={myteamPk}/>
             : null
         }
 

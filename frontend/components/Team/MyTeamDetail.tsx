@@ -1,12 +1,13 @@
 import React, { ReactElement, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 interface Props {
-    
+    teamPK: number
 }
 
-function MyTeamDetail({}: Props): ReactElement {
+function MyTeamDetail({ teamPK }: Props): ReactElement {
     const router = useRouter();
     const products = [
         {
@@ -42,7 +43,9 @@ function MyTeamDetail({}: Props): ReactElement {
     ];
     // 팀멤버 정보 받아오기
     useEffect(() => {
-        return () => { };
+        axios.get(`/api/team/teamuser/${teamPK}`)
+            .then((res) => { console.log(res) })
+            .catch(() => alert('실패'))
     }, []);
     // 팀 정보 가져오기
     const people = [

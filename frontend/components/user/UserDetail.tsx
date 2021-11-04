@@ -26,6 +26,7 @@ function UserDetail({ userPk }: Props): ReactElement {
   const PK = router.query.userPK;
   const [userinfo, setuserinfo] = useState<any>({})
   const [usertags, setusertags] = useState<any>({})
+  const [myteamhistory, setmyteamhistory] = useState<any>({})
   useEffect(() => {
     const token: string | null = localStorage.getItem("token")
     if (typeof token === "string") {
@@ -33,13 +34,13 @@ function UserDetail({ userPk }: Props): ReactElement {
         headers: { Authorization: token }
       })
         .then((res: any) => {
+          console.log(res)
           setuserinfo(res.data.data.userDetailDto)
           setusertags(res.data.data.memberHashTags)
-
+          setmyteamhistory(res.data.data.userDetailDto.teamList)
         })
     }
   }, [])
-  console.log(usertags)
   // 퇴소처리
   function leave(PK: number) {
     return;
@@ -67,10 +68,32 @@ function UserDetail({ userPk }: Props): ReactElement {
             />
           </div>
           <dl>
-            <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">팀 정보</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">1팀 / 무소속</dd>
-            </div>
+            {
+              myteamhistory.length > 0
+                ? <div>
+                  {Object.values(myteamhistory).map((team: any, i: any) => (
+                    <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      {
+                        team.projectCode === 0
+                          ? <dt className="text-sm font-medium text-gray-500">공통프로젝트</dt>
+                          : null
+                      }                {
+                        team.projectCode === 1
+                          ? <dt className="text-sm font-medium text-gray-500">특화프로젝트</dt>
+                          : null
+                      }
+                      {
+                        team.projectCode === 2
+                          ? <dt className="text-sm font-medium text-gray-500">자율프로젝트</dt>
+                          : null
+                      }
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{team.name}</dd>
+                    </div>
+                  ))}
+                </div>
+                : null
+            }
+
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이름</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.userName}</dd>

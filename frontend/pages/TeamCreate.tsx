@@ -39,42 +39,27 @@ function TeamCreate({ }: Props): ReactElement {
         team_id: "tfctt9yko7f93jge3itn1tseoo",
         type: "P",
         display_name: username + "님의 프로젝트",
-        name: now + username,
+        name: teamtitle,
       },
         {
           headers: { Authorization: MMtoken }
         })
         .then((res: any) => {
-          console.log(can)
           if (typeof token === "string") {
-            const channelId = res.data.id
-            axios.post('/team/create', {
+            axios.post('/api/team/create', {
               introduceTeam: teamIntro,
               webex: teamWebex,
               want: can,
               name: teamtitle,
-              projectCode: idx,
-              mmChannel: channelId
+              projectCode: Number(idx),
+              mmChannel: res.data.id
             },
               { headers: { Authorization: token } }
             )
+              .then((res) => console.log(res))
           }
         })
     }
-    //   if (typeof token === "string") {
-    //     axios.post('/team/create', {
-    //       headers: { Authorization: token },
-    //       introduceTeam: teamIntro,
-    //       webex: teamWebex,
-    //       name: "",
-    //       projectCode: idx,
-
-    //     })
-    //       .then((res: any) => {
-
-    //       })
-    //       .catch((err) => alert(err))
-    //   }
   }
   const onTeamIntroChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setteamtitle(e.target.value);
@@ -123,10 +108,6 @@ function TeamCreate({ }: Props): ReactElement {
           </div>
         </div>
         <TeamCreateHashTag onCanChanged={setCan} />
-        {/* <DndProvider backend={HTML5Backend}>
-          <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
-        </DndProvider> */}
-
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
             <button

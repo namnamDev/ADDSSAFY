@@ -24,10 +24,11 @@ function LoginModal({ }: Props): ReactElement {
         localStorage.setItem("username", res.data.username);
         localStorage.setItem("nickname", res.data.nickname);
         // 데이터정보 날려주기
+
         axios.post('/api/users/login',
           {
             email: loginid,
-            password: loginpw,
+            password: "test",
             mmid: res.data.id,
             username: res.data.username,
             nickname: res.data.nickname
