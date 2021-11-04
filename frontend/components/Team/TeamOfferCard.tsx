@@ -109,18 +109,7 @@ function TeamOfferCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <UserDetail
-                        // userdata={{
-                        //   userId: 0,
-                        //   name: "",
-                        //   classNo: 0,
-                        //   address: "",
-                        //   class: "",
-                        //   email: "",
-                        //   phone: "",
-                        //   status: "",
-                        //   image: "",
-                        //   sigfiles: [],
-                        // }}
+                      userPk={1}
                       />
                     </p>
                   </div>
