@@ -4,9 +4,9 @@ import axios from "axios";
 import Footer from "../components/basic/Footer";
 import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
 import { useRouter } from "next/router";
-import moment from 'moment'
+import moment from "moment";
 
-interface Props { }
+interface Props {}
 
 // interface list {
 //   hashTagPK: number;
@@ -15,8 +15,8 @@ interface Props { }
 //   image: string;
 // }
 
-function TeamCreate({ }: Props): ReactElement {
-  const router = useRouter()
+function TeamCreate({}: Props): ReactElement {
+  const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
   const [teamtitle, setteamtitle] = useState<string>("");
@@ -29,36 +29,43 @@ function TeamCreate({ }: Props): ReactElement {
   // };
   function create() {
     // token
-    const token: string | null = localStorage.getItem("token")
-    const MMtoken: string | null = localStorage.getItem("mmtoken")
-    const username: string | null = localStorage.getItem("username")
-    const now = moment().format('YYYYMMDDHHmmss')
+    const token: string | null = localStorage.getItem("token");
+    const MMtoken: string | null = localStorage.getItem("mmtoken");
+    const username: string | null = localStorage.getItem("username");
+    const now = moment().format("YYYYMMDDHHmmss");
     // mattermost 채널생성
     if (typeof MMtoken === "string" && typeof username == "string") {
-      axios.post('/api/v4/channels', {
-        team_id: "tfctt9yko7f93jge3itn1tseoo",
-        type: "P",
-        display_name: username + "님의 프로젝트",
-        name: teamtitle,
-      },
-        {
-          headers: { Authorization: MMtoken }
-        })
+      axios
+        .post(
+          "/api/v4/channels",
+          {
+            team_id: "tfctt9yko7f93jge3itn1tseoo",
+            type: "P",
+            display_name: username + "님의 프로젝트",
+            name: teamtitle,
+          },
+          {
+            headers: { Authorization: MMtoken },
+          }
+        )
         .then((res: any) => {
           if (typeof token === "string") {
-            axios.post('/api/team/create', {
-              introduceTeam: teamIntro,
-              webex: teamWebex,
-              want: can,
-              name: teamtitle,
-              projectCode: Number(idx),
-              mmChannel: res.data.id
-            },
-              { headers: { Authorization: token } }
-            )
-              .then((res) => console.log(res))
+            axios
+              .post(
+                "http://k5d204.p.ssafy.io:8080/api/team/create",
+                {
+                  introduceTeam: teamIntro,
+                  webex: teamWebex,
+                  want: can,
+                  name: teamtitle,
+                  projectCode: Number(idx),
+                  mmChannel: res.data.id,
+                },
+                { headers: { Authorization: token } }
+              )
+              .then((res) => console.log(res));
           }
-        })
+        });
     }
   }
   const onTeamIntroChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
