@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -13,7 +13,7 @@ interface list {
   prop: string;
   image: string;
 }
-function Mypage({}: Props): ReactElement {
+function Mypage({ }: Props): ReactElement {
   const person = {
     name: "Jane Cooper",
     userId: 1,
@@ -39,21 +39,21 @@ function Mypage({}: Props): ReactElement {
   };
   // 로그인정보 헤더 보내서 유저정보 가져오기
   useEffect(() => {
-    return () => {};
+    return () => { };
   }, []);
   console.log(can);
   console.log(want);
   return (
     <div>
       <Navbar />
-      <div className="mx-48">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
+      <div className="w-2/3 mx-auto text-center">
+        <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">내 정보 수정</h3>
           </div>
           <div className="border-t border-gray-200">
             <dl>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">연락처</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
@@ -61,7 +61,7 @@ function Mypage({}: Props): ReactElement {
                   onChange={(e) => phoneChange(e.target.value)}
                 />
               </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">GITHUB 주소</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
@@ -69,7 +69,7 @@ function Mypage({}: Props): ReactElement {
                   onChange={(e) => phoneChange(e.target.value)}
                 />
               </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">블로그 주소</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
@@ -81,7 +81,7 @@ function Mypage({}: Props): ReactElement {
                 <dt className="text-sm font-medium text-gray-500">백준 티어</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">플레1</dd>
               </div> */}
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">자기 소개</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
@@ -102,10 +102,10 @@ function Mypage({}: Props): ReactElement {
             <button
               type="button"
               className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
-              //   onClick={() =>
-              //     router.push(
-              //     )
-              //   }
+            //   onClick={() =>
+            //     router.push(
+            //     )
+            //   }
             >
               정보수정
             </button>

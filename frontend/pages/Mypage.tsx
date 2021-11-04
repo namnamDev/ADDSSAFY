@@ -23,10 +23,7 @@ function Mypage({}: Props): ReactElement {
   };
   const router = useRouter();
   const PK = router.query.userPK;
-  // 퇴소처리
-  function leave(PK: number) {
-    return;
-  }
+  console.log(PK)
   // 로그인정보 헤더 보내서 유저정보 가져오기
   useEffect(() => {
     return () => {};
@@ -34,7 +31,7 @@ function Mypage({}: Props): ReactElement {
   return (
     <div>
       <Navbar />
-      <div className="mx-48">
+      <div className="w-2/3 mx-auto text-center">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"></div>
           <div className="px-4 py-5 sm:px-6">

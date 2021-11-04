@@ -19,16 +19,19 @@ function LoginModal({ }: Props): ReactElement {
 
       .then((res: unknown | any) => {
         console.log(res);
-        localStorage.setItem("MMtoken", "Bearer " + res.headers.token);
-        localStorage.setItem("MMid", res.data.id);
+        localStorage.setItem("mmtoken", "Bearer " + res.headers.token);
+        localStorage.setItem("mmid", res.data.id);
         localStorage.setItem("username", res.data.username);
-
+        localStorage.setItem("nickname", res.data.nickname);
         // 데이터정보 날려주기
+
         axios.post('/api/users/login',
           {
             email: loginid,
+            password: "test",
             mmid: res.data.id,
-            password: loginpw
+            username: res.data.username,
+            nickname: res.data.nickname
           }
         )
           // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
@@ -37,6 +40,7 @@ function LoginModal({ }: Props): ReactElement {
             localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
             router.push('/Main')
           })
+          .catch((err) => alert(err))
       })
       .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
   }
