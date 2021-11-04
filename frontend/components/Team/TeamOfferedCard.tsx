@@ -55,7 +55,7 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+        // onClick={() => SendMM()}
         >
           수락
         </span>
@@ -63,18 +63,11 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+        // onClick={() => SendMM()}
         >
           거절
         </span>
       </td>
-      {/* 팀 정보
-      <div>
-        <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
-        <h2 className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</h2>
-        <h3 className="text-gray-500">팀 소개</h3>
-        <h3 className="text-gray-500">현재인원 : 4명</h3>
-      </div> */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
           <div className="flex justify-center my-8  text-center">
@@ -116,19 +109,7 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <UserDetail
-                      // userPK={123}
-                      // userdata={{
-                      //   userId: 0,
-                      //   name: "",
-                      //   classNo: 0,
-                      //   address: "",
-                      //   class: "",
-                      //   email: "",
-                      //   phone: "",
-                      //   status: "",
-                      //   image: "",
-                      //   sigfiles: [],
-                      // }}
+                        userPk={123}
                       />
                     </p>
                   </div>

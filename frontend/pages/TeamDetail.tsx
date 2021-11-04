@@ -1,12 +1,10 @@
 import React, { ReactElement, useEffect } from "react";
-import Navbar from "../components/basic/Navbar";
 import Image from "next/image";
-import Footer from "../components/basic/Footer";
 import { useRouter } from "next/router";
 
-interface Props {}
+interface Props { }
 
-function TeamDetail({}: Props): ReactElement {
+function TeamDetail({ }: Props): ReactElement {
   const router = useRouter();
   const products = [
     {
@@ -42,7 +40,7 @@ function TeamDetail({}: Props): ReactElement {
   ];
   // 팀멤버 정보 받아오기
   useEffect(() => {
-    return () => {};
+    return () => { };
   }, []);
   // 팀 정보 가져오기
   const people = [
@@ -65,9 +63,13 @@ function TeamDetail({}: Props): ReactElement {
   ];
   return (
     <div>
-      <Navbar />
       <div className="bg-white">
         <div className="max-w-5xl mx-auto py-10 px-4 ">
+          <div className="text-right">
+            <button className="float-right">팀 나가기</button>
+            <button className="float-right">팀장위임</button>
+            <Image className="float-right" src="/images/webex.png" alt="" height="50" width="50"/>
+          </div>
           <h2 className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</h2>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-8">
             {products.map((product) => (
@@ -263,7 +265,6 @@ function TeamDetail({}: Props): ReactElement {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -30,18 +30,17 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
   const check = (section: any, option: any) => {
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value) => value != option.hashTagPK);
-        setCan(result);
-      }
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+      console.log(option.hashTagPK)
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value) => value != option.hashTagPK);
+      setCan(result);
     }
   };
 
@@ -54,7 +53,6 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
       filters[0].options.push(...clonedeep(res.data.data.FOUR));
       filters[0].options.push(...clonedeep(res.data.data.ETC));
       // filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
-
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;

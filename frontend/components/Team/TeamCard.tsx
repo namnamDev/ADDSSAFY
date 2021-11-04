@@ -49,8 +49,6 @@ function TeamCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">반</div>
       </td>
-
-      <td className="px-6 py-4 whitespace-nowrap">010-5303-1984</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {/* {person.status === "leave" ? (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
@@ -68,7 +66,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+        // onClick={() => SendMM()}
         >
           MatterMost
         </span>
@@ -122,19 +120,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <UserDetail
-                      // userPK={123}
-                      // userdata={{
-                      //   userId: 0,
-                      //   name: "",
-                      //   classNo: 0,
-                      //   address: "",
-                      //   class: "",
-                      //   email: "",
-                      //   phone: "",
-                      //   status: "",
-                      //   image: "",
-                      //   sigfiles: [],
-                      // }}
+                        userPk={1}
                       />
                     </p>
                   </div>

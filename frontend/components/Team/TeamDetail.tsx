@@ -21,7 +21,6 @@ interface Props {
 
 function TeamDetail({ teamPK }: Props): ReactElement {
   const router = useRouter();
-  const PK = router.query.userPK;
   return (
     <div>
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mx-8">
