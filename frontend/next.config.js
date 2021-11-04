@@ -1,33 +1,18 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/api/v4/:path*",
-  //       destination: `https://meeting.ssafy.com/api/v4/:path*`,
-  //     },
-  //     // backend
-  //     {
-  //       source: "/api/:path*",
-  //       destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
-  //     },
-  //   ];
-  // },
   async rewrites() {
-    console.log("Rewrites called");
-    return process.env.NODE_ENV === "development"
-      ? [
-          {
-            source: "/api/v4/:path*",
-            destination: `https://meeting.ssafy.com/api/v4/:path*`,
-          },
-
-          {
-            source: "/api/:path*",
-            destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
-          },
-        ]
-      : [];
+    console.log("in rewrites");
+    return [
+      {
+        source: "/api/v4/:path*",
+        destination: `https://meeting.ssafy.com/api/v4/:path*`,
+      },
+      // backend
+      {
+        source: "/api/:path*",
+        destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
+      },
+    ];
   },
   reactStrictMode: true,
   images: {
