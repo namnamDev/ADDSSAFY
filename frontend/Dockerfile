@@ -38,7 +38,7 @@ USER nextjs
 FROM nginx
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/out /usr/share/nginx/html
-EXPOSE 80 3000
+EXPOSE 80
 
 
 # Next.js collects completely anonymous telemetry data about general usage.
