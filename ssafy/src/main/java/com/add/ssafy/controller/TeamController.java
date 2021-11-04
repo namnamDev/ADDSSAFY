@@ -1,6 +1,7 @@
 package com.add.ssafy.controller;
 
 import com.add.ssafy.dto.request.CreateTeamRequest;
+import com.add.ssafy.dto.request.ExitTeamRequest;
 import com.add.ssafy.dto.request.TeamUpdateRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.service.TeamSvcInter;
@@ -39,5 +40,10 @@ public class TeamController {
     @GetMapping("/myteam/{projectCode}")
     public ResponseEntity<BaseResponse>ifUserHasTeam(@PathVariable(name="projectCode")int projectCode){
         return ResponseEntity.ok(teamSvcInter.ifUserHasTeam(projectCode));
+    }
+
+    @DeleteMapping("/exit")
+    public ResponseEntity<BaseResponse>exitTeam(@RequestBody ExitTeamRequest exitTeamRequest){
+        return ResponseEntity.ok(teamSvcInter.exitTeam(exitTeamRequest));
     }
 }

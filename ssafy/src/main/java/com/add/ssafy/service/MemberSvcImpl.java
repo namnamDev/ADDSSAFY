@@ -147,4 +147,21 @@ public class MemberSvcImpl implements MemberSvcInter {
 
         return BaseResponse.builder().status("200").msg("성공").data(true).build();
     }
+
+    @Override
+    public BaseResponse myPage(){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Long userPK = member.getId();
+        UserDetailDto tempMember = memberRepo.findUserDetailDTOById(userPK);
+        MemberAddTagsDto res = new MemberAddTagsDto();
+        Map<String,Object> memberHashtags = new HashMap<>();
+        List<HashTagsDto> tempTags = memberHashtagRepo.gethashtags(userPK);
+        for(int g = 0 ; g < tempTags.size();g++){
+            HashTagsDto temp = tempTags.get(g);
+            memberHashtags.put(temp.getHashTagProp().toString(), temp.getHashtags());
+        }
+        res.setMemberHashTags(memberHashtags);
+        res.setUserDetailDto(tempMember);
+        return BaseResponse.builder().status("200").msg("성공").data(res).build();
+    }
 }
