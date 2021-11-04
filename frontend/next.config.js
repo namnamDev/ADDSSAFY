@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   async rewrites() {
-    console.log("in rewrites");
     return [
       {
         source: "/api/v4/:path*",
