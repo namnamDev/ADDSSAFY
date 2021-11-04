@@ -13,4 +13,6 @@ public interface MemberSvcInter {
     BaseResponse getUserDetail(Long userPK);
 
     BaseResponse updateMember(Long userPK, UpdateMemberRequest updateMemberRequest);
+
+    BaseResponse myPage();
 }

@@ -29,5 +29,8 @@ public class UsersController {
     public ResponseEntity updateUser(@PathVariable(name="userPK")Long userPK, @RequestBody UpdateMemberRequest updateMemberRequest){
         return ResponseEntity.ok(memberSvcInter.updateMember(userPK,updateMemberRequest));
     }
-
+    @GetMapping("mypage")
+    public ResponseEntity myPage() {
+        return ResponseEntity.ok(memberSvcInter.myPage());
+    }
 }
