@@ -52,7 +52,7 @@ function TeamCreate({}: Props): ReactElement {
           if (typeof token === "string") {
             axios
               .post(
-                "http://k5d204.p.ssafy.io:8080/api/team/create",
+                "/api/team/create",
                 {
                   introduceTeam: teamIntro,
                   webex: teamWebex,
