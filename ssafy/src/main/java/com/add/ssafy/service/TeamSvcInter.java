@@ -14,4 +14,6 @@ public interface TeamSvcInter {
     BaseResponse updateTeam(TeamUpdateRequest teamUpdateRequest);
 
     BaseResponse getTeamDtoByTeamPK(Long teamPK);
+
+    BaseResponse ifUserHasTeam(int projectCode);
 }

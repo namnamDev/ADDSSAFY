@@ -30,6 +30,7 @@ public class TeamRepoImpl implements TeamRepoCustom {
                         , qMember.name
                         , qTeamMember.leader
                         , qMember.profile
+                        , qMember.mmid
                 )).from(qTeamMember)
                 .where(qTeam.id.eq(teamPK))
                 .join(qTeam).on(qTeamMember.team().eq(qTeam))
@@ -69,6 +70,7 @@ public class TeamRepoImpl implements TeamRepoCustom {
                                                 , qMember.name
                                                 , qTeamMember.leader
                                                 , qMember.profile
+                                                , qMember.mmid
                                         ))
                                 )
                         )
@@ -114,6 +116,7 @@ public class TeamRepoImpl implements TeamRepoCustom {
                                                 , qMember.name
                                                 , qTeamMember.leader
                                                 , qMember.profile
+                                                , qMember.mmid
                                         ))
                                 )
                         )

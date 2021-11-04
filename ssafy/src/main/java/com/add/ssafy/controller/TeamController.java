@@ -36,4 +36,8 @@ public class TeamController {
     public ResponseEntity<BaseResponse>getTeamDtoByTeamPK(@PathVariable(name="teamPK")Long teamPK){
         return ResponseEntity.ok(teamSvcInter.getTeamDtoByTeamPK(teamPK));
     }
+    @GetMapping("/myteam/{projectCode}")
+    public ResponseEntity<BaseResponse>ifUserHasTeam(@PathVariable(name="projectCode")int projectCode){
+        return ResponseEntity.ok(teamSvcInter.ifUserHasTeam(projectCode));
+    }
 }
