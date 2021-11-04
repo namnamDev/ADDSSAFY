@@ -55,7 +55,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           .then((res: any) => {
             console.log(res)
             setmyteamPk(res.data.data)
-            if (res.data.data !== 0) {
+            if (res.data.data > 0) {
               setIsTeam(true)
             } else {
               setIsTeam(false)
@@ -233,7 +233,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5 mx-auto">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
               <UserOfferList list={searchList} />
@@ -244,7 +244,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
             </div>
           </div>
         ) : (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-2/3 mx-auto">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">팀에게 보낸 제안</div>
               <TeamOfferList list={searchList} />
