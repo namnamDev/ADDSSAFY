@@ -2,15 +2,15 @@
 module.exports = {
   async rewrites() {
     return [
-      // {
-      //   source: "/api/v4/:path*",
-      //   destination: `https://meeting.ssafy.com/api/v4/:path*`,
-      // },
-      // // backend
-      // {
-      //   source: "/api/:path*",
-      //   destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
-      // },
+      {
+        source: "/api/v4/:path*",
+        destination: `https://meeting.ssafy.com/api/v4/:path*`,
+      },
+      // backend
+      {
+        source: "/api/:path*",
+        destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
+      },
     ];
   },
   reactStrictMode: true,
