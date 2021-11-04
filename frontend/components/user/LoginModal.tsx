@@ -3,16 +3,16 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-interface Props { }
+interface Props {}
 
-function LoginModal({ }: Props): ReactElement {
+function LoginModal({}: Props): ReactElement {
   const router = useRouter();
   // 로그인
   const [loginid, setloginid] = useState<string>("");
   const [loginpw, setloginpw] = useState<string>("");
   function login() {
     axios
-      .post("/api/v4/users/login", {
+      .post("https://meeting.ssafy.com/api/v4/users/login", {
         login_id: loginid,
         password: loginpw,
       })
@@ -25,31 +25,29 @@ function LoginModal({ }: Props): ReactElement {
         localStorage.setItem("nickname", res.data.nickname);
         // 데이터정보 날려주기
 
-        axios.post('/api/users/login',
-          {
+        axios
+          .post("/api/users/login", {
             email: loginid,
             password: "test",
             mmid: res.data.id,
             username: res.data.username,
-            nickname: res.data.nickname
-          }
-        )
+            nickname: res.data.nickname,
+          })
           // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
           .then((res: any) => {
             console.log(res);
             localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
-            router.push('/Main')
+            router.push("/Main");
           })
-          .catch((err) => alert(err))
+          .catch((err) => alert(err));
       })
-      .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
+      .catch(() => alert("Mattermost계정을 올바르게 입력해주세요"));
   }
 
   return (
     <div className="min-h-full flex items-center justify-center pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="rounded-md shadow-sm -space-y-px">
-
           <div>
             <input
               id="MM-ID"

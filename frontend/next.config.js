@@ -2,10 +2,10 @@
 module.exports = {
   async rewrites() {
     return [
-      {
-        source: "/api/v4/:path*",
-        destination: `https://meeting.ssafy.com/api/v4/:path*`,
-      },
+      // {
+      //   source: "/api/v4/:path*",
+      //   destination: `https://meeting.ssafy.com/api/v4/:path*`,
+      // },
       // backend
       {
         source: "/api/:path*",
