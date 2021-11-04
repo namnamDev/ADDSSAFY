@@ -12,7 +12,7 @@ function LoginModal({}: Props): ReactElement {
   const [loginpw, setloginpw] = useState<string>("");
   function login() {
     axios
-      .post("https://meeting.ssafy.com/api/v4/users/login", {
+      .post("/api/v4/users/login", {
         login_id: loginid,
         password: loginpw,
       })
