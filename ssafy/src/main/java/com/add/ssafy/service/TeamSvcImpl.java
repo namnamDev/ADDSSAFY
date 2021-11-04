@@ -119,4 +119,14 @@ public class TeamSvcImpl implements TeamSvcInter{
     public BaseResponse getTeamDtoByTeamPK(Long teamPK){
         return BaseResponse.builder().status("200").msg("성공").data(teamRepo.getTeamDtoByTeamPK(teamPK)).build();
     }
+    @Override
+    public BaseResponse ifUserHasTeam(int projectCode){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Long ifUserHasTeam = 0L;
+        Optional<TeamMember> teamMember = teamRepo.ifUsrHasTeam(member.getId(),projectCode);
+        if (teamMember.isPresent()){
+            ifUserHasTeam = teamMember.get().getId();
+        }
+        return BaseResponse.builder().status("200").msg("성공").data(ifUserHasTeam).build();
+    }
 }
