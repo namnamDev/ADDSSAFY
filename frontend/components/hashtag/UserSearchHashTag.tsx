@@ -21,7 +21,7 @@ const filters: filters[] = [
     options: [],
   },
 ];
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -34,7 +34,10 @@ interface filters {
   name: string;
   options: list[];
 }
-function UserSearchHashTag({}: Props): ReactElement {
+interface Props {
+  projectCode: number
+}
+function UserSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<list[]>([]);
   const [want, setWant] = useState<list[]>([]);

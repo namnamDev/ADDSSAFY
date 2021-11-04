@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
+import axios from "axios";
 interface Props { }
 
 interface list {
@@ -30,19 +31,36 @@ function Mypage({ }: Props): ReactElement {
   const PK = router.query.userPK;
   const [can, setCan] = useState<number[]>([]);
   const [want, setWant] = useState<number[]>([]);
-  // 퇴소처리
-  function leave(PK: number) {
-    return;
-  }
   const phoneChange = (value: String) => {
     console.log(value);
   };
   // 로그인정보 헤더 보내서 유저정보 가져오기
+  const [userinfo, setuserinfo] = useState<any>({})
+  const [usertags, setusertags] = useState<any>({})
+  const [myteamhistory, setmyteamhistory] = useState<any>({})
   useEffect(() => {
-    return () => { };
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === 'string') {
+      axios.get('/api/users/mypage',
+        {
+          headers: { Authorization: token }
+        })
+        .then((res: any) => {
+          console.log(res);
+          setuserinfo(res.data.data.userDetailDto)
+          setusertags(res.data.data.memberHashTags)
+          setmyteamhistory(res.data.data.userDetailDto.teamList)
+        })
+        .catch(() => alert('회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요'))
+    }
   }, []);
-  console.log(can);
-  console.log(want);
+  // 정보수정
+  const token: string | null = localStorage.getItem('token')
+  if (typeof token === 'string') {
+    axios.put('', {
+
+    }, { headers: { Authorization: token } })
+  }
   return (
     <div>
       <Navbar />
@@ -53,41 +71,66 @@ function Mypage({ }: Props): ReactElement {
           </div>
           <div className="border-t border-gray-200">
             <dl>
-              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">연락처</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">이름</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.userName}</dd>
               </div>
+              {/* 프로젝트 */}
               <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">공통 프로젝트 팀 정보</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">1팀 / 무소속</dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">특화 프로젝트 팀 정보</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">1팀 / 무소속</dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">자율프로젝트 팀 정보</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">1팀 / 무소속</dd>
+              </div>
+              {/*  */}
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">이메일주소</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  {userinfo.email}
+                </dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">연락처</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.userPhone}</dd>
+              </div>
+              {/* 기술스택 */}
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">기술스택 (할 수 있어요)</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">파이썬</dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">기술스택 (하고 싶어요)</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">자바</dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">뱃지</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">지각교육생</dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">GITHUB 주소</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
+                  <Link href="https://www.naver.com">
+                    <a target="_blank">{userinfo.git}</a>
+                  </Link>
+                </dd>
               </div>
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">블로그 주소</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
+                  <Link href="https://www.naver.com">
+                    <a target="_blank">{userinfo.blog}</a>
+                  </Link>
+                </dd>
               </div>
-              {/* <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">백준 티어</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">플레1</dd>
-              </div> */}
-              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">자기 소개</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.introduce}</dd>
               </div>
             </dl>
           </div>

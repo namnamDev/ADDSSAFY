@@ -12,7 +12,7 @@ const filters: filters[] = [
     options: [],
   },
 ];
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -25,9 +25,12 @@ interface filters {
   name: string;
   options: list[];
 }
-function TeamSearchHashTag({}: Props): ReactElement {
+interface Props {
+  projectCode: number
+}
+function TeamSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
-  const [can, setCan] = useState<list[]>([]);
+  const [can, setCan] = useState<number[]>([]);
   const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
   const check = (section: any, option: any) => {
@@ -42,15 +45,20 @@ function TeamSearchHashTag({}: Props): ReactElement {
       // 빼는부분
       else if (option.check === true) {
         option.check = !option.check;
-        const result = can.filter((value:any) => value != option.hashTagPK);
+        const result = can.filter((value: any) => value != option.hashTagPK);
         console.log(result);
         setCan(result);
       }
     }
   };
+  // 검색
   const search = () => {
     console.log(can);
+    console.log(projectCode)
     setSearchList(TeamDump);
+    axios.get("/api/search/team", {
+      projectCode: Number(projectCode)
+    })
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {

@@ -57,6 +57,8 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
             setmyteamPk(res.data.data)
             if (res.data.data !== 0) {
               setIsTeam(true)
+            } else {
+              setIsTeam(false)
             }
           })
       }
@@ -99,14 +101,14 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   return (
     <div className="">
       <Navbar />
-      <div className="text-center w-3/4 mx-auto">
+      <div className="text-center">
         {
           isTeam
-            ? <MyTeamDetail teamPK={myteamPk}/>
+            ? <MyTeamDetail teamPK={myteamPk} />
             : null
         }
-
-        <div className="grid grid-cols-2 mt-4">
+        <br />
+        <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
             {idx === "0" ? "공통 프로젝트" : idx === "1" ? "특화 프로젝트" : "자율 프로젝트"}
           </div>
@@ -125,7 +127,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           </div>
         </div>
         <div className="mb-3 font-bold text-black my-5">생성된 팀목록</div>
-        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <div className="shadow overflow-hidden border-b border-gray-200 rounded-lg w-2/3 mx-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -231,7 +233,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5 mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
               <UserOfferList list={searchList} />
@@ -242,7 +244,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
             </div>
           </div>
         ) : (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-2/3 mx-auto">
             <div>
               <div className="font-bold my-5">팀에게 보낸 제안</div>
               <TeamOfferList list={searchList} />
@@ -254,7 +256,8 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           </div>
         )}
         {/* 검색 기능 */}
-        <div className="mt-4">
+        <div className="mt-20 w-5/6 mx-auto">
+          <div className="font-bold text-3xl">찾아보기</div>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -263,10 +266,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <TeamSearchHashTag />
+              <TeamSearchHashTag projectCode={Number(idx)} />
             </TabPanel>
             <TabPanel value="2">
-              <UserSearchHashTag />
+              <UserSearchHashTag projectCode={Number(idx)} />
             </TabPanel>
           </TabContext>
         </div>
