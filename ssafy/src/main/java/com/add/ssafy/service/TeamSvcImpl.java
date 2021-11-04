@@ -6,6 +6,7 @@ import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.TeamAddTagsDto;
 import com.add.ssafy.dto.TeamDto;
 import com.add.ssafy.dto.request.CreateTeamRequest;
+import com.add.ssafy.dto.request.ExitTeamRequest;
 import com.add.ssafy.dto.request.TeamUpdateRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.*;
@@ -128,5 +129,31 @@ public class TeamSvcImpl implements TeamSvcInter{
             ifUserHasTeam = teamMember.get().getTeam().getId();
         }
         return BaseResponse.builder().status("200").msg("성공").data(ifUserHasTeam).build();
+    }
+
+    @Override
+    public BaseResponse exitTeam(ExitTeamRequest exitTeamRequest){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Long teamPK = exitTeamRequest.getTeamPK();
+        TeamMember teamMember = teamMemberRepo.findByTeamMember(teamPK,member.getId());
+        teamMemberRepo.delete(teamMember);
+        teamMemberRepo.flush();
+        String msg = "";
+        if (teamMember.getLeader()){
+            Optional<TeamMember> tempTeamMember = teamMemberRepo.findByTeamsltOne(teamPK);
+            if (tempTeamMember.isPresent()) {
+                TeamMember tt = tempTeamMember.get();
+                tt.setLeader(true);
+                teamMemberRepo.save(tt);
+                msg = "팀장이" + tt.getMember().getId() + "로 변경되었습니다.";
+            }else{
+                Optional<Team> tempTeam = teamRepo.findById(teamPK);
+                Team tts = tempTeam.get();
+                teamRepo.delete(tts);
+                msg = "남은 조원이 없어 팀이 삭제되었습니다.";
+            }
+        }
+
+        return BaseResponse.builder().status("200").msg(msg).data(true).build();
     }
 }

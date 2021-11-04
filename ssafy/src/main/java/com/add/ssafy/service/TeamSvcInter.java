@@ -1,6 +1,7 @@
 package com.add.ssafy.service;
 
 import com.add.ssafy.dto.request.CreateTeamRequest;
+import com.add.ssafy.dto.request.ExitTeamRequest;
 import com.add.ssafy.dto.request.TeamUpdateRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 
@@ -16,4 +17,6 @@ public interface TeamSvcInter {
     BaseResponse getTeamDtoByTeamPK(Long teamPK);
 
     BaseResponse ifUserHasTeam(int projectCode);
+
+    BaseResponse exitTeam(ExitTeamRequest exitTeamRequest);
 }
