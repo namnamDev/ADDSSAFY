@@ -9,14 +9,15 @@ module.exports = {
       // backend
       {
         source: "/api/:path*",
-        destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
+        // destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
+        destination: `http://k5d204.p.ssafy.io:8080/abcdedf`,
       },
     ];
   },
   reactStrictMode: true,
   images: {
     loader: "imgix",
-    path: "http://k5d204.p.ssafy.io:8080/",
+    path: "http://k5d204.p.ssafy.io/",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
