@@ -119,9 +119,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
-                      <UserDetail
-                        userPk={1}
-                      />
+                      <UserDetail userPk={1}/>
                     </p>
                   </div>
 
