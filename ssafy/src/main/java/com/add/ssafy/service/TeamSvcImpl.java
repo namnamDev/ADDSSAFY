@@ -125,7 +125,7 @@ public class TeamSvcImpl implements TeamSvcInter{
         Long ifUserHasTeam = 0L;
         Optional<TeamMember> teamMember = teamRepo.ifUsrHasTeam(member.getId(),projectCode);
         if (teamMember.isPresent()){
-            ifUserHasTeam = teamMember.get().getId();
+            ifUserHasTeam = teamMember.get().getTeam().getId();
         }
         return BaseResponse.builder().status("200").msg("성공").data(ifUserHasTeam).build();
     }
