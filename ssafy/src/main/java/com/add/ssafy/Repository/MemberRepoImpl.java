@@ -3,18 +3,12 @@ package com.add.ssafy.Repository;
 import com.add.ssafy.dto.TeamForUserDetailDto;
 import com.add.ssafy.dto.UserDetailDto;
 import com.add.ssafy.dto.UserDto;
-import com.add.ssafy.entity.Member;
-import com.add.ssafy.entity.QMember;
-import com.add.ssafy.entity.QTeam;
-import com.add.ssafy.entity.QTeamMember;
+import com.add.ssafy.entity.*;
 import com.add.ssafy.enums.Authority;
 import com.querydsl.core.group.GroupBy;
-import com.querydsl.core.group.GroupByList;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -53,6 +47,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                 , qMember.name
                 , qTeamMember.leader
                 , qMember.profile
+                , qMember.mmid
                 ))
                 .from(qMember)
                 .join(qTeamMember).on(qMember.eq(qTeamMember.member()))
@@ -158,4 +153,16 @@ public class MemberRepoImpl implements MemberRepoCustom{
 //                .where(qMember.id.eq(userPK).and(qMember.authority.eq(Authority.ROLE_USER)))
 //                .fetchOne();
     }
+
+//    public long ifUserHasTeam(int projectCode, Long memberPK){
+//        QMember qMember = QMember.member;
+//        QTeam qTeam= QTeam.team;
+//        QTeamMember qTeamMember = QTeamMember.teamMember;
+//        return queryFactory.selectFrom(qTeam)
+//                .where(qTeam.type.eq(projectCode).and(qMember.id.eq(memberPK)))
+//                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
+//                .join(qMember).on(qTeamMember.member().eq(qMember))
+//                .fetchCount();
+////                .where(qMember.id.eq(memberPK))
+//    }
 }

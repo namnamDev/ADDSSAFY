@@ -11,4 +11,5 @@ public class UserDto {
     private String userName;
     private Boolean isLeader;
     private String profile;
+    private String mmid;
 }
