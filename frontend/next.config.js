@@ -3,12 +3,12 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: "http://k5d204.p.ssafy.io/api/v4/:path*",
+        source: "/api/v4/:path*",
         destination: `https://meeting.ssafy.com/api/v4/:path*`,
       },
       // backend
       {
-        source: "http://k5d204.p.ssafy.io/api/:path*",
+        source: "/api/:path*",
         destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
       },
     ];
