@@ -15,6 +15,7 @@ module.exports = {
   },
   reactStrictMode: true,
   images: {
+    loader: "static",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
