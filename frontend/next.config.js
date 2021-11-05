@@ -12,10 +12,6 @@ module.exports = {
         source: "/api/:path*",
         destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
       },
-      {
-        source: "/https//:path*",
-        destination: `https//:path*`,
-      },
     ];
   },
   reactStrictMode: true,
