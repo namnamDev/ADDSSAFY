@@ -41,7 +41,7 @@ FROM node:alpine
 WORKDIR /usr/app
 
 # Install PM2 globally
-RUN yarn add --global pm2
+RUN yarn global add pm2
 
 # Copy package.json and package-lock.json before other files
 # Utilise Docker cache to save re-installing dependencies if unchanged
@@ -74,7 +74,7 @@ RUN rm /etc/nginx/conf.d/*
 
 # Copy config files
 # *.conf files in conf.d/ dir get included in main config
-COPY ./default.conf /etc/nginx/conf.d/
+COPY ./nginx/homepage.conf /etc/nginx/conf.d/
 
 # Expose the listening port
 EXPOSE 80
