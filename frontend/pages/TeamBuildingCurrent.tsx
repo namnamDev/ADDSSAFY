@@ -193,7 +193,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               {teamlist.map((team: any, i: number) => (
                 <tr key={i}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900" onClick={() => { teamdata(team.teamDto.teamPK, team.teamDto.name) }}>{team.teamDto.name}</div>
+                    <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => { teamdata(team.teamDto.teamPK, team.teamDto.name) }}>{team.teamDto.name}</div>
                   </td>
                   {team.teamDto.teamuser.map((member: any, i: number) => (
                     <td className="px-6 py-4 whitespace-nowrap" key={i}>
@@ -318,7 +318,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                       <div className="mt-2 ">
                         <p className="text-sm text-gray-500  ">
                           <TeamDetail teamPK={teamPkdata} />
-                            <TeamUserList teamPK={teamPkdata} showUser={setShowTeamUser} />
+                          <TeamUserList teamPK={teamPkdata} showUser={setShowTeamUser} />
                         </p>
                       </div>
 
