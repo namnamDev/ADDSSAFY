@@ -46,4 +46,8 @@ public class TeamController {
     public ResponseEntity<BaseResponse>exitTeam(@RequestBody ExitTeamRequest exitTeamRequest){
         return ResponseEntity.ok(teamSvcInter.exitTeam(exitTeamRequest));
     }
+    @GetMapping("/info/{teamPK}")
+    public ResponseEntity<BaseResponse>TeamTag(@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(teamSvcInter.teamTag(teamPK));
+    }
 }
