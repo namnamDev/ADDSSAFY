@@ -21,7 +21,8 @@ RUN adduser -S nextjs -u 1001
 
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/out ./out
+# COPY --from=builder --chown=nextjs:nodejs /app/out ./out
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
@@ -37,7 +38,8 @@ CMD [ "pm2-runtime", "yarn", "--", "start" ]
 # EXPOSE 80 443 3000
 FROM nginx
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/out /usr/share/nginx/html
+# COPY --from=builder /app/out /usr/share/nginx/html
+COPY --from=builder /app/.next /usr/share/nginx/html
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
