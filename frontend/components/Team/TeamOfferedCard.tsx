@@ -24,26 +24,13 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
   };
 
   return (
-    <tr>
-      <td className=" py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
-              alt=""
-              width="100%"
-              height="100%"
-            />
-          </div>
-          <div className="ml-4">
-            <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            >
-              팀이름
-            </div>
-          </div>
+    <tr className="">
+      <td className="px-6 py-4 whitespace-nowrap text-center">
+        <div
+          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          onClick={() => setIsOpen(true)}
+        >
+          팀이름
         </div>
       </td>
 
@@ -108,9 +95,7 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
-                      <UserDetail
-                        userPk={123}
-                      />
+                      <UserDetail userPk={1} />
                     </p>
                   </div>
 

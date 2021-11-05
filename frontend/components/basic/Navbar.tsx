@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, useState } from "react";
+import React, { ReactElement, Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Transition, Menu, Popover } from "@headlessui/react";
@@ -28,7 +28,12 @@ interface Props { }
 
 function Navbar({ }: Props): ReactElement {
   // nickname 가져오기
-  // const nickname: string | null = localStorage.getItem("nickname")
+  const [mynickname, setmynickname] = useState<string|null>("")
+  useEffect(() => {
+    const nickname: string | null = localStorage.getItem("nickname")
+    setmynickname(nickname)
+  }, [])
+
   const router = useRouter();
   // 로그아웃
   function logout() {
@@ -77,8 +82,8 @@ function Navbar({ }: Props): ReactElement {
             </div>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <div className="whitespace-nowrap text-xs font-medium text-gray-900 ">
-                {/* {nickname} */}
+              <div className="whitespace-nowrap text-xs font-bold text-gray-900 ">
+                {mynickname}
               </div>
               <Menu as="div" className="ml-3 relative">
                 <div>
