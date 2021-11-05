@@ -16,7 +16,7 @@ module.exports = {
   },
   reactStrictMode: true,
   images: {
-    loader: "imgix",
+    loader: "cloudinary",
     path: isProduction ? "https://k5d204.p.ssafy.io/" : "",
     assetPrefix: isProduction ? "https://k5d204.p.ssafy.io/" : "",
     domains: [
