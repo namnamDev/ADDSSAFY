@@ -123,7 +123,7 @@ public class MemberSvcImpl implements MemberSvcInter {
     }
 
     @Override
-    public BaseResponse updateMember(Long userPK, UpdateMemberRequest updateMemberRequest){
+    public BaseResponse updateMember(UpdateMemberRequest updateMemberRequest){
         Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
 
         member.setBlog(updateMemberRequest.getBlog());
