@@ -12,6 +12,10 @@ interface Props {
 function TeamCard({ teamPK }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  // 팀정보 불러오기
+  useEffect(() => {
+
+  }, [])
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
@@ -93,11 +97,6 @@ function TeamCard({ teamPK }: Props): ReactElement {
             >
               <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
             </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block align-middle " aria-hidden="true">
-              &#8203;
-            </span>
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -119,7 +118,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
-                      <UserDetail userPk={1}/>
+                      <UserDetail userPk={1} />
                     </p>
                   </div>
 

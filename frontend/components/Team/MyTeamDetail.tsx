@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { range } from "lodash";
 
 interface Props {
     teamPK: number
@@ -10,15 +11,39 @@ interface Props {
 function MyTeamDetail({ teamPK }: Props): ReactElement {
     const router = useRouter();
     const [teammember, setteammember] = useState<any>([])
+    const [webex, setwebex] = useState<string>("")
+    const [leadercheck, setleadercheck] = useState<boolean>(false)
     // 팀멤버 정보 받아오기
     useEffect(() => {
-        axios.get(`/api/team/teamuser/${teamPK}`)
-            .then((res: any) => {
-                console.log(res.data.data);
-                setteammember([...res.data.data])
-            })
-            .catch(() => alert('실패'))
+        const mmid: string | null = localStorage.getItem('mmid')
+        if (typeof mmid === 'string') {
+            axios.get(`/api/team/teamuser/${teamPK}`)
+                .then((res: any) => {
+                    console.log(res.data.data);
+                    setteammember([...res.data.data])
+                    {
+                        res.data.data.map((member: any, i: number) => {
+                            console.log(1)
+                            if (member.isLeader === true && mmid === member.mmid) {
+                                setleadercheck(true)
+                            }
+                        })
+                    }
+                })
+                .catch(() => alert('통신이 불안정합니다, 다시 시도해주세요'))
+        }
     }, []);
+    // 팀정보 받아오기
+    useEffect(() => {
+        axios.get(`/api/team/detail/${teamPK}`)
+            .then((res: any) => { console.log(res); setwebex(res.data.data.webexLink) })
+            .catch((err) => alert(err))
+    }, [])
+    // 리더인지 확인
+    const [isleader, setisleader] = useState<boolean>(false)
+    useEffect(() => {
+        const token: string | null = localStorage.getItem('mmid')
+    }, [])
     // 팀나가기
     function teamexit() {
         const token: string | null = localStorage.getItem('token')
@@ -67,14 +92,27 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                         <span className="hidden sm:block">
                             <button
                                 type="button"
-                                className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50 mx-2"
-                                onClick={() => router.push(`/TeamModify/?teamPk=${teamPK}`)}
+                                className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50 mx-2"
+                                onClick={() => router.push(`${webex}`)}
                             >
-                                팀 정보 수정
+                                웹엑스 바로가기
+
                             </button>
+                            {
+                                leadercheck
+                                    ? <button
+                                        type="button"
+                                        className="inline-flex items-center px-4 py-2 border bg-blue-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-100 mx-2"
+                                        onClick={() => router.push(`/TeamModify/?teamPk=${teamPK}`)}
+                                    >
+                                        팀 정보 수정
+                                    </button>
+                                    : null
+                            }
+
                             <button
                                 type="button"
-                                className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 mx-2"
+                                className="inline-flex items-center px-4 py-2 border bg-red-400 text-black rounded-md shadow-sm text-sm font-medium hover:bg-red-100 mx-2"
                                 onClick={teamexit}
                             >
                                 팀 나가기

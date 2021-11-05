@@ -60,7 +60,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
         projectCode: Number(projectCode),
         can: can
       }, { headers: { Authorization: token } })
-        .then((res) => console.log(res))
+        .then((res: any) => { console.log(res); setSearchList([...res.data.data]) })
     }
   };
   const getHashTagList = () => {
