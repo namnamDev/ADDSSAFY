@@ -13,7 +13,7 @@ module.exports = {
         destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
       },
       {
-        source: "https://k5d204.p.ssafy.io/https://:path*",
+        source: "/https://:path*",
         destination: `https://:path*`,
       },
     ];
