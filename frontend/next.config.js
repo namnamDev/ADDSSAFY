@@ -15,8 +15,8 @@ module.exports = {
   },
   reactStrictMode: true,
   images: {
-    // loader: "imgix",
-    path: "https://k5d204.p.ssafy.io/",
+    loader: "imgix",
+    path: "",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
