@@ -3,6 +3,7 @@ package com.add.ssafy.service;
 import com.add.ssafy.Repository.HashtagRepo;
 import com.add.ssafy.Repository.MemberHashtagRepo;
 import com.add.ssafy.Repository.MemberRepo;
+import com.add.ssafy.config.FileUtils;
 import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.MemberAddTagsDto;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +99,13 @@ public class MemberSvcImpl implements MemberSvcInter {
         member.setUserNick(userRequest.getNickname());
         member.setUserName(userRequest.getUsername());
         member.setEmail(userRequest.getEmail());
+        //프사 변경
+        FileUtils.deleteProfile(member.getProfile());//기존프사 삭제
+        try {
+            member.setProfile(FileUtils.uploadProfile(userRequest.getImage()));//DB에 이미지 변경
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         memberRepo.save(member);
 
 

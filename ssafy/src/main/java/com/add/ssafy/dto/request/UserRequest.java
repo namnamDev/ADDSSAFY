@@ -9,6 +9,7 @@ import com.add.ssafy.entity.Member;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -32,6 +33,9 @@ public class UserRequest {
 
     @NotNull
     private String nickname;
+
+    @NotNull
+    private MultipartFile image;
     public Member toUser(PasswordEncoder passwordEncoder) {
         return Member.builder().email(this.mmid).password(passwordEncoder.encode(this.password))
                 .authority(Authority.ROLE_USER).build();
