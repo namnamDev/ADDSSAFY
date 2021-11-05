@@ -48,7 +48,7 @@ RUN yarn global add pm2
 COPY ./package*.json ./
 
 # Install dependencies
-RUN yarn add --production
+RUN yarn install --production
 
 # Copy all files
 COPY ./ ./
