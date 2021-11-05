@@ -46,11 +46,14 @@ function TeamCreate({ }: Props): ReactElement {
               { headers: { Authorization: token } }
             )
               .then((res) => {
-                console.log(res)
-                router.push({
-                  pathname: `/TeamBuildingCurrent`,
-                  query: { projectNo: Number(idx) },
-                });
+                alert(`${teamtitle}팀이 정상적으로 생성되었습니다`)
+                setTimeout(() => {
+                  router.push({
+                    pathname: `/TeamBuildingCurrent`,
+                    query: { projectNo: Number(idx) },
+                  });
+                }, 500);
+
               })
           }
         })

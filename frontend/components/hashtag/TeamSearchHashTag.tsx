@@ -53,12 +53,15 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
   };
   // 검색
   const search = () => {
-    console.log(can);
-    console.log(projectCode)
-    setSearchList(TeamDump);
-    axios.get("/api/search/team", {
-      projectCode: Number(projectCode)
-    })
+    // setSearchList(TeamDump);
+    const token: string | null = localStorage.getItem("token")
+    if (typeof token === 'string') {
+      axios.post("/api/search/team", {
+        projectCode: Number(projectCode),
+        can: can
+      }, { headers: { Authorization: token } })
+        .then((res) => console.log(res))
+    }
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
@@ -69,7 +72,6 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
       filters[0].options.push(...clonedeep(res.data.data.FOUR));
       filters[0].options.push(...clonedeep(res.data.data.ETC));
       filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
-
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
@@ -83,7 +85,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
   return (
     <div className="bg-white">
       <div>
-        <main className="max-w-7xl mx-auto px-6">
+        <main className="w-full mx-auto">
           {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">팀 검색</h1>
           </div> */}

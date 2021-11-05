@@ -1,8 +1,9 @@
-import React, { EventHandler, ReactElement, useState } from "react";
+import React, { EventHandler, ReactElement, useState, useEffect } from "react";
 import Navbar from "../components/basic/Navbar";
 import axios from "axios";
 import Footer from "../components/basic/Footer";
-import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
+import TeamModifyHashTag from "../components/hashtag/TeamModifyHashTag";
+import { useRouter } from "next/router";
 
 interface Props { }
 
@@ -14,27 +15,51 @@ interface Props { }
 // }
 
 function TeamModify({ }: Props): ReactElement {
+  const router = useRouter()
+  // 팀 정보 미리 가져오기
+  const [webex, setwebex] = useState<string>("")
+  const [introduce, setintroduce] = useState<string>("")
   const [can, setCan] = useState<number[]>([]);
-  const [teamIntro, setTeamIntro] = useState<string>("");
-  const [teamWebex, setTeamWebex] = useState<string>("");
-  const create = () => {
-    console.log(`team소개: ${teamIntro}  team 웹엑스 링크: ${teamWebex}`);
-    console.log(can);
-    // const res=axios.post("/team/create", {
-    //   introduceTeam: teamIntro,
-    //   webex: teamWebex,
-    //   can: can,
-    //   want: want,
-    //   except: [],
-    // });
-    // console.log(res);
-  };
-  const onTeamIntroChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTeamIntro(e.target.value);
-  };
-  const onTeamWebexChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTeamWebex(e.target.value);
-  };
+  useEffect(() => {
+    if (router.query.teamPk) {
+      const token: string | null = localStorage.getItem("token")
+      if (typeof token === 'string') {
+        axios.get(`/api/team/detail/${router.query.teamPk}`, {
+          headers: { Authorization: token }
+        })
+          .then((res: any) => {
+            console.log(res.data);
+            setwebex(res.data.data.webexLink)
+            setintroduce(res.data.data.introduce)
+          })
+          .catch((err) => alert(err))
+      }
+    }
+
+  }, [router.query.teamPk])
+  function editTeaminfo() {
+    const token: string | null = localStorage.getItem("token")
+    if (typeof token === 'string') {
+      console.log(introduce, webex)
+      axios.put('/api/team/update', {
+        teamPK: router.query.teamPk,
+        introduceTeam: introduce,
+        webex: webex,
+        want: can
+      },
+        {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          console.log(res)
+          alert('팀정보 수정을 완료하였습니다');
+          setTimeout(() => {
+            history.go(-1)
+          }, 1000);
+        })
+        .catch((err) => alert(err))
+    }
+  }
   return (
     <div>
       <Navbar />
@@ -49,22 +74,24 @@ function TeamModify({ }: Props): ReactElement {
                 <dt className="text-sm font-medium text-gray-500">팀 소개</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  placeholder="팀 소개를 입력해주세요"
-                  onChange={(e) => onTeamIntroChanged(e)}
+                  defaultValue={introduce}
+                  onChange={(e) => setintroduce(e.target.value)}
                 />
               </div>
               <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">웹엑스 주소</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  placeholder="웹엑스 주소를 입력해주세요"
-                  onChange={(e) => onTeamWebexChanged(e)}
+                  defaultValue={webex}
+                  onChange={(e) => setwebex(e.target.value)}
                 />
               </div>
             </dl>
           </div>
         </div>
-        <TeamCreateHashTag onCanChanged={setCan} />
+        <div className="">
+          <TeamModifyHashTag onCanChanged={setCan} />
+        </div>
         {/* <DndProvider backend={HTML5Backend}>
           <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
         </DndProvider> */}
@@ -73,8 +100,8 @@ function TeamModify({ }: Props): ReactElement {
           <span className="hidden sm:block">
             <button
               type="button"
-              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
-              onClick={create}
+              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50 mr-3"
+              onClick={editTeaminfo}
             >
               팀 정보 수정
             </button>

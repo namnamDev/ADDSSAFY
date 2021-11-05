@@ -58,11 +58,6 @@ function Mypage({ }: Props): ReactElement {
   // 정보수정
 
   function editmydata() {
-    console.log(changeBlog)
-    console.log(changeIntroduce)
-    console.log(changeGit)
-    console.log(changePhone)
-    console.log(mytoken)
     axios.put('/api/users/update', {
       blog: changeBlog,
       introduce: changeIntroduce,
@@ -71,6 +66,13 @@ function Mypage({ }: Props): ReactElement {
       can: can
     },
       { headers: { Authorization: mytoken } })
+      .then(() => {
+        alert('회원정보수정 완료했습니다.');
+        setTimeout(() => {
+          router.push('/Mypage')
+        }, 1000);
+      })
+      .catch(() => { alert('정보수정에 실패했습니다, 다시 시도해주세요') })
   }
   return (
     <div>
@@ -126,10 +128,6 @@ function Mypage({ }: Props): ReactElement {
                 </dd>
               </div>
               {/* 기술스택 */}
-              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-bold text-gray-500">기술스택</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">파이썬</dd>
-              </div>
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-bold text-gray-500">GITHUB 주소</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">

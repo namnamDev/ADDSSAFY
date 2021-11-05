@@ -112,7 +112,7 @@ function UserDetail({ userPk }: Props): ReactElement {
                 {Object.keys(usertags).map((section: any, i: number) => (
                   <div key={i}>
                     {usertags[section].map((tag: any, j: any) =>
-                      <div className="j">
+                      <div key={j}>
                         {tag.hashTagName}
                       </div>
                     )}

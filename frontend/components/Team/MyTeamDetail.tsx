@@ -21,7 +21,20 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     }, []);
     // 팀나가기
     function teamexit() {
-        
+        const token: string | null = localStorage.getItem('token')
+        if (typeof token === 'string') {
+            axios.delete('/api/team/exit', {
+                data: {
+                    teamPK: teamPK
+                },
+                headers: { Authorization: token }
+            })
+                .then((res) => alert('해당팀의 탈퇴가 완료되었습니다'))
+            setTimeout(() => {
+                location.reload()
+            }, 500);
+
+        }
     }
     return (
         <div>
@@ -31,7 +44,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                     {/* 팀멤버들 사진 */}
                     <div className="grid grid-cols-6 w-3/4 mx-auto">
                         {teammember.map((member: any, i: number) => (
-                            <a key={member.userPK} className="group">
+                            <div key={i} className="group">
                                 <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8 relative">
                                     <Image
                                         src={"/images/" + member.userPk + ".jpg"}
@@ -47,18 +60,18 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                                     <h3 className="mt-4 text-medium text-gray-700">{member.userName}</h3>
                                     <p className="mt-1 text-sm text-gray-900">{member.Number}</p>
                                 </div>
-                            </a>
+                            </div>
                         ))}
                     </div>
                     <div className="mt-5 text-center">
                         <span className="hidden sm:block">
-                            {/* <button
+                            <button
                                 type="button"
                                 className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50 mx-2"
-
+                                onClick={() => router.push(`/TeamModify/?teamPk=${teamPK}`)}
                             >
-                                팀장 위임
-                            </button> */}
+                                팀 정보 수정
+                            </button>
                             <button
                                 type="button"
                                 className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 mx-2"
