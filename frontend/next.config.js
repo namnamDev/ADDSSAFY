@@ -14,9 +14,10 @@ module.exports = {
     ];
   },
   reactStrictMode: true,
+  api_domain: "http://k5d204.p.ssafy.io/api",
   images: {
     loader: "imgix",
-    // path: "http://k5d204.p.ssafy.io/",
+    path: "http://k5d204.p.ssafy.io/",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
