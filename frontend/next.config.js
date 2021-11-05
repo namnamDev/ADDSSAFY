@@ -14,11 +14,11 @@ module.exports = {
       },
     ];
   },
+  basePath: "https://k5d204.p.ssafy.io/",
   reactStrictMode: true,
   images: {
     loader: "cloudinary",
-    path: isProduction ? "https://k5d204.p.ssafy.io/" : "",
-    assetPrefix: isProduction ? "https://k5d204.p.ssafy.io/" : "",
+    // path: "https://k5d204.p.ssafy.io/",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
