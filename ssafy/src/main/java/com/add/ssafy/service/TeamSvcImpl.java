@@ -156,4 +156,16 @@ public class TeamSvcImpl implements TeamSvcInter{
 
         return BaseResponse.builder().status("200").msg(msg).data(true).build();
     }
+    @Override
+    public BaseResponse teamTag(Long teamPK){
+        Team team = teamRepo.findById(teamPK).orElseThrow(() -> new IllegalStateException("팀이 존재하지 않습니다."));
+        List<HashTagsDto> can = teamHashtagRepo.gethashtags(teamPK);
+
+        Map<String,Object> teamHashtags = new HashMap<>();
+        for(int g = 0 ; g < can.size();g++){
+            HashTagsDto temp = can.get(g);
+            teamHashtags.put(temp.getHashTagProp().toString(), temp.getHashtags());
+        }
+        return BaseResponse.builder().msg("성공").status("200").data(teamHashtags).build();
+    }
 }

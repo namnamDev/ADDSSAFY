@@ -19,4 +19,6 @@ public interface TeamSvcInter {
     BaseResponse ifUserHasTeam(int projectCode);
 
     BaseResponse exitTeam(ExitTeamRequest exitTeamRequest);
+
+    BaseResponse teamTag(Long teamPK);
 }
