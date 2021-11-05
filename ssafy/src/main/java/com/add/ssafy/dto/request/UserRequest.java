@@ -34,8 +34,9 @@ public class UserRequest {
     @NotNull
     private String nickname;
 
-    @NotNull
-    private MultipartFile image;
+//    @NotNull
+//    private MultipartFile image;
+
     public Member toUser(PasswordEncoder passwordEncoder) {
         return Member.builder().email(this.mmid).password(passwordEncoder.encode(this.password))
                 .authority(Authority.ROLE_USER).build();
