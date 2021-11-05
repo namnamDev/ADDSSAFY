@@ -37,32 +37,17 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
   const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
   const check = (section: any, option: any) => {
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value: any) => value != option.hashTagPK);
-        console.log(result);
-        setCan(result);
-      }
-    } else if (section === "want") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = true;
-        setWant([...want, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = false;
-        const result = want.filter((value: any) => value != option.hashTagPK);
-        console.log(result);
-        setWant(result);
-      }
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value: any) => value != option.hashTagPK);
+      console.log(result);
+      setCan(result);
     }
   };
   const getHashTagList = () => {

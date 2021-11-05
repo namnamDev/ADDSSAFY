@@ -68,7 +68,7 @@ function Mypage({ }: Props): ReactElement {
       introduce: changeIntroduce,
       github: changeGit,
       phone: changePhone,
-      can: []
+      can: can
     },
       { headers: { Authorization: mytoken } })
   }
