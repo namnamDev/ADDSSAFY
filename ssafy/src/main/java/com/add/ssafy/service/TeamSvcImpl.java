@@ -98,10 +98,13 @@ public class TeamSvcImpl implements TeamSvcInter{
         String msg = "";
         Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
         Team team = teamRepo.findById(teamUpdateRequest.getTeamPK()).orElseThrow(()->new IllegalStateException("해당 팀이 존재하지 않습니다."));
-        Team tempTeam = Team.builder().introduce(teamUpdateRequest.getIntroduceTeam())
-                .webexLink(teamUpdateRequest.getWebex())
-                .build();
-        teamRepo.save(tempTeam);
+        team.setIntroduce(teamUpdateRequest.getIntroduceTeam());
+        team.setWebexLink(teamUpdateRequest.getWebex());
+        teamRepo.save(team);
+//        Team tempTeam = Team.builder().introduce(teamUpdateRequest.getIntroduceTeam())
+//                .webexLink(teamUpdateRequest.getWebex())
+//                .build();
+//        teamRepo.save(tempTeam);
         List<Long>want = teamUpdateRequest.getWant();
         List<TeamHashtag>beforeUpdate = teamHashtagRepo.getTeamHashtagByTeam(team.getId());
 
