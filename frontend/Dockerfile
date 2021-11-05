@@ -27,14 +27,14 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
-# Install PM2 globally
-RUN yarn global add pm2
-# Run container as non-root (unprivileged) user
-# The node user is provided in the Node.js Alpine base image
-USER node
+# # Install PM2 globally
+# RUN yarn global add pm2
+# # Run container as non-root (unprivileged) user
+# # The node user is provided in the Node.js Alpine base image
+# USER node
 
-# Run npm start script with PM2 when container starts
-CMD [ "pm2-runtime", "yarn", "--", "start" ]
+# # Run npm start script with PM2 when container starts
+# CMD [ "pm2-runtime", "yarn", "--", "start" ]
 # EXPOSE 80 443 3000
 FROM nginx
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
