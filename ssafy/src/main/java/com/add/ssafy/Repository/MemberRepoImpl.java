@@ -165,4 +165,10 @@ public class MemberRepoImpl implements MemberRepoCustom{
 //                .fetchCount();
 ////                .where(qMember.id.eq(memberPK))
 //    }
+
+//    @Override
+//    public List<UserDto> searchUserList(List<Long> can, int projectCode){
+//        List<UserDto>
+//        return null;
+//    }
 }

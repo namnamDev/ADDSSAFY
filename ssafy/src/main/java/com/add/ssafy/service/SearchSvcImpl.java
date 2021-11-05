@@ -6,6 +6,7 @@ import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.TeamAddTagsDto;
 import com.add.ssafy.dto.TeamDto;
 import com.add.ssafy.dto.request.SearchTeamRequest;
+import com.add.ssafy.dto.request.SearchUserRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,11 @@ public class SearchSvcImpl implements SearchSvcInter{
         }
         return BaseResponse.builder().status("200").msg("완료").data(resTeam).build();
 
+    }
+    @Override
+    public BaseResponse searchUser(SearchUserRequest searchUserRequest){
+        int projectCode = searchUserRequest.getProjectCode();
+        List<Long>can = searchUserRequest.getCan();
+        return null;
     }
 }

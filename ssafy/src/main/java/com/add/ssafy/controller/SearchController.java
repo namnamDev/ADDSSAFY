@@ -1,6 +1,7 @@
 package com.add.ssafy.controller;
 
 import com.add.ssafy.dto.request.SearchTeamRequest;
+import com.add.ssafy.dto.request.SearchUserRequest;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.service.SearchSvcInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +24,10 @@ public class SearchController {
 
         return ResponseEntity.ok(searchSvcInter.searchTeam(searchTeamRequest));
     }
+    @PostMapping("/user")
+    public ResponseEntity<BaseResponse> searchUser(@RequestBody SearchUserRequest searchUserRequest){
+
+        return ResponseEntity.ok(searchSvcInter.searchUser(searchUserRequest));
+    }
+
 }

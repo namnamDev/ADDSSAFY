@@ -52,8 +52,6 @@ public class TeamRepoImpl implements TeamRepoCustom {
                 .where(qTeam.type.eq(projectCode))
                 .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
                 .join(qMember).on(qTeamMember.member().eq(qMember))
-                .leftJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
-                .leftJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
                 .transform(GroupBy.groupBy(qTeam.id)
                         .list(
                                 Projections.constructor(
@@ -98,8 +96,8 @@ public class TeamRepoImpl implements TeamRepoCustom {
                 .where(qTeam.id.eq(teamPK))
                 .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
                 .join(qMember).on(qTeamMember.member().eq(qMember))
-                .leftJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
-                .leftJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
+//                .leftJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
+//                .leftJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
                 .transform(GroupBy.groupBy(qTeam.id)
                         .as(
                                 Projections.constructor(
