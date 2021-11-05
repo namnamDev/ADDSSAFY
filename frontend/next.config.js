@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === "production";
 module.exports = {
   async rewrites() {
     return [
@@ -16,7 +17,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     loader: "imgix",
-    path: "https://k5d204.p.ssafy.io/",
+    path: isProduction ? "" : "https://k5d204.p.ssafy.io/",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
