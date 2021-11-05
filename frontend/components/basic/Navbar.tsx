@@ -24,15 +24,15 @@ const projects = [
     description: "자율",
   },
 ];
-interface Props { }
+interface Props {}
 
-function Navbar({ }: Props): ReactElement {
+function Navbar({}: Props): ReactElement {
   // nickname 가져오기
-  const [mynickname, setmynickname] = useState<string|null>("")
+  const [mynickname, setmynickname] = useState<string | null>("");
   useEffect(() => {
-    const nickname: string | null = localStorage.getItem("nickname")
-    setmynickname(nickname)
-  }, [])
+    const nickname: string | null = localStorage.getItem("nickname");
+    setmynickname(nickname);
+  }, []);
 
   const router = useRouter();
   // 로그아웃
@@ -54,12 +54,7 @@ function Navbar({ }: Props): ReactElement {
           <div className="flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <div className="cursor-pointer" onClick={() => router.push("/")}>
-                <Image
-                  src="/images/ssafygif-unscreen.gif"
-                  height="70"
-                  width="100"
-                  alt=""
-                ></Image>
+                <Image src="/images/ssafygif-unscreen.gif" height="70" width="100" alt=""></Image>
               </div>
             </div>
             <div
@@ -82,13 +77,11 @@ function Navbar({ }: Props): ReactElement {
             </div>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <div className="whitespace-nowrap text-xs font-bold text-gray-900 ">
-                {mynickname}
-              </div>
+              <div className="whitespace-nowrap text-xs font-bold text-gray-900 ">{mynickname}</div>
               <Menu as="div" className="ml-3 relative">
                 <div>
                   <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                    <Image
+                    <img
                       className="h-8 w-8 rounded-full"
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt=""
