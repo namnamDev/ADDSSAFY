@@ -71,7 +71,7 @@ pipeline {
                         )                   
                         // sh 'docker run -d -v /home/ubuntu/ssh:/home/node/app/ssh -p 80:80 -p 443:443 --name frontend frontend'
                         // sh 'docker run -d -p 80:80 --name frontend frontend' 
-                        sh 'docker run -d --name frontend -v /home/ubuntu/key:/usr/share/nginx/html/app --network our-net  -p 80:80 -p 443:443 frontend:latest'
+                        sh 'docker run -d --name frontend -v /home/ubuntu/img:/usr/share/nginx/html/img -v /home/ubuntu/key:/usr/share/nginx/html/app --network our-net  -p 80:80 -p 443:443 frontend:latest'
 
                     } catch(e) {
                         currentBuild.result = "FAILURE"
