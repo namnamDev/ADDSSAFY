@@ -18,6 +18,7 @@ module.exports = {
   images: {
     loader: "imgix",
     path: isProduction ? "https://k5d204.p.ssafy.io/" : "",
+    assetPrefix: isProduction ? "" : "",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
