@@ -53,48 +53,50 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
     }
     @Override
     public List<TeamDto>searchTeamList(List<Long> can, int projectCode){
-        QTeam qTeam= QTeam.team;
-        QTeamMember qTeamMember = QTeamMember.teamMember;
-        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
-        QHashTag qHashTag = QHashTag.hashTag;
-
-        QMember qMember = QMember.member;
-
-        BooleanBuilder builder = new BooleanBuilder();
-
-        builder.and(qTeam.type.eq(projectCode));
-        for(int i =0;i<can.size();i++){
-            Long temp = can.get(i);
-            builder.and(qTeamHashtag.hashTag().id.eq(temp));
-        }
-        List<TeamDto> res = queryFactory
-                .from(qTeam)
-                .where(builder)
-                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
-                .join(qMember).on(qTeamMember.member().eq(qMember))
-                .leftJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
-                .leftJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
-                .transform(GroupBy.groupBy(qTeam.id)
-                        .list(
-                                Projections.constructor(
-                                        TeamDto.class
-                                        , qTeam.id
-                                        , qTeam.name
-                                        , qTeam.introduce
-                                        , qTeam.webexLink
-                                        , qTeam.ppt
-                                        , qTeam.mmChannel
-                                        ,GroupBy.list(Projections.constructor(
-                                                UserDto.class
-                                                , qMember.id
-                                                , qMember.name
-                                                , qTeamMember.leader
-                                                , qMember.profile
-                                                , qMember.mmid
-                                        ))
-                                )
-                        )
-                );
-        return res;
+//        QTeam qTeam= QTeam.team;
+//        QTeamMember qTeamMember = QTeamMember.teamMember;
+//        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
+//        QHashTag qHashTag = QHashTag.hashTag;
+//
+//        QMember qMember = QMember.member;
+//
+//        BooleanBuilder builder = new BooleanBuilder();
+//        BooleanBuilder builderHashs = new BooleanBuilder();
+//        for(int i =0;i<can.size();i++){
+//            Long temp = can.get(i);
+//            builderHashs.or(qTeamHashtag.hashTag().id.eq(temp));
+//        }
+//        builder.and(qTeam.type.eq(projectCode));
+//        builder.and(builderHashs);
+//        List<TeamDto> res = queryFactory
+//                .from(qTeam)
+//                .where(builder)
+//                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
+//                .join(qMember).on(qTeamMember.member().eq(qMember))
+//                .innerJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
+//                .innerJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
+//                .transform(GroupBy.groupBy(qTeam.id)
+//                        .list(
+//                                Projections.constructor(
+//                                        TeamDto.class
+//                                        , qTeam.id
+//                                        , qTeam.name
+//                                        , qTeam.introduce
+//                                        , qTeam.webexLink
+//                                        , qTeam.ppt
+//                                        , qTeam.mmChannel
+//                                        ,GroupBy.list(Projections.constructor(
+//                                                UserDto.class
+//                                                , qMember.id
+//                                                , qMember.name
+//                                                , qTeamMember.leader
+//                                                , qMember.profile
+//                                                , qMember.mmid
+//                                        ))
+//                                )
+//                        )
+//                );
+//        return res;
+        return null;
     }
 }
