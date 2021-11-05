@@ -8,13 +8,6 @@ import moment from 'moment'
 
 interface Props { }
 
-// interface list {
-//   hashTagPK: number;
-//   title: string;
-//   prop: string;
-//   image: string;
-// }
-
 function TeamCreate({ }: Props): ReactElement {
   const router = useRouter()
   const idx = router.query.projectNo;
@@ -22,11 +15,7 @@ function TeamCreate({ }: Props): ReactElement {
   const [teamtitle, setteamtitle] = useState<string>("");
   const [teamIntro, setTeamIntro] = useState<string>("");
   const [teamWebex, setTeamWebex] = useState<string>("");
-  // const create = () => {
-  //   console.log(`team소개: ${teamIntro}  team 웹엑스 링크: ${teamWebex}`);
-  //   console.log(can);
 
-  // };
   function create() {
     // token
     const token: string | null = localStorage.getItem("token")
@@ -39,7 +28,7 @@ function TeamCreate({ }: Props): ReactElement {
         team_id: "tfctt9yko7f93jge3itn1tseoo",
         type: "P",
         display_name: username + "님의 프로젝트",
-        name: teamtitle,
+        name: now + username,
       },
         {
           headers: { Authorization: MMtoken }
@@ -56,7 +45,16 @@ function TeamCreate({ }: Props): ReactElement {
             },
               { headers: { Authorization: token } }
             )
-              .then((res) => console.log(res))
+              .then((res) => {
+                alert(`${teamtitle}팀이 정상적으로 생성되었습니다`)
+                setTimeout(() => {
+                  router.push({
+                    pathname: `/TeamBuildingCurrent`,
+                    query: { projectNo: Number(idx) },
+                  });
+                }, 500);
+
+              })
           }
         })
     }

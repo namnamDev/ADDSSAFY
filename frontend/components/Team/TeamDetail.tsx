@@ -1,6 +1,7 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const person = {
   name: "Jane Cooper",
@@ -21,38 +22,50 @@ interface Props {
 
 function TeamDetail({ teamPK }: Props): ReactElement {
   const router = useRouter();
+  const [teamdata, setteamdata] = useState<any>({})
+  const [teamhashtags, setteamhashtags] = useState<any>({})
+  useEffect(() => {
+    axios.get(`/api/team/detail/${teamPK}`)
+      .then((res: any) => setteamdata(res.data.data))
+      .catch((err) => alert(err))
+  }, [])
+  useEffect(() => {
+    axios.get(`/api/team/info/${teamPK}`)
+      .then((res: any) => { setteamhashtags(res.data.data) })
+      .catch((err) => alert(err))
+  })
   return (
-    <div>
+    <div className="">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mx-8">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Information</h3>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">팀 정보</p>
         </div>
-        <div className="border-t border-gray-200">
+        <div className="text-center">
           <dl>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">팀명</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">ADD SSAFY</dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{teamdata.name}</dd>
             </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">프로젝트 구분</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                특화프로젝트 / 빅데이터 추천
-              </dd>
-            </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">기술스택</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">파이썬, 뷰, 자바</dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{Object.keys(teamhashtags).map((section: any, i: number) => (
+                <div key={i}>
+                  {teamhashtags[section].map((tag: any, j: any) =>
+                    <div key={j}>
+                      {tag.hashTagName}
+                    </div>
+                  )}
+                </div>
+              ))}</dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">팀 소개</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                팀 빌딩 서비스와 교육생 관리 시스템의 결합 팀 빌딩 서비스와 교육생 관리 시스템의
-                결합 팀 빌딩 서비스와 교육생 관리 시스템의 결합 팀 빌딩 서비스와 교육생 관리
-                시스템의 결합 팀 빌딩 서비스와 교육생 관리 시스템의 결합
+                {teamdata.introduce}
               </dd>
             </div>
-            {/* <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            {/* <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">팀 프로젝트 ppt</dt>
               <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <ul

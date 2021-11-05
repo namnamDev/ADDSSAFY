@@ -4,15 +4,16 @@ import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import TeamList from "../Team/TeamList";
 import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
-
 const filters: filters[] = [
   {
     id: "can",
-    name: "can",
+    name: "사용할 기술스택",
     options: [],
   },
 ];
-interface Props { }
+interface Props {
+  onCanChanged: (value: number[]) => void;
+}
 
 interface list {
   hashTagPK: number;
@@ -25,44 +26,24 @@ interface filters {
   name: string;
   options: list[];
 }
-interface Props {
-  projectCode: number
-}
-function TeamSearchHashTag({ projectCode }: Props): ReactElement {
+function TeamModifyHashTag({ onCanChanged }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
-  const [index, setIndex] = useState(0);
-  const [searchList, setSearchList] = useState<number[]>([]);
   const check = (section: any, option: any) => {
-    console.log(section);
-    console.log(option);
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value: any) => value != option.hashTagPK);
-        console.log(result);
-        setCan(result);
-      }
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+      console.log(option.hashTagPK)
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value) => value != option.hashTagPK);
+      setCan(result);
     }
   };
-  // 검색
-  const search = () => {
-    // setSearchList(TeamDump);
-    const token: string | null = localStorage.getItem("token")
-    if (typeof token === 'string') {
-      axios.post("/api/search/team", {
-        projectCode: Number(projectCode),
-        can: can
-      }, { headers: { Authorization: token } })
-        .then((res: any) => { console.log(res); setSearchList([...res.data.data]) })
-    }
-  };
+
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
       // 할 수 있다.can
@@ -71,7 +52,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
       filters[0].options.push(...clonedeep(res.data.data.DEVOPS));
       filters[0].options.push(...clonedeep(res.data.data.FOUR));
       filters[0].options.push(...clonedeep(res.data.data.ETC));
-      filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
+      // filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
@@ -80,19 +61,18 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
     });
   };
   useEffect(() => {
-    if (filters[0].options.length == 0) getHashTagList();
+    getHashTagList();
   }, []);
+  useEffect(() => {
+    onCanChanged([...can]);
+  }, [can]);
   return (
-    <div className="bg-white">
+    <div className="bg-white shadow-md">
       <div>
-        <main className="w-full mx-auto">
-          {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">팀 검색</h1>
-          </div> */}
+        <main className="max-w-7xl mx-auto px-6">
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+            <div className=" gap-x-8 gap-y-10 w-4/5 mx-auto">
               {/* Filters */}
-              <form className="hidden lg:block">
                 {filters.map((section) => (
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
@@ -110,11 +90,11 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                           </Disclosure.Button>
                         </h3>
                         <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
+                          <div className="grid grid-cols-5">
                             {section.options.map((option, optionIdx) => (
                               <div
                                 key={option.hashTagPK + section.name + optionIdx}
-                                className="flex items-center"
+                                className="flex items-center "
                               >
                                 <input
                                   id={`filter-${section.id}-${optionIdx}`}
@@ -122,12 +102,12 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                                   defaultValue={option.hashTagPK}
                                   type="checkbox"
                                   defaultChecked={option.check}
-                                  className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                  className="h-4 w-4 mx-2 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                                   onClick={() => check(section.name, option)}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
+                                  className={"text-sm text-gray-500"}
                                 >
                                   {option.hashTagName}
                                 </label>
@@ -139,20 +119,6 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                     )}
                   </Disclosure>
                 ))}
-                <button
-                  type="button"
-                  className=" px-8 py-2 bg-blue-600 text-white rounded-lg  shadow-sm hover:bg-blue-500 focus:ring-2 focus:ring-indigo-200 m-2 "
-                  onClick={search}
-                >
-                  검색
-                </button>
-              </form>
-              <div className="lg:col-span-3">
-                <div className="">
-                  <div className="font-bold text-lg mb-4">검색 결과</div>
-                  {index === 0 ? <TeamList list={searchList} /> : "교육생 검색"}
-                </div>
-              </div>
             </div>
           </section>
         </main>
@@ -161,4 +127,4 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
   );
 }
 
-export default TeamSearchHashTag;
+export default TeamModifyHashTag;

@@ -88,11 +88,11 @@ function TeamOfferedList({ list }: Props): ReactElement {
   }
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
-      <div className="-my-2 overflow-x-auto">
-        <div className="py-2 align-middle inline-block min-w-full">
+      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
+        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 h-16">
                 <tr>
                   <th
                     scope="col"

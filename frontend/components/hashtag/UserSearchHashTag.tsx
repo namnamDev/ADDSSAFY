@@ -10,18 +10,9 @@ const filters: filters[] = [
     name: "can",
     options: [],
   },
-  {
-    id: "want",
-    name: "want",
-    options: [],
-  },
-  {
-    id: "except",
-    name: "except",
-    options: [],
-  },
+
 ];
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -34,56 +25,38 @@ interface filters {
   name: string;
   options: list[];
 }
-function UserSearchHashTag({}: Props): ReactElement {
+interface Props {
+  projectCode: number
+}
+function UserSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<list[]>([]);
-  const [want, setWant] = useState<list[]>([]);
-  const [except, setExcept] = useState<list[]>([]);
   const [searchList, setSearchList] = useState<number[]>([]);
   const check = (section: any, option: any) => {
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value: any) => value != option.hashTagPK);
-        setCan(result);
-      }
-    } else if (section === "want") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = true;
-        setWant([...want, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = false;
-        const result = want.filter((value: any) => value != option.hashTagPK);
-        setWant(result);
-      }
-    } else if (section === "except") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = true;
-        setExcept([...except, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = false;
-        const result = except.filter((value: any) => value != option.hashTagPK);
-        setExcept(result);
-      }
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value: any) => value != option.hashTagPK);
+      setCan(result);
     }
   };
   const search = () => {
-    console.log(can);
-    console.log(want);
-    console.log(except);
     setSearchList(TeamDump);
+    const token: string | null = localStorage.getItem('token')
+    if (token) {
+      axios.post('/api/search/user', {
+        projectCode: projectCode,
+        can: can
+      })
+        .then((res) => console.log(res))
+        .catch((err) => alert(err))
+    }
+
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
@@ -94,15 +67,6 @@ function UserSearchHashTag({}: Props): ReactElement {
       filters[0].options.push(...clonedeep(res.data.data.FOUR));
       filters[0].options.push(...clonedeep(res.data.data.ETC));
       filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
-      // 할 수 있다.can
-      filters[1].options.push(...clonedeep(res.data.data.BE));
-      filters[1].options.push(...clonedeep(res.data.data.FE));
-      filters[1].options.push(...clonedeep(res.data.data.DEVOPS));
-      filters[1].options.push(...clonedeep(res.data.data.FOUR));
-      filters[1].options.push(...clonedeep(res.data.data.ETC));
-      filters[1].options.push(...clonedeep(res.data.data.GOODBADGE));
-      // 제외 except
-      filters[2].options.push(...clonedeep(res.data.data.BADBADGE));
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
@@ -116,7 +80,7 @@ function UserSearchHashTag({}: Props): ReactElement {
   return (
     <div className="bg-white ">
       <div>
-        <main className="max-w-7xl mx-auto px-6">
+        <main className="w-full mx-auto">
           {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">교육생 검색</h1>
           </div> */}
