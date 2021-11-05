@@ -12,13 +12,16 @@ module.exports = {
         source: "/api/:path*",
         destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
       },
+      {
+        source: "https://k5d204.p.ssafy.io/https://:path*",
+        destination: `https://:path*`,
+      },
     ];
   },
-  basePath: "https://k5d204.p.ssafy.io/",
   reactStrictMode: true,
   images: {
     loader: "cloudinary",
-    // path: "https://k5d204.p.ssafy.io/",
+    path: "https://k5d204.p.ssafy.io/",
     domains: [
       "images.unsplash.com",
       "tailwindui.com",
