@@ -52,7 +52,7 @@ RUN yarn install --production
 
 # Copy all files
 COPY ./ ./
-
+RUN yarn add --dev typescript
 # Build app
 RUN yarn build
 
