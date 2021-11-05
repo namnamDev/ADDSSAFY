@@ -5,14 +5,14 @@ import axios from "axios";
 const filters: filters[] = [
   {
     id: "can",
-    name: "할 수 있는 기술스택",
+    name: "기술스택 설정",
     options: [],
   },
-  {
-    id: "want",
-    name: "하고 싶은 기술스택",
-    options: [],
-  },
+  // {
+  //   id: "want",
+  //   name: "하고 싶은 기술스택",
+  //   options: [],
+  // },
 ];
 interface Props {
   onCanChanged: (value: number[]) => void;
@@ -37,32 +37,17 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
   const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
   const check = (section: any, option: any) => {
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value:any) => value != option.hashTagPK);
-        console.log(result);
-        setCan(result);
-      }
-    } else if (section === "want") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = true;
-        setWant([...want, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = false;
-        const result = want.filter((value: any) => value != option.hashTagPK);
-        console.log(result);
-        setWant(result);
-      }
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value: any) => value != option.hashTagPK);
+      console.log(result);
+      setCan(result);
     }
   };
   const getHashTagList = () => {
@@ -75,11 +60,11 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
       filters[0].options.push(...clonedeep(res.data.data.ETC));
       // filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
       // 하고싶은 기술스택 want
-      filters[1].options.push(...clonedeep(res.data.data.BE));
-      filters[1].options.push(...clonedeep(res.data.data.FE));
-      filters[1].options.push(...clonedeep(res.data.data.DEVOPS));
-      filters[1].options.push(...clonedeep(res.data.data.FOUR));
-      filters[1].options.push(...clonedeep(res.data.data.ETC));
+      // filters[1].options.push(...clonedeep(res.data.data.BE));
+      // filters[1].options.push(...clonedeep(res.data.data.FE));
+      // filters[1].options.push(...clonedeep(res.data.data.DEVOPS));
+      // filters[1].options.push(...clonedeep(res.data.data.FOUR));
+      // filters[1].options.push(...clonedeep(res.data.data.ETC));
       // filters[1].options.push(...clonedeep(res.data.data.GOODBADGE));
       filters.map((value) => {
         value.options.map((val) => {
@@ -102,15 +87,15 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
     <div className="bg-white shadow-md">
       <div>
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
-            <h1 className="text-lg  tracking-tight text-gray-900">기술스택 등록</h1>
+          <div className="">
+            {/* <h1 className="text-lg  tracking-tight text-gray-900">기술스택 등록</h1> */}
           </div>
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className=" gap-x-8 gap-y-10">
               {/* Filters */}
               <form className="">
                 {filters.map((section) => (
-                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                  <Disclosure as="div" key={section.id} className="py-6 w-5/6 mx-auto">
                     {({ open }) => (
                       <>
                         <h3 className="-my-3 flow-root">

@@ -72,7 +72,7 @@ function UserDetail({ userPk }: Props): ReactElement {
               myteamhistory.length > 0
                 ? <div>
                   {Object.values(myteamhistory).map((team: any, i: any) => (
-                    <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" key={i}>
                       {
                         team.projectCode === 0
                           ? <dt className="text-sm font-medium text-gray-500">공통프로젝트</dt>
@@ -93,7 +93,6 @@ function UserDetail({ userPk }: Props): ReactElement {
                 </div>
                 : null
             }
-
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이름</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.userName}</dd>
@@ -113,7 +112,7 @@ function UserDetail({ userPk }: Props): ReactElement {
                 {Object.keys(usertags).map((section: any, i: number) => (
                   <div key={i}>
                     {usertags[section].map((tag: any, j: any) =>
-                      <div className="j">
+                      <div key={j}>
                         {tag.hashTagName}
                       </div>
                     )}
@@ -122,10 +121,6 @@ function UserDetail({ userPk }: Props): ReactElement {
               </dd>
             </div>
             {/*  */}
-            {/* <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">뱃지</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">지각교육생</dd>
-            </div> */}
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">GITHUB 주소</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
@@ -146,32 +141,6 @@ function UserDetail({ userPk }: Props): ReactElement {
               <dt className="text-sm font-medium text-gray-500">자기 소개</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.introduce}</dd>
             </div>
-            {/* <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">팀 프로젝트 ppt</dt>
-              <div className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <ul
-                  role="list"
-                  className="border border-gray-200 rounded-md divide-y divide-gray-200"
-                >
-                  {person.sigfiles.map((month, i) => (
-                    <li
-                      className="pl-3 pr-4 py-3 flex items-center justify-between text-sm"
-                      key="i"
-                    >
-                      <div className="w-0 flex-1 flex items-center">
-                        <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                        <span className="ml-2 flex-1 w-0 truncate">{month}.jpg</span>
-                      </div>
-                      <div className="ml-4 flex-shrink-0">
-                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                          Download
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div> */}
           </dl>
         </div>
       </div>

@@ -20,6 +20,9 @@ import UserOfferedList from "../components/user/UserOfferedList";
 import { Dialog, Transition } from "@headlessui/react";
 import UserDetail from "../components/user/UserDetail";
 import axios from 'axios'
+import TeamDetail from "../components/Team/TeamDetail";
+import TeamUserList from "../components/Team/TeamUserList";
+import { ArrowLeftIcon } from "@heroicons/react/solid";
 interface Props { }
 
 function TeamBuildingCurrent({ }: Props): ReactElement {
@@ -55,8 +58,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           .then((res: any) => {
             console.log(res)
             setmyteamPk(res.data.data)
-            if (res.data.data !== 0) {
+            if (res.data.data > 0) {
               setIsTeam(true)
+            } else {
+              setIsTeam(false)
             }
           })
       }
@@ -73,6 +78,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           headers: { Authorization: token }
         })
           .then((res: any) => {
+            console.log(1)
             console.log(res.data.data);
             setteamlist([...res.data.data])
           })
@@ -95,18 +101,34 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   function openModal(person: number) {
     setIsOpen(true);
   }
-  // 팀생성
+  // 팀정보 모달창
+  const [isTeamOpen, setisTeamOpen] = useState(false);
+  const [showTeamUser, setShowTeamUser] = useState(false);
+  const [teamPkdata, setteamPkdata] = useState<number>(0)
+  const [teamNamedata, setteamNamedata] = useState<string>("")
+  function teamdata(pk: number, name: string) {
+    setisTeamOpen(true);
+    setteamPkdata(pk);
+    setteamNamedata(name)
+  }
+  const apply = () => {
+    alert(`${teamPkdata}팀에 지원했습니다.`);
+  };
+  function closeTeamModal() {
+    setisTeamOpen(false);
+    setShowTeamUser(false);
+  }
   return (
     <div className="">
       <Navbar />
-      <div className="text-center w-3/4 mx-auto">
+      <div className="text-center">
         {
           isTeam
-            ? <MyTeamDetail teamPK={myteamPk}/>
+            ? <MyTeamDetail teamPK={myteamPk} />
             : null
         }
-
-        <div className="grid grid-cols-2 mt-4">
+        <br />
+        <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
             {idx === "0" ? "공통 프로젝트" : idx === "1" ? "특화 프로젝트" : "자율 프로젝트"}
           </div>
@@ -125,7 +147,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           </div>
         </div>
         <div className="mb-3 font-bold text-black my-5">생성된 팀목록</div>
-        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <div className="shadow overflow-hidden border-b border-gray-200 rounded-lg w-2/3 mx-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -171,7 +193,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               {teamlist.map((team: any, i: number) => (
                 <tr key={i}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{team.teamDto.name}</div>
+                    <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => { teamdata(team.teamDto.teamPK, team.teamDto.name) }}>{team.teamDto.name}</div>
                   </td>
                   {team.teamDto.teamuser.map((member: any, i: number) => (
                     <td className="px-6 py-4 whitespace-nowrap" key={i}>
@@ -182,6 +204,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               ))}
             </tbody>
           </table>
+          {/* 유저모달창 */}
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
               <div className="flex justify-center my-8  text-center">
@@ -208,7 +231,6 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                   <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                     <div className="mt-2 ">
                       <p className="text-sm text-gray-500  ">
-
                         <UserDetail userPk={userPkdata} />
                       </p>
                     </div>
@@ -228,10 +250,104 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               </div>
             </Dialog>
           </Transition>
+          {/* 팀정보 */}
+          <Transition appear show={isTeamOpen} as={Fragment}>
+            <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeTeamModal}>
+              <div className="flex justify-center my-8  text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                </Transition.Child>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  {showTeamUser ? (
+                    <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl  overflow-auto scrollbar-hide">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
+                        onClick={() => setShowTeamUser(false)}
+                      >
+                        <ArrowLeftIcon className="text-sm" width="20px" />
+                        뒤로 가기
+                      </Dialog.Title>
+                      <div className="mt-2 ">
+                        <p className="text-sm text-gray-500  ">
+                          <UserDetail userPk={1} />
+                        </p>
+                      </div>
+
+                      <div className="mt-4 flex flex-row space-x-2 justify-center">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          MM 보내기
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={closeTeamModal}
+                        >
+                          창 닫기
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900 text-center"
+                      >
+                        {teamNamedata}팀 정보
+                      </Dialog.Title>
+                      <div className="mt-2 ">
+                        <p className="text-sm text-gray-500  ">
+                          <TeamDetail teamPK={teamPkdata} />
+                          <TeamUserList teamPK={teamPkdata} showUser={setShowTeamUser} />
+                        </p>
+                      </div>
+
+                      <div className="mt-4 flex flex-row space-x-2 justify-center">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          지원하기
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={closeTeamModal}
+                        >
+                          창 닫기
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Transition.Child>
+              </div>
+            </Dialog>
+          </Transition>
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
               <UserOfferList list={searchList} />
@@ -242,7 +358,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
             </div>
           </div>
         ) : (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">팀에게 보낸 제안</div>
               <TeamOfferList list={searchList} />
@@ -254,7 +370,8 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           </div>
         )}
         {/* 검색 기능 */}
-        <div className="mt-4">
+        <div className="mt-20 w-5/6 mx-auto">
+          <div className="font-bold text-3xl">찾아보기</div>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -263,10 +380,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <TeamSearchHashTag />
+              <TeamSearchHashTag projectCode={Number(idx)} />
             </TabPanel>
             <TabPanel value="2">
-              <UserSearchHashTag />
+              <UserSearchHashTag projectCode={Number(idx)} />
             </TabPanel>
           </TabContext>
         </div>
