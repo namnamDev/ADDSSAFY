@@ -49,18 +49,18 @@ function Footer({ }: Props): ReactElement {
               <div className="w-full lg:w-1/2 px-6">
                 <ul>
                   <li>
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
+                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}>
                       Free components
                     </a>
                   </li>
 
                   <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
+                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}>
                       Blog
                     </a>
                   </li>
                   <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
+                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}>
                       Changelog
                     </a>
                   </li>
@@ -73,13 +73,13 @@ function Footer({ }: Props): ReactElement {
                   <li>
                     <a
                       href=""
-                      className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}
+                      className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}
                     >
                       Privacy policy
                     </a>
                   </li>
                   <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
+                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}>
                       Terms of service
                     </a>
                   </li>
