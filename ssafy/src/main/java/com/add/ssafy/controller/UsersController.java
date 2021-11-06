@@ -15,12 +15,15 @@ public class UsersController {
     @Autowired
     MemberSvcInter memberSvcInter;
 
+//    @PostMapping("/login")
+//    public ResponseEntity login(@RequestBody UserRequest userRequest){
+//        return ResponseEntity.ok(memberSvcInter.login(userRequest));
+//    }
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody UserRequest userRequest){
-
-//        memberSvcInter.loginOrSignup(userRequest);
+    public ResponseEntity login(UserRequest userRequest){
         return ResponseEntity.ok(memberSvcInter.login(userRequest));
     }
+
     @GetMapping("/detail/{userPK}")
     public ResponseEntity getUserDetail(@PathVariable(name="userPK")Long userPK ){
         return ResponseEntity.ok(memberSvcInter.getUserDetail(userPK));
