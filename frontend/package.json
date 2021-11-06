@@ -21,6 +21,7 @@
     "lodash.clonedeep": "^4.5.0",
     "moment": "^2.29.1",
     "next": "11.1.2",
+    "next-images": "^1.8.2",
     "react": "17.0.2",
     "react-countdown": "^2.3.2",
     "react-dnd": "^14.0.4",
