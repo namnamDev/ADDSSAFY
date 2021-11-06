@@ -35,16 +35,29 @@ function Navbar({ }: Props): ReactElement {
     setmynickname(nickname)
   }, [])
   // 사진가져오기
+  const [base64data, setBase64data] = useState<string | undefined>();
   useEffect(() => {
-    const mmid: string | null = localStorage.getItem("mmid")
-    const mmtoken: string | null = localStorage.getItem("mmtoken")
+    const mmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
     if (typeof mmtoken == "string" && typeof mmid === "string") {
-      axios.get(`/api/v4/users/${mmid}/image`, {
-        headers: { Authorization: mmtoken }
-      })
-        .then((res) => console.log(res))
+      axios
+        .get(`/api/v4/users/${mmid}/image`, {
+          headers: {
+            Authorization: mmtoken,
+            "Content-Type": "multipart/form-data",
+          },
+          responseType: "blob",
+        })
+        .then((res: any) => {
+          const fileReaderInstance: any = new FileReader();
+          fileReaderInstance.readAsDataURL(res.data);
+          fileReaderInstance.onload = () => {
+            setBase64data(fileReaderInstance.result);
+            console.log(base64data);
+          };
+        });
     }
-  }, [])
+  }, []);
   const router = useRouter();
   // 로그아웃
   function logout() {
@@ -99,13 +112,15 @@ function Navbar({ }: Props): ReactElement {
               <Menu as="div" className="ml-3 relative">
                 <div>
                   <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                    <Image
-                      className="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                      width="50"
-                      height="50"
-                    />
+                    {base64data && (
+                      <Image
+                        className="h-8 w-8 rounded-full"
+                        src={base64data}
+                        alt=""
+                        width="50"
+                        height="50"
+                      />
+                    )}
                   </Menu.Button>
                 </div>
                 <Transition
