@@ -1,80 +1,7 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-const people = [
-  {
-    userId: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 2,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 3,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 4,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 5,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 6,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
+import axios from "axios";
 
 interface Props {
   teamPK: number;
@@ -90,6 +17,18 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
   const userDetail = () => {
     showUser(true);
   };
+  // 팀유저정보
+  const [people, setpeople] = useState<any>([])
+
+  useEffect(() => {
+    axios.get(`/api/team/teamuser/${teamPK}`)
+      .then((res: any) => { setpeople([...res.data]) })
+      .catch((err) => alert(err))
+
+  }, [])
+  function teamusers() {
+
+  }
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
@@ -133,8 +72,9 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {people.map((person: any) => (
+                  // 
+                  <tr key={person.userPk}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
@@ -182,6 +122,7 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
                     </td>
                   </tr>
                 ))}
+                {/*  */}
               </tbody>
             </table>
           </div>

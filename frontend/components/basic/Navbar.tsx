@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { Transition, Menu, Popover } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import axios from "axios";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -28,12 +29,22 @@ interface Props { }
 
 function Navbar({ }: Props): ReactElement {
   // nickname 가져오기
-  const [mynickname, setmynickname] = useState<string|null>("")
+  const [mynickname, setmynickname] = useState<string | null>("")
   useEffect(() => {
     const nickname: string | null = localStorage.getItem("nickname")
     setmynickname(nickname)
   }, [])
-
+  // 사진가져오기
+  useEffect(() => {
+    const mmid: string | null = localStorage.getItem("mmid")
+    const mmtoken: string | null = localStorage.getItem("mmtoken")
+    if (typeof mmtoken == "string" && typeof mmid === "string") {
+      axios.get(`/api/v4/users/${mmid}/image`, {
+        headers: { Authorizations: mmtoken }
+      })
+        .then((res) => console.log(res))
+    }
+  }, [])
   const router = useRouter();
   // 로그아웃
   function logout() {
