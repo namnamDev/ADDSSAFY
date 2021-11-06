@@ -38,8 +38,7 @@
 //   },
 // };
 
-const withCss = require("@zeit/next-css");
-module.exports = withCss({
+module.exports = {
   exportPathMap: function () {
     return {
       "/": { page: "/" },
@@ -52,4 +51,4 @@ module.exports = withCss({
       "/TeamModify": { page: "/TeamModify" },
     };
   },
-});
+};
