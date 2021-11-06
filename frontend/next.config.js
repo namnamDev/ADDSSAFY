@@ -41,7 +41,9 @@ const withImages = require("next-images");
 module.exports = withImages({
   assetPrefix: "https://k5d204.p.ssafy.io",
   dynamicAssetPrefix: true,
-  loader: "imgix",
+  images: {
+    loader: "imgix",
+  },
   webpack(config, options) {
     return config;
   },
