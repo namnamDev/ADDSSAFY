@@ -17,7 +17,6 @@
     "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.6",
     "@types/lodash-es": "^4.17.5",
-    "@zeit/next-css": "^1.0.1",
     "axios": "^0.23.0",
     "lodash.clonedeep": "^4.5.0",
     "moment": "^2.29.1",

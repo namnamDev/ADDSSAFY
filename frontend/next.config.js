@@ -39,6 +39,10 @@
 // };
 
 module.exports = {
+  reactStrictMode: true,
+  images: {
+    loader: "imgix",
+  },
   exportPathMap: function () {
     return {
       "/": { page: "/" },
