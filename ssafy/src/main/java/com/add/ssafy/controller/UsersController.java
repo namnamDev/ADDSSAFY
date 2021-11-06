@@ -20,7 +20,7 @@ public class UsersController {
 //        return ResponseEntity.ok(memberSvcInter.login(userRequest));
 //    }
     @PostMapping("/login")
-    public ResponseEntity login(UserRequest userRequest){
+    public ResponseEntity login(@RequestBody UserRequest userRequest){
         return ResponseEntity.ok(memberSvcInter.login(userRequest));
     }
 
