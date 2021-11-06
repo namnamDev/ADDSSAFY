@@ -12,6 +12,7 @@ interface Props {
 function TeamCard({ teamPK }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
   // 팀정보 불러오기
   useEffect(() => {
 
@@ -150,7 +151,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} />
+                      <TeamUserList teamPK={teamPK} showUser={setShowUser} teammodalUserPK={setteammodalUserPK} />
                     </p>
                   </div>
 
