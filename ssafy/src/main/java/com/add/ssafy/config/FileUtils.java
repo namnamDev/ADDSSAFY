@@ -45,7 +45,8 @@ public class FileUtils {
         File dest = new File(filePath);
         profileImage.transferTo(dest);
 
-        return filePath.replace(basePath, "/profileImg");
+//        return filePath.replace(basePath, "/img");
+        return filePath;
     }
 
     public static void deleteProfile(String profileFilePath) {
@@ -77,7 +78,7 @@ public class FileUtils {
         // String basePath =
         // FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/img";
         // 서버 환경
-        String basePath = "/home/ubuntu/CommonProfileImg";
+        String basePath = "/home/ubuntu/image";
         return basePath;
     }
 }
