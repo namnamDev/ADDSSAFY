@@ -47,7 +47,7 @@ module.exports = {
   exportPathMap: function () {
     return {
       "/": { page: "/" },
-      "/index": { page: "/index" },
+      // "/index": { page: "/index" },
       "/Main": { page: "/Main" },
       "/Mypage": { page: "/Mypage" },
       "/MypageEdit": { page: "/MypageEdit" },
