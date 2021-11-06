@@ -14,7 +14,6 @@ module.exports = {
     ];
   },
   reactStrictMode: true,
-  trailingSlash: true,
   images: {
     loader: "imgix",
     path: "https://k5d204.p.ssafy.io/",
