@@ -5,9 +5,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 
-interface Props { }
+interface Props {}
 
-function Main({ }: Props): ReactElement {
+function index({}: Props): ReactElement {
   const router = useRouter();
 
   const cancelButtonRef = useRef(null);
@@ -89,10 +89,7 @@ function Main({ }: Props): ReactElement {
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
               &#8203;
             </span>
             <Transition.Child
@@ -116,12 +113,7 @@ function Main({ }: Props): ReactElement {
                   </button>
                 </div>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <Image
-                    src="/images/mmlogo.png"
-                    alt=""
-                    width="500"
-                    height="95"
-                  />
+                  <Image src="/images/mmlogo.png" alt="" width="500" height="95" />
                   <LoginModal />
                 </div>
               </div>
@@ -130,12 +122,10 @@ function Main({ }: Props): ReactElement {
         </Dialog>
       </Transition.Root>
       <div className="animation02">
-        <div className="name">
-          {click ? <p onClick={enter}>+ SSAFY</p> : null}
-        </div>
+        <div className="name">{click ? <p onClick={enter}>+ SSAFY</p> : null}</div>
       </div>
     </div>
   );
 }
 
-export default Main;
+export default index;

@@ -50,7 +50,7 @@ module.exports = {
       "/index": { page: "/index" },
       "/Main": { page: "/Main" },
       "/Mypage": { page: "/Mypage" },
-      "/MypageEdit": { page: "/theMypageEditre" },
+      "/MypageEdit": { page: "/theMypageEdit" },
       "/TeamBuildingCurrent": { page: "/TeamBuildingCurrent" },
       "/TeamCreate": { page: "/TeamCreate" },
       "/TeamModify": { page: "/TeamModify" },
