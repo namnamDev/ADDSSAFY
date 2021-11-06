@@ -40,7 +40,7 @@ function Navbar({ }: Props): ReactElement {
     const mmtoken: string | null = localStorage.getItem("mmtoken")
     if (typeof mmtoken == "string" && typeof mmid === "string") {
       axios.get(`/api/v4/users/${mmid}/image`, {
-        headers: { Authorizations: mmtoken }
+        headers: { Authorization: mmtoken }
       })
         .then((res) => console.log(res))
     }

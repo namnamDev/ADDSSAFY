@@ -6,12 +6,13 @@ import axios from "axios";
 interface Props {
   teamPK: number;
   showUser: (value: boolean) => void;
+  teammodalUserPK: (value: number) => void;
 }
 
-function TeamUserList({ teamPK, showUser }: Props): ReactElement {
+function TeamUserList({ teamPK, showUser, teammodalUserPK }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
-  function SendMM() {
+  function SendMM(mattermost: string) {
     alert("message");
   }
   const userDetail = () => {
@@ -22,8 +23,7 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
 
   useEffect(() => {
     axios.get(`/api/team/teamuser/${teamPK}`)
-      .then((res: any) => { setpeople([...res.data]) })
-      .catch((err) => alert(err))
+      .then((res: any) => { setpeople(res.data.data) })
 
   }, [])
   function teamusers() {
@@ -48,19 +48,6 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Class Info
-                  </th>
-
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Phone
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
                     Status
                   </th>
                   <th
@@ -73,11 +60,10 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {people.map((person: any) => (
-                  // 
                   <tr key={person.userPk}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
+                        {/* <div className="flex-shrink-0 h-10 w-10">
                           <Image
                             className="h-10 w-10 rounded-full"
                             src={person.image}
@@ -85,24 +71,19 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
                             width="100%"
                             height="100%"
                           />
-                        </div>
+                        </div> */}
                         <div className="ml-4">
                           <div
                             className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-                            onClick={() => showUser(true)}
+                            onClick={() => { showUser(true); teammodalUserPK(person.userPk) }}
                           >
-                            {person.name}
+                            {person.userName}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{person.class}</div>
-                    </td>
-
-                    <td className="px-6 py-4 whitespace-nowrap">{person.phone}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {person.status === "leave" ? (
+                      {person.isLeader === true ? (
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
                           팀장
                         </span>
@@ -115,14 +96,14 @@ function TeamUserList({ teamPK, showUser }: Props): ReactElement {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <span
                         className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-                        onClick={() => SendMM()}
+                        onClick={() => SendMM(person.mmid)}
                       >
                         MatterMost
                       </span>
                     </td>
                   </tr>
                 ))}
-                {/*  */}
+
               </tbody>
             </table>
           </div>

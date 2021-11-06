@@ -106,6 +106,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   const [showTeamUser, setShowTeamUser] = useState(false);
   const [teamPkdata, setteamPkdata] = useState<number>(0)
   const [teamNamedata, setteamNamedata] = useState<string>("")
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
   function teamdata(pk: number, name: string) {
     setisTeamOpen(true);
     setteamPkdata(pk);
@@ -286,7 +287,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                       </Dialog.Title>
                       <div className="mt-2 ">
                         <p className="text-sm text-gray-500  ">
-                          <UserDetail userPk={1} />
+                          <UserDetail userPk={teammodalUserPK} />
                         </p>
                       </div>
 
@@ -318,7 +319,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                       <div className="mt-2 ">
                         <p className="text-sm text-gray-500  ">
                           <TeamDetail teamPK={teamPkdata} />
-                          <TeamUserList teamPK={teamPkdata} showUser={setShowTeamUser} />
+                          <TeamUserList teamPK={teamPkdata} showUser={setShowTeamUser} teammodalUserPK={setteammodalUserPK} />
                         </p>
                       </div>
 
