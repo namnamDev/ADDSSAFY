@@ -46,14 +46,14 @@ module.exports = {
   },
   exportPathMap: function () {
     return {
-      "/": { page: "/" },
+      "/": { page: "https://k5d204.p.ssafy.io/" },
       // "/index": { page: "/index" },
-      "/Main": { page: "/Main" },
-      "/Mypage": { page: "/Mypage" },
-      "/MypageEdit": { page: "/MypageEdit" },
-      "/TeamBuildingCurrent": { page: "/TeamBuildingCurrent" },
-      "/TeamCreate": { page: "/TeamCreate" },
-      "/TeamModify": { page: "/TeamModify" },
+      "/Main": { page: "https://k5d204.p.ssafy.io/Main" },
+      "/Mypage": { page: "https://k5d204.p.ssafy.io/Mypage" },
+      "/MypageEdit": { page: "https://k5d204.p.ssafy.io/MypageEdit" },
+      "/TeamBuildingCurrent": { page: "https://k5d204.p.ssafy.io/TeamBuildingCurrent" },
+      "/TeamCreate": { page: "https://k5d204.p.ssafy.io/TeamCreate" },
+      "/TeamModify": { page: "https://k5d204.p.ssafy.io/TeamModify" },
     };
   },
 };
