@@ -16,14 +16,16 @@ public class TeamMemberRepoImpl implements TeamMemberRepoCustom {
     @Override
     public TeamMember findByTeamMember(Long teamPK, Long memberPK){
         QTeamMember qTeamMember = QTeamMember.teamMember;
-        return queryFactory.selectFrom(qTeamMember).where(qTeamMember.team().id.eq(teamPK).and(qTeamMember.member().id.eq(memberPK)))
+        return queryFactory.selectFrom(qTeamMember).
+                where(qTeamMember.team().id.eq(teamPK).and(qTeamMember.member().id.eq(memberPK)))
                 .fetchOne();
     }
 
     @Override
     public Optional<TeamMember> findByTeamsltOne(Long teamPK){
         QTeamMember qTeamMember = QTeamMember.teamMember;
-        return Optional.ofNullable(queryFactory.selectFrom(qTeamMember).where(qTeamMember.team().id.eq(teamPK))
+        return Optional.ofNullable(queryFactory.selectFrom(qTeamMember)
+                .where(qTeamMember.team().id.eq(teamPK))
                 .fetchFirst());
     }
 }

@@ -35,7 +35,7 @@ public class UserRequest {
     private String nickname;
 
     @NotNull
-    private MultipartFile image;
+    private String image;
 
     public Member toUser(PasswordEncoder passwordEncoder) {
         return Member.builder().email(this.mmid).password(passwordEncoder.encode(this.password))

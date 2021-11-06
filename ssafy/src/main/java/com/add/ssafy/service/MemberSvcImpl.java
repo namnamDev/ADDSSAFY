@@ -99,14 +99,14 @@ public class MemberSvcImpl implements MemberSvcInter {
         member.setUserNick(userRequest.getNickname());
         member.setUserName(userRequest.getUsername());
         member.setEmail(userRequest.getEmail());
+        member.setProfile(userRequest.getImage());
         //프사 변경
-        System.out.println("--------");
-        FileUtils.deleteProfile(member.getProfile());//기존프사 삭제
-        try {
-            member.setProfile(FileUtils.uploadProfile(userRequest.getImage()));//DB에 이미지 변경
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        FileUtils.deleteProfile(member.getProfile());//기존프사 삭제
+//        try {
+//            member.setProfile(FileUtils.uploadProfile(userRequest.getImage()));//DB에 이미지 변경
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         memberRepo.save(member);
 
 
