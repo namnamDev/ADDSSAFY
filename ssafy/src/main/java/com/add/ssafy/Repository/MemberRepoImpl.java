@@ -96,6 +96,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                 , qMember.address
                                 , qMember.studentNumber
                                 , qMember.isLeave
+                                , qMember.profile
                         )
                 )
                 .from(qMember)
@@ -142,6 +143,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                         , qMember.address
                                         , qMember.studentNumber
                                         , qMember.isLeave
+                                        , qMember.profile
                                 )
                         )
                 );

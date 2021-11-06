@@ -26,4 +26,5 @@ public class UserDetailDto {
     private String userAddress;
     private String studentNumber;
     private Boolean isleave;
+    private String profile;
 }
