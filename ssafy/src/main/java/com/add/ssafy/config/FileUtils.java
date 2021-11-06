@@ -45,8 +45,8 @@ public class FileUtils {
         File dest = new File(filePath);
         profileImage.transferTo(dest);
 
-//        return filePath.replace(basePath, "/img");
-        return filePath;
+        return filePath.replace(basePath, "/home/ubuntu");
+//        return filePath;
     }
 
     public static void deleteProfile(String profileFilePath) {
