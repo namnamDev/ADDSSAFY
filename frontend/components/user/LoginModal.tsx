@@ -38,7 +38,6 @@ function LoginModal({ }: Props): ReactElement {
             fileReaderInstance.readAsDataURL(res1.data);
             fileReaderInstance.onload = async () => {
               setBase64data(fileReaderInstance.result);
-              console.log(fileReaderInstance.result);
               // backend login
               axios.post('/api/users/login',
                 {
