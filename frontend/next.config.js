@@ -42,7 +42,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     loader: "imgix",
-    // path: "https://k5d204.p.ssafy.io/",
+    path: "https://k5d204.p.ssafy.io/",
   },
   exportPathMap: function () {
     return {
