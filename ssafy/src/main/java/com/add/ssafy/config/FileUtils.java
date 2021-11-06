@@ -45,7 +45,7 @@ public class FileUtils {
         File dest = new File(filePath);
         profileImage.transferTo(dest);
 
-        return filePath.replace(basePath, "/home/ubuntu");
+        return filePath.replace(basePath, "/image");
 //        return filePath;
     }
 
