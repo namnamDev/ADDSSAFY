@@ -45,10 +45,10 @@ function Mypage({ }: Props): ReactElement {
           <div className="text-center mb-10">
             <Image
               className="rounded-full"
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+              src={userinfo.profile}
               alt=""
-              width="150%"
-              height="150%"
+              width="150"
+              height="150"
             />
           </div>
           <div className="">
