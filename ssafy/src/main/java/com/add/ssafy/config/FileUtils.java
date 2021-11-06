@@ -78,7 +78,7 @@ public class FileUtils {
         // String basePath =
         // FileSystemView.getFileSystemView().getHomeDirectory().toString() + "/img";
         // 서버 환경
-        String basePath = "/home/ubuntu/image";
+        String basePath = "/home/image";
         return basePath;
     }
 }
