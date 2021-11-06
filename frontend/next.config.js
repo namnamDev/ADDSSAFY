@@ -46,7 +46,7 @@ module.exports = {
   },
   exportPathMap: function () {
     return {
-      "https://k5d204.p.ssafy.io/": { page: "/" },
+      "/": { page: "/" },
       // "/index": { page: "/index" },
       "https://k5d204.p.ssafy.io/Main": { page: "/Main" },
       "https://k5d204.p.ssafy.io/Mypage": { page: "/Mypage" },
