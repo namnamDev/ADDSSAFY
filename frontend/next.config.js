@@ -48,12 +48,12 @@ module.exports = {
     return {
       "/": { page: "/" },
       // "/index": { page: "/index" },
-      "https://k5d204.p.ssafy.io/Main": { page: "/Main" },
-      "https://k5d204.p.ssafy.io/Mypage": { page: "/Mypage" },
-      "https://k5d204.p.ssafy.io/MypageEdit": { page: "/MypageEdit" },
-      "https://k5d204.p.ssafy.io/TeamBuildingCurrent": { page: "/TeamBuildingCurrent" },
-      "https://k5d204.p.ssafy.io/TeamCreate": { page: "/TeamCreate" },
-      "https://k5d204.p.ssafy.io/TeamModify": { page: "/TeamModify" },
+      "/Main": { page: "/Main" },
+      "/Mypage": { page: "/Mypage" },
+      "/MypageEdit": { page: "/MypageEdit" },
+      "/TeamBuildingCurrent": { page: "/TeamBuildingCurrent" },
+      "/TeamCreate": { page: "/TeamCreate" },
+      "/TeamModify": { page: "/TeamModify" },
     };
   },
 };
