@@ -1,0 +1,6 @@
+http://your-mattermost-url.com/api/v4/channels/{channel_id}/members
+
+axios.post(`/api/v4/channels/{channel_id}/members`,{
+"user_id": "string",
+"post_root_id": "string"
+})
