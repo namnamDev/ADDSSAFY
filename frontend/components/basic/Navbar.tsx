@@ -1,26 +1,13 @@
-import React, { ReactElement, Fragment } from "react";
+import React, { ReactElement, Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Transition, Menu, Popover } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import axios from "axios";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-const boards = [
-  {
-    No: 1,
-    name: "칭찬합니다",
-    description: "저의 훌륭한 동료를 칭찬합니다 😘",
-    url: "BoardCompliment",
-  },
-  {
-    No: 2,
-    name: "죄송합니다",
-    description: "죄송합니다, 용서해주세요... 😥",
-    url: "BoardConfession",
-  },
-];
 const projects = [
   {
     No: 1,
@@ -41,23 +28,49 @@ const projects = [
 interface Props { }
 
 function Navbar({ }: Props): ReactElement {
+  // nickname 가져오기
+  const [mynickname, setmynickname] = useState<string | null>("")
+  useEffect(() => {
+    const nickname: string | null = localStorage.getItem("nickname")
+    setmynickname(nickname)
+  }, [])
+  // 사진가져오기
+  const [base64data, setBase64data] = useState<string | undefined>();
+  useEffect(() => {
+    const mmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    if (typeof mmtoken == "string" && typeof mmid === "string") {
+      axios
+        .get(`/api/v4/users/${mmid}/image`, {
+          headers: {
+            Authorization: mmtoken,
+            "Content-Type": "multipart/form-data",
+          },
+          responseType: "blob",
+        })
+        .then((res: any) => {
+          const fileReaderInstance: any = new FileReader();
+          fileReaderInstance.readAsDataURL(res.data);
+          fileReaderInstance.onload = () => {
+            setBase64data(fileReaderInstance.result);
+            console.log(base64data);
+          };
+        });
+    }
+  }, []);
   const router = useRouter();
   // 로그아웃
   function logout() {
     localStorage.clear();
     router.push("/");
   }
-  async function gotoboard(board: string) {
-    await router.push(`/${board}`);
-    window.location.reload();
-  }
-  async function gototeammenu(teammenu: number) {
-    await router.push({
+  function gototeammenu(teammenu: number) {
+    router.push({
       pathname: `/TeamBuildingCurrent`,
       query: { projectNo: teammenu },
     });
-    window.location.reload();
   }
+
   return (
     <div>
       <div className="relative bg-white">
@@ -66,92 +79,48 @@ function Navbar({ }: Props): ReactElement {
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <div className="cursor-pointer" onClick={() => router.push("/")}>
                 <Image
-                  className="h-8 w-8 rounded-full"
-                  src="/images/S.jpg"
+                  src="/images/ssafygif-unscreen.gif"
+                  height="70"
+                  width="100"
                   alt=""
-                  width="30"
-                  height="30"
-                />
+                ></Image>
               </div>
             </div>
+            <div
+              className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+              onClick={() => gototeammenu(0)}
+            >
+              공통프로젝트
+            </div>
+            <div
+              className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+              onClick={() => gototeammenu(1)}
+            >
+              특화프로젝트
+            </div>
+            <div
+              className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
+              onClick={() => gototeammenu(2)}
+            >
+              특화프로젝트
+            </div>
 
-            <Popover.Group as="nav" className="md:flex space-x-10">
-              <Popover className="relative">
-                {({ open }) => (
-                  <>
-                    <Popover.Button
-                      className={classNames(
-                        open ? "text-gray-900" : "text-gray-500",
-                        "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                      )}
-                    >
-                      <div className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer">
-                        팀빌딩
-                      </div>
-                      <ChevronDownIcon
-                        className={classNames(
-                          open ? "text-gray-600" : "text-gray-400",
-                          "ml-2 h-5 w-5 group-hover:text-gray-500"
-                        )}
-                        aria-hidden="true"
-                      />
-                    </Popover.Button>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel className="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
-                        <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden text-left">
-                          <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                            {projects.map((project) => (
-                              <div
-                                key={project.No}
-                                className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 cursor-pointer"
-                                onClick={() => gototeammenu(project.No)}
-                              >
-                                <div className="ml-4">
-                                  <p className="text-base font-medium text-gray-900">
-                                    {project.name}
-                                  </p>
-                                  <p className="mt-1 text-sm text-gray-500">
-                                    {project.description}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                )}
-              </Popover>
-            </Popover.Group>
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <a
-                href="#"
-                className="whitespace-nowrap text-xs font-medium text-gray-500 hover:text-gray-900"
-              >
-                교육생정보(ID, 학번)
-              </a>
-
+              <div className="whitespace-nowrap text-xs font-bold text-gray-900 ">
+                {mynickname}
+              </div>
               <Menu as="div" className="ml-3 relative">
                 <div>
                   <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                    <span className="sr-only">Open user menu</span>
-                    <Image
-                      className="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                      width="30"
-                      height="30"
-                    />
+                    {base64data && (
+                      <Image
+                        className="h-8 w-8 rounded-full"
+                        src={base64data}
+                        alt=""
+                        width="50"
+                        height="50"
+                      />
+                    )}
                   </Menu.Button>
                 </div>
                 <Transition

@@ -7,7 +7,7 @@ import Image from "next/image";
 
 interface Props { }
 
-function Main({ }: Props): ReactElement {
+function Index({ }: Props): ReactElement {
   const router = useRouter();
 
   const cancelButtonRef = useRef(null);
@@ -138,4 +138,4 @@ function Main({ }: Props): ReactElement {
   );
 }
 
-export default Main;
+export default Index;

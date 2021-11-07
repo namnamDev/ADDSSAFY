@@ -25,24 +25,11 @@ function UserOfferCard({ person }: Props): ReactElement {
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
-              alt=""
-              width="100%"
-              height="100%"
-            />
-          </div>
-          <div className="ml-4">
-            <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            >
-              이름
-            </div>
-          </div>
+        <div
+          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          onClick={() => setIsOpen(true)}
+        >
+          팀이름
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -70,11 +57,6 @@ function UserOfferCard({ person }: Props): ReactElement {
             >
               <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
             </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block align-middle " aria-hidden="true">
-              &#8203;
-            </span>
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -84,7 +66,7 @@ function UserOfferCard({ person }: Props): ReactElement {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+              <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
@@ -92,7 +74,7 @@ function UserOfferCard({ person }: Props): ReactElement {
                 ></Dialog.Title>
                 <div className="mt-2 ">
                   <p className="text-sm text-gray-500  ">
-                    <UserDetail />
+                    <UserDetail userPk={1} />
                   </p>
                 </div>
 

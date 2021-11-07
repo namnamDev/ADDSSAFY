@@ -14,3 +14,15 @@ useEffect(() => {
       }
     }
   }, [router.query.projectNo])
+
+
+   axios.post('/api/v4/channels', {
+      {
+        team_id: "tfctt9yko7f93jge3itn1tseoo",
+        type: "P",
+        display_name: "test",
+        name: "teambuilding204-test1",
+        header: "",
+        purpose: "컨설턴트님과 코치님이 계시는 방"
+      }
+    })

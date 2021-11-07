@@ -12,6 +12,7 @@ interface Props {
 function TeamOfferCard({ teamPK }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
@@ -24,41 +25,27 @@ function TeamOfferCard({ teamPK }: Props): ReactElement {
   };
 
   return (
-    <tr>
-      <td className=" py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
-              alt=""
-              width="100%"
-              height="100%"
-            />
-          </div>
-          <div className="ml-4">
-            <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            >
-              팀이름
-            </div>
-          </div>
+    <tr className="h-10">
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div
+          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          onClick={() => setIsOpen(true)}
+        >
+          팀이름
         </div>
       </td>
-
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+        <div className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
           팀원 구인 중
-        </span>
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span
+        <div
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+        // onClick={() => SendMM()}
         >
           제안 철회
-        </span>
+        </div>
       </td>
 
       {/* 팀 정보
@@ -108,20 +95,7 @@ function TeamOfferCard({ teamPK }: Props): ReactElement {
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
-                      <UserDetail
-                        // userdata={{
-                        //   userId: 0,
-                        //   name: "",
-                        //   classNo: 0,
-                        //   address: "",
-                        //   class: "",
-                        //   email: "",
-                        //   phone: "",
-                        //   status: "",
-                        //   image: "",
-                        //   sigfiles: [],
-                        // }}
-                      />
+                      <UserDetail userPk={teammodalUserPK} />
                     </p>
                   </div>
 
@@ -153,7 +127,7 @@ function TeamOfferCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} />
+                      <TeamUserList teamPK={teamPK} showUser={setShowUser} teammodalUserPK={setteammodalUserPK} />
                     </p>
                   </div>
 

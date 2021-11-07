@@ -10,28 +10,55 @@ function LoginModal({ }: Props): ReactElement {
   // 로그인
   const [loginid, setloginid] = useState<string>("");
   const [loginpw, setloginpw] = useState<string>("");
+  const [base64data, setBase64data] = useState<string | undefined>();
   function login() {
+    // mm login
     axios
       .post("/api/v4/users/login", {
         login_id: loginid,
         password: loginpw,
       })
-
       .then((res: unknown | any) => {
-        console.log(res.data.id);
-        // 데이터정보 날려주기
-        axios.post('/api/users/login',
-          {
-            email: loginid,
-            mmid: res.data.id,
-            password: loginpw
-          }
-        )
-          // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
-          .then((res: any) => {
-            console.log(res);
-            localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+        console.log(res);
+        localStorage.setItem("mmtoken", "Bearer " + res.headers.token);
+        localStorage.setItem("mmid", res.data.id);
+        localStorage.setItem("username", res.data.username);
+        localStorage.setItem("nickname", res.data.nickname);
+        // 이미지가져오기
+        axios
+          .get(`/api/v4/users/${res.data.id}/image`, {
+            headers: {
+              Authorization: "Bearer " + res.headers.token,
+              "Content-Type": "multipart/form-data",
+            },
+            responseType: "blob",
           })
+          .then((res1: any) => {
+            const fileReaderInstance: any = new FileReader();
+            fileReaderInstance.readAsDataURL(res1.data);
+            fileReaderInstance.onload = async () => {
+              setBase64data(fileReaderInstance.result);
+              // backend login
+              axios.post('/api/users/login',
+                {
+                  email: loginid,
+                  password: "test",
+                  mmid: res.data.id,
+                  username: res.data.username,
+                  nickname: res.data.nickname,
+                  image: fileReaderInstance.result
+                }
+              )
+                // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
+                .then((res: any) => {
+                  console.log(res);
+                  localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+                  router.push('/Main')
+                })
+                .catch((err) => alert(err))
+            };
+          });
+
       })
       .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
   }

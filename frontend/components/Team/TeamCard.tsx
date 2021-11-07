@@ -12,6 +12,11 @@ interface Props {
 function TeamCard({ teamPK }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
+  // 팀정보 불러오기
+  useEffect(() => {
+
+  }, [])
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
@@ -49,8 +54,6 @@ function TeamCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">반</div>
       </td>
-
-      <td className="px-6 py-4 whitespace-nowrap">010-5303-1984</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {/* {person.status === "leave" ? (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
@@ -68,7 +71,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+        // onClick={() => SendMM()}
         >
           MatterMost
         </span>
@@ -95,11 +98,6 @@ function TeamCard({ teamPK }: Props): ReactElement {
             >
               <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
             </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block align-middle " aria-hidden="true">
-              &#8203;
-            </span>
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -121,21 +119,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   </Dialog.Title>
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
-                      <UserDetail
-                      // userPK={123}
-                      // userdata={{
-                      //   userId: 0,
-                      //   name: "",
-                      //   classNo: 0,
-                      //   address: "",
-                      //   class: "",
-                      //   email: "",
-                      //   phone: "",
-                      //   status: "",
-                      //   image: "",
-                      //   sigfiles: [],
-                      // }}
-                      />
+                      <UserDetail userPk={1} />
                     </p>
                   </div>
 
@@ -167,7 +151,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} />
+                      <TeamUserList teamPK={teamPK} showUser={setShowUser} teammodalUserPK={setteammodalUserPK} />
                     </p>
                   </div>
 
