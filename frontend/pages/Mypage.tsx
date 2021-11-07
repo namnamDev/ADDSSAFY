@@ -43,12 +43,12 @@ function Mypage({ }: Props): ReactElement {
           <div className="px-4 py-2 sm:px-6">
           </div>
           <div className="text-center mb-10">
-            <Image
-              className="rounded-full"
+            <img
+              className="rounded-full mx-auto"
               src={userinfo.profile}
               alt=""
-              width="150"
-              height="150"
+              width="100"
+              height="100"
             />
           </div>
           <div className="">
@@ -101,8 +101,47 @@ function Mypage({ }: Props): ReactElement {
                   {Object.keys(usertags).map((section: any, i: number) => (
                     <div key={i}>
                       {usertags[section].map((tag: any, j: any) =>
-                        <div className="j" key={j}>
-                          {tag.hashTagName}
+                        <div key={j}>
+                          {
+                            section === 'DEVOPS'
+                              ?
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                {tag.hashTagName}
+                              </span>
+                              : null
+                          }
+                          {
+                            section === 'FE'
+                              ?
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                {tag.hashTagName}
+                              </span>
+                              : null
+                          }
+                          {
+                            section === 'BE'
+                              ?
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                {tag.hashTagName}
+                              </span>
+                              : null
+                          }
+                          {
+                            section === 'ETC'
+                              ?
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                {tag.hashTagName}
+                              </span>
+                              : null
+                          }
+                          {
+                            section === 'FOUR'
+                              ?
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                {tag.hashTagName}
+                              </span>
+                              : null
+                          }
                         </div>
                       )}
                     </div>
