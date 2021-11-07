@@ -46,14 +46,13 @@ function UserSearchHashTag({ projectCode }: Props): ReactElement {
     }
   };
   const search = () => {
-    setSearchList(TeamDump);
     const token: string | null = localStorage.getItem('token')
     if (token) {
       axios.post('/api/search/user', {
         projectCode: projectCode,
         can: can
       })
-        .then((res) => console.log(res))
+        .then((res: any) => { setSearchList([...res.data.data]); console.log(res.data.data) })
         .catch((err) => alert(err))
     }
 
@@ -145,7 +144,7 @@ function UserSearchHashTag({ projectCode }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  <UserList list={searchList} />
+                  <UserList list={searchList} projectCode={projectCode} />
                 </div>
               </div>
             </div>
