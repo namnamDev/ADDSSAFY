@@ -7,6 +7,7 @@ import com.add.ssafy.entity.*;
 import com.add.ssafy.enums.Authority;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -82,7 +83,9 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                 , GroupBy.list(Projections.constructor(
                                         TeamForUserDetailDto.class
                                         , qTeam.id
-                                        , qTeam.name))
+                                        , qTeam.name
+                                        , qTeamMember.leader
+                                        , qTeam.type))
                                 , qMember.blog
                                 , qMember.baekjoonId
                                 , qMember.blog
@@ -168,9 +171,59 @@ public class MemberRepoImpl implements MemberRepoCustom{
 ////                .where(qMember.id.eq(memberPK))
 //    }
 
-//    @Override
-//    public List<UserDto> searchUserList(List<Long> can, int projectCode){
-//        List<UserDto>
-//        return null;
-//    }
+    @Override
+    public List<UserDetailDto> searchUserList(List<Long> can, int projectCode){
+        QMember qMember = QMember.member;
+        QMemberHashtag qMemberHashtag = QMemberHashtag.memberHashtag;
+        QTeam qTeam = QTeam.team;
+        QTeamMember qTeamMember = QTeamMember.teamMember;
+        List<UserDetailDto> res = queryFactory
+                .from(qMember)
+                .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
+                .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
+                .where(qMember.id
+                        .in(
+                                JPAExpressions.select(qMemberHashtag.member().id)
+                                        .from(qMemberHashtag)
+                                        .where(qMemberHashtag.hashTag().id.in(can))
+                                        .groupBy(qMemberHashtag.member())
+                                        .having(qMemberHashtag.member().count().eq(Long.valueOf(can.size())))
+                                        .fetchAll()
+                        )
+                )
+//               .select(
+                .transform(GroupBy.groupBy(qMember.id).list(
+                       Projections.constructor(
+                               UserDetailDto.class
+                               , qMember.id
+                               , qMember.name
+                               , qMember.email
+                               , qMember.introduce
+                               , GroupBy.list(Projections.constructor(
+                                       TeamForUserDetailDto.class
+                                       , qTeam.id
+                                       , qTeam.name
+                                       , qTeamMember.leader
+                                       , qTeam.type))
+                               , qMember.blog
+                               , qMember.baekjoonId
+                               , qMember.blog
+                               , qMember.blog
+                               , qMember.mmid
+
+                               , qMember.authority
+                               , qMember.region
+                               , qMember.classNumber
+                               , qMember.userPhone
+                               , qMember.address
+                               , qMember.studentNumber
+                               , qMember.isLeave
+                               , qMember.profile
+                       )
+                    )
+                );
+//               .fetch();
+
+        return res;
+    }
 }

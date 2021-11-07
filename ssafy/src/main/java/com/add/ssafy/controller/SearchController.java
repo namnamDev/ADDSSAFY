@@ -21,7 +21,7 @@ public class SearchController {
 
     @PostMapping("/team")
     public ResponseEntity<BaseResponse> searchTeam(@RequestBody SearchTeamRequest searchTeamRequest){
-
+        System.out.println("Controller : "+searchTeamRequest);
         return ResponseEntity.ok(searchSvcInter.searchTeam(searchTeamRequest));
     }
     @PostMapping("/user")
@@ -29,5 +29,7 @@ public class SearchController {
 
         return ResponseEntity.ok(searchSvcInter.searchUser(searchUserRequest));
     }
+//    @PostMapping("/team")
+//    public ResponseEntity<BaseResponse> searchTeam(@RequestBody )
 
 }

@@ -19,4 +19,6 @@ public interface MemberRepoCustom {
     List<UserDetailDto> findUserDetailDTOByClass(String ban);
 
     UserDetailDto findUserDetailDTOById(Long userPK);
+
+    List<UserDetailDto> searchUserList(List<Long> can, int projectCode);
 }

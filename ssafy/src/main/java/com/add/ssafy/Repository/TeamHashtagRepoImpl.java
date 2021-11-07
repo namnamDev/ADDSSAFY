@@ -6,8 +6,11 @@ import com.add.ssafy.dto.TeamDto;
 import com.add.ssafy.dto.UserDto;
 import com.add.ssafy.entity.*;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.group.GroupBy;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -53,6 +56,56 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
     }
     @Override
     public List<TeamDto>searchTeamList(List<Long> can, int projectCode){
+        QTeam qTeam= QTeam.team;
+        QTeamMember qTeamMember = QTeamMember.teamMember;
+        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
+        QHashTag qHashTag = QHashTag.hashTag;
+
+        QMember qMember = QMember.member;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qTeam.type.eq(projectCode));
+        System.out.println(can);
+        System.out.println(can.size());
+        List<TeamDto> res = queryFactory
+                .from(qTeam)
+                .where(qTeam.type.eq(projectCode))
+                .where(qTeam.id
+                        .in(
+                                JPAExpressions.select(qTeamHashtag.team().id)
+                                    .from(qTeamHashtag)
+                                    .where(qTeamHashtag.hashTag().id.in(can))
+                                    .groupBy(qTeamHashtag.team())
+                                    .having(qTeamHashtag.team().count().eq(Long.valueOf(can.size())))
+                                        .fetchAll()
+                            )
+                        )
+                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
+                .join(qMember).on(qTeamMember.member().eq(qMember))
+                .innerJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
+                .innerJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
+                .transform(GroupBy.groupBy(qTeam.id)
+                        .list(
+                                Projections.constructor(
+                                        TeamDto.class
+                                        , qTeam.id
+                                        , qTeam.name
+                                        , qTeam.introduce
+                                        , qTeam.webexLink
+                                        , qTeam.ppt
+                                        , qTeam.mmChannel
+                                        ,GroupBy.list(Projections.constructor(
+                                                UserDto.class
+                                                , qMember.id
+                                                , qMember.name
+                                                , qTeamMember.leader
+                                                , qMember.profile
+                                                , qMember.mmid
+                                        ))
+                                )
+                        )
+                );
+        return res;
 //        QTeam qTeam= QTeam.team;
 //        QTeamMember qTeamMember = QTeamMember.teamMember;
 //        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
@@ -70,7 +123,12 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
 //        builder.and(builderHashs);
 //        List<TeamDto> res = queryFactory
 //                .from(qTeam)
-//                .where(builder)
+//                .where(builder).in(
+//                        ExpressionUtils
+//                                .as(JPAExpressions
+//                                        .selectFrom(qTeamHashtag)
+//                                        .where(qTeamHashtag.team().id)
+//                                        .in((TeamHashtag) can)))
 //                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
 //                .join(qMember).on(qTeamMember.member().eq(qMember))
 //                .innerJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
@@ -97,6 +155,24 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
 //                        )
 //                );
 //        return res;
-        return null;
+//        return null;
+    }
+
+    @Override
+    public List<Tuple> test(List<Long> can){
+        QTeam qTeam = QTeam.team;
+        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
+
+       List<Tuple> aa = queryFactory.select(qTeamHashtag.team().id, qTeamHashtag.team().count())
+               .from(qTeamHashtag)
+               .where(qTeamHashtag.hashTag().id.in(can))
+               .groupBy(qTeamHashtag.team())
+               .fetch();
+       System.out.println(aa);
+
+        return aa;
+
+//                .having(qTeamHashtag.count())
+
     }
 }

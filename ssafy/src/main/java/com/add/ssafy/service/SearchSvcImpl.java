@@ -1,6 +1,7 @@
 package com.add.ssafy.service;
 
 import com.add.ssafy.Repository.HashtagRepo;
+import com.add.ssafy.Repository.MemberRepo;
 import com.add.ssafy.Repository.TeamHashtagRepo;
 import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.TeamAddTagsDto;
@@ -8,6 +9,7 @@ import com.add.ssafy.dto.TeamDto;
 import com.add.ssafy.dto.request.SearchTeamRequest;
 import com.add.ssafy.dto.request.SearchUserRequest;
 import com.add.ssafy.dto.response.BaseResponse;
+import com.add.ssafy.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,8 @@ public class SearchSvcImpl implements SearchSvcInter{
     HashtagRepo hashtagRepo;
     @Autowired
     TeamHashtagRepo teamHashtagRepo;
+    @Autowired
+    MemberRepo memberRepo;
     @Override
     public BaseResponse loadHashtag(){
         List<HashTagsDto> tempTags =  hashtagRepo.gethashtags();
@@ -38,8 +42,11 @@ public class SearchSvcImpl implements SearchSvcInter{
     public BaseResponse searchTeam(SearchTeamRequest searchTeamRequest){
         int projectCode = searchTeamRequest.getProjectCode();
         List<Long>can = searchTeamRequest.getCan();
-
+        System.out.println(can);
+        System.out.println(projectCode);
         List<TeamDto>teamList = teamHashtagRepo.searchTeamList(can,projectCode);
+        System.out.println(teamList);
+//        teamHashtagRepo.test(can);
         List<TeamAddTagsDto> resTeam = new ArrayList<>();
         for (int i=0;i<teamList.size();i++){
             TeamAddTagsDto tempRes = new TeamAddTagsDto();
@@ -62,6 +69,6 @@ public class SearchSvcImpl implements SearchSvcInter{
     public BaseResponse searchUser(SearchUserRequest searchUserRequest){
         int projectCode = searchUserRequest.getProjectCode();
         List<Long>can = searchUserRequest.getCan();
-        return null;
+        return BaseResponse.builder().status("200").msg("완료").data(memberRepo.searchUserList(can,projectCode)).build();
     }
 }
