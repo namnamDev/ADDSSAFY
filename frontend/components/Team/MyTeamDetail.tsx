@@ -54,7 +54,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
         if (typeof token === 'string' && typeof mmid === 'string') {
             axios.delete('/api/team/exit', {
                 data: {
-                    teamPk: teamPK
+                    teamPK: teamPK
                 },
                 headers: { Authorization: token }
             })
