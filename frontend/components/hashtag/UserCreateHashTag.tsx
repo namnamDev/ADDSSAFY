@@ -9,10 +9,6 @@ const filters: filters[] = [
     options: [],
   },
 ];
-interface Props {
-  onCanChanged: (value: number[]) => void;
-  onWantChanged: (value: number[]) => void;
-}
 
 interface list {
   hashTagPK: number;
@@ -20,12 +16,17 @@ interface list {
   hashTagProp: string;
   check: boolean;
 }
+interface Props {
+  onCanChanged: (value: number[]) => void;
+  userHashTag: list[][];
+}
+
 interface filters {
   id: string;
   name: string;
   options: list[];
 }
-function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement {
+function UserCreateHashTag({ onCanChanged, userHashTag }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
   const check = (option: any) => {
@@ -55,19 +56,32 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
         });
       });
 
-      // 내 해쉬태그 목록 받아서 filter 바꿔주기
+      // 기존의 해쉬태그 받아오기
+      for (const key in userHashTag) {
+        userHashTag[key].map((hashTag) => {
+          filters[0].options.map((value) => {
+            if (hashTag.hashTagPK === value.hashTagPK) {
+              value.check = true;
+              can.push(value.hashTagPK);
+            }
+          });
+        });
+      }
     });
   };
   useEffect(() => {
     getHashTagList();
-  }, []);
+    return function cleanup() {
+      filters[0].options.length = 0;
+    };
+  }, [userHashTag]);
   useEffect(() => {
     onCanChanged([...can]);
   }, [can]);
   return (
     <div className="bg-white shadow-md">
       <div>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <main className="max-w-7xl mx-auto px-6">
           <div className=""></div>
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className=" gap-x-8 gap-y-10">

@@ -1,8 +1,6 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
-import TeamList from "../Team/TeamList";
-import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
 const filters: filters[] = [
   {
@@ -34,7 +32,7 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
     if (option.check === false) {
       option.check = !option.check;
       setCan([...can, option.hashTagPK]);
-      console.log(option.hashTagPK)
+      console.log(option.hashTagPK);
     }
     // 빼는부분
     else if (option.check === true) {
@@ -62,7 +60,10 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
   };
   useEffect(() => {
     getHashTagList();
-  }, []);
+    return function clearup() {
+      filters[0].options.length = 0;
+    };
+  }, [filters]);
   useEffect(() => {
     onCanChanged([...can]);
   }, [can]);
