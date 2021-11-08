@@ -36,7 +36,7 @@ const filters: filters[] = [
     options: [],
   },
 ];
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -89,6 +89,9 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
         });
     }
   };
+  useEffect(() => {
+    setSearchList([])
+  }, [projectCode])
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
       filters[0].options.push(...clonedeep(res.data.data.BE));
