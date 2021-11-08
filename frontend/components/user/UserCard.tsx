@@ -52,11 +52,32 @@ function UserCard({ person, projectCode }: Props): ReactElement {
   };
   // MM보내기
   const [open, setOpen] = useState(false)
-
   const cancelButtonRef = useRef(null)
-  function SendMM(mmid: string) {
+  const [message, setmessage] = useState<string>("")
+  function sendMessage() {
+    const mymmid: string | null = localStorage.getItem('mmid')
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    console.log(message)
+    if (mymmid && mmtoken)
+      axios.post('/api/v4/channels/direct', [
+        mymmid, person.mmid
+      ],
+        { headers: { Authorization: mmtoken } })
+        .then((res: any) => {
+          console.log(res.data.id);
+          axios.post("/api/v4/posts",
+            {
+              channel_id: res.data.id,
+              message: message
+            },
+            {
+              headers: { Authorization: mmtoken }
+            })
+            .then(() => { alert('메시지를 성공적으로 전송하였습니다'); setOpen(false) })
+        })
+  }
+  function OpenMM(mmid: string) {
     setOpen(true)
-    // axios.post()
   }
   return (
     <tr>
@@ -110,7 +131,7 @@ function UserCard({ person, projectCode }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => SendMM(person.mmid)}
+          onClick={() => OpenMM(person.mmid)}
         >
           MatterMost
         </span>
@@ -222,6 +243,7 @@ function UserCard({ person, projectCode }: Props): ReactElement {
                           id="first-name"
                           autoComplete="given-name"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                          onChange={(e) => setmessage(e.target.value)}
                         />
                       </div>
                     </div>
@@ -231,7 +253,7 @@ function UserCard({ person, projectCode }: Props): ReactElement {
                   <button
                     type="button"
                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 sm:ml-3 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={sendMessage}
                   >
                     Send
                   </button>

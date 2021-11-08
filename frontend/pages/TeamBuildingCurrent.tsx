@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect, Fragment } from "react";
+import React, { ReactElement, useState, useEffect, Fragment, useRef } from "react";
 import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -22,7 +22,7 @@ import UserDetail from "../components/user/UserDetail";
 import axios from 'axios'
 import TeamDetail from "../components/Team/TeamDetail";
 import TeamUserList from "../components/Team/TeamUserList";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
+import { ArrowLeftIcon, MailIcon } from "@heroicons/react/solid";
 interface Props { }
 
 function TeamBuildingCurrent({ }: Props): ReactElement {
@@ -48,9 +48,11 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   const idx = router.query.projectNo;
   // 팀이 있는지 체크
   const [myteamPk, setmyteamPk] = useState<number>(0)
+  const [myMMid, setmyMMid] = useState<string>("")
   useEffect(() => {
     if (router.query.projectNo) {
       const token: string | null = localStorage.getItem("token")
+      const myMMid: string | null = localStorage.getItem("mmid")
       if (typeof token === "string") {
         axios.get(`/api/team/myteam/${router.query.projectNo}`, {
           headers: { Authorization: token }
@@ -64,6 +66,9 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               setIsTeam(false)
             }
           })
+      }
+      if (myMMid) {
+        setmyMMid(myMMid)
       }
     }
   }, [router.query.projectNo])
@@ -90,9 +95,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const [userPkdata, setuserPkdata] = useState<number>(0)
-  function userdetail(userPk: number) {
+  function userdetail(userPk: number, usermmid: string) {
     setIsOpen(true)
     setuserPkdata(userPk)
+    setuserMMid(usermmid)
   }
   function closeModal() {
     setIsOpen(false);
@@ -118,6 +124,33 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   function closeTeamModal() {
     setisTeamOpen(false);
     setShowTeamUser(false);
+  }
+  // MM보내기
+  const [open, setOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
+  const [message, setmessage] = useState<string>("")
+  const [userMMid, setuserMMid] = useState<string>("")
+  function sendMessage() {
+    const mymmid: string | null = localStorage.getItem('mmid')
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    console.log(message)
+    if (mymmid && mmtoken)
+      axios.post('/api/v4/channels/direct', [
+        mymmid, userMMid
+      ],
+        { headers: { Authorization: mmtoken } })
+        .then((res: any) => {
+          console.log(res.data.id);
+          axios.post("/api/v4/posts",
+            {
+              channel_id: res.data.id,
+              message: message
+            },
+            {
+              headers: { Authorization: mmtoken }
+            })
+            .then(() => { alert('메시지를 성공적으로 전송하였습니다'); setOpen(false) })
+        })
   }
   return (
     <div className="">
@@ -198,7 +231,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                   </td>
                   {team.teamDto.teamuser.map((member: any, i: number) => (
                     <td className="px-6 py-4 whitespace-nowrap" key={i}>
-                      <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => userdetail(member.userPk)}>{member.userName}</div>
+                      <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => userdetail(member.userPk, member.mmid)}>{member.userName}</div>
                     </td>
                   ))}
                 </tr>
@@ -237,10 +270,21 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                     </div>
 
                     <div className="mt-4 flex flex-row space-x-2 justify-center">
+                      {
+                        myMMid !== userMMid
+                          ? <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                            onClick={() => setOpen(true)}
+                          >
+                            Send Mattermost
+                          </button>
+                          : null
+                      }
 
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModal}
                       >
                         창 닫기
@@ -345,6 +389,78 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               </div>
             </Dialog>
           </Transition>
+          {/* MM */}
+          <Transition.Root show={open} as={Fragment}>
+            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+              <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                </Transition.Child>
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                  &#8203;
+                </span>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                      <div className="sm:flex sm:items-start">
+                        <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                          <MailIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                        </div>
+                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                          <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                            Mattermost Message 보내기
+                          </Dialog.Title>
+                          <div className="mt-2">
+                            <input
+                              type="text"
+                              name="first-name"
+                              id="first-name"
+                              autoComplete="given-name"
+                              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                              onChange={(e) => setmessage(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                      <button
+                        type="button"
+                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 sm:ml-3 sm:text-sm"
+                        onClick={sendMessage}
+                      >
+                        Send
+                      </button>
+                      <button
+                        type="button"
+                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:text-sm"
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </Transition.Child>
+              </div>
+            </Dialog>
+          </Transition.Root>
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (
