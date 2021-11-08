@@ -53,7 +53,46 @@ function TeamDetail({ teamPK }: Props): ReactElement {
                 <div key={i}>
                   {teamhashtags[section].map((tag: any, j: any) =>
                     <div key={j}>
-                      {tag.hashTagName}
+                      {
+                        section === 'DEVOPS'
+                          ?
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            {tag.hashTagName}
+                          </span>
+                          : null
+                      }
+                      {
+                        section === 'FE'
+                          ?
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                            {tag.hashTagName}
+                          </span>
+                          : null
+                      }
+                      {
+                        section === 'BE'
+                          ?
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            {tag.hashTagName}
+                          </span>
+                          : null
+                      }
+                      {
+                        section === 'ETC'
+                          ?
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                            {tag.hashTagName}
+                          </span>
+                          : null
+                      }
+                      {
+                        section === 'FOUR'
+                          ?
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                            {tag.hashTagName}
+                          </span>
+                          : null
+                      }
                     </div>
                   )}
                 </div>

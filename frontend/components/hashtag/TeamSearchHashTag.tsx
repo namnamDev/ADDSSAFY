@@ -1,8 +1,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
-import TeamList from "../Team/TeamList";
-import TeamDump from "../../dummy/json/teamDump.json";
+import SearchTeamList from "../Team/SearchTeamList";
 import axios from "axios";
 
 const filters: filters[] = [
@@ -150,7 +149,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  {index === 0 ? <TeamList list={searchList} /> : "교육생 검색"}
+                  {index === 0 ? <SearchTeamList list={searchList} /> : "교육생 검색"}
                 </div>
               </div>
             </div>

@@ -1,14 +1,43 @@
-import React, { ReactElement, useState, Fragment } from "react";
+import React, { ReactElement, useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import UserDetail from "../user/UserDetail";
 import Image from "next/image";
 interface Props {
-  person: object;
+  projectCode: number,
+  person: {
+    backjun: string | null,
+    blog: string,
+    classNumber: string,
+    classRegion: string,
+    email: string,
+    git: string,
+    introduce: string,
+    isleave: boolean,
+    mmid: string,
+    portfolio: string,
+    profile: string,
+    status: string,
+    studentNumber: string,
+    teamList: any,
+    userAddress: string,
+    userName: string,
+    userPhone: string,
+    userPk: number
+  };
 }
 
-function UserCard({ person }: Props): ReactElement {
+function UserCard({ person, projectCode }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  // 팀있는지 체크하기
+  const [isteam, setisteam] = useState<boolean>(false)
+  useEffect(() => {
+    if (person.teamList.length >= projectCode + 1) {
+      if (person.teamList[projectCode].teamPK != null) {
+        setisteam(true)
+      }
+    }
+  }, [])
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
@@ -19,37 +48,37 @@ function UserCard({ person }: Props): ReactElement {
   const apply = () => {
     alert(`${person}팀에 지원했습니다!.`);
   };
-  function SendMM() {
+  function SendMM(mmid: string) {
     alert("message");
   }
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center">
+        <div className="flex items-center mx-auto">
           <div className="flex-shrink-0 h-10 w-10">
-            <Image
+            {/* <Image
               className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
+              src={person.profile}
               alt=""
               width="100%"
               height="100%"
-            />
+            /> */}
           </div>
-          <div className="ml-4">
+          <div className="">
             <div
               className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
               onClick={() => setIsOpen(true)}
             >
-              이름
+              {person.userName}
             </div>
           </div>
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">반</div>
+        <div className="text-sm text-gray-900">{person.classRegion} {person.classNumber}</div>
       </td>
 
-      <td className="px-6 py-4 whitespace-nowrap">010-5303-1984</td>
+      <td className="px-6 py-4 whitespace-nowrap">{person.userPhone}</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {/* {person.status === "leave" ? (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
@@ -60,14 +89,21 @@ function UserCard({ person }: Props): ReactElement {
             팀원
           </span>
         )} */}
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          무소속
-        </span>
+        {
+          isteam
+            ? <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+              팀있음
+            </span>
+            : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              무소속
+            </span>
+        }
+
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => SendMM()}
+          onClick={() => SendMM(person.mmid)}
         >
           MatterMost
         </span>
@@ -100,7 +136,7 @@ function UserCard({ person }: Props): ReactElement {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+              <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
@@ -108,7 +144,7 @@ function UserCard({ person }: Props): ReactElement {
                 ></Dialog.Title>
                 <div className="mt-2 ">
                   <p className="text-sm text-gray-500  ">
-                    <UserDetail userPk={1} />
+                    <UserDetail userPk={person.userPk} />
                   </p>
                 </div>
 
