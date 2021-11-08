@@ -57,7 +57,6 @@ function UserCard({ person, projectCode }: Props): ReactElement {
   function sendMessage() {
     const mymmid: string | null = localStorage.getItem('mmid')
     const mmtoken: string | null = localStorage.getItem('mmtoken')
-    console.log(message)
     if (mymmid && mmtoken)
       axios.post('/api/v4/channels/direct', [
         mymmid, person.mmid

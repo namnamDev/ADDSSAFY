@@ -14,6 +14,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     const router = useRouter();
     const [teammember, setteammember] = useState<any>([])
     const [webex, setwebex] = useState<string>("")
+    const [mmchannel, setmmchannel] = useState<string>("")
     const [leadercheck, setleadercheck] = useState<boolean>(false)
     // 팀멤버 정보 받아오기
     useEffect(() => {
@@ -38,7 +39,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     // 팀정보 받아오기
     useEffect(() => {
         axios.get(`/api/team/detail/${teamPK}`)
-            .then((res: any) => { console.log(res); setwebex(res.data.data.webexLink) })
+            .then((res: any) => { console.log(res); setwebex(res.data.data.webexLink); setmmchannel(res.data.data.mmChannel) })
             .catch((err) => alert(err))
     }, [])
     // 리더인지 확인
@@ -49,18 +50,23 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     // 팀나가기
     function teamexit() {
         const token: string | null = localStorage.getItem('token')
-        if (typeof token === 'string') {
+        const mmid: string | null = localStorage.getItem('mmid')
+        if (typeof token === 'string' && typeof mmid === 'string') {
             axios.delete('/api/team/exit', {
                 data: {
                     teamPK: teamPK
                 },
                 headers: { Authorization: token }
             })
-                .then((res) => alert('해당팀의 탈퇴가 완료되었습니다'))
-            setTimeout(() => {
-                location.reload()
-            }, 500);
-
+                .then(() => {
+                    // Mattermost channel 나가기
+                    axios.delete(`/api/v4/channels/${mmchannel}/members/${mmid}`)
+                        .then(() => {
+                            setTimeout(() => {
+                                location.reload()
+                            }, 500);
+                        })
+                })
         }
     }
     // ppt업로드
