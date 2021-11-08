@@ -46,7 +46,8 @@ function LoginModal({ }: Props): ReactElement {
                   mmid: res.data.id,
                   username: res.data.username,
                   nickname: res.data.nickname,
-                  image: fileReaderInstance.result
+                  image: fileReaderInstance.result,
+                  mmToken: res.headers.token
                 }
               )
                 // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
