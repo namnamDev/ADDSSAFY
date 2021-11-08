@@ -4,9 +4,10 @@ import UserDetail from "./UserDetail";
 import Image from "next/image";
 interface Props {
   person: object;
+  projectCode: number;
 }
 
-function UserOfferCard({ person }: Props): ReactElement {
+function UserOfferCard({ person, projectCode }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
   function closeModal() {

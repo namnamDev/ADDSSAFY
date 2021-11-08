@@ -19,13 +19,13 @@ import UserOfferList from "../components/user/UserOfferList";
 import UserOfferedList from "../components/user/UserOfferedList";
 import { Dialog, Transition } from "@headlessui/react";
 import UserDetail from "../components/user/UserDetail";
-import axios from 'axios'
+import axios from "axios";
 import TeamDetail from "../components/Team/TeamDetail";
 import TeamUserList from "../components/Team/TeamUserList";
 import { ArrowLeftIcon, MailIcon } from "@heroicons/react/solid";
-interface Props { }
+interface Props {}
 
-function TeamBuildingCurrent({ }: Props): ReactElement {
+function TeamBuildingCurrent({}: Props): ReactElement {
   const router = useRouter();
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
@@ -45,60 +45,95 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   const createTeam = () => {
     router.push(`/TeamCreate/?projectNo=${idx}`);
   };
-  const idx = router.query.projectNo;
+  const idx: any = router.query.projectNo;
   // 팀이 있는지 체크
-  const [myteamPk, setmyteamPk] = useState<number>(0)
-  const [myMMid, setmyMMid] = useState<string>("")
-  useEffect(() => {
+  const [myteamPk, setmyteamPk] = useState<number>(0);
+  const [myMMid, setmyMMid] = useState<string>("");
+  const getMyteam: any = () => {
     if (router.query.projectNo) {
-      const token: string | null = localStorage.getItem("token")
-      const myMMid: string | null = localStorage.getItem("mmid")
+      const token: string | null = localStorage.getItem("token");
+      const myMMid: string | null = localStorage.getItem("mmid");
       if (typeof token === "string") {
-        axios.get(`/api/team/myteam/${router.query.projectNo}`, {
-          headers: { Authorization: token }
-        })
-          .then((res: any) => {
-            console.log(res)
-            setmyteamPk(res.data.data)
-            if (res.data.data > 0) {
-              setIsTeam(true)
-            } else {
-              setIsTeam(false)
-            }
+        axios
+          .get(`/api/team/myteam/${router.query.projectNo}`, {
+            headers: { Authorization: token },
           })
+          .then(async (res: any) => {
+            console.log(res);
+            await setmyteamPk(res.data.data);
+            if (res.data.data > 0) {
+              setIsTeam(true);
+            } else {
+              setIsTeam(false);
+            }
+          });
       }
       if (myMMid) {
-        setmyMMid(myMMid)
+        setmyMMid(myMMid);
       }
     }
-  }, [router.query.projectNo])
+  };
+  const [leadercheck, setleadercheck] = useState<boolean>(false);
+  useEffect(() => {
+    getMyteam();
+    const mmid: string | null = localStorage.getItem("mmid");
+    if (typeof mmid === "string") {
+      axios
+        .get(`/api/team/teamuser/${myteamPk}`)
+        .then((res: any) => {
+          {
+            res.data.data.map((member: any, i: number) => {
+              console.log(1);
+              if (member.isLeader === true && mmid === member.mmid) {
+                setleadercheck(true);
+              }
+            });
+          }
+        })
+        .catch(() => alert("통신이 불안정합니다, 다시 시도해주세요"));
+    }
+  }, [router.query.projectNo]);
 
   // 팀 현황
-  const [teamlist, setteamlist] = useState<any>([])
+  const [teamlist, setteamlist] = useState<any>([]);
   useEffect(() => {
     if (router.query.projectNo) {
-      const token: string | null = localStorage.getItem("token")
+      const token: string | null = localStorage.getItem("token");
       if (typeof token === "string") {
-        axios.get(`/api/team/${router.query.projectNo}`, {
-          headers: { Authorization: token }
-        })
-          .then((res: any) => {
-            console.log(1)
-            console.log(res.data.data);
-            setteamlist([...res.data.data])
+        axios
+          .get(`/api/team/${router.query.projectNo}`, {
+            headers: { Authorization: token },
           })
-          .catch((err) => alert(err))
+          .then((res: any) => {
+            console.log(1);
+            console.log(res.data.data);
+            setteamlist([...res.data.data]);
+          })
+          .catch((err) => alert(err));
       }
     }
-  }, [router.query.projectNo])
+  }, [router.query.projectNo]);
   // 유저정보 모달창
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const [userPkdata, setuserPkdata] = useState<number>(0)
-  function userdetail(userPk: number, usermmid: string) {
-    setIsOpen(true)
-    setuserPkdata(userPk)
-    setuserMMid(usermmid)
+  const [userPkdata, setuserPkdata] = useState<number>(0);
+  async function userdetail(userPk: number, usermmid: string) {
+    setIsOpen(true);
+    setuserPkdata(userPk);
+    setuserMMid(usermmid);
+    // 어떤 버튼을 활성화 할 것인지
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      await axios
+        .get(`/api/team/userButton/${userPk}/${idx}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setUserButton(res.data.data);
+          console.log(res);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }
   function closeModal() {
     setIsOpen(false);
@@ -110,13 +145,28 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   // 팀정보 모달창
   const [isTeamOpen, setisTeamOpen] = useState(false);
   const [showTeamUser, setShowTeamUser] = useState(false);
-  const [teamPkdata, setteamPkdata] = useState<number>(0)
-  const [teamNamedata, setteamNamedata] = useState<string>("")
-  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
-  function teamdata(pk: number, name: string) {
+  const [teamPkdata, setteamPkdata] = useState<number>(0);
+  const [teamNamedata, setteamNamedata] = useState<string>("");
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
+  const [teamButton, setTeamButton] = useState<number>(0);
+  const [userButton, setUserButton] = useState<number>(0);
+  async function teamdata(pk: number, name: string) {
     setisTeamOpen(true);
     setteamPkdata(pk);
-    setteamNamedata(name)
+    setteamNamedata(name);
+    // 어떤 버튼을 활성화 할 것인지
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      await axios
+        .get(`/api/team/teamButton/${pk}/${idx}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setTeamButton(res.data.data);
+          console.log(res);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }
   const apply = () => {
     alert(`${teamPkdata}팀에 지원했습니다.`);
@@ -126,50 +176,50 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
     setShowTeamUser(false);
   }
   // MM보내기
-  const [open, setOpen] = useState(false)
-  const cancelButtonRef = useRef(null)
-  const [message, setmessage] = useState<string>("")
-  const [userMMid, setuserMMid] = useState<string>("")
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
+  const [message, setmessage] = useState<string>("");
+  const [userMMid, setuserMMid] = useState<string>("");
   function sendMessage() {
-    const mymmid: string | null = localStorage.getItem('mmid')
-    const mmtoken: string | null = localStorage.getItem('mmtoken')
-    console.log(message)
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    console.log(message);
     if (mymmid && mmtoken)
-      axios.post('/api/v4/channels/direct', [
-        mymmid, userMMid
-      ],
-        { headers: { Authorization: mmtoken } })
+      axios
+        .post("/api/v4/channels/direct", [mymmid, userMMid], {
+          headers: { Authorization: mmtoken },
+        })
         .then((res: any) => {
           console.log(res.data.id);
-          axios.post("/api/v4/posts",
-            {
-              channel_id: res.data.id,
-              message: message
-            },
-            {
-              headers: { Authorization: mmtoken }
-            })
-            .then(() => { alert('메시지를 성공적으로 전송하였습니다'); setOpen(false) })
-        })
+          axios
+            .post(
+              "/api/v4/posts",
+              {
+                channel_id: res.data.id,
+                message: message,
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
+            .then(() => {
+              alert("메시지를 성공적으로 전송하였습니다");
+              setOpen(false);
+            });
+        });
   }
   return (
     <div className="">
       <Navbar />
       <div className="text-center">
-        {
-          isTeam
-            ? <MyTeamDetail teamPK={myteamPk} />
-            : null
-        }
+        {isTeam ? <MyTeamDetail teamPK={myteamPk} /> : null}
         <br />
         <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
             {idx === "0" ? "공통 프로젝트" : idx === "1" ? "특화 프로젝트" : "자율 프로젝트"}
           </div>
           <div className="place-self-end">
-            {isTeam ? (
-              null
-            ) : (
+            {isTeam ? null : (
               <button
                 type="button"
                 className=" px-8 py-2 bg-gray-600 text-white rounded-lg  shadow-sm hover:bg-gray-500 focus:ring-2 focus:ring-indigo-200 m-2 "
@@ -227,11 +277,23 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               {teamlist.map((team: any, i: number) => (
                 <tr key={i}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => { teamdata(team.teamDto.teamPK, team.teamDto.name) }}>{team.teamDto.name}</div>
+                    <div
+                      className="text-sm font-medium text-gray-900 cursor-pointer"
+                      onClick={() => {
+                        teamdata(team.teamDto.teamPK, team.teamDto.name);
+                      }}
+                    >
+                      {team.teamDto.name}
+                    </div>
                   </td>
                   {team.teamDto.teamuser.map((member: any, i: number) => (
                     <td className="px-6 py-4 whitespace-nowrap" key={i}>
-                      <div className="text-sm font-medium text-gray-900 cursor-pointer" onClick={() => userdetail(member.userPk, member.mmid)}>{member.userName}</div>
+                      <div
+                        className="text-sm font-medium text-gray-900 cursor-pointer"
+                        onClick={() => userdetail(member.userPk, member.mmid)}
+                      >
+                        {member.userName}
+                      </div>
                     </td>
                   ))}
                 </tr>
@@ -270,18 +332,51 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                     </div>
 
                     <div className="mt-4 flex flex-row space-x-2 justify-center">
-                      {
-                        myMMid !== userMMid
-                          ? <button
+                      {userButton === 0 || leadercheck === false ? (
+                        false
+                      ) : userButton === 1 ? (
+                        <>
+                          <button
                             type="button"
                             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={() => setOpen(true)}
+                            onClick={apply}
                           >
-                            Send Mattermost
+                            유저의 제안 수락
                           </button>
-                          : null
-                      }
-
+                          <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                            onClick={apply}
+                          >
+                            유저의 제안 거절
+                          </button>
+                        </>
+                      ) : userButton === 2 ? (
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          유저에게 가입 제안 취소
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          유저에게 가입 제안
+                        </button>
+                      )}
+                      {myMMid !== userMMid ? (
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={() => setOpen(true)}
+                        >
+                          매터모스트 메시지 보내기
+                        </button>
+                      ) : null}
                       <button
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
@@ -336,13 +431,15 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                       </div>
 
                       <div className="mt-4 flex flex-row space-x-2 justify-center">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={apply}
-                        >
-                          MM 보내기
-                        </button>
+                        {myMMid !== userMMid ? (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                            onClick={() => setOpen(true)}
+                          >
+                            매터모스트 메시지 보내기
+                          </button>
+                        ) : null}
                         <button
                           type="button"
                           className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
@@ -363,18 +460,52 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                       <div className="mt-2 ">
                         <p className="text-sm text-gray-500  ">
                           <TeamDetail teamPK={teamPkdata} />
-                          <TeamUserList teamPK={teamPkdata} showUser={setShowTeamUser} teammodalUserPK={setteammodalUserPK} />
+                          <TeamUserList
+                            teamPK={teamPkdata}
+                            showUser={setShowTeamUser}
+                            teammodalUserPK={setteammodalUserPK}
+                          />
                         </p>
                       </div>
 
                       <div className="mt-4 flex flex-row space-x-2 justify-center">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={apply}
-                        >
-                          지원하기
-                        </button>
+                        {teamButton === 0 ? (
+                          false
+                        ) : teamButton === 1 ? (
+                          <>
+                            <button
+                              type="button"
+                              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                              onClick={apply}
+                            >
+                              팀의 제안 수락
+                            </button>
+                            <button
+                              type="button"
+                              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                              onClick={apply}
+                            >
+                              팀의 제안 거절
+                            </button>
+                          </>
+                        ) : teamButton === 2 ? (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                            onClick={apply}
+                          >
+                            팀 가입 신청 취소
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                            onClick={apply}
+                          >
+                            팀 가입 신청
+                          </button>
+                        )}
+
                         <button
                           type="button"
                           className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
@@ -391,7 +522,12 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           </Transition>
           {/* MM */}
           <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+            <Dialog
+              as="div"
+              className="fixed z-10 inset-0 overflow-y-auto"
+              initialFocus={cancelButtonRef}
+              onClose={setOpen}
+            >
               <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <Transition.Child
                   as={Fragment}
@@ -404,7 +540,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                 >
                   <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                 </Transition.Child>
-                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                <span
+                  className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                  aria-hidden="true"
+                >
                   &#8203;
                 </span>
                 <Transition.Child
@@ -423,7 +562,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                           <MailIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
                         </div>
                         <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                          <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                          <Dialog.Title
+                            as="h3"
+                            className="text-lg leading-6 font-medium text-gray-900"
+                          >
                             Mattermost Message 보내기
                           </Dialog.Title>
                           <div className="mt-2">
@@ -467,7 +609,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
-              <UserOfferList list={searchList} />
+              <UserOfferList list={searchList} projectCode={idx} />
             </div>
             <div>
               <div className="font-bold my-5">교육생에게 받은 제안</div>
