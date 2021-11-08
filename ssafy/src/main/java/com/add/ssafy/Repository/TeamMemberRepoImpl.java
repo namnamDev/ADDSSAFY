@@ -19,7 +19,8 @@ public class TeamMemberRepoImpl implements TeamMemberRepoCustom {
     public TeamMember findByTeamMember(Long teamPK, Long memberPK){
         QTeamMember qTeamMember = QTeamMember.teamMember;
         return queryFactory.selectFrom(qTeamMember).
-                where(qTeamMember.team().id.eq(teamPK).and(qTeamMember.member().id.eq(memberPK)))
+                where(qTeamMember.team().id.eq(teamPK)
+                        .and(qTeamMember.member().id.eq(memberPK)))
                 .fetchOne();
     }
 

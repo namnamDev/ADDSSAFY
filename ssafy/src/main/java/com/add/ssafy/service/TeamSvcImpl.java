@@ -5,9 +5,7 @@ import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.HashTagsDto;
 import com.add.ssafy.dto.TeamAddTagsDto;
 import com.add.ssafy.dto.TeamDto;
-import com.add.ssafy.dto.request.CreateTeamRequest;
-import com.add.ssafy.dto.request.ExitTeamRequest;
-import com.add.ssafy.dto.request.TeamUpdateRequest;
+import com.add.ssafy.dto.request.*;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,5 +221,37 @@ public class TeamSvcImpl implements TeamSvcInter{
         }
         //제안하기
         return BaseResponse.builder().msg("가입신청 가능함").data(3).status("200").build();
+    }
+    //유저가 팀에 가입신청하기
+    @Override
+    public BaseResponse userToTeamSuggest(UserToTeamSuggest userToTeamSuggest){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Team team = teamRepo.findById(userToTeamSuggest.getTeamPK()).orElseThrow(()->new IllegalStateException("팀이 존재하지않습니다."));
+        Long teamPK = team.getId();
+        int projectCode = team.getType();
+        Long userPK = member.getId();
+
+        BaseResponse baseResponse = teamSignin(teamPK,projectCode);
+        if (baseResponse.getData().equals(3)){
+            proposeRepo.save(Propose.builder().team(team).member(member).msg(userToTeamSuggest.getMsg()).direction(true).build());
+            return BaseResponse.builder().msg("가입신청 완료").status("200").data(true).build();
+        }else{
+            return baseResponse;
+        }
+    }
+    @Override
+    public BaseResponse teamToUserSuggest(TeamToUserSuggest teamToUserSuggest){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Team team = teamRepo.findById(teamToUserSuggest.getTeamPK()).orElseThrow(()->new IllegalStateException("팀이 존재하지않습니다."));
+        Long teamPK = team.getId();
+        int projectCode = team.getType();
+
+        BaseResponse baseResponse = userSignin(teamToUserSuggest.getUserPK(),projectCode);
+        if (baseResponse.getData().equals(3)){
+            proposeRepo.save(Propose.builder().team(team).member(member).msg(teamToUserSuggest.getMsg()).direction(false).build());
+            return BaseResponse.builder().msg("영입제안 완료").status("200").data(true).build();
+        }else{
+            return baseResponse;
+        }
     }
 }

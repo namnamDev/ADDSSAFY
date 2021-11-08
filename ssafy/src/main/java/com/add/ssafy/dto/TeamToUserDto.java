@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class TeamToUserDto {
     private Long suggestPK;
     private Long teamPK;
-    private String userName;
+    private String teamName;
     private LocalDateTime suggestDate;
 
 }

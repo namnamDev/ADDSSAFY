@@ -20,11 +20,11 @@ public class Propose {
     private Long id;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Team team;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Member member;
 
@@ -34,5 +34,5 @@ public class Propose {
     @CreationTimestamp
     private LocalDateTime proposeDate;
 
-    private Boolean accept;
+    private String msg;
 }

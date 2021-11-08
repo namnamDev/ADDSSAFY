@@ -1,8 +1,6 @@
 package com.add.ssafy.service;
 
-import com.add.ssafy.dto.request.CreateTeamRequest;
-import com.add.ssafy.dto.request.ExitTeamRequest;
-import com.add.ssafy.dto.request.TeamUpdateRequest;
+import com.add.ssafy.dto.request.*;
 import com.add.ssafy.dto.response.BaseResponse;
 
 public interface TeamSvcInter {
@@ -25,4 +23,8 @@ public interface TeamSvcInter {
     BaseResponse teamSignin(Long teamPK, int projectCode);
 
     BaseResponse userSignin(Long userPK, int projectCode);
+
+    BaseResponse userToTeamSuggest(UserToTeamSuggest userToTeamSuggest);
+
+    BaseResponse teamToUserSuggest(TeamToUserSuggest teamToUserSuggest);
 }

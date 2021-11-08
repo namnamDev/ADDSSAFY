@@ -100,6 +100,7 @@ public class MemberSvcImpl implements MemberSvcInter {
         member.setUserName(userRequest.getUsername());
         member.setEmail(userRequest.getEmail());
         member.setProfile(userRequest.getImage());
+        member.setMmToken(userRequest.getMmToken());
         //프사 변경
 //        FileUtils.deleteProfile(member.getProfile());//기존프사 삭제
 //        try {

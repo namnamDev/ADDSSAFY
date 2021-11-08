@@ -32,8 +32,13 @@ public class UsersController {
     public ResponseEntity updateUser(@RequestBody UpdateMemberRequest updateMemberRequest){
         return ResponseEntity.ok(memberSvcInter.updateMember(updateMemberRequest));
     }
-    @GetMapping("mypage")
+    @GetMapping("/mypage")
     public ResponseEntity myPage() {
         return ResponseEntity.ok(memberSvcInter.myPage());
+    }
+    //유저가 받은 제의
+    @GetMapping("/offer/{projectCode}")
+    public ResponseEntity userOffer(@PathVariable(name = "projectCode")int projectCode){
+        return null;
     }
 }

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class TeamHashtag {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Team team;
 

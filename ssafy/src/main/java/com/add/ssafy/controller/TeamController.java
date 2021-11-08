@@ -1,8 +1,6 @@
 package com.add.ssafy.controller;
 
-import com.add.ssafy.dto.request.CreateTeamRequest;
-import com.add.ssafy.dto.request.ExitTeamRequest;
-import com.add.ssafy.dto.request.TeamUpdateRequest;
+import com.add.ssafy.dto.request.*;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.service.TeamSvcInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +56,19 @@ public class TeamController {
     public ResponseEntity<BaseResponse>userSignin(@PathVariable(name="userPK")Long userPK,@PathVariable(name="projectCode")int projectCode){
         return ResponseEntity.ok(teamSvcInter.userSignin(userPK,projectCode));
     }
+
+    @PostMapping("/applyteam")
+    public ResponseEntity<BaseResponse>userToTeamSuggest(@RequestBody UserToTeamSuggest userToTeamSuggest){
+        return ResponseEntity.ok(teamSvcInter.userToTeamSuggest(userToTeamSuggest));
+
+    }
+
+    @PostMapping("/applyuser")
+    public ResponseEntity<BaseResponse>teamToUserSuggest(@RequestBody TeamToUserSuggest teamToUserSuggest){
+        return ResponseEntity.ok(teamSvcInter.teamToUserSuggest(teamToUserSuggest));
+    }
+
+
+//    @PostMapping("/recruit/team")
+//    public ResponseEntity
 }

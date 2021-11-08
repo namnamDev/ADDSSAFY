@@ -37,6 +37,9 @@ public class UserRequest {
     @NotNull
     private String image;
 
+    @NotNull
+    private String mmToken;
+
     public Member toUser(PasswordEncoder passwordEncoder) {
         return Member.builder().email(this.mmid).password(passwordEncoder.encode(this.password))
                 .authority(Authority.ROLE_USER).build();

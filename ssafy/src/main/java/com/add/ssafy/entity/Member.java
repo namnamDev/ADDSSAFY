@@ -56,6 +56,8 @@ public class Member {
     private String userName;
 
     private String userNick;
+
+    private String mmToken;
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
