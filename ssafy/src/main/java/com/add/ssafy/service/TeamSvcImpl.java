@@ -139,7 +139,9 @@ public class TeamSvcImpl implements TeamSvcInter{
         Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
         Long teamPK = exitTeamRequest.getTeamPK();
         TeamMember teamMember = teamMemberRepo.findByTeamMember(teamPK,member.getId());
-        teamMemberRepo.delete(teamMember);
+//        teamMemberRepo.delete(teamMember);
+        teamMemberRepo.deleteById(teamMember.getId());
+//        teamMemberRepo.delete
         teamMemberRepo.flush();
         String msg = "";
         if (teamMember.getLeader()){
