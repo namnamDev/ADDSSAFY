@@ -78,7 +78,12 @@ function Navbar({}: Props): ReactElement {
           <div className="flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <div className="cursor-pointer" onClick={() => router.push("/")}>
-                <Image src="/images/ssafygif-unscreen.gif" height="70" width="100" alt=""></Image>
+                <Image
+                  src="/images/mainlogo.jpg"
+                  height="70"
+                  width="70"
+                  alt=""
+                ></Image>
               </div>
             </div>
             <div
