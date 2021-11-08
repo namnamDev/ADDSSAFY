@@ -29,6 +29,8 @@ public class TeamSvcImpl implements TeamSvcInter{
     TeamMemberRepo teamMemberRepo;
     @Autowired
     HashtagRepo hashtagRepo;
+    @Autowired
+    ProposeRepo proposeRepo;
     @Override
     public BaseResponse getTeamUserList(Long teamPK){
 
@@ -175,8 +177,51 @@ public class TeamSvcImpl implements TeamSvcInter{
     @Override
     public BaseResponse teamSignin(Long teamPK, int projectCode){
         Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
-        //내가 팀이 있는경우 팀이 자리가 꽉찬경우
-        //해당 팀에서 이미가입 제안을 한 경우
-        return null;
+        //내가 팀이 있는경우 팀이 자리가 꽉찬경우 (노버튼)
+        Long countTeamMember = teamMemberRepo.countTeamMember(teamPK);
+        Optional<TeamMember> ifUserhaveTeam = teamMemberRepo.findByMemberPjtCode(member.getId(),projectCode);
+        if(countTeamMember >= 5L || ifUserhaveTeam.isPresent()){
+            return BaseResponse.builder().msg("유저가 팀이 있거나 팀의 자리가 꽉찼습니다").data(0).status("200").build();
+        }
+
+        //해당 팀으로 유저가 가입제안 한경우 (가입 철회버튼)
+        Optional<Propose> ifUserSuggest = proposeRepo.findPropose(teamPK, member.getId(), true);
+        if(ifUserSuggest.isPresent()){
+            return BaseResponse.builder().msg("팀이 유저에게 제안을 하였습니다.").data(1).build();
+        }
+
+        //해당 팀에서 유저에게 이미 가입 제안 한 경우 (제안받기버튼)
+        Optional<Propose> ifTeamSuggest = proposeRepo.findPropose(teamPK, member.getId(), false);
+        if(ifTeamSuggest.isPresent()){
+            return BaseResponse.builder().msg("유저가 팀에 가입신청했습니다.").data(2).status("200").build();
+        }
+
+
+        return BaseResponse.builder().msg("가입신청 가능함").data(3).status("200").build();
+    }
+    @Override
+    public BaseResponse userSignin(Long userPK, int projectCode){
+        Member teamOfMember = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Team team = teamRepo.findByMemberPjtCode(teamOfMember.getId(),projectCode);//로그인한 유저의 팀 찾기
+        Long teamPK = team.getId();
+        Member toUser = memberRepo.findById(userPK).orElseThrow(() -> new IllegalStateException("해당 유저 유저정보가 없습니다"));
+        //팀에 자리가 없는경우, 유저가 팀이 있는 경우
+        Long countTeamMember = teamMemberRepo.countTeamMember(teamPK);
+        Optional<TeamMember> ifUserhaveTeam = teamMemberRepo.findByMemberPjtCode(userPK,projectCode);
+        if(countTeamMember >= 5L || ifUserhaveTeam.isPresent()){
+            return BaseResponse.builder().msg("유저가 팀이 있거나 팀의 자리가 꽉찼습니다").data(0).status("200").build();
+        }
+        //팀이 유저에게 이미 제안 한경우 ( 철회버튼)
+        Optional<Propose> ifUserSuggest = proposeRepo.findPropose(teamPK, userPK, true);
+        if(ifUserSuggest.isPresent()){
+            return BaseResponse.builder().msg("팀이 유저에게 제안을 하였습니다.").data(1).build();
+        }
+        //유저가 팀에 가입신청 한경우(신청받기 버튼)
+        Optional<Propose> ifTeamSuggest = proposeRepo.findPropose(teamPK, userPK, false);
+        if(ifTeamSuggest.isPresent()){
+            return BaseResponse.builder().msg("유저가 팀에 가입신청했습니다.").data(2).status("200").build();
+        }
+        //제안하기
+        return BaseResponse.builder().msg("가입신청 가능함").data(3).status("200").build();
     }
 }

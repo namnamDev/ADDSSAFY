@@ -121,4 +121,14 @@ public class TeamRepoImpl implements TeamRepoCustom {
                 );
         return res.get(teamPK);
     }
+
+    @Override
+    public Team findByMemberPjtCode(Long memberPK, int projectCode){
+        QTeam qTeam= QTeam.team;
+        QTeamMember qTeamMember = QTeamMember.teamMember;
+        return queryFactory.selectFrom(qTeam)
+                .where(qTeam.type.eq(projectCode)
+                        .and(qTeamMember.member().id.eq(memberPK)))
+                .fetchOne();
+    }
 }

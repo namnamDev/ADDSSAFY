@@ -54,4 +54,8 @@ public class TeamController {
     public ResponseEntity<BaseResponse>teamSignin(@PathVariable(name="teamPK")Long teamPK,@PathVariable(name="projectCode")int projectCode){
         return ResponseEntity.ok(teamSvcInter.teamSignin(teamPK,projectCode));
     }
+    @GetMapping("userButton/{userPK}/{projectCode}")
+    public ResponseEntity<BaseResponse>userSignin(@PathVariable(name="userPK")Long userPK,@PathVariable(name="projectCode")int projectCode){
+        return ResponseEntity.ok(teamSvcInter.userSignin(userPK,projectCode));
+    }
 }

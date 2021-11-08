@@ -8,4 +8,8 @@ public interface TeamMemberRepoCustom {
     TeamMember findByTeamMember(Long teamPK, Long memberPK);
 
     Optional<TeamMember> findByTeamsltOne(Long teamPK);
+
+    Optional<TeamMember> findByMemberPjtCode(Long memberPK, int projectCode);
+
+    Long countTeamMember(Long teamPK);
 }

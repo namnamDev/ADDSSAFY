@@ -23,4 +23,6 @@ public interface TeamSvcInter {
     BaseResponse teamTag(Long teamPK);
 
     BaseResponse teamSignin(Long teamPK, int projectCode);
+
+    BaseResponse userSignin(Long userPK, int projectCode);
 }
