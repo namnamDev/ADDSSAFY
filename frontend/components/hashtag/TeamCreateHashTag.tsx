@@ -73,52 +73,52 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className=" gap-x-8 gap-y-10 w-4/5 mx-auto">
               {/* Filters */}
-                {filters.map((section) => (
-                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                    {({ open }) => (
-                      <>
-                        <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                            <span className="font-medium text-gray-900">{section.name}</span>
-                            <span className="ml-6 flex items-center">
-                              {open ? (
-                                <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                              ) : (
-                                <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel className="pt-6">
-                          <div className="grid grid-cols-5">
-                            {section.options.map((option, optionIdx) => (
-                              <div
-                                key={option.hashTagPK + section.name + optionIdx}
-                                className="flex items-center "
+              {filters.map((section) => (
+                <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                  {({ open }) => (
+                    <>
+                      <h3 className="-my-3 flow-root">
+                        <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
+                          <span className="font-medium text-gray-900">{section.name}</span>
+                          <span className="ml-6 flex items-center">
+                            {open ? (
+                              <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+                            ) : (
+                              <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                            )}
+                          </span>
+                        </Disclosure.Button>
+                      </h3>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="grid grid-cols-5">
+                          {section.options.map((option, optionIdx) => (
+                            <div
+                              key={option.hashTagPK + section.name + optionIdx}
+                              className="flex items-center "
+                            >
+                              <input
+                                id={`filter-${section.id}-${optionIdx}`}
+                                name={`${section.id}[]`}
+                                defaultValue={option.hashTagPK}
+                                type="checkbox"
+                                defaultChecked={option.check}
+                                className="h-4 w-4 mx-2 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                onClick={() => check(section.name, option)}
+                              />
+                              <label
+                                htmlFor={`filter-${section.id}-${optionIdx}`}
+                                className={"text-sm text-gray-500"}
                               >
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.hashTagPK}
-                                  type="checkbox"
-                                  defaultChecked={option.check}
-                                  className="h-4 w-4 mx-2 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                  onClick={() => check(section.name, option)}
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className={"text-sm text-gray-500"}
-                                >
-                                  {option.hashTagName}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
+                                {option.hashTagName}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </Disclosure.Panel>
+                    </>
+                  )}
+                </Disclosure>
+              ))}
             </div>
           </section>
         </main>
