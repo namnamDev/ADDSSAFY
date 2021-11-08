@@ -79,9 +79,10 @@ const people = [
 
 interface Props {
   list: number[];
+  projectCode: number;
 }
 
-function UserOfferList({ list }: Props): ReactElement {
+function UserOfferList({ list, projectCode }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -118,7 +119,7 @@ function UserOfferList({ list }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {people.map((person) => (
-                  <UserOfferCard key={person.userId} person={person} />
+                  <UserOfferCard key={person.userId} person={person} projectCode={projectCode} />
                 ))}
               </tbody>
             </table>
