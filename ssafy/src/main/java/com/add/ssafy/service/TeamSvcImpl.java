@@ -152,9 +152,13 @@ public class TeamSvcImpl implements TeamSvcInter{
                 teamMemberRepo.save(tt);
                 msg = "팀장이" + tt.getMember().getId() + "로 변경되었습니다.";
             }else{
-                Optional<Team> tempTeam = teamRepo.findById(teamPK);
-                Team tts = tempTeam.get();
-                teamRepo.delete(tts);
+                System.out.println(teamPK+"22222222222222222222");
+//                Optional<Team> tempTeam = teamRepo.findById(teamPK);
+                Team tempTeam = teamRepo.findByTeamPK(teamPK);
+                System.out.println(tempTeam);
+                System.out.println(tempTeam);
+//                Team tts = tempTeam;
+                teamRepo.delete(tempTeam);
                 msg = "남은 조원이 없어 팀이 삭제되었습니다.";
             }
         }

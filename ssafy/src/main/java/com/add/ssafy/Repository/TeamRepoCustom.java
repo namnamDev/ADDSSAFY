@@ -18,4 +18,6 @@ public interface TeamRepoCustom {
     TeamDto getTeamDtoByTeamPK(Long teamPK);
 
     Team findByMemberPjtCode(Long memberPK, int projectCode);
+
+    Team findByTeamPK(Long teamPK);
 }

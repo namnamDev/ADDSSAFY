@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class MemberHashtag {
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private Member member;
 
