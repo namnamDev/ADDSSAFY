@@ -5,6 +5,7 @@ import com.add.ssafy.dto.UserDetailDto;
 import com.add.ssafy.dto.UserDto;
 import com.add.ssafy.entity.*;
 import com.add.ssafy.enums.Authority;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -177,20 +178,26 @@ public class MemberRepoImpl implements MemberRepoCustom{
         QMemberHashtag qMemberHashtag = QMemberHashtag.memberHashtag;
         QTeam qTeam = QTeam.team;
         QTeamMember qTeamMember = QTeamMember.teamMember;
+        BooleanBuilder builder = new BooleanBuilder();
+//        builder.and(qTeam.type.eq(projectCode));
+        if (can.size()>0){
+            builder.and(qMember.id
+                    .in(
+                            JPAExpressions.select(qMemberHashtag.member().id)
+                                    .from(qMemberHashtag)
+                                    .where(qMemberHashtag.hashTag().id.in(can))
+                                    .groupBy(qMemberHashtag.member())
+                                    .having(qMemberHashtag.member().count().eq(Long.valueOf(can.size())))
+                                    .fetchAll()
+                    )
+            );
+            System.out.println("no can here");
+        }
         List<UserDetailDto> res = queryFactory
                 .from(qMember)
                 .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
                 .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
-                .where(qMember.id
-                        .in(
-                                JPAExpressions.select(qMemberHashtag.member().id)
-                                        .from(qMemberHashtag)
-                                        .where(qMemberHashtag.hashTag().id.in(can))
-                                        .groupBy(qMemberHashtag.member())
-                                        .having(qMemberHashtag.member().count().eq(Long.valueOf(can.size())))
-                                        .fetchAll()
-                        )
-                )
+                .where(builder)
 //               .select(
                 .transform(GroupBy.groupBy(qMember.id).list(
                        Projections.constructor(

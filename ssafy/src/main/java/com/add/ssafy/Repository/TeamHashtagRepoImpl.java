@@ -66,20 +66,34 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qTeam.type.eq(projectCode));
         System.out.println(can);
-        System.out.println(can.size());
-        List<TeamDto> res = queryFactory
-                .from(qTeam)
-                .where(qTeam.type.eq(projectCode))
-                .where(qTeam.id
-                        .in(
-                                JPAExpressions.select(qTeamHashtag.team().id)
+        if (can.size()>0){
+            builder.and(qTeam.id
+                    .in(
+                            JPAExpressions.select(qTeamHashtag.team().id)
                                     .from(qTeamHashtag)
                                     .where(qTeamHashtag.hashTag().id.in(can))
                                     .groupBy(qTeamHashtag.team())
                                     .having(qTeamHashtag.team().count().eq(Long.valueOf(can.size())))
-                                        .fetchAll()
-                            )
-                        )
+                                    .fetchAll()
+                    ));
+        }
+
+        System.out.println(can);
+        System.out.println(can.size());
+        List<TeamDto> res = queryFactory
+                .from(qTeam)
+                .where(builder)
+//                .where(qTeam.type.eq(projectCode))
+//                .where(qTeam.id
+//                        .in(
+//                                JPAExpressions.select(qTeamHashtag.team().id)
+//                                    .from(qTeamHashtag)
+//                                    .where(qTeamHashtag.hashTag().id.in(can))
+//                                    .groupBy(qTeamHashtag.team())
+//                                    .having(qTeamHashtag.team().count().eq(Long.valueOf(can.size())))
+//                                        .fetchAll()
+//                            )
+//                        )
                 .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
                 .join(qMember).on(qTeamMember.member().eq(qMember))
                 .innerJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))

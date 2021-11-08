@@ -47,7 +47,11 @@ public class TeamController {
         return ResponseEntity.ok(teamSvcInter.exitTeam(exitTeamRequest));
     }
     @GetMapping("/info/{teamPK}")
-    public ResponseEntity<BaseResponse>TeamTag(@PathVariable(name="teamPK")Long teamPK){
+    public ResponseEntity<BaseResponse> teamTag(@PathVariable(name="teamPK")Long teamPK){
         return ResponseEntity.ok(teamSvcInter.teamTag(teamPK));
+    }
+    @GetMapping("teamButton/{teamPK}/{projectCode}")
+    public ResponseEntity<BaseResponse>teamSignin(@PathVariable(name="teamPK")Long teamPK,@PathVariable(name="projectCode")int projectCode){
+        return ResponseEntity.ok(teamSvcInter.teamSignin(teamPK,projectCode));
     }
 }

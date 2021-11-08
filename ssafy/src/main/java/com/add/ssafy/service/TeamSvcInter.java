@@ -21,4 +21,6 @@ public interface TeamSvcInter {
     BaseResponse exitTeam(ExitTeamRequest exitTeamRequest);
 
     BaseResponse teamTag(Long teamPK);
+
+    BaseResponse teamSignin(Long teamPK, int projectCode);
 }

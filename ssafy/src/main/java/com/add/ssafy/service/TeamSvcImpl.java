@@ -171,4 +171,12 @@ public class TeamSvcImpl implements TeamSvcInter{
         }
         return BaseResponse.builder().msg("성공").status("200").data(teamHashtags).build();
     }
+
+    @Override
+    public BaseResponse teamSignin(Long teamPK, int projectCode){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        //내가 팀이 있는경우 팀이 자리가 꽉찬경우
+        //해당 팀에서 이미가입 제안을 한 경우
+        return null;
+    }
 }
