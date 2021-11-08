@@ -1,18 +1,42 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
-import TeamList from "../Team/TeamList";
-import TeamDump from "../../dummy/json/teamDump.json";
+import SearchTeamList from "../Team/SearchTeamList";
 import axios from "axios";
 
 const filters: filters[] = [
   {
-    id: "can",
-    name: "can",
+    id: "BE",
+    name: "BE",
+    options: [],
+  },
+  {
+    id: "FE",
+    name: "FE",
+    options: [],
+  },
+  {
+    id: "DEVOPS",
+    name: "DevOps",
+    options: [],
+  },
+  {
+    id: "FOUR",
+    name: "4차 산업 기술",
+    options: [],
+  },
+  {
+    id: "ETC",
+    name: "기타",
+    options: [],
+  },
+  {
+    id: "GOODBADGE",
+    name: "뱃지",
     options: [],
   },
 ];
-interface Props { }
+interface Props {}
 
 interface list {
   hashTagPK: number;
@@ -26,52 +50,53 @@ interface filters {
   options: list[];
 }
 interface Props {
-  projectCode: number
+  projectCode: number;
 }
 function TeamSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
   const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
-  const check = (section: any, option: any) => {
-    console.log(section);
-    console.log(option);
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value: any) => value != option.hashTagPK);
-        console.log(result);
-        setCan(result);
-      }
+  const check = (option: any) => {
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value: any) => value != option.hashTagPK);
+      setCan(result);
     }
   };
   // 검색
   const search = () => {
     // setSearchList(TeamDump);
-    const token: string | null = localStorage.getItem("token")
-    if (typeof token === 'string') {
-      axios.post("/api/search/team", {
-        projectCode: Number(projectCode),
-        can: can
-      }, { headers: { Authorization: token } })
-        .then((res: any) => { console.log(res); setSearchList([...res.data.data]) })
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      axios
+        .post(
+          "/api/search/team",
+          {
+            projectCode: Number(projectCode),
+            can: can,
+          },
+          { headers: { Authorization: token } }
+        )
+        .then((res: any) => {
+          setSearchList([...res.data.data]);
+        });
     }
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
-      // 할 수 있다.can
       filters[0].options.push(...clonedeep(res.data.data.BE));
-      filters[0].options.push(...clonedeep(res.data.data.FE));
-      filters[0].options.push(...clonedeep(res.data.data.DEVOPS));
-      filters[0].options.push(...clonedeep(res.data.data.FOUR));
-      filters[0].options.push(...clonedeep(res.data.data.ETC));
-      filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
+      filters[1].options.push(...clonedeep(res.data.data.FE));
+      filters[2].options.push(...clonedeep(res.data.data.DEVOPS));
+      filters[3].options.push(...clonedeep(res.data.data.FOUR));
+      filters[4].options.push(...clonedeep(res.data.data.ETC));
+      filters[5].options.push(...clonedeep(res.data.data.GOODBADGE));
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
@@ -123,7 +148,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                                   type="checkbox"
                                   defaultChecked={option.check}
                                   className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                  onClick={() => check(section.name, option)}
+                                  onClick={() => check(option)}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -150,7 +175,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  {index === 0 ? <TeamList list={searchList} /> : "교육생 검색"}
+                  {index === 0 ? <SearchTeamList list={searchList} /> : "교육생 검색"}
                 </div>
               </div>
             </div>

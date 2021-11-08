@@ -8,16 +8,7 @@ const filters: filters[] = [
     name: "기술스택 설정",
     options: [],
   },
-  // {
-  //   id: "want",
-  //   name: "하고 싶은 기술스택",
-  //   options: [],
-  // },
 ];
-interface Props {
-  onCanChanged: (value: number[]) => void;
-  onWantChanged: (value: number[]) => void;
-}
 
 interface list {
   hashTagPK: number;
@@ -25,18 +16,20 @@ interface list {
   hashTagProp: string;
   check: boolean;
 }
+interface Props {
+  onCanChanged: (value: number[]) => void;
+  userHashTag: list[][];
+}
+
 interface filters {
   id: string;
   name: string;
   options: list[];
 }
-function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement {
+function UserCreateHashTag({ onCanChanged, userHashTag }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
-  const [want, setWant] = useState<number[]>([]);
-  const [index, setIndex] = useState(0);
-  const [searchList, setSearchList] = useState<number[]>([]);
-  const check = (section: any, option: any) => {
+  const check = (option: any) => {
     // 추가하는부분
     if (option.check === false) {
       option.check = !option.check;
@@ -46,50 +39,50 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
     else if (option.check === true) {
       option.check = !option.check;
       const result = can.filter((value: any) => value != option.hashTagPK);
-      console.log(result);
       setCan(result);
     }
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
-      // 할 수 있다.can
       filters[0].options.push(...clonedeep(res.data.data.BE));
       filters[0].options.push(...clonedeep(res.data.data.FE));
       filters[0].options.push(...clonedeep(res.data.data.DEVOPS));
       filters[0].options.push(...clonedeep(res.data.data.FOUR));
       filters[0].options.push(...clonedeep(res.data.data.ETC));
-      // filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
-      // 하고싶은 기술스택 want
-      // filters[1].options.push(...clonedeep(res.data.data.BE));
-      // filters[1].options.push(...clonedeep(res.data.data.FE));
-      // filters[1].options.push(...clonedeep(res.data.data.DEVOPS));
-      // filters[1].options.push(...clonedeep(res.data.data.FOUR));
-      // filters[1].options.push(...clonedeep(res.data.data.ETC));
-      // filters[1].options.push(...clonedeep(res.data.data.GOODBADGE));
+
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
         });
       });
+
+      // 기존의 해쉬태그 받아오기
+      for (const key in userHashTag) {
+        userHashTag[key].map((hashTag) => {
+          filters[0].options.map((value) => {
+            if (hashTag.hashTagPK === value.hashTagPK) {
+              value.check = true;
+              can.push(value.hashTagPK);
+            }
+          });
+        });
+      }
     });
   };
   useEffect(() => {
     getHashTagList();
-    setSearchList([]);
-  }, [index]);
+    return function cleanup() {
+      filters[0].options.length = 0;
+    };
+  }, [userHashTag]);
   useEffect(() => {
     onCanChanged([...can]);
   }, [can]);
-  useEffect(() => {
-    onWantChanged([...want]);
-  }, [want]);
   return (
     <div className="bg-white shadow-md">
       <div>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="">
-            {/* <h1 className="text-lg  tracking-tight text-gray-900">기술스택 등록</h1> */}
-          </div>
+        <main className="max-w-7xl mx-auto px-6">
+          <div className=""></div>
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className=" gap-x-8 gap-y-10">
               {/* Filters */}
@@ -124,7 +117,7 @@ function UserCreateHashTag({ onCanChanged, onWantChanged }: Props): ReactElement
                                   type="checkbox"
                                   defaultChecked={option.check}
                                   className="h-4 w-4 mx-2 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                  onClick={() => check(section.name, option)}
+                                  onClick={() => check(option)}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}

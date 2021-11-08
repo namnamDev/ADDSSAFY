@@ -8,8 +8,8 @@ import moment from "moment";
 
 interface Props {}
 
-function TeamCreate({ }: Props): ReactElement {
-  const router = useRouter()
+function TeamCreate({}: Props): ReactElement {
+  const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
   const [teamtitle, setteamtitle] = useState<string>("");
@@ -24,46 +24,52 @@ function TeamCreate({ }: Props): ReactElement {
     const now = moment().format("YYYYMMDDHHmmss");
     // mattermost 채널생성
     if (typeof MMtoken === "string" && typeof username == "string") {
-      axios.post('/api/v4/channels', {
-        team_id: "tfctt9yko7f93jge3itn1tseoo",
-        type: "P",
-        display_name: username + "님의 프로젝트",
-        name: now + username,
-      },
-        {
-          headers: { Authorization: MMtoken }
-        })
+      axios
+        .post(
+          "/api/v4/channels",
+          {
+            team_id: "tfctt9yko7f93jge3itn1tseoo",
+            type: "P",
+            display_name: username + "님의 프로젝트",
+            name: now + username,
+          },
+          {
+            headers: { Authorization: MMtoken },
+          }
+        )
         .then((res: any) => {
           if (typeof token === "string") {
-            axios.post('/api/team/create', {
-              introduceTeam: teamIntro,
-              webex: teamWebex,
-              want: can,
-              name: teamtitle,
-              projectCode: Number(idx),
-              mmChannel: res.data.id
-            },
-              { headers: { Authorization: token } }
-            )
+            axios
+              .post(
+                "/api/team/create",
+                {
+                  introduceTeam: teamIntro,
+                  webex: teamWebex,
+                  want: can,
+                  name: teamtitle,
+                  projectCode: Number(idx),
+                  mmChannel: res.data.id,
+                },
+                { headers: { Authorization: token } }
+              )
               .then((res) => {
-                alert(`${teamtitle}팀이 정상적으로 생성되었습니다`)
+                alert(`${teamtitle}팀이 정상적으로 생성되었습니다`);
                 setTimeout(() => {
                   router.push({
                     pathname: `/TeamBuildingCurrent`,
                     query: { projectNo: Number(idx) },
                   });
                 }, 500);
-
-              })
+              });
           }
         });
     }
   }
   const onTeamIntroChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setteamtitle(e.target.value);
+    setTeamIntro(e.target.value);
   };
   const onTeamTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTeamIntro(e.target.value);
+    setteamtitle(e.target.value);
   };
   const onTeamWebexChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTeamWebex(e.target.value);
@@ -71,7 +77,7 @@ function TeamCreate({ }: Props): ReactElement {
   return (
     <div>
       <Navbar />
-      <div className="w-2/3 mx-auto">
+      <div className="w-3/5 mx-auto">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">팀 만들기</h3>

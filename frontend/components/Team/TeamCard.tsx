@@ -5,6 +5,7 @@ import TeamUserList from "./TeamUserList";
 import TeamDetail from "./TeamDetail";
 import UserDetail from "../user/UserDetail";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
+import axios from 'axios'
 interface Props {
   teamPK: number;
 }
@@ -14,9 +15,24 @@ function TeamCard({ teamPK }: Props): ReactElement {
   const [showUser, setShowUser] = useState(false);
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
   // 팀정보 불러오기
+  const [teamdata, setteamdata] = useState<any>({})
+  const [teamhashtags, setteamhashtags] = useState<any>({})
+  const [enough, setenough] = useState<boolean>(false)
   useEffect(() => {
-
+    axios.get(`/api/team/detail/${teamPK}`)
+      .then((res: any) => {
+        setteamdata(res.data.data);
+        if (res.data.data.teamuser.length >= 5) {
+          setenough(true)
+        }
+      })
+      .catch((err) => alert(err))
   }, [])
+  useEffect(() => {
+    axios.get(`/api/team/info/${teamPK}`)
+      .then((res: any) => { setteamhashtags(res.data.data); console.log(res.data.data) })
+      .catch((err) => alert(err))
+  })
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
@@ -30,23 +46,14 @@ function TeamCard({ teamPK }: Props): ReactElement {
 
   return (
     <tr>
-      <td className=" py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
-              alt=""
-              width="100%"
-              height="100%"
-            />
-          </div>
-          <div className="ml-4">
+      <td className=" py-4 whitespace-nowrap text-center">
+        <div className="">
+          <div className="">
             <div
               className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
               onClick={() => setIsOpen(true)}
             >
-              팀이름
+              {teamdata.name}
             </div>
           </div>
         </div>
@@ -55,18 +62,16 @@ function TeamCard({ teamPK }: Props): ReactElement {
         <div className="text-sm text-gray-900">반</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {/* {person.status === "leave" ? (
-          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
-            팀장
-          </span>
-        ) : (
-          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-            팀원
-          </span>
-        )} */}
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          팀원 구인 중
-        </span>
+
+        {
+          enough
+            ? <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-red-800">
+              인원 충족
+            </span>
+            : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              구인중
+            </span>
+        }
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
@@ -77,13 +82,6 @@ function TeamCard({ teamPK }: Props): ReactElement {
         </span>
       </td>
 
-      {/* 팀 정보
-      <div>
-        <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
-        <h2 className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</h2>
-        <h3 className="text-gray-500">팀 소개</h3>
-        <h3 className="text-gray-500">현재인원 : 4명</h3>
-      </div> */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
           <div className="flex justify-center my-8  text-center">

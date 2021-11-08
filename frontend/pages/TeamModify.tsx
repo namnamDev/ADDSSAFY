@@ -5,7 +5,7 @@ import Footer from "../components/basic/Footer";
 import TeamModifyHashTag from "../components/hashtag/TeamModifyHashTag";
 import { useRouter } from "next/router";
 
-interface Props { }
+interface Props {}
 
 // interface list {
 //   hashTagPK: number;
@@ -14,59 +14,73 @@ interface Props { }
 //   image: string;
 // }
 
-function TeamModify({ }: Props): ReactElement {
-  const router = useRouter()
+function TeamModify({}: Props): ReactElement {
+  const router = useRouter();
   // 팀 정보 미리 가져오기
-  const [webex, setwebex] = useState<string>("")
-  const [introduce, setintroduce] = useState<string>("")
+  const [webex, setwebex] = useState<string>("");
+  const [introduce, setintroduce] = useState<string>("");
   const [can, setCan] = useState<number[]>([]);
+  const [teamTags, setTeamTags] = useState<any>({});
   useEffect(() => {
     if (router.query.teamPk) {
-      const token: string | null = localStorage.getItem("token")
-      if (typeof token === 'string') {
-        axios.get(`/api/team/detail/${router.query.teamPk}`, {
-          headers: { Authorization: token }
-        })
+      const token: string | null = localStorage.getItem("token");
+      if (typeof token === "string") {
+        axios
+          .get(`/api/team/detail/${router.query.teamPk}`, {
+            headers: { Authorization: token },
+          })
           .then((res: any) => {
             console.log(res.data);
-            setwebex(res.data.data.webexLink)
-            setintroduce(res.data.data.introduce)
+            setwebex(res.data.data.webexLink);
+            setintroduce(res.data.data.introduce);
           })
-          .catch((err) => alert(err))
+          .catch((err) => alert(err));
+        axios
+          .get(`/api/team/info/${router.query.teamPk}`, {
+            headers: { Authorization: token },
+          })
+          .then((res: any) => {
+            console.log(res);
+            setTeamTags(res.data.data);
+          })
+          .catch((err) => alert(err));
       }
     }
-
-  }, [router.query.teamPk])
+  }, [router.query.teamPk]);
   function editTeaminfo() {
-    const token: string | null = localStorage.getItem("token")
-    if (typeof token === 'string') {
-      console.log(introduce, webex)
-      axios.put('/api/team/update', {
-        teamPK: router.query.teamPk,
-        introduceTeam: introduce,
-        webex: webex,
-        want: can
-      },
-        {
-          headers: { Authorization: token },
-        })
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      console.log(introduce, webex);
+      axios
+        .put(
+          "/api/team/update",
+          {
+            teamPK: router.query.teamPk,
+            introduceTeam: introduce,
+            webex: webex,
+            want: can,
+          },
+          {
+            headers: { Authorization: token },
+          }
+        )
         .then((res: any) => {
-          console.log(res)
-          alert('팀정보 수정을 완료하였습니다');
+          console.log(res);
+          alert("팀정보 수정을 완료하였습니다");
           setTimeout(() => {
-            history.go(-1)
+            history.go(-1);
           }, 1000);
         })
-        .catch((err) => alert(err))
+        .catch((err) => alert(err));
     }
   }
   return (
     <div>
       <Navbar />
-      <div className="w-2/3 mx-auto text-center">
+      <div className="w-3/5 mx-auto text-center">
         <div className="shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">팀정보 수정하기</h3>
+            <p className="text-lg leading-6 font-medium text-gray-900">팀정보 수정하기</p>
           </div>
           <div className="border-t border-gray-200">
             <dl>
@@ -90,11 +104,8 @@ function TeamModify({ }: Props): ReactElement {
           </div>
         </div>
         <div className="">
-          <TeamModifyHashTag onCanChanged={setCan} />
+          <TeamModifyHashTag onCanChanged={setCan} teamHashTag={teamTags} />
         </div>
-        {/* <DndProvider backend={HTML5Backend}>
-          <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
-        </DndProvider> */}
 
         <div className="mt-5 text-right">
           <span className="hidden sm:block">

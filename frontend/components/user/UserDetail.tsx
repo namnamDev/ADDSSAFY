@@ -59,12 +59,12 @@ function UserDetail({ userPk }: Props): ReactElement {
         </div>
         <div className="border-t border-gray-200">
           <div className="text-center my-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+            <img
+              className="rounded-full mx-auto"
+              src={userinfo.profile}
               alt=""
-              width="100%"
-              height="100%"
+              width="100"
+              height="100"
             />
           </div>
           <dl>
@@ -113,7 +113,46 @@ function UserDetail({ userPk }: Props): ReactElement {
                   <div key={i}>
                     {usertags[section].map((tag: any, j: any) =>
                       <div key={j}>
-                        {tag.hashTagName}
+                        {
+                          section === 'DEVOPS'
+                            ?
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              {tag.hashTagName}
+                            </span>
+                            : null
+                        }
+                        {
+                          section === 'FE'
+                            ?
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                              {tag.hashTagName}
+                            </span>
+                            : null
+                        }
+                        {
+                          section === 'BE'
+                            ?
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                              {tag.hashTagName}
+                            </span>
+                            : null
+                        }
+                        {
+                          section === 'ETC'
+                            ?
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                              {tag.hashTagName}
+                            </span>
+                            : null
+                        }
+                        {
+                          section === 'FOUR'
+                            ?
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                              {tag.hashTagName}
+                            </span>
+                            : null
+                        }
                       </div>
                     )}
                   </div>
