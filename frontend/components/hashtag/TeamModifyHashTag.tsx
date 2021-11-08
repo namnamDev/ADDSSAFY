@@ -28,7 +28,7 @@ interface filters {
 function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
-  const check = (section: any, option: any) => {
+  const check = (option: any) => {
     // 추가하는부분
     if (option.check === false) {
       option.check = !option.check;
@@ -63,6 +63,7 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
           filters[0].options.map((value) => {
             if (value.hashTagPK === hashTag.hashTagPK) {
               value.check = true;
+              can.push(value.hashTagPK);
             }
           });
         });
@@ -115,7 +116,7 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
                                 type="checkbox"
                                 defaultChecked={option.check}
                                 className="h-4 w-4 mx-2 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                onClick={() => check(section.name, option)}
+                                onClick={() => check(option)}
                               />
                               <label
                                 htmlFor={`filter-${section.id}-${optionIdx}`}
