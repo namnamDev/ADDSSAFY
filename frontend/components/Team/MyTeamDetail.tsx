@@ -51,7 +51,8 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     function teamexit() {
         const token: string | null = localStorage.getItem('token')
         const mmid: string | null = localStorage.getItem('mmid')
-        if (typeof token === 'string' && typeof mmid === 'string') {
+        const mmtoken: string | null = localStorage.getItem('mmtoken')
+        if (token && mmid && mmtoken) {
             axios.delete('/api/team/exit', {
                 data: {
                     teamPK: teamPK
@@ -60,7 +61,10 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
             })
                 .then(() => {
                     // Mattermost channel 나가기
-                    axios.delete(`/api/v4/channels/${mmchannel}/members/${mmid}`)
+                    axios.delete(`/api/v4/channels/${mmchannel}/members/${mmid}`,
+                        {
+                            headers: { Authorization: mmtoken }
+                        })
                         .then(() => {
                             setTimeout(() => {
                                 location.reload()
