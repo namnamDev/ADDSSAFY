@@ -6,13 +6,37 @@ import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
 const filters: filters[] = [
   {
-    id: "can",
-    name: "can",
+    id: "BE",
+    name: "BE",
     options: [],
   },
-
+  {
+    id: "FE",
+    name: "FE",
+    options: [],
+  },
+  {
+    id: "DEVOPS",
+    name: "DevOps",
+    options: [],
+  },
+  {
+    id: "FOUR",
+    name: "4차 산업 기술",
+    options: [],
+  },
+  {
+    id: "ETC",
+    name: "기타",
+    options: [],
+  },
+  {
+    id: "GOODBADGE",
+    name: "뱃지",
+    options: [],
+  },
 ];
-interface Props { }
+interface Props {}
 
 interface list {
   hashTagPK: number;
@@ -26,7 +50,7 @@ interface filters {
   options: list[];
 }
 interface Props {
-  projectCode: number
+  projectCode: number;
 }
 function UserSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
@@ -46,26 +70,27 @@ function UserSearchHashTag({ projectCode }: Props): ReactElement {
     }
   };
   const search = () => {
-    const token: string | null = localStorage.getItem('token')
+    const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.post('/api/search/user', {
-        projectCode: projectCode,
-        can: can
-      })
-        .then((res: any) => { setSearchList([...res.data.data]); console.log(res.data.data) })
-        .catch((err) => alert(err))
+      axios
+        .post("/api/search/user", {
+          projectCode: projectCode,
+          can: can,
+        })
+        .then((res: any) => {
+          setSearchList([...res.data.data]);
+        })
+        .catch((err) => alert(err));
     }
-
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
-      // 할 수 있다.can
       filters[0].options.push(...clonedeep(res.data.data.BE));
-      filters[0].options.push(...clonedeep(res.data.data.FE));
-      filters[0].options.push(...clonedeep(res.data.data.DEVOPS));
-      filters[0].options.push(...clonedeep(res.data.data.FOUR));
-      filters[0].options.push(...clonedeep(res.data.data.ETC));
-      filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
+      filters[1].options.push(...clonedeep(res.data.data.FE));
+      filters[2].options.push(...clonedeep(res.data.data.DEVOPS));
+      filters[3].options.push(...clonedeep(res.data.data.FOUR));
+      filters[4].options.push(...clonedeep(res.data.data.ETC));
+      filters[5].options.push(...clonedeep(res.data.data.GOODBADGE));
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
