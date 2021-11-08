@@ -36,7 +36,7 @@ const filters: filters[] = [
     options: [],
   },
 ];
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -56,6 +56,9 @@ function UserSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<list[]>([]);
   const [searchList, setSearchList] = useState<number[]>([]);
+  useEffect(() => {
+    setSearchList([])
+  }, [projectCode])
   const check = (section: any, option: any) => {
     // 추가하는부분
     if (option.check === false) {
