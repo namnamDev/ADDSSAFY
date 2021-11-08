@@ -78,6 +78,7 @@ function LoginModal({ }: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="MatterMost ID"
               onChange={(e) => setloginid(e.target.value)}
+              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
             ></input>
           </div>
           <div>
@@ -90,6 +91,7 @@ function LoginModal({ }: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="Password"
               onChange={(e) => setloginpw(e.target.value)}
+              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
             ></input>
           </div>
         </div>

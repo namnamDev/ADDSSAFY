@@ -23,9 +23,9 @@ import axios from "axios";
 import TeamDetail from "../components/Team/TeamDetail";
 import TeamUserList from "../components/Team/TeamUserList";
 import { ArrowLeftIcon, MailIcon } from "@heroicons/react/solid";
-interface Props {}
+interface Props { }
 
-function TeamBuildingCurrent({}: Props): ReactElement {
+function TeamBuildingCurrent({ }: Props): ReactElement {
   const router = useRouter();
   const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment("2021-12-25 24:00:00");
