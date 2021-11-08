@@ -142,12 +142,13 @@ public class MemberSvcImpl implements MemberSvcInter {
         member.setUserPhone(updateMemberRequest.getPhone());
         List<Long>can = updateMemberRequest.getCan();
         memberRepo.save(member);
+        memberRepo.flush();
         Long memberPK = member.getId();
         List<MemberHashtag> beforeUpdate= memberHashtagRepo.getHashtagEntity(memberPK);
         for(int i = 0 ; i < beforeUpdate.size();i++){
             memberHashtagRepo.delete(beforeUpdate.get(i));
         }
-
+        memberHashtagRepo.flush();
         for(int i =0;i<can.size();i++){
             Optional<HashTag> hashTag= hashtagRepo.findById(can.get(i));
             if(hashTag.isPresent()) {
