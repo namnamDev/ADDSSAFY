@@ -68,7 +68,6 @@ function LoginModal({ }: Props): ReactElement {
     <div className="min-h-full flex items-center justify-center pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="rounded-md shadow-sm -space-y-px">
-
           <div>
             <input
               id="MM-ID"
