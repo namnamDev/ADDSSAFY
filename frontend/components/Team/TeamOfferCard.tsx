@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import axios from "axios";
 import TeamDetailModal from "./TeamDetailModal";
 interface Props {
@@ -8,7 +8,20 @@ interface Props {
 
 function TeamOfferCard({ teamPK, projectCode }: Props): ReactElement {
   const [teamFlag, setTeamFlag] = useState<boolean>(false)
-
+  const [teamdata, setteamdata] = useState<any>({});
+  const [enough, setenough] = useState<boolean>(false);
+  useEffect(() => {
+    axios
+      .get(`/api/team/detail/${teamPK}`)
+      .then((res: any) => {
+        console.log(res)
+        setteamdata(res.data.data);
+        if (res.data.data.teamuser.length >= 5) {
+          setenough(true);
+        }
+      })
+      .catch((err) => alert(err));
+  }, [teamPK]);
   const apply = () => {
     alert(`${teamPK}팀에 지원했습니다.`);
   };
@@ -20,7 +33,7 @@ function TeamOfferCard({ teamPK, projectCode }: Props): ReactElement {
           className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
           onClick={() => setTeamFlag(true)}
         >
-          팀이름
+          {teamdata.name}
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
