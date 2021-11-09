@@ -2,7 +2,7 @@ import React, { ReactElement, useState, Fragment, useEffect, useRef } from "reac
 import { Dialog, Transition } from "@headlessui/react";
 import UserDetail from "./UserDetail";
 import axios from "axios";
-
+import { useRouter } from "next/router"
 interface Props {
     flag: boolean,
     projectCode: number,
@@ -15,23 +15,21 @@ interface Props {
 function UserDetailModal({ flag, projectCode, userPK, mmid, leaderCheck, setflag }: Props): ReactElement {
     const [userButton, setUserButton] = useState();
     useEffect(() => {
-        getButton
-    }, [flag])
-    // 버튼활성화
-    function getButton() {
-        const token: string | null = localStorage.getItem("token");
-        if (typeof token === "string") {
-            axios
-                .get(`/api/team/userButton/${userPK}/${projectCode}`, {
-                    headers: { Authorization: token },
-                })
-                .then((res: any) => {
-                    setUserButton(res.data.data);
-                    console.log(res);
-                })
-                .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+        if (typeof projectCode === 'number' && userPK) {
+            const token: string | null = localStorage.getItem("token");
+            if (typeof token === "string") {
+                axios
+                    .get(`/api/team/userButton/${userPK}/${projectCode}`, {
+                        headers: { Authorization: token },
+                    })
+                    .then((res: any) => {
+                        setUserButton(res.data.data);
+                        console.log(res);
+                    })
+                    .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+            }
         }
-    }
+    }, [projectCode, userPK])
     const apply = () => {
         alert(`${userPK}팀에 지원했습니다.`);
     };

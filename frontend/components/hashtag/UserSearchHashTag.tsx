@@ -2,7 +2,6 @@ import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import UserList from "../user/UserList";
-import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
 const filters: filters[] = [
   {
@@ -110,7 +109,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
       <div>
         <main className="w-full mx-auto">
           {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">교육생 검색</h1>
+            <p className="text-4xl font-extrabold tracking-tight text-gray-900">교육생 검색</p>
           </div> */}
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
@@ -120,7 +119,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
                       <>
-                        <h3 className="-my-3 flow-root">
+                        <p className="-my-3 flow-root">
                           <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
@@ -131,7 +130,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
                               )}
                             </span>
                           </Disclosure.Button>
-                        </h3>
+                        </p>
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
                             {section.options.map((option, optionIdx) => (

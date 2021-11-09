@@ -7,7 +7,7 @@ import SendMMmodal from './SendMMmodal'
 
 interface Props {
   userPk: number,
-  mmid?:string
+  mmid?: string
 }
 
 function UserDetail({ userPk, mmid }: Props): ReactElement {
@@ -15,9 +15,11 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   const [userinfo, setuserinfo] = useState<any>({})
   const [usertags, setusertags] = useState<any>({})
   const [myteamhistory, setmyteamhistory] = useState<any>({})
+  const [checkMMid, setCheckMMid] = useState<boolean>(false)
   useEffect(() => {
     const token: string | null = localStorage.getItem("token")
-    if (typeof token === "string") {
+    const myMMid: string | null = localStorage.getItem("mmid")
+    if (typeof token === "string" && myMMid) {
       axios.get(`/api/users/detail/${userPk}`, {
         headers: { Authorization: token }
       })
@@ -27,6 +29,9 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
           setusertags(res.data.data.memberHashTags)
           setmyteamhistory(res.data.data.userDetailDto.teamList)
         })
+      if (myMMid !== mmid) {
+        setCheckMMid(true)
+      }
     }
   }, [])
   const goGitHub = () => {
@@ -42,7 +47,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">교육생 정보</h3>
+          <p className="text-lg leading-6 font-medium text-gray-900">교육생 정보</p>
         </div>
         <div className="border-t border-gray-200">
           <div className="text-center my-10">
@@ -171,15 +176,19 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
         </div>
       </div>
       <div className="mt-5">
-        <button
-          type="button"
-          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-          onClick={() => setflagMM(true)}
-        >
-          매터모스트 메시지 보내기
-        </button>
+        {
+          checkMMid
+            ? <button
+              type="button"
+              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              onClick={() => setflagMM(true)}
+            >
+              매터모스트 메시지 보내기
+            </button>
+            : null
+        }
         {/* MM */}
-        {/* 조건추가, mmid다른지비교 */}
+        {/* 조건추가, */}
         <SendMMmodal flagMM={flagMM} setflagMM={setflagMM} mmid={userinfo.mmid} />
       </div>
     </div>
