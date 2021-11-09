@@ -33,4 +33,7 @@ public interface TeamSvcInter {
     BaseResponse teamwithdraw(ProposeWithdrawRequest proposeWithdrawRequest);
 
     BaseResponse userwithdraw(ProposeWithdrawRequest proposeWithdrawRequest);
+
+    //팀에서 유저영입 수락 or 거절
+    BaseResponse teamRecruit(RecruitTeamRequest recruitTeamRequest, boolean direction);
 }

@@ -52,7 +52,13 @@ public class TeamMemberRepoImpl implements TeamMemberRepoCustom {
         return queryFactory.selectFrom(qTeamMember)
                 .where(qTeamMember.team().id.eq(teamPK))
                 .fetchCount();
-
-
+    }
+    @Override
+    public TeamMember findteamLeader(Long teamPK){
+        QTeamMember qTeamMember = QTeamMember.teamMember;
+        return queryFactory.selectFrom(qTeamMember)
+                .where(qTeamMember.team().id.eq(teamPK))
+                .where(qTeamMember.leader.isTrue())
+                .fetchOne();
     }
 }

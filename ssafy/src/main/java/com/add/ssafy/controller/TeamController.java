@@ -5,6 +5,7 @@ import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.service.TeamSvcInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -87,6 +88,13 @@ public class TeamController {
     public ResponseEntity<BaseResponse>userwithdraw(@RequestBody ProposeWithdrawRequest proposeWithdrawRequest){
         return ResponseEntity.ok(teamSvcInter.userwithdraw(proposeWithdrawRequest));
     }
-//    @PostMapping("/recruit/team")
-//    public ResponseEntity
+    @PostMapping("/recruit/team")
+    public ResponseEntity<BaseResponse>recruitTeam(@RequestBody RecruitTeamRequest recruitTeamRequest){
+        return ResponseEntity.ok(teamSvcInter.teamRecruit(recruitTeamRequest,true));
+    }
+
+    @PostMapping("recruit/user")
+    public ResponseEntity<BaseResponse>recruitUser(@RequestBody RecruitTeamRequest recruitTeamRequest){
+        return ResponseEntity.ok(teamSvcInter.teamRecruit(recruitTeamRequest,false));
+    }
 }

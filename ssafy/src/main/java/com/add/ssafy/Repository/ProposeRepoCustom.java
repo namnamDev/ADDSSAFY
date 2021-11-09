@@ -17,4 +17,10 @@ public interface ProposeRepoCustom {
     List<TeamToUserDto> teamToUserSuggested(Long teamPK, boolean direction);
 
     Optional<Propose> findProposeByIdDirection(Long proposePK, boolean direction);
+
+    void deleteAllUserProposeIfGetTeam(Long userPK);
+
+    List<Propose> findAllByUser(Long userPK);
+
+    List<Propose> findAllByTeam(Long teamPK);
 }

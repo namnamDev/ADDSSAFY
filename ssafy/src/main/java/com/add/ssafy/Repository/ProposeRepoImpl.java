@@ -74,4 +74,20 @@ public class ProposeRepoImpl implements ProposeRepoCustom{
                 .where(qPropose.direction.eq(direction))
                 .fetchOne());
     }
+    @Override
+    public void deleteAllUserProposeIfGetTeam(Long userPK){
+        QPropose qPropose = QPropose.propose;
+        queryFactory.delete(qPropose).where(qPropose.member().id.eq(userPK)).execute();
+    }
+    @Override
+    public List<Propose> findAllByUser(Long userPK){
+        QPropose qPropose = QPropose.propose;
+        return queryFactory.selectFrom(qPropose).where(qPropose.member().id.eq(userPK)).fetch();
+    }
+
+    @Override
+    public List<Propose> findAllByTeam(Long teamPK){
+        QPropose qPropose = QPropose.propose;
+        return queryFactory.selectFrom(qPropose).where(qPropose.team().id.eq(teamPK)).fetch();
+    }
 }

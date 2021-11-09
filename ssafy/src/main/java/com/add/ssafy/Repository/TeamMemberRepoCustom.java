@@ -12,4 +12,6 @@ public interface TeamMemberRepoCustom {
     Optional<TeamMember> findByMemberPjtCode(Long memberPK, int projectCode);
 
     Long countTeamMember(Long teamPK);
+
+    TeamMember findteamLeader(Long teamPK);
 }

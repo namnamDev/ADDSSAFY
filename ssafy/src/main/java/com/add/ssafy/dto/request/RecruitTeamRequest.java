@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class recruitTeamRequest {
+public class RecruitTeamRequest {
     private Long teamPK;
     private int projectCode;
     private Long suggestPK;

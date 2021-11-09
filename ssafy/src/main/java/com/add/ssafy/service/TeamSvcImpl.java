@@ -3,6 +3,7 @@ package com.add.ssafy.service;
 import com.add.ssafy.Repository.*;
 import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.HashTagsDto;
+import com.add.ssafy.dto.RecruitTrueDto;
 import com.add.ssafy.dto.TeamAddTagsDto;
 import com.add.ssafy.dto.TeamDto;
 import com.add.ssafy.dto.request.*;
@@ -278,5 +279,59 @@ public class TeamSvcImpl implements TeamSvcInter{
         Propose propose = proposeRepo.findProposeByIdDirection(proposeWithdrawRequest.getProposePK(),false).orElseThrow(()->new IllegalStateException("해당 제안이 존재하지 않습니다."));
         proposeRepo.delete(propose);
         return BaseResponse.builder().msg("성공").status("200").data(true).build();
+    }
+    
+    //팀에서 유저영입 수락 or 거절
+    @Override
+    public BaseResponse teamRecruit(RecruitTeamRequest recruitTeamRequest,boolean direction){
+        //
+        Propose propose = proposeRepo.findById(recruitTeamRequest.getSuggestPK()).orElseThrow(()->new IllegalStateException("해당 신청이 존재하지 않습니다."));
+        //suggest table에서 삭제
+        //if true -
+        proposeRepo.delete(propose);
+        Member memberSuggest = new Member();
+        if (direction){
+            memberSuggest = memberRepo.findById(propose.getMember().getId()).orElseThrow(() -> new IllegalStateException("유저정보가 없습니다"));
+        }else{
+            memberSuggest = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        }
+
+        if(recruitTeamRequest.getSuggest()){//수락이면
+            Team team = teamRepo.findById(recruitTeamRequest.getTeamPK()).orElseThrow(()->new IllegalStateException("해당 팀이 존재하지 않습니다."));
+            Long teamPK = team.getId();
+
+//            Member memberSuggest = memberRepo.findById(propose.getMember().getId()).orElseThrow(() -> new IllegalStateException("유저정보가 없습니다"));
+            Long userPK = memberSuggest.getId();
+
+
+            int projectCode = recruitTeamRequest.getProjectCode();
+            Long countTeamMember = teamMemberRepo.countTeamMember(teamPK);
+            Optional<TeamMember> ifUserhaveTeam = teamMemberRepo.findByMemberPjtCode(userPK,projectCode);
+            //수락시 로직생성
+            if(countTeamMember >= 5L || ifUserhaveTeam.isPresent()){
+                return BaseResponse.builder().msg("유저가 이미 팀이 있거나 팀의 자리가 꽉찼습니다").data(false).status("200").build();
+            }
+            //teamMember에 추가
+            TeamMember teamMember= TeamMember.builder().member(memberSuggest).team(team).leader(false).build();
+            teamMemberRepo.save(teamMember);
+            //팀의 mmid 리턴
+            TeamMember teamLeader = teamMemberRepo.findteamLeader(teamPK);
+            String leaderMMToken = teamLeader.getMember().getMmToken();
+            String mmChannelId = teamLeader.getTeam().getMmChannel();
+
+            //제안 보낸 유저의 모든 제안 삭제
+            List<Propose> beforeDeleteOfUser = proposeRepo.findAllByUser(userPK);
+            for (int i = 0 ; i < beforeDeleteOfUser.size();i++){
+                proposeRepo.delete(beforeDeleteOfUser.get(i));
+            }
+            if(countTeamMember == 4){//수락받기전에 4명이였다면 지금은 5명 풀방이니까
+                List<Propose>beforeDeleteOfTeam = proposeRepo.findAllByTeam(teamPK);
+                for(int i = 0 ; i < beforeDeleteOfTeam.size();i++){
+                    proposeRepo.delete(beforeDeleteOfTeam.get(i));
+                }
+            }
+            return BaseResponse.builder().msg("초대 성공").status("200").data(RecruitTrueDto.builder().leaderMMToken(leaderMMToken).succecs(true).mmChannelId(mmChannelId).build()).build();
+        }
+        return BaseResponse.builder().msg("거절하였습니다.").status("200").data(true).build();
     }
 }
