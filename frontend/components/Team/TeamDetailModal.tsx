@@ -16,19 +16,22 @@ interface Props {
 }
 
 function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props): ReactElement {
-    useEffect(() => {
-        getTeamButton
-    }, [])
+
     // 팀정보 모달창
     const [showTeamUser, setShowTeamUser] = useState(false);
     const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
     const [teamButton, setTeamButton] = useState<number>(0);
-    async function getTeamButton(pk: number) {
+    useEffect(() => {
+        if (typeof projectCode === 'number' && teamPK) {
+            getTeamButton()
+        }
+    }, [projectCode, teamPK])
+    async function getTeamButton() {
         // 어떤 버튼을 활성화 할 것인지
         const token: string | null = localStorage.getItem("token");
         if (typeof token === "string") {
             await axios
-                .get(`/api/team/teamButton/${pk}/${projectCode}`, {
+                .get(`/api/team/teamButton/${teamPK}/${projectCode}`, {
                     headers: { Authorization: token },
                 })
                 .then((res: any) => {

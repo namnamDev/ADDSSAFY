@@ -78,7 +78,7 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
                 <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
-                      <h3 className="-my-3 flow-root">
+                      <p className="-my-3 flow-root">
                         <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                           <span className="font-medium text-gray-900">{section.name}</span>
                           <span className="ml-6 flex items-center">
@@ -89,7 +89,7 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
                             )}
                           </span>
                         </Disclosure.Button>
-                      </h3>
+                      </p>
                       <Disclosure.Panel className="pt-6">
                         <div className="grid grid-cols-5">
                           {section.options.map((option, optionIdx) => (

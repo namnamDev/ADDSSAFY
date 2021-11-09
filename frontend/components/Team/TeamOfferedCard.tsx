@@ -51,11 +51,7 @@ function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-<<<<<<< HEAD
-          onClick={() => accept()}
-=======
         // onClick={() => SendMM()}
->>>>>>> front_cho
         >
           수락
         </span>

@@ -85,7 +85,7 @@ function TeamCreate({ }: Props): ReactElement {
       <div className="w-3/5 mx-auto">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">팀 만들기</h3>
+            <p className="text-lg leading-6 font-medium text-gray-900">팀 만들기</p>
           </div>
           <div className="border-t border-gray-200">
             <dl>
