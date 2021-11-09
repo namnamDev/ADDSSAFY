@@ -110,22 +110,22 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
-              <UserOfferList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
+              <UserOfferList projectCode={projectCode} leadercheck={leadercheck} myTeamPK={myteamPk}/>
             </div>
             <div>
               <div className="font-bold my-5">교육생에게 받은 제안</div>
-              <UserOfferedList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
+              <UserOfferedList projectCode={projectCode} leadercheck={leadercheck} myTeamPK={myteamPk}/>
             </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">팀에게 보낸 제안</div>
-              <TeamOfferList list={searchList} projectCode={projectCode} />
+              <TeamOfferList projectCode={projectCode} />
             </div>
             <div>
               <div className="font-bold my-5">팀에게 받은 제안</div>
-              <TeamOfferedList list={searchList} projectCode={projectCode} />
+              <TeamOfferedList projectCode={projectCode} />
             </div>
           </div>
         )}

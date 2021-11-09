@@ -1,88 +1,25 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import TeamOfferCard from "./TeamOfferCard";
-const people = [
-  {
-    userId: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 2,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 3,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 4,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 5,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 6,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
-
+import axios from 'axios'
 interface Props {
-  list: number[];
   projectCode: number;
 }
 
-function TeamOfferList({ list, projectCode }: Props): ReactElement {
+function TeamOfferList({ projectCode }: Props): ReactElement {
   const router = useRouter();
+  const [teamList, setTeamList] = useState<any>([])
+  useEffect(() => {
+    if (projectCode) {
+      const token: string | null = localStorage.getItem('token')
+      if (token) {
+        axios.get(`/api/users/offer/${projectCode}`, {
+          headers: { Authorization: token }
+        })
+          .then((res: any) => { console.log(res); console.log('test중입니다123123'); setTeamList([...res.data.data]) })
+      }
+    }
+  }, [projectCode])
   // MM보내기
   function SendMM() {
     alert("message");
@@ -116,9 +53,9 @@ function TeamOfferList({ list, projectCode }: Props): ReactElement {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {list.map((teamPk) => (
+                {/* {list.map((teamPk) => (
                   <TeamOfferCard key={teamPk} teamPK={teamPk} projectCode={projectCode} />
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>
