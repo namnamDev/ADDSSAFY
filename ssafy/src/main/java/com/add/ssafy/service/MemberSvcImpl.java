@@ -3,6 +3,7 @@ package com.add.ssafy.service;
 import com.add.ssafy.Repository.HashtagRepo;
 import com.add.ssafy.Repository.MemberHashtagRepo;
 import com.add.ssafy.Repository.MemberRepo;
+import com.add.ssafy.Repository.ProposeRepo;
 import com.add.ssafy.config.FileUtils;
 import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.HashTagsDto;
@@ -42,7 +43,8 @@ public class MemberSvcImpl implements MemberSvcInter {
     HashtagRepo hashtagRepo;
     @Autowired
     MemberHashtagRepo memberHashtagRepo;
-
+    @Autowired
+    ProposeRepo proposeRepo;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -175,5 +177,13 @@ public class MemberSvcImpl implements MemberSvcInter {
         res.setMemberHashTags(memberHashtags);
         res.setUserDetailDto(tempMember);
         return BaseResponse.builder().status("200").msg("성공").data(res).build();
+    }
+
+    //유저가 팀에 보냇던 제안들
+    @Override
+    public BaseResponse userToTeamSuggested(int projectCode,boolean direction){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+
+        return BaseResponse.builder().status("200").msg("성공").data(proposeRepo.userToTeamSuggested(member.getId(),projectCode,direction)).build();
     }
 }

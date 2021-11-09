@@ -27,4 +27,6 @@ public interface TeamSvcInter {
     BaseResponse userToTeamSuggest(UserToTeamSuggest userToTeamSuggest);
 
     BaseResponse teamToUserSuggest(TeamToUserSuggest teamToUserSuggest);
+
+    BaseResponse teamToUserSuggested(Long teamPK, boolean direction);
 }

@@ -36,9 +36,16 @@ public class UsersController {
     public ResponseEntity myPage() {
         return ResponseEntity.ok(memberSvcInter.myPage());
     }
-    //유저가 받은 제의
+    //유저보낸 가입신청
     @GetMapping("/offer/{projectCode}")
     public ResponseEntity userOffer(@PathVariable(name = "projectCode")int projectCode){
-        return null;
+
+        return ResponseEntity.ok(memberSvcInter.userToTeamSuggested(projectCode,true));
+    }
+    //유저가 받은 가입제안
+    @GetMapping("/offered/{projectCode}")
+    public ResponseEntity userOffered(@PathVariable(name = "projectCode")int projectCode){
+
+        return ResponseEntity.ok(memberSvcInter.userToTeamSuggested(projectCode,false));
     }
 }

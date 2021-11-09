@@ -260,4 +260,9 @@ public class TeamSvcImpl implements TeamSvcInter{
             return baseResponse;
         }
     }
+    @Override
+    public BaseResponse teamToUserSuggested(Long teamPK, boolean direction){
+        Team team = teamRepo.findById(teamPK).orElseThrow(()->new IllegalStateException("팀이 존재하지않습니다."));
+        return BaseResponse.builder().msg("성공").status("200").data(proposeRepo.teamToUserSuggested(teamPK,direction)).build();
+    }
 }

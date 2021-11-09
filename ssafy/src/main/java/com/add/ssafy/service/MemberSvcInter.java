@@ -15,4 +15,7 @@ public interface MemberSvcInter {
     BaseResponse updateMember(UpdateMemberRequest updateMemberRequest);
 
     BaseResponse myPage();
+
+    //유저가 팀에 보냇던 제안들
+    BaseResponse userToTeamSuggested(int projectCode, boolean direction);
 }

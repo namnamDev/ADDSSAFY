@@ -68,6 +68,17 @@ public class TeamController {
         return ResponseEntity.ok(teamSvcInter.teamToUserSuggest(teamToUserSuggest));
     }
 
+    //팀이 유저에게 받은 신청
+    @GetMapping("/offered/{teamPK}")
+    public ResponseEntity<BaseResponse>teamToUserSuggested(@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(teamSvcInter.teamToUserSuggested(teamPK,true));
+    }
+
+    //팀이 유저에게 보낸 신청
+    @GetMapping("/offer/{teamPK}")
+    public ResponseEntity<BaseResponse>teamOffered(@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(teamSvcInter.teamToUserSuggested(teamPK,false));
+    }
 
 //    @PostMapping("/recruit/team")
 //    public ResponseEntity

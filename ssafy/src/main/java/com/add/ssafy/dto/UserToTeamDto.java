@@ -1,18 +1,16 @@
 package com.add.ssafy.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserToTeamDto {
     private Long suggestPK;
-    private Long userPK;
-    private String userName;
+    private Long teamPK;
+    private String teamName;
     private LocalDateTime suggestDate;
 
 }
