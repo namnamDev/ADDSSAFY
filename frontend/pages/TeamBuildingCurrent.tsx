@@ -49,41 +49,37 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   // 팀이 있는지 체크
   const [myteamPk, setmyteamPk] = useState<number>(0);
   const [myMMid, setmyMMid] = useState<string>("");
-  const getMyteam: any = () => {
-    if (router.query.projectNo) {
-      const token: string | null = localStorage.getItem("token");
-      const myMMid: string | null = localStorage.getItem("mmid");
-      if (typeof token === "string") {
-        axios
-          .get(`/api/team/myteam/${router.query.projectNo}`, {
-            headers: { Authorization: token },
-          })
-          .then(async (res: any) => {
-            console.log(res);
-            await setmyteamPk(res.data.data);
-            if (res.data.data > 0) {
-              setIsTeam(true);
-            } else {
-              setIsTeam(false);
-            }
-          });
-      }
-      if (myMMid) {
-        setmyMMid(myMMid);
-      }
+  const getMyteam = () => {
+    if (!router.query.projectNo) return;
+    const token: string | null = localStorage.getItem("token");
+    const myMMid: string | null = localStorage.getItem("mmid");
+    if (typeof token !== "string") return;
+
+    axios
+      .get(`/api/team/myteam/${router.query.projectNo}`, {
+        headers: { Authorization: token },
+      })
+      .then(async (res: any) => {
+        setmyteamPk(res.data.data);
+        if (res.data.data > 0) {
+          setIsTeam(true);
+        } else {
+          setIsTeam(false);
+        }
+      });
+    if (myMMid) {
+      setmyMMid(myMMid);
     }
   };
   const [leadercheck, setleadercheck] = useState<boolean>(false);
-  useEffect(() => {
-    getMyteam();
+  const isLeader = () => {
     const mmid: string | null = localStorage.getItem("mmid");
     if (typeof mmid === "string") {
       axios
         .get(`/api/team/teamuser/${myteamPk}`)
         .then((res: any) => {
           {
-            res.data.data.map((member: any, i: number) => {
-              console.log(1);
+            res.data.data.map(async (member: any, i: number) => {
               if (member.isLeader === true && mmid === member.mmid) {
                 setleadercheck(true);
               }
@@ -92,7 +88,13 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         })
         .catch(() => alert("통신이 불안정합니다, 다시 시도해주세요"));
     }
+  };
+  useEffect(() => {
+    getMyteam();
   }, [router.query.projectNo]);
+  useEffect(() => {
+    isLeader();
+  }, [myteamPk]);
 
   // 팀 현황
   const [teamlist, setteamlist] = useState<any>([]);
@@ -609,22 +611,22 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
-              <UserOfferList list={searchList} projectCode={idx} />
+              <UserOfferList list={searchList} projectCode={idx} leadercheck={leadercheck} />
             </div>
             <div>
               <div className="font-bold my-5">교육생에게 받은 제안</div>
-              <UserOfferedList list={searchList} />
+              <UserOfferedList list={searchList} projectCode={idx} leadercheck={leadercheck} />
             </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">팀에게 보낸 제안</div>
-              <TeamOfferList list={searchList} />
+              <TeamOfferList list={searchList} projectCode={idx} />
             </div>
             <div>
               <div className="font-bold my-5">팀에게 받은 제안</div>
-              <TeamOfferedList list={searchList} />
+              <TeamOfferedList list={searchList} projectCode={idx} />
             </div>
           </div>
         )}
@@ -642,7 +644,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               <TeamSearchHashTag projectCode={Number(idx)} />
             </TabPanel>
             <TabPanel value="2">
-              <UserSearchHashTag projectCode={Number(idx)} />
+              <UserSearchHashTag projectCode={Number(idx)} leadercheck={leadercheck} />
             </TabPanel>
           </TabContext>
         </div>

@@ -5,40 +5,61 @@ import TeamUserList from "./TeamUserList";
 import TeamDetail from "./TeamDetail";
 import UserDetail from "../user/UserDetail";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
-import axios from 'axios'
+import axios from "axios";
 interface Props {
   teamPK: number;
+  projectCode: number;
 }
 
-function TeamCard({ teamPK }: Props): ReactElement {
+function TeamCard({ teamPK, projectCode }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   // 팀정보 불러오기
-  const [teamdata, setteamdata] = useState<any>({})
-  const [teamhashtags, setteamhashtags] = useState<any>({})
-  const [enough, setenough] = useState<boolean>(false)
+  const [teamdata, setteamdata] = useState<any>({});
+  const [teamhashtags, setteamhashtags] = useState<any>({});
+  const [enough, setenough] = useState<boolean>(false);
+  const [teamButton, setTeamButton] = useState<number>(0);
+
   useEffect(() => {
-    axios.get(`/api/team/detail/${teamPK}`)
+    axios
+      .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => {
         setteamdata(res.data.data);
         if (res.data.data.teamuser.length >= 5) {
-          setenough(true)
+          setenough(true);
         }
       })
-      .catch((err) => alert(err))
-  }, [])
+      .catch((err) => alert(err));
+  }, []);
   useEffect(() => {
-    axios.get(`/api/team/info/${teamPK}`)
-      .then((res: any) => { setteamhashtags(res.data.data); console.log(res.data.data) })
-      .catch((err) => alert(err))
-  })
+    axios
+      .get(`/api/team/info/${teamPK}`)
+      .then((res: any) => {
+        setteamhashtags(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((err) => alert(err));
+  });
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
   }
-  function openModal(teamPK: number) {
+  function openModal() {
     setIsOpen(true);
+    // 어떤 버튼을 활성화 할 것인지
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      axios
+        .get(`/api/team/teamButton/${teamPK}/${projectCode}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setTeamButton(res.data.data);
+          console.log(res);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }
   const apply = () => {
     alert(`${teamPK}팀에 지원했습니다.`);
@@ -51,7 +72,7 @@ function TeamCard({ teamPK }: Props): ReactElement {
           <div className="">
             <div
               className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
+              onClick={() => openModal()}
             >
               {teamdata.name}
             </div>
@@ -62,21 +83,20 @@ function TeamCard({ teamPK }: Props): ReactElement {
         <div className="text-sm text-gray-900">반</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-
-        {
-          enough
-            ? <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-red-800">
-              인원 충족
-            </span>
-            : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-              구인중
-            </span>
-        }
+        {enough ? (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-red-800">
+            인원 충족
+          </span>
+        ) : (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+            구인중
+          </span>
+        )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-        // onClick={() => SendMM()}
+          // onClick={() => SendMM()}
         >
           MatterMost
         </span>
@@ -149,18 +169,51 @@ function TeamCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} teammodalUserPK={setteammodalUserPK} />
+                      <TeamUserList
+                        teamPK={teamPK}
+                        showUser={setShowUser}
+                        teammodalUserPK={setteammodalUserPK}
+                      />
                     </p>
                   </div>
 
                   <div className="mt-4 flex flex-row space-x-2 justify-center">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
-                    >
-                      지원하기
-                    </button>
+                    {teamButton === 0 ? (
+                      false
+                    ) : teamButton === 1 ? (
+                      <>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          팀의 제안 수락
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          팀의 제안 거절
+                        </button>
+                      </>
+                    ) : teamButton === 2 ? (
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        팀 가입 신청 취소
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        팀 가입 신청
+                      </button>
+                    )}
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
