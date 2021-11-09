@@ -18,9 +18,9 @@ import UserOfferList from "../components/user/UserOfferList";
 import UserOfferedList from "../components/user/UserOfferedList";
 import axios from "axios";
 import TeambuildingNow from "../components/Team/TeambuildingNow";
-interface Props { }
+interface Props {}
 
-function TeamBuildingCurrent({ }: Props): ReactElement {
+function TeamBuildingCurrent({}: Props): ReactElement {
   const router = useRouter();
   // const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   // const endTime = moment("2021-12-25 24:00:00");
@@ -41,6 +41,9 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   // 팀이 있는지 체크
   const [myteamPk, setmyteamPk] = useState<number>(0);
   useEffect(() => {
+    setmyteamPk(0);
+    setIsTeam(false);
+    setleadercheck(false);
     if (projectCode) {
       const token: string | null = localStorage.getItem("token");
       if (typeof token === "string") {
@@ -76,8 +79,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           .catch(() => alert("통신이 불안정합니다, 다시 시도해주세요"));
       }
     }
-  }, [leadercheck]);
-
+  }, [myteamPk]);
 
   return (
     <div className="">
@@ -87,7 +89,11 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         <br />
         <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
-            {projectCode === "0" ? "공통 프로젝트" : projectCode === "1" ? "특화 프로젝트" : "자율 프로젝트"}
+            {projectCode === "0"
+              ? "공통 프로젝트"
+              : projectCode === "1"
+              ? "특화 프로젝트"
+              : "자율 프로젝트"}
           </div>
           <div className="place-self-end">
             {isTeam ? null : (
@@ -110,11 +116,19 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
-              <UserOfferList projectCode={projectCode} leadercheck={leadercheck} myTeamPK={myteamPk}/>
+              <UserOfferList
+                projectCode={projectCode}
+                leadercheck={leadercheck}
+                myTeamPK={myteamPk}
+              />
             </div>
             <div>
               <div className="font-bold my-5">교육생에게 받은 제안</div>
-              <UserOfferedList projectCode={projectCode} leadercheck={leadercheck} myTeamPK={myteamPk}/>
+              <UserOfferedList
+                projectCode={projectCode}
+                leadercheck={leadercheck}
+                myTeamPK={myteamPk}
+              />
             </div>
           </div>
         ) : (
