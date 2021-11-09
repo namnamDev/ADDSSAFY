@@ -43,7 +43,7 @@ function Mypage({ }: Props): ReactElement {
           <div className="px-4 py-2 sm:px-6">
           </div>
           <div className="text-center mb-10">
-            <img
+            <Image
               className="rounded-full mx-auto"
               src={userinfo.profile}
               alt=""

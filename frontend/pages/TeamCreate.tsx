@@ -5,10 +5,15 @@ import Footer from "../components/basic/Footer";
 import TeamCreateHashTag from "../components/hashtag/TeamCreateHashTag";
 import { useRouter } from "next/router";
 import moment from "moment";
+import Image from 'next/image'
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+interface Props { }
 
-interface Props {}
-
-function TeamCreate({}: Props): ReactElement {
+function TeamCreate({ }: Props): ReactElement {
   const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
@@ -85,7 +90,7 @@ function TeamCreate({}: Props): ReactElement {
           <div className="border-t border-gray-200">
             <dl>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">팀 이름</dt>
+                <dt className="text-sm font-medium text-gray-500 text-center">팀 이름</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
                   placeholder="팀 이름을 입력해주세요"
@@ -93,7 +98,7 @@ function TeamCreate({}: Props): ReactElement {
                 />
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">팀 소개</dt>
+                <dt className="text-sm font-medium text-gray-500 text-center">팀 소개</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
                   placeholder="팀 소개를 입력해주세요"
@@ -101,12 +106,27 @@ function TeamCreate({}: Props): ReactElement {
                 />
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">웹엑스 주소</dt>
+                <dt className="text-sm font-medium text-gray-500 text-center">웹엑스 주소</dt>
                 <input
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
                   placeholder="웹엑스 주소를 입력해주세요"
                   onChange={(e) => onTeamWebexChanged(e)}
                 />
+              </div>
+              <div className="bg-white px-4 py-5 w-2/3 mx-auto">
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className="text-bold">웹엑스 주소는 어디에?</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <p className="mb-5">Webex프로그램을 실행시킨 후,</p>
+                    <Image src='/images/copywebexlink.gif' alt="" height="500" width="1000" />
+                  </AccordionDetails>
+                </Accordion>
               </div>
             </dl>
           </div>

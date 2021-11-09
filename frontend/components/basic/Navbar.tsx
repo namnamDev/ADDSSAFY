@@ -8,24 +8,8 @@ import axios from "axios";
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-const projects = [
-  {
-    No: 1,
-    name: "공통프로젝트",
-    description: "WebRTC, SNS, IOT",
-  },
-  {
-    No: 2,
-    name: "특화프로젝트",
-    description: "빅데이터(추천, 분산), 블록체인, IOT, AI(음성, 영상)",
-  },
-  {
-    No: 3,
-    name: "자율프로젝트",
-    description: "자율",
-  },
-];
-interface Props {}
+
+interface Props { }
 
 function Navbar({}: Props): ReactElement {
   // nickname 가져오기
@@ -77,7 +61,7 @@ function Navbar({}: Props): ReactElement {
         <div className="mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <div className="cursor-pointer" onClick={() => router.push("/")}>
+              <div className="cursor-pointer" onClick={() => router.push("/Main")}>
                 <Image
                   src="/images/mainlogo.jpg"
                   height="70"
@@ -102,7 +86,7 @@ function Navbar({}: Props): ReactElement {
               className="text-base font-medium text-gray-500 hover:text-gray-900 cursor-pointer"
               onClick={() => gototeammenu(2)}
             >
-              특화프로젝트
+              자율프로젝트
             </div>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
