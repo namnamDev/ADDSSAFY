@@ -6,7 +6,7 @@ import Link from "next/link";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
 import axios from "axios";
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -14,7 +14,7 @@ interface list {
   prop: string;
   image: string;
 }
-function Mypage({}: Props): ReactElement {
+function Mypage({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const [can, setCan] = useState<number[]>([]);
@@ -25,7 +25,6 @@ function Mypage({}: Props): ReactElement {
   const [myteamhistory, setmyteamhistory] = useState<any>({});
   const [mytoken, setmytoken] = useState<string>("");
   // 정보수정을 위한 변수들
-  const [changeEmail, setchangeEmail] = useState<string>("");
   const [changePhone, setchangePhone] = useState<string>("");
   const [changeGit, setchangeGit] = useState<string>("");
   const [changeBlog, setchangeBlog] = useState<string>("");
@@ -43,7 +42,6 @@ function Mypage({}: Props): ReactElement {
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);
-          setchangeEmail(res.data.data.userDetailDto.email);
           setchangePhone(res.data.data.userDetailDto.userPhone);
           setchangeGit(res.data.data.userDetailDto.git);
           setchangeBlog(res.data.data.userDetailDto.blog);
@@ -121,7 +119,7 @@ function Mypage({}: Props): ReactElement {
                   <input
                     type="text"
                     defaultValue={userinfo.email}
-                    onChange={(e) => setchangeEmail(e.target.value)}
+                    disabled
                   />
                 </dd>
               </div>

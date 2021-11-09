@@ -7,13 +7,6 @@ import { useRouter } from "next/router";
 
 interface Props {}
 
-// interface list {
-//   hashTagPK: number;
-//   title: string;
-//   prop: string;
-//   image: string;
-// }
-
 function TeamModify({}: Props): ReactElement {
   const router = useRouter();
   // 팀 정보 미리 가져오기

@@ -36,17 +36,13 @@ function TeamDetail({ teamPK }: Props): ReactElement {
   })
   return (
     <div className="">
+      <div className="leading-6 text-gray-900 font-extrabold text-4xl text-center">{teamdata.name}</div>
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mx-8">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Information</h3>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">팀 정보</p>
         </div>
         <div className="text-center">
           <dl>
-            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">팀명</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{teamdata.name}</dd>
-            </div>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">기술스택</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{Object.keys(teamhashtags).map((section: any, i: number) => (

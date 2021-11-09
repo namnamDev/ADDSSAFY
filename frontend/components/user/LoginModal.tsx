@@ -68,7 +68,6 @@ function LoginModal({ }: Props): ReactElement {
     <div className="min-h-full flex items-center justify-center pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="rounded-md shadow-sm -space-y-px">
-
           <div>
             <input
               id="MM-ID"
@@ -78,6 +77,7 @@ function LoginModal({ }: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="MatterMost ID"
               onChange={(e) => setloginid(e.target.value)}
+              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
             ></input>
           </div>
           <div>
@@ -90,6 +90,7 @@ function LoginModal({ }: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="Password"
               onChange={(e) => setloginpw(e.target.value)}
+              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
             ></input>
           </div>
         </div>

@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.3.0",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "@mui/icons-material": "^5.1.0",
     "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.6",
     "@types/lodash-es": "^4.17.5",
