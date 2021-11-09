@@ -9,7 +9,7 @@ interface Props {
 }
 
 function TeamCard({ teamPK, projectCode }: Props): ReactElement {
-  const [teamFlag, setTeamFlag] = useState<boolean>(false)
+  const [teamFlag, setTeamFlag] = useState<boolean>(false);
   // 팀정보 불러오기
   const [teamdata, setteamdata] = useState<any>({});
   const [enough, setenough] = useState<boolean>(false);
@@ -60,14 +60,17 @@ function TeamCard({ teamPK, projectCode }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-        // onClick={() => SendMM()}
+          // onClick={() => SendMM()}
         >
           MatterMost
         </span>
       </td>
-      <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} />
-
-
+      <TeamDetailModal
+        projectCode={projectCode}
+        teamFlag={teamFlag}
+        setTeamFlag={setTeamFlag}
+        teamPK={teamPK}
+      />
     </tr>
   );
 }
