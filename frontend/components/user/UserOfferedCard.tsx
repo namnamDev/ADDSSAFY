@@ -9,6 +9,7 @@ interface Props {
 
 function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false)
+  
   const apply = () => {
     alert(`${person}팀에 지원했습니다.`);
   };

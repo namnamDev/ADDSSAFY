@@ -12,10 +12,11 @@ interface Props {
     projectCode: number,
     teamFlag: boolean,
     setTeamFlag: (value: any) => any,
-    teamPK: number
+    teamPK: number,
+    suggestPK?: number
 }
 
-function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props): ReactElement {
+function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK, suggestPK }: Props): ReactElement {
 
     // 팀정보 모달창
     const [showTeamUser, setShowTeamUser] = useState(false);
@@ -43,7 +44,44 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
     function closeTeamModal() {
         setShowTeamUser(false);
     }
+    // 제안 수락
+    function accept() {
+        const token: string | null = localStorage.getItem('token')
+        if (token) {
+            axios.post('/api/team/recruit/user',
+                {
+                    teamPk: teamPK,
+                    projectCode: projectCode,
+                    suggetPK: suggestPK,
+                    boolean: true
+                },
+                {
+                    headers: { Authorization: token }
+                })
+        }
+    }
+    // 제안 거절
+    function reject() {
+        const token: string | null = localStorage.getItem('token')
+        if (token) {
+            axios.post('/api/team/recruit/user',
+                {
+                    teamPk: teamPK,
+                    projectCode: projectCode,
+                    suggetPK: suggestPK,
+                    boolean: false
+                },
+                {
+                    headers: { Authorization: token }
+                })
+        }
+    }
+    // 가입 신청
     function apply() {
+
+    }
+    // 가입 신청 철회
+    function withdraw() {
 
     }
     return (

@@ -4,9 +4,10 @@ import TeamDetailModal from "./TeamDetailModal";
 interface Props {
   teamPK: number;
   projectCode: number;
+  suggestPK:number,
 }
 
-function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
+function TeamOfferedCard({ teamPK, projectCode, suggestPK }: Props): ReactElement {
   const [teamFlag, setTeamFlag] = useState<boolean>(false)
 
   const apply = () => {
@@ -64,7 +65,7 @@ function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
           거절
         </span>
       </td>
-      <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} />
+      <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} suggestPK={suggestPK}/>
 
     </tr>
   );

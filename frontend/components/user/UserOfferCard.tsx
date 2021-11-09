@@ -5,9 +5,10 @@ interface Props {
   person: any;
   projectCode: number;
   leadercheck: boolean;
+  setUserList: (value: any[]) => any;
 }
 
-function UserOfferCard({ person, projectCode, leadercheck }: Props): ReactElement {
+function UserOfferCard({ person, projectCode, leadercheck, setUserList }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false)
   const apply = () => {
     alert(`${person}팀에 지원했습니다.`);
