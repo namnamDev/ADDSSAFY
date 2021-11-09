@@ -17,6 +17,7 @@ function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
   const [showUser, setShowUser] = useState(false);
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   const [teamButton, setTeamButton] = useState<number>(0);
+  const token: string | null = localStorage.getItem("token");
 
   function closeModal() {
     setIsOpen(false);
@@ -25,7 +26,6 @@ function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
   function openModal() {
     setIsOpen(true);
     // 어떤 버튼을 활성화 할 것인지
-    const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
       axios
         .get(`/api/team/teamButton/${teamPK}/${projectCode}`, {
@@ -42,6 +42,25 @@ function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
     alert(`${teamPK}팀에 지원했습니다.`);
   };
 
+  const accept = () => {
+    // // 유저가 팀의 제안을 수락
+    // if (typeof token !== "string") return;
+    // axios
+    //   .get(`/api/team/recruit/user`, {
+    //     headers: { Authorization: token },
+    //     data: {
+    //       teamPK: teamPK,
+    //       projectCode: projectCode,
+    //       suggestPK: suggestPK,
+    //       suggest: true,
+    //     },
+    //   })
+    //   .then((res: any) => {
+    //     setTeamButton(res.data.data);
+    //     console.log(res);
+    //   })
+    //   .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+  };
   return (
     <tr className="">
       <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -61,7 +80,7 @@ function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+          onClick={() => accept()}
         >
           수락
         </span>
