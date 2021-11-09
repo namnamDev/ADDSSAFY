@@ -4,11 +4,12 @@ import Image from "next/image";
 import UserCard from "./UserCard";
 
 interface Props {
-  list: number[],
-  projectCode: number
+  list: number[];
+  projectCode: number;
+  leadercheck: boolean;
 }
 
-function UserList({ list, projectCode }: Props): ReactElement {
+function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -57,7 +58,12 @@ function UserList({ list, projectCode }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {list.map((person: any) => (
-                  <UserCard key={person.userPk} person={person} projectCode={projectCode}/>
+                  <UserCard
+                    key={person.userPk}
+                    person={person}
+                    projectCode={projectCode}
+                    leadercheck={leadercheck}
+                  />
                 ))}
               </tbody>
             </table>

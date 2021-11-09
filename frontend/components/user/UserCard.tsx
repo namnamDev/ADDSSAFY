@@ -3,80 +3,103 @@ import { Dialog, Transition } from "@headlessui/react";
 import UserDetail from "../user/UserDetail";
 import Image from "next/image";
 import axios from "axios";
-import { ExclamationIcon, MailIcon } from '@heroicons/react/outline'
+import { ExclamationIcon, MailIcon } from "@heroicons/react/outline";
 interface Props {
-  projectCode: number,
+  projectCode: number;
   person: {
-    backjun: string | null,
-    blog: string,
-    classNumber: string,
-    classRegion: string,
-    email: string,
-    git: string,
-    introduce: string,
-    isleave: boolean,
-    mmid: string,
-    portfolio: string,
-    profile: string,
-    status: string,
-    studentNumber: string,
-    teamList: any,
-    userAddress: string,
-    userName: string,
-    userPhone: string,
-    userPk: number
+    backjun: string | null;
+    blog: string;
+    classNumber: string;
+    classRegion: string;
+    email: string;
+    git: string;
+    introduce: string;
+    isleave: boolean;
+    mmid: string;
+    portfolio: string;
+    profile: string;
+    status: string;
+    studentNumber: string;
+    teamList: any;
+    userAddress: string;
+    userName: string;
+    userPhone: string;
+    userPk: number;
   };
+  leadercheck: boolean;
 }
 
-function UserCard({ person, projectCode }: Props): ReactElement {
+function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const [userButton, setUserButton] = useState<number>(0);
+  const myMMid: string | null = localStorage.getItem("mmid");
   // 팀있는지 체크하기
-  const [isteam, setisteam] = useState<boolean>(false)
+  const [isteam, setisteam] = useState<boolean>(false);
   useEffect(() => {
     if (person.teamList.length >= projectCode + 1) {
       if (person.teamList[projectCode].teamPK != null) {
-        setisteam(true)
+        setisteam(true);
       }
     }
-  }, [])
+  }, []);
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
   }
-  function openModal(person: number) {
+  function openModal() {
     setIsOpen(true);
+    // 어떤 버튼을 활성화 할 것인지
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      axios
+        .get(`/api/team/userButton/${person.userPk}/${projectCode}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setUserButton(res.data.data);
+          console.log(res);
+          console.log(leadercheck);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }
   const apply = () => {
     alert(`${person}팀에 지원했습니다!.`);
   };
   // MM보내기
-  const [open, setOpen] = useState(false)
-  const cancelButtonRef = useRef(null)
-  const [message, setmessage] = useState<string>("")
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
+  const [message, setmessage] = useState<string>("");
   function sendMessage() {
-    const mymmid: string | null = localStorage.getItem('mmid')
-    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
     if (mymmid && mmtoken)
-      axios.post('/api/v4/channels/direct', [
-        mymmid, person.mmid
-      ],
-        { headers: { Authorization: mmtoken } })
+      axios
+        .post("/api/v4/channels/direct", [mymmid, person.mmid], {
+          headers: { Authorization: mmtoken },
+        })
         .then((res: any) => {
           console.log(res.data.id);
-          axios.post("/api/v4/posts",
-            {
-              channel_id: res.data.id,
-              message: message
-            },
-            {
-              headers: { Authorization: mmtoken }
-            })
-            .then(() => { alert('메시지를 성공적으로 전송하였습니다'); setOpen(false) })
-        })
+          axios
+            .post(
+              "/api/v4/posts",
+              {
+                channel_id: res.data.id,
+                message: message,
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
+            .then(() => {
+              alert("메시지를 성공적으로 전송하였습니다");
+              setOpen(false);
+            });
+        });
   }
   function OpenMM(mmid: string) {
-    setOpen(true)
+    setOpen(true);
   }
   return (
     <tr>
@@ -94,7 +117,7 @@ function UserCard({ person, projectCode }: Props): ReactElement {
           <div className="">
             <div
               className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
+              onClick={() => openModal()}
             >
               {person.userName}
             </div>
@@ -102,7 +125,9 @@ function UserCard({ person, projectCode }: Props): ReactElement {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">{person.classRegion} {person.classNumber}</div>
+        <div className="text-sm text-gray-900">
+          {person.classRegion} {person.classNumber}
+        </div>
       </td>
 
       <td className="px-6 py-4 whitespace-nowrap">{person.userPhone}</td>
@@ -116,16 +141,15 @@ function UserCard({ person, projectCode }: Props): ReactElement {
             팀원
           </span>
         )} */}
-        {
-          isteam
-            ? <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-              팀있음
-            </span>
-            : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-              무소속
-            </span>
-        }
-
+        {isteam ? (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+            팀있음
+          </span>
+        ) : (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+            무소속
+          </span>
+        )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
@@ -176,13 +200,51 @@ function UserCard({ person, projectCode }: Props): ReactElement {
                 </div>
 
                 <div className="mt-4 flex flex-row space-x-2 justify-center">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={apply}
-                  >
-                    제안 보내기
-                  </button>
+                  {userButton === 0 || leadercheck === false ? (
+                    false
+                  ) : userButton === 1 ? (
+                    <>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        유저의 제안 수락
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        유저의 제안 거절
+                      </button>
+                    </>
+                  ) : userButton === 2 ? (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={apply}
+                    >
+                      유저에게 가입 제안 취소
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={apply}
+                    >
+                      유저에게 가입 제안
+                    </button>
+                  )}
+                  {myMMid !== person.mmid ? (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => OpenMM(person.mmid)}
+                    >
+                      매터모스트 메시지 보내기
+                    </button>
+                  ) : null}
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
@@ -198,7 +260,12 @@ function UserCard({ person, projectCode }: Props): ReactElement {
       </Transition>
       {/* MM */}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+        <Dialog
+          as="div"
+          className="fixed z-10 inset-0 overflow-y-auto"
+          initialFocus={cancelButtonRef}
+          onClose={setOpen}
+        >
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
               as={Fragment}

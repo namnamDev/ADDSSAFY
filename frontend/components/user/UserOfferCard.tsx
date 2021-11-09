@@ -1,21 +1,38 @@
 import React, { ReactElement, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import UserDetail from "./UserDetail";
+import axios from "axios";
 import Image from "next/image";
 interface Props {
-  person: object;
+  person: any;
   projectCode: number;
+  leadercheck: boolean;
 }
 
-function UserOfferCard({ person, projectCode }: Props): ReactElement {
+function UserOfferCard({ person, projectCode, leadercheck }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const [userButton, setUserButton] = useState();
+  const myMMid: string | null = localStorage.getItem("mmid");
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
   }
-  function openModal(person: number) {
+  function openModal() {
     setIsOpen(true);
+    // 어떤 버튼을 활성화 할 것인지
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      axios
+        .get(`/api/team/userButton/${person.userPk}/${projectCode}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setUserButton(res.data.data);
+          console.log(res);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }
   const apply = () => {
     alert(`${person}팀에 지원했습니다.`);
@@ -28,9 +45,9 @@ function UserOfferCard({ person, projectCode }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap">
         <div
           className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
-          onClick={() => setIsOpen(true)}
+          onClick={() => openModal()}
         >
-          팀이름
+          교육생 이름
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -75,18 +92,56 @@ function UserOfferCard({ person, projectCode }: Props): ReactElement {
                 ></Dialog.Title>
                 <div className="mt-2 ">
                   <p className="text-sm text-gray-500  ">
-                    <UserDetail userPk={1} />
+                    <UserDetail userPk={person.userPk} />
                   </p>
                 </div>
 
                 <div className="mt-4 flex flex-row space-x-2 justify-center">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={apply}
-                  >
-                    제안 보내기
-                  </button>
+                  {userButton === 0 || leadercheck === false ? (
+                    false
+                  ) : userButton === 1 ? (
+                    <>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        유저의 제안 수락
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        유저의 제안 거절
+                      </button>
+                    </>
+                  ) : userButton === 2 ? (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={apply}
+                    >
+                      유저에게 가입 제안 취소
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={apply}
+                    >
+                      유저에게 가입 제안
+                    </button>
+                  )}
+                  {myMMid !== person.mmid ? (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => SendMM()}
+                    >
+                      매터모스트 메시지 보내기
+                    </button>
+                  ) : null}
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
