@@ -79,9 +79,10 @@ const people = [
 
 interface Props {
   list: any;
+  projectCode: number;
 }
 
-function SearchTeamList({ list }: Props): ReactElement {
+function SearchTeamList({ list, projectCode }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -123,7 +124,11 @@ function SearchTeamList({ list }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {list.map((team: any) => (
-                  <TeamCard key={team.teamDto.teamPK} teamPK={team.teamDto.teamPK} />
+                  <TeamCard
+                    key={team.teamDto.teamPK}
+                    teamPK={team.teamDto.teamPK}
+                    projectCode={projectCode}
+                  />
                 ))}
               </tbody>
             </table>

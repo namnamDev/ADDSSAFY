@@ -178,7 +178,11 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  {index === 0 ? <SearchTeamList list={searchList} /> : "교육생 검색"}
+                  {index === 0 ? (
+                    <SearchTeamList list={searchList} projectCode={projectCode} />
+                  ) : (
+                    "교육생 검색"
+                  )}
                 </div>
               </div>
             </div>
