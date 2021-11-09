@@ -23,6 +23,7 @@ import axios from "axios";
 import TeamDetail from "../components/Team/TeamDetail";
 import TeamUserList from "../components/Team/TeamUserList";
 import { ArrowLeftIcon, MailIcon } from "@heroicons/react/solid";
+import TeambuildingNow from "../components/Team/TeambuildingNow";
 interface Props { }
 
 function TeamBuildingCurrent({ }: Props): ReactElement {
@@ -96,25 +97,6 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
     isLeader();
   }, [myteamPk]);
 
-  // 팀 현황
-  const [teamlist, setteamlist] = useState<any>([]);
-  useEffect(() => {
-    if (router.query.projectNo) {
-      const token: string | null = localStorage.getItem("token");
-      if (typeof token === "string") {
-        axios
-          .get(`/api/team/${router.query.projectNo}`, {
-            headers: { Authorization: token },
-          })
-          .then((res: any) => {
-            console.log(1);
-            console.log(res.data.data);
-            setteamlist([...res.data.data]);
-          })
-          .catch((err) => alert(err));
-      }
-    }
-  }, [router.query.projectNo]);
   // 유저정보 모달창
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
@@ -178,7 +160,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
     setShowTeamUser(false);
   }
   // MM보내기
-  const [open, setOpen] = useState(false);
+  const [MMopen, setMMopen] = useState(false);
   const cancelButtonRef = useRef(null);
   const [message, setmessage] = useState<string>("");
   const [userMMid, setuserMMid] = useState<string>("");
@@ -206,7 +188,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
             )
             .then(() => {
               alert("메시지를 성공적으로 전송하였습니다");
-              setOpen(false);
+              setMMopen(false);
             });
         });
   }
@@ -234,74 +216,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         </div>
         <div className="mb-3 font-bold text-black my-5">생성된 팀목록</div>
         <div className="shadow overflow-hidden border-b border-gray-200 rounded-lg w-2/3 mx-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team Name
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team Member1
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team Member2
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team Member3
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team Member4
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team Member5
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {teamlist.map((team: any, i: number) => (
-                <tr key={i}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div
-                      className="text-sm font-medium text-gray-900 cursor-pointer"
-                      onClick={() => {
-                        teamdata(team.teamDto.teamPK, team.teamDto.name);
-                      }}
-                    >
-                      {team.teamDto.name}
-                    </div>
-                  </td>
-                  {team.teamDto.teamuser.map((member: any, i: number) => (
-                    <td className="px-6 py-4 whitespace-nowrap" key={i}>
-                      <div
-                        className="text-sm font-medium text-gray-900 cursor-pointer"
-                        onClick={() => userdetail(member.userPk, member.mmid)}
-                      >
-                        {member.userName}
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <TeambuildingNow />
           {/* 유저모달창 */}
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
@@ -374,7 +289,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                         <button
                           type="button"
                           className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={() => setOpen(true)}
+                          onClick={() => setMMopen(true)}
                         >
                           매터모스트 메시지 보내기
                         </button>
@@ -437,7 +352,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                           <button
                             type="button"
                             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                            onClick={() => setOpen(true)}
+                            onClick={() => setMMopen(true)}
                           >
                             매터모스트 메시지 보내기
                           </button>
@@ -523,12 +438,12 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
             </Dialog>
           </Transition>
           {/* MM */}
-          <Transition.Root show={open} as={Fragment}>
+          <Transition.Root show={MMopen} as={Fragment}>
             <Dialog
               as="div"
               className="fixed z-10 inset-0 overflow-y-auto"
               initialFocus={cancelButtonRef}
-              onClose={setOpen}
+              onClose={setMMopen}
             >
               <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <Transition.Child
@@ -594,7 +509,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
                       <button
                         type="button"
                         className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:text-sm"
-                        onClick={() => setOpen(false)}
+                        onClick={() => setMMopen(false)}
                         ref={cancelButtonRef}
                       >
                         Cancel
