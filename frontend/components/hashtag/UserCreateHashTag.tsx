@@ -91,7 +91,7 @@ function UserCreateHashTag({ onCanChanged, userHashTag }: Props): ReactElement {
                   <Disclosure as="div" key={section.id} className="py-6 w-5/6 mx-auto">
                     {({ open }) => (
                       <>
-                        <h3 className="-my-3 flow-root">
+                        <p className="-my-3 flow-root">
                           <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
@@ -102,7 +102,7 @@ function UserCreateHashTag({ onCanChanged, userHashTag }: Props): ReactElement {
                               )}
                             </span>
                           </Disclosure.Button>
-                        </h3>
+                        </p>
                         <Disclosure.Panel className="pt-6">
                           <div className="grid grid-cols-5">
                             {section.options.map((option, optionIdx) => (

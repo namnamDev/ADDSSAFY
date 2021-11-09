@@ -26,6 +26,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   // const endTime = moment("2021-12-25 24:00:00");
   // var duration = moment.duration(endTime.diff(nowTime));
   // var rest = duration.asSeconds();
+  const projectCode: any = router.query.projectNo;
 
   const [value, setValue] = React.useState("1");
   const [searchList, setSearchList] = useState<number[]>([]);
@@ -35,55 +36,48 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
   };
   // 팀생성
   const createTeam = () => {
-    router.push(`/TeamCreate/?projectNo=${idx}`);
+    router.push(`/TeamCreate/?projectNo=${projectCode}`);
   };
-  const idx: any = router.query.projectNo;
   // 팀이 있는지 체크
   const [myteamPk, setmyteamPk] = useState<number>(0);
-  const getMyteam = () => {
-    if (!router.query.projectNo) return;
-    const token: string | null = localStorage.getItem("token");
-    const myMMid: string | null = localStorage.getItem("mmid");
-    if (typeof token !== "string") return;
-
-    axios
-      .get(`/api/team/myteam/${router.query.projectNo}`, {
-        headers: { Authorization: token },
-      })
-      .then(async (res: any) => {
-        setmyteamPk(res.data.data);
-        if (res.data.data > 0) {
-          setIsTeam(true);
-        } else {
-          setIsTeam(false);
-        }
-      });
-
-  };
-  const [leadercheck, setleadercheck] = useState<boolean>(false);
-  const isLeader = () => {
-    const mmid: string | null = localStorage.getItem("mmid");
-    if (typeof mmid === "string") {
-      axios
-        .get(`/api/team/teamuser/${myteamPk}`)
-        .then((res: any) => {
-          {
-            res.data.data.map(async (member: any, i: number) => {
-              if (member.isLeader === true && mmid === member.mmid) {
-                setleadercheck(true);
-              }
-            });
-          }
-        })
-        .catch(() => alert("통신이 불안정합니다, 다시 시도해주세요"));
+  useEffect(() => {
+    if (projectCode) {
+      const token: string | null = localStorage.getItem("token");
+      if (typeof token === "string") {
+        axios
+          .get(`/api/team/myteam/${projectCode}`, {
+            headers: { Authorization: token },
+          })
+          .then(async (res: any) => {
+            setmyteamPk(res.data.data);
+            if (res.data.data > 0) {
+              setIsTeam(true);
+            }
+          });
+      }
     }
-  };
+  }, [projectCode]);
+  const [leadercheck, setleadercheck] = useState<boolean>(false);
   useEffect(() => {
-    getMyteam();
-  }, [router.query.projectNo]);
-  useEffect(() => {
-    isLeader();
-  }, [myteamPk]);
+    if (myteamPk) {
+      const mmid: string | null = localStorage.getItem("mmid");
+      if (typeof mmid === "string") {
+        axios
+          .get(`/api/team/teamuser/${myteamPk}`)
+          .then((res: any) => {
+            {
+              res.data.data.map(async (member: any, i: number) => {
+                if (member.isLeader === true && mmid === member.mmid) {
+                  setleadercheck(true);
+                }
+              });
+            }
+          })
+          .catch(() => alert("통신이 불안정합니다, 다시 시도해주세요"));
+      }
+    }
+  }, [leadercheck]);
+
 
   return (
     <div className="">
@@ -93,7 +87,7 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         <br />
         <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
           <div className="self-center place-self-start ml-4 font-bold text-xl">
-            {idx === "0" ? "공통 프로젝트" : idx === "1" ? "특화 프로젝트" : "자율 프로젝트"}
+            {projectCode === "0" ? "공통 프로젝트" : projectCode === "1" ? "특화 프로젝트" : "자율 프로젝트"}
           </div>
           <div className="place-self-end">
             {isTeam ? null : (
@@ -109,29 +103,29 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
         </div>
         <div className="mb-3 font-bold text-black my-5">생성된 팀목록</div>
         <div className="shadow overflow-hidden border-b border-gray-200 rounded-lg w-2/3 mx-auto">
-          <TeambuildingNow />
+          <TeambuildingNow leaderCheck={leadercheck} projectCode={projectCode} />
         </div>
         {/* 받은 제안 보기 */}
         {isTeam ? (
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">교육생에게 보낸 제안</div>
-              <UserOfferList list={searchList} projectCode={idx} leadercheck={leadercheck} />
+              <UserOfferList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
             </div>
             <div>
               <div className="font-bold my-5">교육생에게 받은 제안</div>
-              <UserOfferedList list={searchList} projectCode={idx} leadercheck={leadercheck} />
+              <UserOfferedList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
             </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-1 lg:grid-cols-2 mt-4 w-4/5  mx-auto">
             <div>
               <div className="font-bold my-5">팀에게 보낸 제안</div>
-              <TeamOfferList list={searchList} projectCode={idx} />
+              <TeamOfferList list={searchList} projectCode={projectCode} />
             </div>
             <div>
               <div className="font-bold my-5">팀에게 받은 제안</div>
-              <TeamOfferedList list={searchList} projectCode={idx} />
+              <TeamOfferedList list={searchList} projectCode={projectCode} />
             </div>
           </div>
         )}
@@ -146,10 +140,10 @@ function TeamBuildingCurrent({ }: Props): ReactElement {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <TeamSearchHashTag projectCode={Number(idx)} />
+              <TeamSearchHashTag projectCode={Number(projectCode)} />
             </TabPanel>
             <TabPanel value="2">
-              <UserSearchHashTag projectCode={Number(idx)} leadercheck={leadercheck} />
+              <UserSearchHashTag projectCode={Number(projectCode)} leadercheck={leadercheck} />
             </TabPanel>
           </TabContext>
         </div>

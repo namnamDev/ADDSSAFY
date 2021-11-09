@@ -1,24 +1,22 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import axios from 'axios'
-import { useRouter } from "next/router";
 import UserDetailModal from '../user/UserDetailModal';
 import TeamDetailModal from './TeamDetailModal';
 
 interface Props {
-
+    leaderCheck: boolean,
+    projectCode: number
 }
 
-function TeambuildingNow({ }: Props): ReactElement {
-    const router = useRouter();
-    const projectCode = Number(router.query.projectNo)
+function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
     // 팀 현황
     const [teamlist, setteamlist] = useState<any>([]);
     useEffect(() => {
-        if (router.query.projectNo) {
+        if (projectCode) {
             const token: string | null = localStorage.getItem("token");
             if (typeof token === "string") {
                 axios
-                    .get(`/api/team/${router.query.projectNo}`, {
+                    .get(`/api/team/${projectCode}`, {
                         headers: { Authorization: token },
                     })
                     .then((res: any) => {
@@ -29,7 +27,7 @@ function TeambuildingNow({ }: Props): ReactElement {
                     .catch((err) => alert(err));
             }
         }
-    }, [router.query.projectNo]);
+    }, [projectCode]);
     // 팀상세
     const [teamFlag, setTeamFlag] = useState<boolean>(false)
     const [teamPK, setTeamPK] = useState<number>(0)
@@ -119,7 +117,7 @@ function TeambuildingNow({ }: Props): ReactElement {
             {/* 팀상세보기 */}
             <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} />
             {/* 유저상세보기 */}
-            <UserDetailModal projectCode={projectCode} userPK={pk} mmid={mmid} flag={flag} setflag={setflag} leaderCheck={true} />
+            <UserDetailModal projectCode={projectCode} userPK={pk} mmid={mmid} flag={flag} setflag={setflag} leaderCheck={leaderCheck} />
         </div>
     )
 }

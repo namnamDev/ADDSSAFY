@@ -15,8 +15,8 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
   const [teammember, setteammember] = useState<any>([]);
   const [webex, setwebex] = useState<string>("");
   const [mmchannel, setmmchannel] = useState<string>("");
-  const [leadercheck, setleadercheck] = useState<boolean>(false);
   // 팀멤버 정보 받아오기
+  const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
     const mmid: string | null = localStorage.getItem("mmid");
     if (typeof mmid === "string") {
@@ -29,7 +29,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
             res.data.data.map((member: any, i: number) => {
               console.log(1);
               if (member.isLeader === true && mmid === member.mmid) {
-                setleadercheck(true);
+                setisleader(true);
               }
             });
           }
@@ -49,7 +49,6 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
       .catch((err) => alert(err));
   }, []);
   // 리더인지 확인
-  const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
     const token: string | null = localStorage.getItem("mmid");
   }, []);
@@ -88,7 +87,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     <div>
       <div className="bg-white text-center">
         <div className="mx-auto py-10 px-4">
-          <h2 className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</h2>
+          <p className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</p>
           {/* 팀멤버들 사진 */}
           <div className="grid grid-cols-6 w-3/4 mx-auto">
             {teammember.map((member: any, i: number) => (
@@ -105,7 +104,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                   />
                 </div>
                 <div className="text-center">
-                  <h3 className="mt-4 text-medium text-gray-700">{member.userName}</h3>
+                  <p className="mt-4 text-medium text-gray-700">{member.userName}</p>
                   <p className="mt-1 text-sm text-gray-900">{member.Number}</p>
                 </div>
               </div>
@@ -120,7 +119,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
               >
                 웹엑스 바로가기
               </button>
-              {leadercheck ? (
+              {isleader ? (
                 <button
                   type="button"
                   className="inline-flex items-center px-4 py-2 border bg-green-200 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-green-100 mx-2"
@@ -129,7 +128,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                   팀 PPT 업로드
                 </button>
               ) : null}
-              {leadercheck ? (
+              {isleader ? (
                 <button
                   type="button"
                   className="inline-flex items-center px-4 py-2 border bg-blue-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-100 mx-2"
