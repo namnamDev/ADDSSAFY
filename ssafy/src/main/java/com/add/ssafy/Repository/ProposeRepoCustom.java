@@ -15,4 +15,6 @@ public interface ProposeRepoCustom {
     List<UserToTeamDto> userToTeamSuggested(Long memberPK, int projectCode,boolean direction);
 
     List<TeamToUserDto> teamToUserSuggested(Long teamPK, boolean direction);
+
+    Optional<Propose> findProposeByIdDirection(Long proposePK, boolean direction);
 }

@@ -66,4 +66,12 @@ public class ProposeRepoImpl implements ProposeRepoCustom{
                 .orderBy(qPropose.proposeDate.desc())
                 .fetch();
     }
+    @Override
+    public Optional<Propose> findProposeByIdDirection(Long proposePK, boolean direction){
+        QPropose qPropose = QPropose.propose;
+        return Optional.ofNullable(queryFactory.selectFrom(qPropose)
+                .where(qPropose.id.eq(proposePK))
+                .where(qPropose.direction.eq(direction))
+                .fetchOne());
+    }
 }

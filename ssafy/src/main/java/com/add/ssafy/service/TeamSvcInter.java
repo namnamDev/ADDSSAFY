@@ -29,4 +29,8 @@ public interface TeamSvcInter {
     BaseResponse teamToUserSuggest(TeamToUserSuggest teamToUserSuggest);
 
     BaseResponse teamToUserSuggested(Long teamPK, boolean direction);
+
+    BaseResponse teamwithdraw(ProposeWithdrawRequest proposeWithdrawRequest);
+
+    BaseResponse userwithdraw(ProposeWithdrawRequest proposeWithdrawRequest);
 }

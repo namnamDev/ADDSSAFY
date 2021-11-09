@@ -79,7 +79,14 @@ public class TeamController {
     public ResponseEntity<BaseResponse>teamOffered(@PathVariable(name="teamPK")Long teamPK){
         return ResponseEntity.ok(teamSvcInter.teamToUserSuggested(teamPK,false));
     }
-
+    @DeleteMapping("/teamwithdraw")
+    public ResponseEntity<BaseResponse>teamwithdraw(@RequestBody ProposeWithdrawRequest proposeWithdrawRequest){
+        return ResponseEntity.ok(teamSvcInter.teamwithdraw(proposeWithdrawRequest));
+    }
+    @DeleteMapping("/userwithdraw")
+    public ResponseEntity<BaseResponse>userwithdraw(@RequestBody ProposeWithdrawRequest proposeWithdrawRequest){
+        return ResponseEntity.ok(teamSvcInter.userwithdraw(proposeWithdrawRequest));
+    }
 //    @PostMapping("/recruit/team")
 //    public ResponseEntity
 }
