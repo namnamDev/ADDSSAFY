@@ -1,8 +1,6 @@
 package com.add.ssafy.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,7 +9,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Builder
+@Builder @NoArgsConstructor
+@AllArgsConstructor
 // id, 팀id, 회원id, 제안 방향(팀 -> 회원, 회원 -> 팀), 제안 시간, 승낙 여부
 public class Propose {
 
