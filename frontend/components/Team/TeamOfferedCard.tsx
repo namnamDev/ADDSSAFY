@@ -5,20 +5,38 @@ import TeamUserList from "./TeamUserList";
 import TeamDetail from "./TeamDetail";
 import UserDetail from "../user/UserDetail";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
+import axios from "axios";
+
 interface Props {
   teamPK: number;
+  projectCode: number;
 }
 
-function TeamOfferedCard({ teamPK }: Props): ReactElement {
+function TeamOfferedCard({ teamPK, projectCode }: Props): ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0)
+  const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
+  const [teamButton, setTeamButton] = useState<number>(0);
+
   function closeModal() {
     setIsOpen(false);
     setShowUser(false);
   }
-  function openModal(teamPK: number) {
+  function openModal() {
     setIsOpen(true);
+    // 어떤 버튼을 활성화 할 것인지
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      axios
+        .get(`/api/team/teamButton/${teamPK}/${projectCode}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setTeamButton(res.data.data);
+          console.log(res);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }
   const apply = () => {
     alert(`${teamPK}팀에 지원했습니다.`);
@@ -29,7 +47,7 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-center">
         <div
           className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
-          onClick={() => setIsOpen(true)}
+          onClick={() => openModal()}
         >
           팀이름
         </div>
@@ -43,7 +61,7 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-        // onClick={() => SendMM()}
+          // onClick={() => SendMM()}
         >
           수락
         </span>
@@ -51,7 +69,7 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-        // onClick={() => SendMM()}
+          // onClick={() => SendMM()}
         >
           거절
         </span>
@@ -128,18 +146,51 @@ function TeamOfferedCard({ teamPK }: Props): ReactElement {
                   <div className="mt-2 ">
                     <p className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} teammodalUserPK={setteammodalUserPK} />
+                      <TeamUserList
+                        teamPK={teamPK}
+                        showUser={setShowUser}
+                        teammodalUserPK={setteammodalUserPK}
+                      />
                     </p>
                   </div>
 
                   <div className="mt-4 flex flex-row space-x-2 justify-center">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
-                    >
-                      지원하기
-                    </button>
+                    {teamButton === 0 ? (
+                      false
+                    ) : teamButton === 1 ? (
+                      <>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          팀의 제안 수락
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={apply}
+                        >
+                          팀의 제안 거절
+                        </button>
+                      </>
+                    ) : teamButton === 2 ? (
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        팀 가입 신청 취소
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        onClick={apply}
+                      >
+                        팀 가입 신청
+                      </button>
+                    )}
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"

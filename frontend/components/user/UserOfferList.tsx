@@ -4,7 +4,8 @@ import Image from "next/image";
 import UserOfferCard from "./UserOfferCard";
 const people = [
   {
-    userId: 1,
+    userPk: 1,
+    mmid: 1,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
@@ -16,7 +17,8 @@ const people = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
   },
   {
-    userId: 2,
+    userPk: 2,
+    mmid: 1,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
@@ -28,7 +30,8 @@ const people = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
   },
   {
-    userId: 3,
+    userPk: 3,
+    mmid: 1,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
@@ -40,7 +43,8 @@ const people = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
   },
   {
-    userId: 4,
+    userPk: 4,
+    mmid: 1,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
@@ -52,7 +56,8 @@ const people = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
   },
   {
-    userId: 5,
+    userPk: 5,
+    mmid: 1,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
@@ -64,7 +69,8 @@ const people = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
   },
   {
-    userId: 6,
+    userPk: 6,
+    mmid: 1,
     name: "Jane Cooper",
     classNo: 123123,
     address: "부산시 해운대구",
@@ -80,9 +86,10 @@ const people = [
 interface Props {
   list: number[];
   projectCode: number;
+  leadercheck: boolean;
 }
 
-function UserOfferList({ list, projectCode }: Props): ReactElement {
+function UserOfferList({ list, projectCode, leadercheck }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -119,7 +126,12 @@ function UserOfferList({ list, projectCode }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {people.map((person) => (
-                  <UserOfferCard key={person.userId} person={person} projectCode={projectCode} />
+                  <UserOfferCard
+                    key={person.userPk}
+                    person={person}
+                    projectCode={projectCode}
+                    leadercheck={leadercheck}
+                  />
                 ))}
               </tbody>
             </table>
