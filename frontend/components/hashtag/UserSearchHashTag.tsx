@@ -2,7 +2,6 @@ import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import UserList from "../user/UserList";
-import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
 const filters: filters[] = [
   {
