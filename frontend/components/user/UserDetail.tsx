@@ -1,29 +1,17 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { PaperClipIcon } from "@heroicons/react/solid";
+import React, { ReactElement, useState, Fragment, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import axios from 'axios'
-const person = {
-  name: "Jane Cooper",
-  userId: 1,
-  title: "Regional Paradigm Technician",
-  department: "Optimization",
-  role: "Admin",
-  email: "jane.cooper@example.com",
-  image:
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  address: "ssafy@ssafy.com",
-  sigfiles: ["공통프로젝트", "특화프로젝트"],
-};
+import SendMMmodal from './SendMMmodal'
 
 interface Props {
-  userPk: number
+  userPk: number,
+  mmid?:string
 }
 
-function UserDetail({ userPk }: Props): ReactElement {
+function UserDetail({ userPk, mmid }: Props): ReactElement {
   const router = useRouter();
-  const PK = router.query.userPK;
   const [userinfo, setuserinfo] = useState<any>({})
   const [usertags, setusertags] = useState<any>({})
   const [myteamhistory, setmyteamhistory] = useState<any>({})
@@ -41,16 +29,15 @@ function UserDetail({ userPk }: Props): ReactElement {
         })
     }
   }, [])
-  // 퇴소처리
-  function leave(PK: number) {
-    return;
-  }
   const goGitHub = () => {
     router.push("www.github.com", "_blank");
   };
   const goBlog = () => {
     router.push("www.naver.com", "_blank");
   };
+  // 
+  const [flagMM, setflagMM] = useState<boolean>(false)
+
   return (
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
@@ -182,6 +169,18 @@ function UserDetail({ userPk }: Props): ReactElement {
             </div>
           </dl>
         </div>
+      </div>
+      <div className="mt-5">
+        <button
+          type="button"
+          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+          onClick={() => setflagMM(true)}
+        >
+          매터모스트 메시지 보내기
+        </button>
+        {/* MM */}
+        {/* 조건추가, mmid다른지비교 */}
+        <SendMMmodal flagMM={flagMM} setflagMM={setflagMM} mmid={userinfo.mmid} />
       </div>
     </div>
   );

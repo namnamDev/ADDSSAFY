@@ -1,7 +1,8 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
-import UserDetailCard from '../user/UserDetailCard';
+import UserDetailModal from '../user/UserDetailModal';
+import TeamDetailModal from './TeamDetailModal';
 
 interface Props {
 
@@ -30,14 +31,19 @@ function TeambuildingNow({ }: Props): ReactElement {
         }
     }, [router.query.projectNo]);
     // 팀상세
-
+    const [teamFlag, setTeamFlag] = useState<boolean>(false)
+    const [teamPK, setTeamPK] = useState<number>(0)
+    function teamDetail(teamPK: number) {
+        setTeamFlag(true)
+        setTeamPK(teamPK)
+    }
     // 유저상세
     const [flag, setflag] = useState<boolean>(false)
     const [pk, setpk] = useState<number>(0)
     const [mmid, setmmid] = useState<string>("")
-    function userdetail(pk: number, mmid: string) {
+    function userDetail(userPK: number, mmid: string) {
         setflag(true);
-        setpk(pk)
+        setpk(userPK)
         setmmid(mmid)
     }
     return (
@@ -90,7 +96,7 @@ function TeambuildingNow({ }: Props): ReactElement {
                                 <div
                                     className="text-sm font-medium text-gray-900 cursor-pointer"
                                     onClick={() => {
-                                        // teamdata(team.teamDto.teamPK, team.teamDto.name);
+                                        teamDetail(team.teamDto.teamPK);
                                     }}
                                 >
                                     {team.teamDto.name}
@@ -100,7 +106,7 @@ function TeambuildingNow({ }: Props): ReactElement {
                                 <td className="px-6 py-4 whitespace-nowrap" key={i}>
                                     <div
                                         className="text-sm font-medium text-gray-900 cursor-pointer"
-                                        onClick={() => userdetail(member.userPk, member.mmid)}
+                                        onClick={() => userDetail(member.userPk, member.mmid)}
                                     >
                                         {member.userName}
                                     </div>
@@ -110,8 +116,10 @@ function TeambuildingNow({ }: Props): ReactElement {
                     ))}
                 </tbody>
             </table>
+            {/* 팀상세보기 */}
+            <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} />
             {/* 유저상세보기 */}
-            <UserDetailCard projectCode={projectCode} userPK={pk} mmid={mmid} flag={flag} setflag={setflag} leaderCheck={true} />
+            <UserDetailModal projectCode={projectCode} userPK={pk} mmid={mmid} flag={flag} setflag={setflag} leaderCheck={true} />
         </div>
     )
 }
