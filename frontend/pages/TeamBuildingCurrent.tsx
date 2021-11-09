@@ -124,6 +124,10 @@ function TeamBuildingCurrent({}: Props): ReactElement {
     setuserPkdata(userPk);
     setuserMMid(usermmid);
     // 어떤 버튼을 활성화 할 것인지
+    if (!isTeam) {
+      setUserButton(0);
+      return;
+    }
     const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
       await axios
