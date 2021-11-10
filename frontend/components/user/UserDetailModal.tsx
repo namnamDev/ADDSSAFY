@@ -40,33 +40,53 @@ function UserDetailModal({
           .get(`/api/team/myteam/${projectCode}`, {
             headers: { Authorization: token },
           })
-          .then((res: any) => { setTeamPK(res.data.data) })
+          .then((res: any) => {
+            console.log('teampk', res.data.data)
+            setTeamPK(res.data.data);
+            // sugPK 받아오기
+            axios.get(`/api/team/check/${userPK}/${res.data.data}`, {
+              headers: { Authorization: token }
+            })
+              .then((res1: any) => { console.log('sugpk', res1.data.data); setSuggestPK(res1.data.data); })
+          })
+
       }
     }
-
   }, [flag, userPK]);
 
-  useEffect(() => {
-    getSuggestPK()
-  }, [teamPK])
-
   function acceptUser() {
-
-  }
-  function rejectUser() {
-
-  }
-  function getSuggestPK() {
-    const token: string | null = localStorage.getItem("token")
-    if (token) {
-      axios.get(`/api/team/check/${userPK}/${teamPK}`, {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPk: teamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: true
+      }, {
         headers: { Authorization: token }
       })
-        .then((res: any) => { setSuggestPK(res.data.data); })
+        .then(() => { alert('팀가입이 수락하였습니다'); location.reload() })
+        .catch((err) => alert(err))
     }
   }
+  function rejectUser() {
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPk: teamPK,
+        projectCode: projectCode,
+        suggestPK: suggestPK,
+        suggest: false
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀가입을 거절하였습니다'); location.reload() })
+        .catch((err) => alert(err))
+    }
+  }
+
   function withdrawSuggest() {
-    getSuggestPK()
     const token: string | null = localStorage.getItem("token")
     if (token) {
       axios.delete('/api/team/userwithdraw', {

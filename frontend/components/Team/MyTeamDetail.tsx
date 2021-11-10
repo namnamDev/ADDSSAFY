@@ -86,23 +86,18 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
         <div className="mx-auto py-10 px-4">
           <div className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</div>
           {/* 팀멤버들 사진 */}
-          <div className="grid grid-cols-6 w-3/4 mx-auto">
+          <div className="w-3/4 mx-auto">
             {teammember.map((member: any, i: number) => (
               <div key={i} className="group">
-                <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8 relative">
-                  <Image
-                    src={member.profile}
-                    alt={member.userPk}
-                    className="w-full h-full object-center object-cover group-hover:opacity-75"
-                    width="80%"
-                    height="100%"
-                    layout="responsive"
-                    objectFit="cover"
-                  />
-                </div>
+                <Image
+                  className="h-10 w-10 rounded-lg hover:opacity-75"
+                  src={member.profile}
+                  alt={member.userPk}
+                  width="100"
+                  height="100"
+                />
                 <div className="text-center">
                   <div className="mt-4 text-medium text-gray-700">{member.userName}</div>
-                  <div className="mt-1 text-sm text-gray-900">{member.Number}</div>
                 </div>
               </div>
             ))}

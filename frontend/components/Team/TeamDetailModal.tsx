@@ -26,7 +26,6 @@ function TeamDetailModal({
   const [suggestPK, setsuggestPK] = useState<number>(0)
   useEffect(() => {
     getTeamButton();
-    // 
     getSuggestPK()
   }, [teamFlag, teamPK]);
   async function getTeamButton() {
@@ -67,7 +66,7 @@ function TeamDetailModal({
         "/api/team/recruit/user",
         {
           teamPk: teamPK,
-          projectCode: projectCode,
+          projectCode: Number(projectCode),
           suggetPK: suggestPK,
           boolean: true,
         },
