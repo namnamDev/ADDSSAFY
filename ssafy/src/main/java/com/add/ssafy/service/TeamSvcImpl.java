@@ -269,14 +269,14 @@ public class TeamSvcImpl implements TeamSvcInter{
 
     @Override
     public BaseResponse teamwithdraw(ProposeWithdrawRequest proposeWithdrawRequest){
-        Propose propose = proposeRepo.findProposeByIdDirection(proposeWithdrawRequest.getProposePK(),true).orElseThrow(()->new IllegalStateException("해당 제안이 존재하지 않습니다."));
+        Propose propose = proposeRepo.findProposeByIdDirection(proposeWithdrawRequest.getSuggestPK(),true).orElseThrow(()->new IllegalStateException("해당 제안이 존재하지 않습니다."));
         proposeRepo.delete(propose);
         return BaseResponse.builder().msg("성공").status("200").data(true).build();
     }
 
     @Override
     public BaseResponse userwithdraw(ProposeWithdrawRequest proposeWithdrawRequest){
-        Propose propose = proposeRepo.findProposeByIdDirection(proposeWithdrawRequest.getProposePK(),false).orElseThrow(()->new IllegalStateException("해당 제안이 존재하지 않습니다."));
+        Propose propose = proposeRepo.findProposeByIdDirection(proposeWithdrawRequest.getSuggestPK(),false).orElseThrow(()->new IllegalStateException("해당 제안이 존재하지 않습니다."));
         proposeRepo.delete(propose);
         return BaseResponse.builder().msg("성공").status("200").data(true).build();
     }

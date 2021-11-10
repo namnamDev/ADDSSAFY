@@ -11,5 +11,5 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class ProposeWithdrawRequest {
     @NotNull
-    private Long proposePK;
+    private Long suggestPK;
 }
