@@ -120,7 +120,8 @@ function TeamDetailModal({
           suggestPK: suggestPK,
         },
         headers: { Authorization: token },
-      });
+      })
+      .then(()=>{alert('가입신청이 철회되었습니다'); })
     }
   }
   return (
@@ -159,9 +160,9 @@ function TeamDetailModal({
                     뒤로 가기
                   </Dialog.Title>
                   <div className="mt-2 ">
-                    <p className="text-sm text-gray-500  ">
+                    <div className="text-sm text-gray-500  ">
                       <UserDetail userPk={teammodalUserPK} />
-                    </p>
+                    </div>
                   </div>
                   <div className="mt-4 flex flex-row space-x-2 justify-center">
                     <button
@@ -180,14 +181,14 @@ function TeamDetailModal({
                     className="text-lg font-medium leading-6 text-gray-900 text-center"
                   ></Dialog.Title>
                   <div className="mt-2 ">
-                    <p className="text-sm text-gray-500  ">
+                    <div className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
                       <TeamUserList
                         teamPK={teamPK}
                         showUser={setShowTeamUser}
                         teammodalUserPK={setteammodalUserPK}
                       />
-                    </p>
+                    </div>
                   </div>
 
                   <div className="mt-4 flex flex-row space-x-2 justify-center">

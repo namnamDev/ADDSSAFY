@@ -115,7 +115,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
       <div>
         <main className="w-full mx-auto">
           {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
-            <p className="text-4xl font-extrabold tracking-tight text-gray-900">팀 검색</p>
+            <div className="text-4xl font-extrabold tracking-tight text-gray-900">팀 검색</div>
           </div> */}
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
@@ -125,7 +125,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
                       <>
-                        <p className="-my-3 flow-root">
+                        <div className="-my-3 flow-root">
                           <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
@@ -136,7 +136,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                               )}
                             </span>
                           </Disclosure.Button>
-                        </p>
+                        </div>
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
                             {section.options.map((option, optionIdx) => (

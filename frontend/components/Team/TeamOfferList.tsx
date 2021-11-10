@@ -8,18 +8,23 @@ interface Props {
 
 function TeamOfferList({ projectCode }: Props): ReactElement {
   const router = useRouter();
-  const [teamList, setTeamList] = useState<any>([])
   useEffect(() => {
     if (projectCode) {
-      const token: string | null = localStorage.getItem('token')
-      if (token) {
-        axios.get(`/api/users/offer/${projectCode}`, {
-          headers: { Authorization: token }
-        })
-          .then((res: any) => { setTeamList([...res.data.data]) })
-      }
+      getTeamList()
     }
   }, [projectCode])
+
+  function getTeamList() {
+    const token: string | null = localStorage.getItem('token')
+    if (token) {
+      axios.get(`/api/users/offer/${projectCode}`, {
+        headers: { Authorization: token }
+      })
+        .then((res: any) => { setTeamList([...res.data.data]) })
+    }
+  }
+  const [teamList, setTeamList] = useState<any>([])
+
   // MM보내기
   function SendMM() {
     alert("message");

@@ -84,7 +84,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     <div>
       <div className="bg-white text-center">
         <div className="mx-auto py-10 px-4">
-          <p className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</p>
+          <div className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</div>
           {/* 팀멤버들 사진 */}
           <div className="grid grid-cols-6 w-3/4 mx-auto">
             {teammember.map((member: any, i: number) => (
@@ -101,8 +101,8 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                   />
                 </div>
                 <div className="text-center">
-                  <p className="mt-4 text-medium text-gray-700">{member.userName}</p>
-                  <p className="mt-1 text-sm text-gray-900">{member.Number}</p>
+                  <div className="mt-4 text-medium text-gray-700">{member.userName}</div>
+                  <div className="mt-1 text-sm text-gray-900">{member.Number}</div>
                 </div>
               </div>
             ))}
