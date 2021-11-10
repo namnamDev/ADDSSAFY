@@ -24,7 +24,7 @@ interface Props {
     userPhone: string;
     userPk: number;
   };
-  leadercheck?: boolean;
+  leadercheck: boolean;
 }
 
 function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
@@ -38,16 +38,16 @@ function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
     }
   }, []);
   // 유저상세
-  const [flag, setflag] = useState<boolean>(false)
-  const [pk, setpk] = useState<number>(0)
-  const [mmid, setmmid] = useState<string>("")
+  const [flag, setflag] = useState<boolean>(false);
+  const [pk, setpk] = useState<number>(0);
+  const [mmid, setmmid] = useState<string>("");
   function userdetail(pk: number, mmid: string) {
     setflag(true);
-    setpk(pk)
-    setmmid(mmid)
+    setpk(pk);
+    setmmid(mmid);
   }
   // Mattermost
-  const [flagMM, setflagMM] = useState<boolean>(false)
+  const [flagMM, setflagMM] = useState<boolean>(false);
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -91,12 +91,21 @@ function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => { setflagMM(true) }}
+          onClick={() => {
+            setflagMM(true);
+          }}
         >
           MatterMost
         </span>
       </td>
-      <UserDetailModal projectCode={projectCode} userPK={pk} mmid={mmid} flag={flag} setflag={setflag} leaderCheck={true} />
+      <UserDetailModal
+        projectCode={projectCode}
+        userPK={pk}
+        mmid={mmid}
+        flag={flag}
+        setflag={setflag}
+        leaderCheck={leadercheck}
+      />
       <SendMMmodal flagMM={flagMM} setflagMM={setflagMM} mmid={person.mmid} />
     </tr>
   );

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Transition, Menu, Popover } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import axios from "axios";
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -37,7 +38,6 @@ function Navbar({}: Props): ReactElement {
           fileReaderInstance.readAsDataURL(res.data);
           fileReaderInstance.onload = () => {
             setBase64data(fileReaderInstance.result);
-            console.log(base64data);
           };
         });
     }
@@ -54,10 +54,61 @@ function Navbar({}: Props): ReactElement {
       query: { projectNo: teammenu },
     });
   }
-
   return (
     <div>
-      <div className="relative bg-white">
+      {/*  */}
+      <div className="relative bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative z-10 pb-8 pt-6 ">
+            <div className="relative px-4 sm:px-6 lg:px-8">
+              <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
+                <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
+                  <div className="flex items-center justify-between w-full md:w-auto">
+                    <a href="#">
+                      <img
+                        className="h-14 w-auto"
+                        src="/images/mainlogo.jpg"
+                      />
+                    </a>
+                  </div>
+                </div>
+                <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                  <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer" onClick={() => gototeammenu(0)}>
+                    공통프로젝트
+                  </div>
+                  <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer" onClick={() => gototeammenu(1)}>
+                    특화프로젝트
+                  </div>
+                  <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer" onClick={() => gototeammenu(2)}>
+                    자율프로젝트
+                  </div>
+                  <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer" onClick={() => router.push("/Mypage")}>
+                    내프로필
+                  </div>
+                  <div className="font-medium text-red-200 hover:text-red-500 float-left cursor-pointer" onClick={logout}>
+                    로그아웃
+                  </div>
+                </div>
+                <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                  <div className="whitespace-nowrap text-xs font-bold text-gray-900 pr-2">
+                    {mynickname}
+                  </div>
+                  {base64data && (
+                    <Image
+                      className="h-8 w-8 rounded-full"
+                      src={base64data}
+                      alt=""
+                      width="50"
+                      height="50"
+                    />
+                  )}
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="relative bg-white">
         <div className="mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center border-b-2 border-gray-100 py-4 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -147,7 +198,7 @@ function Navbar({}: Props): ReactElement {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

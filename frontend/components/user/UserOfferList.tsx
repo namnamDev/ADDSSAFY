@@ -1,97 +1,26 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import UserOfferCard from "./UserOfferCard";
-const people = [
-  {
-    userPk: 1,
-    mmid: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userPk: 2,
-    mmid: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userPk: 3,
-    mmid: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userPk: 4,
-    mmid: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userPk: 5,
-    mmid: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userPk: 6,
-    mmid: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
+import axios from 'axios'
 
 interface Props {
-  list: number[];
   projectCode: number;
   leadercheck: boolean;
+  myTeamPK: number
 }
 
-function UserOfferList({ list, projectCode, leadercheck }: Props): ReactElement {
+function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElement {
   const router = useRouter();
-  // MM보내기
+  const [userList, setUserList] = useState<any>([])
+  // 유저리스트 호출
+  useEffect(() => {
+    if (myTeamPK > 0) {
+      axios.get(`/api/team/offer/${myTeamPK}`)
+        .then((res: any) => {setUserList([...res.data.data]) })
+    }
+  }, [myTeamPK])
+
   function SendMM() {
     alert("message");
   }
@@ -125,14 +54,15 @@ function UserOfferList({ list, projectCode, leadercheck }: Props): ReactElement 
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {people.map((person) => (
+                {/* {people.map((person) => (
                   <UserOfferCard
                     key={person.userPk}
                     person={person}
                     projectCode={projectCode}
                     leadercheck={leadercheck}
+                    setUserList={setUserList}
                   />
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>

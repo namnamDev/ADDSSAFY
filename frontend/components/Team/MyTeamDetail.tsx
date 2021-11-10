@@ -23,11 +23,9 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
       axios
         .get(`/api/team/teamuser/${teamPK}`)
         .then((res: any) => {
-          console.log(res.data.data);
           setteammember([...res.data.data]);
           {
             res.data.data.map((member: any, i: number) => {
-              console.log(1);
               if (member.isLeader === true && mmid === member.mmid) {
                 setisleader(true);
               }
@@ -42,7 +40,6 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     axios
       .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => {
-        console.log(res);
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
       })
