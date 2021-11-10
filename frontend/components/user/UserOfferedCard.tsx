@@ -43,7 +43,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
           거절
         </span>
       </td>
-      <UserDetailModal projectCode={projectCode} userPK={person.userPk} mmid={person.mmid} flag={flag} setflag={setflag} leaderCheck={leadercheck} />
+      <UserDetailModal projectCode={projectCode} userPK={person.userPK} mmid={person.mmid} flag={flag} setflag={setflag} leaderCheck={leadercheck} />
     </tr>
   );
 }
