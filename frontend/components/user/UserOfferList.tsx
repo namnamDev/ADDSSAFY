@@ -17,7 +17,7 @@ function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElem
   useEffect(() => {
     if (myTeamPK > 0) {
       axios.get(`/api/team/offer/${myTeamPK}`)
-        .then((res: any) => {setUserList([...res.data.data]) })
+        .then((res: any) => { setUserList([...res.data.data]) })
     }
   }, [myTeamPK])
 
@@ -54,15 +54,15 @@ function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElem
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {/* {people.map((person) => (
+                {userList.map((person: any) => (
                   <UserOfferCard
-                    key={person.userPk}
+                    key={person.suggestPK}
                     person={person}
                     projectCode={projectCode}
                     leadercheck={leadercheck}
                     setUserList={setUserList}
                   />
-                ))} */}
+                ))}
               </tbody>
             </table>
           </div>

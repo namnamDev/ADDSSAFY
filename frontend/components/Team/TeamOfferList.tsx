@@ -53,6 +53,12 @@ function TeamOfferList({ projectCode }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
+                    Time
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     Cancel
                   </th>
                 </tr>
@@ -61,7 +67,7 @@ function TeamOfferList({ projectCode }: Props): ReactElement {
                 teamList
                   ? <tbody className="bg-white divide-y divide-gray-200">
                     {teamList.map((team: any) => (
-                      <TeamOfferCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK} />
+                      <TeamOfferCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK} suggestDate={team.suggestDate} />
                     ))}
                   </tbody>
                   : <tbody></tbody>
