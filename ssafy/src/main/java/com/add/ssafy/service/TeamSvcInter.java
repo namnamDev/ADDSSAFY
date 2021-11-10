@@ -36,4 +36,8 @@ public interface TeamSvcInter {
 
     //팀에서 유저영입 수락 or 거절
     BaseResponse teamRecruit(RecruitTeamRequest recruitTeamRequest, boolean direction);
+
+    BaseResponse teamDelegate(DelegateRequest delegateRequest);
+
+    BaseResponse suggestedCheck(Long userPK, Long teamPK, boolean direction);
 }

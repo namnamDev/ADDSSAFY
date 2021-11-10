@@ -5,7 +5,6 @@ import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.service.TeamSvcInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -93,8 +92,18 @@ public class TeamController {
         return ResponseEntity.ok(teamSvcInter.teamRecruit(recruitTeamRequest,true));
     }
 
-    @PostMapping("recruit/user")
+    @PostMapping("/recruit/user")
     public ResponseEntity<BaseResponse>recruitUser(@RequestBody RecruitTeamRequest recruitTeamRequest){
         return ResponseEntity.ok(teamSvcInter.teamRecruit(recruitTeamRequest,false));
+    }
+
+    @PutMapping("/team/delegate")
+    public ResponseEntity<BaseResponse>teamDelegate(@RequestBody DelegateRequest delegateRequest){
+        return ResponseEntity.ok(teamSvcInter.teamDelegate(delegateRequest));
+    }
+    @GetMapping("/check/{userPK}/teamPK")
+    public ResponseEntity<BaseResponse>teamSuggestedCheck(@PathVariable(name="userPK")Long userPK,@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(teamSvcInter.suggestedCheck(userPK,teamPK,false));
+
     }
 }

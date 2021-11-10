@@ -334,4 +334,29 @@ public class TeamSvcImpl implements TeamSvcInter{
         }
         return BaseResponse.builder().msg("거절하였습니다.").status("200").data(true).build();
     }
+
+    @Override
+    public BaseResponse teamDelegate(DelegateRequest delegateRequest){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        if (member.getId().equals(teamMemberRepo.findteamLeader(delegateRequest.getTeamPK()).getTeam())){
+            TeamMember beforeTeamMember = Optional.ofNullable(teamMemberRepo.findByTeamMember(delegateRequest.getTeamPK(), delegateRequest.getUserPK())).orElseThrow(() -> new IllegalStateException("팀에 해당 교육생이 존재하지 않음"));
+            TeamMember afterTeamMember = teamMemberRepo.findByTeamMember(delegateRequest.getTeamPK(), delegateRequest.getUserPK());
+            beforeTeamMember.setLeader(true);
+            afterTeamMember.setLeader(false);
+            teamMemberRepo.save(beforeTeamMember);
+            teamMemberRepo.save(afterTeamMember);
+            return BaseResponse.builder().msg("팀장교체 성공").status("200").data(true).build();
+        }else{
+            return BaseResponse.builder().msg("팀장이 아님").status("200").data(false).build();
+        }
+    }
+    @Override
+    public BaseResponse suggestedCheck(Long userPK, Long teamPK, boolean direction){
+        Optional<Propose> proposeCheck = proposeRepo.findPropose(teamPK,userPK,direction);
+        if (proposeCheck.isPresent()){
+            return BaseResponse.builder().msg("지원함").status("200").data(proposeCheck.get().getId()).build();
+        }else{
+            return BaseResponse.builder().msg("지원하지 않음").status("200").data(0).build();
+        }
+    }
 }
