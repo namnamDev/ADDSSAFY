@@ -41,7 +41,6 @@ function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false);
   const [pk, setpk] = useState<number>(0);
   const [mmid, setmmid] = useState<string>("");
-  console.log(person);
   function userdetail(pk: number, mmid: string) {
     setflag(true);
     setpk(pk);

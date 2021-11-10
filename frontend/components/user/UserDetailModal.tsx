@@ -31,7 +31,6 @@ function UserDetailModal({
           })
           .then((res: any) => {
             setUserButton(res.data.data);
-            console.log(res);
           })
           .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
       }

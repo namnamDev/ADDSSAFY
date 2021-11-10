@@ -26,7 +26,6 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          console.log(res);
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);

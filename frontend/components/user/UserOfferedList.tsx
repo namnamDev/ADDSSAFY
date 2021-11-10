@@ -60,7 +60,7 @@ function UserOfferedList({ projectCode, leadercheck, myTeamPK }: Props): ReactEl
               <tbody className="bg-white divide-y divide-gray-200">
                 {userList.map((user:any) => (
                   <UserOfferedCard
-                    key={user.userPk}
+                    key={user.suggestPK}
                     person={user}
                     projectCode={projectCode}
                     leadercheck={leadercheck}

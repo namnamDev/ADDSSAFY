@@ -20,8 +20,6 @@ function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
             headers: { Authorization: token },
           })
           .then((res: any) => {
-            console.log(1);
-            console.log(res.data.data);
             setteamlist([...res.data.data]);
           })
           .catch((err) => alert(err));
@@ -45,7 +43,7 @@ function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
     setmmid(mmid);
   }
   return (
-    <div>
+    <>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -120,6 +118,7 @@ function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
         teamFlag={teamFlag}
         setTeamFlag={setTeamFlag}
         teamPK={teamPK}
+
       />
       {/* 유저상세보기 */}
       <UserDetailModal
@@ -130,7 +129,7 @@ function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
         setflag={setflag}
         leaderCheck={leaderCheck}
       />
-    </div>
+    </>
   );
 }
 

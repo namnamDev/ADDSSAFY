@@ -19,7 +19,6 @@ function LoginModal({ }: Props): ReactElement {
         password: loginpw,
       })
       .then((res: unknown | any) => {
-        console.log(res);
         localStorage.setItem("mmtoken", "Bearer " + res.headers.token);
         localStorage.setItem("mmid", res.data.id);
         localStorage.setItem("username", res.data.username);
@@ -52,7 +51,6 @@ function LoginModal({ }: Props): ReactElement {
               )
                 // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
                 .then((res: any) => {
-                  console.log(res);
                   localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
                   router.push('/Main')
                 })

@@ -38,7 +38,6 @@ function Navbar({ }: Props): ReactElement {
           fileReaderInstance.readAsDataURL(res.data);
           fileReaderInstance.onload = () => {
             setBase64data(fileReaderInstance.result);
-            console.log(base64data);
           };
         });
     }
