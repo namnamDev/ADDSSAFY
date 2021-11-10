@@ -5,7 +5,7 @@ import TeamDetailModal from "./TeamDetailModal";
 interface Props {
   teamPK: number;
   projectCode: number;
-  suggestPK:number
+  suggestPK: number
 }
 
 function TeamOfferCard({ teamPK, projectCode, suggestPK }: Props): ReactElement {
@@ -24,15 +24,20 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK }: Props): ReactElement 
       .catch((err) => alert(err));
   }, [teamPK]);
   // 가입 신청 철회
+  // 가입 신청 철회
   function withdraw() {
     const token: string | null = localStorage.getItem("token");
     if (token) {
       axios.delete("/api/team/teamwithdraw", {
-        headers: { Authorization: token },
         data: {
-          suggetPK: suggestPK,
+          suggestPK: suggestPK,
         },
-      });
+        headers: { Authorization: token },
+      })
+        .then(() => {
+          alert('가입신청이 철회되었습니다');
+          location.reload()
+        })
     }
   }
 
@@ -54,7 +59,7 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK }: Props): ReactElement 
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <div
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-        onClick={() => withdraw()}
+          onClick={() => withdraw()}
         >
           제안 철회
         </div>
