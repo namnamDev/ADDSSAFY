@@ -14,6 +14,7 @@ function TeamModify({}: Props): ReactElement {
   const [introduce, setintroduce] = useState<string>("");
   const [can, setCan] = useState<number[]>([]);
   const [teamTags, setTeamTags] = useState<any>({});
+  console.log(can)
   useEffect(() => {
     if (router.query.teamPk) {
       const token: string | null = localStorage.getItem("token");
@@ -69,7 +70,7 @@ function TeamModify({}: Props): ReactElement {
       <div className="w-3/5 mx-auto text-center">
         <div className="shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <p className="text-lg leading-6 font-medium text-gray-900">팀정보 수정하기</p>
+            <div className="text-lg leading-6 font-medium text-gray-900">팀정보 수정하기</div>
           </div>
           <div className="border-t border-gray-200">
             <dl>

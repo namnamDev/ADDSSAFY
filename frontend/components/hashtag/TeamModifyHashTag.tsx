@@ -28,6 +28,8 @@ interface filters {
 function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
+  console.log(can)
+  console.log('수정can')
   const check = (option: any) => {
     // 추가하는부분
     if (option.check === false) {
@@ -41,7 +43,12 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
       setCan(result);
     }
   };
-
+  useEffect(() => {
+    getHashTagList();
+    return function clearup() {
+      filters[0].options.length = 0;
+    };
+  }, [teamHashTag]);
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
       // 할 수 있다.can
@@ -63,19 +70,17 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
           filters[0].options.map((value) => {
             if (value.hashTagPK === hashTag.hashTagPK) {
               value.check = true;
+              console.log(value.hashTagPK)
               can.push(value.hashTagPK);
+              console.log(can)
+              console.log('들어가나')
             }
           });
         });
       }
     });
   };
-  useEffect(() => {
-    getHashTagList();
-    return function clearup() {
-      filters[0].options.length = 0;
-    };
-  }, [teamHashTag]);
+
   useEffect(() => {
     onCanChanged([...can]);
   }, [can]);
@@ -90,7 +95,7 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
                 <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                   {({ open }) => (
                     <>
-                      <p className="-my-3 flow-root">
+                      <div className="-my-3 flow-root">
                         <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                           <span className="font-medium text-gray-900">{section.name}</span>
                           <span className="ml-6 flex items-center">
@@ -101,7 +106,7 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
                             )}
                           </span>
                         </Disclosure.Button>
-                      </p>
+                      </div>
                       <Disclosure.Panel className="pt-6">
                         <div className="grid grid-cols-5">
                           {section.options.map((option, optionIdx) => (

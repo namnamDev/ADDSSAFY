@@ -48,7 +48,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
         <div className="px-4 py-5 sm:px-6">
-          <p className="text-lg leading-6 font-medium text-gray-900">교육생 정보</p>
+          <div className="text-lg leading-6 font-medium text-gray-900">교육생 정보</div>
         </div>
         <div className="border-t border-gray-200">
           <div className="text-center my-10">

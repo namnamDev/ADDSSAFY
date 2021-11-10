@@ -73,9 +73,9 @@ function UserDetailModal({
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
                 ></Dialog.Title>
                 <div className="mt-2 ">
-                  <p className="text-sm text-gray-500  ">
+                  <div className="text-sm text-gray-500  ">
                     <UserDetail userPk={userPK} mmid={mmid} />
-                  </p>
+                  </div>
                 </div>
                 <div className="mt-4 flex flex-row space-x-2 justify-center">
                   {userButton === 0 || leaderCheck === false ? (

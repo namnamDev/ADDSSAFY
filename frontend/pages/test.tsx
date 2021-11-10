@@ -30,9 +30,9 @@ function test({ }: Props): ReactElement {
                   <br />
                   <div className="block text-red-600 xl:inline">ㅉㅉ</div>
                 </h1>
-                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                <div className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                   효율적인 팀빌딩 서비스
-                </p>
+                </div>
               </div>
             </main>
           </div>
