@@ -71,16 +71,13 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
             if (value.hashTagPK === hashTag.hashTagPK) {
               value.check = true;
               can.push(value.hashTagPK);
+              onCanChanged(can)
             }
           });
         });
       }
     });
   };
-
-  useEffect(() => {
-    onCanChanged([...can]);
-  }, [can]);
   return (
     <div className="bg-white shadow-md">
       <div>
