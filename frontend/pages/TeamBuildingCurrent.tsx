@@ -18,9 +18,9 @@ import UserOfferList from "../components/user/UserOfferList";
 import UserOfferedList from "../components/user/UserOfferedList";
 import axios from "axios";
 import TeambuildingNow from "../components/Team/TeambuildingNow";
-interface Props {}
+interface Props { }
 
-function TeamBuildingCurrent({}: Props): ReactElement {
+function TeamBuildingCurrent({ }: Props): ReactElement {
   const router = useRouter();
   // const nowTime = moment().format("YYYY-MM-DD HH:mm:ss");
   // const endTime = moment("2021-12-25 24:00:00");
@@ -51,7 +51,7 @@ function TeamBuildingCurrent({}: Props): ReactElement {
           .get(`/api/team/myteam/${projectCode}`, {
             headers: { Authorization: token },
           })
-          .then(async (res: any) => {
+          .then((res: any) => {
             setmyteamPk(res.data.data);
             if (res.data.data > 0) {
               setIsTeam(true);
@@ -92,8 +92,8 @@ function TeamBuildingCurrent({}: Props): ReactElement {
             {projectCode === "0"
               ? "공통 프로젝트"
               : projectCode === "1"
-              ? "특화 프로젝트"
-              : "자율 프로젝트"}
+                ? "특화 프로젝트"
+                : "자율 프로젝트"}
           </div>
           <div className="place-self-end">
             {isTeam ? null : (

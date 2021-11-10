@@ -45,8 +45,31 @@ function UserDetailModal({
   function withdrawSuggest() {
 
   }
-  function Suggest() {
 
+  function Suggest() {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios
+        .get(`/api/team/myteam/${projectCode}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          console.log(userPK)
+          axios.post('/api/team/applyuser', {
+            teamPK: res.data.data,
+            userPK: userPK,
+            MMtoken: MMtoken,
+            msg: "저희와 함께가시죠"
+          },{
+            headers:{Authorization:token}
+          })
+            .then((res) => console.log(res))
+            .catch((err) => alert(err))
+        });
+
+
+    }
   }
   return (
     <div>
