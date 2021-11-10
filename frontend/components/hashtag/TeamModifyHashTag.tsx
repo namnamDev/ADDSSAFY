@@ -24,12 +24,12 @@ interface filters {
   id: string;
   name: string;
   options: list[];
+
 }
 function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
-  console.log(can)
-  console.log('수정can')
+
   const check = (option: any) => {
     // 추가하는부분
     if (option.check === false) {
@@ -70,10 +70,7 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
           filters[0].options.map((value) => {
             if (value.hashTagPK === hashTag.hashTagPK) {
               value.check = true;
-              console.log(value.hashTagPK)
               can.push(value.hashTagPK);
-              console.log(can)
-              console.log('들어가나')
             }
           });
         });

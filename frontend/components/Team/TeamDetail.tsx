@@ -18,7 +18,7 @@ function TeamDetail({ teamPK }: Props): ReactElement {
   }, [])
   useEffect(() => {
     axios.get(`/api/team/info/${teamPK}`)
-      .then((res: any) => { setteamhashtags(res.data.data); console.log(res.data); console.log('내팀디테일받아오는') })
+      .then((res: any) => { setteamhashtags(res.data.data);})
       .catch((err) => alert(err))
   },[])
   return (
