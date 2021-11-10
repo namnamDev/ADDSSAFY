@@ -33,7 +33,7 @@ function TeamDetail({ teamPK }: Props): ReactElement {
     axios.get(`/api/team/info/${teamPK}`)
       .then((res: any) => { setteamhashtags(res.data.data) })
       .catch((err) => alert(err))
-  })
+  },[])
   return (
     <div className="">
       <div className="leading-6 text-gray-900 font-extrabold text-4xl text-center">{teamdata.name}</div>

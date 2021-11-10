@@ -52,11 +52,16 @@ function TeamOfferList({ projectCode }: Props): ReactElement {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {/* {list.map((teamPk) => (
-                  <TeamOfferCard key={teamPk} teamPK={teamPk} projectCode={projectCode} />
-                ))} */}
-              </tbody>
+              {
+                teamList
+                  ? <tbody className="bg-white divide-y divide-gray-200">
+                    {teamList.map((team: any) => (
+                      <TeamOfferCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} />
+                    ))}
+                  </tbody>
+                : null
+              }
+              
             </table>
           </div>
         </div>

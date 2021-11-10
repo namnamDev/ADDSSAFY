@@ -122,6 +122,39 @@ function Main({}: Props): ReactElement {
               objectFit="cover"
             />
           </div>
+        </div>  
+        <div className="text-center">우수작품</div>
+        <div className="wrapper">
+          <div className="item">
+            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+              <div className="caption">PeoPool</div>
+            </div>
+          </div>
+          <div className="item">
+            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+              <div className="caption">ISEAU</div>
+            </div>
+          </div>
+          <div className="item">
+            <div className="polaroid"><Image src="/images/thefan.gif" width="390" height="220" alt="" />
+              <div className="caption">theFAN</div>
+            </div>
+          </div>
+          <div className="item">
+            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+              <div className="caption">알잘알</div>
+            </div>
+          </div>
+          <div className="item">
+            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+              <div className="caption">pjt1</div>
+            </div>
+          </div>
+          <div className="item">
+            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+              <div className="caption">pjt2</div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

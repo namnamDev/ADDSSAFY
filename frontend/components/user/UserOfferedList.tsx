@@ -58,14 +58,14 @@ function UserOfferedList({ projectCode, leadercheck, myTeamPK }: Props): ReactEl
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {/* {people.map((person) => (
+                {userList.map((user:any) => (
                   <UserOfferedCard
-                    key={person.userPk}
-                    person={person}
+                    key={user.userPk}
+                    person={user}
                     projectCode={projectCode}
                     leadercheck={leadercheck}
                   />
-                ))} */}
+                ))}
               </tbody>
             </table>
           </div>

@@ -89,7 +89,7 @@ function TeamDetailModal({
       axios.post(
         "/api/team/applyteam",
         {
-          teamPk: teamPK,
+          teamPK: teamPK,
           msg: "가입신청합니다",
         },
         {
