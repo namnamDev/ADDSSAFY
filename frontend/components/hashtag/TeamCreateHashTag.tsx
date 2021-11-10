@@ -32,7 +32,6 @@ function TeamCreateHashTag({ onCanChanged }: Props): ReactElement {
     if (option.check === false) {
       option.check = !option.check;
       setCan([...can, option.hashTagPK]);
-      console.log(option.hashTagPK);
     }
     // 빼는부분
     else if (option.check === true) {

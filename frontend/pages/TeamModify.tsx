@@ -23,7 +23,6 @@ function TeamModify({}: Props): ReactElement {
             headers: { Authorization: token },
           })
           .then((res: any) => {
-            console.log(res.data);
             setwebex(res.data.data.webexLink);
             setintroduce(res.data.data.introduce);
           })
@@ -33,7 +32,6 @@ function TeamModify({}: Props): ReactElement {
             headers: { Authorization: token },
           })
           .then((res: any) => {
-            console.log(res);
             setTeamTags(res.data.data);
           })
           .catch((err) => alert(err));
@@ -43,7 +41,6 @@ function TeamModify({}: Props): ReactElement {
   function editTeaminfo() {
     const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
-      console.log(introduce, webex);
       axios
         .put(
           "/api/team/update",
@@ -58,7 +55,6 @@ function TeamModify({}: Props): ReactElement {
           }
         )
         .then((res: any) => {
-          console.log(res);
           alert("팀정보 수정을 완료하였습니다");
           setTimeout(() => {
             history.go(-1);

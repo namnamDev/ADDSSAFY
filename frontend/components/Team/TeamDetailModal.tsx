@@ -12,22 +12,22 @@ interface Props {
   teamFlag: boolean;
   setTeamFlag: (value: any) => any;
   teamPK: number;
-  suggestPK?: number;
 }
-
 function TeamDetailModal({
   projectCode,
   teamFlag,
   setTeamFlag,
   teamPK,
-  suggestPK,
 }: Props): ReactElement {
   // 팀정보 모달창
   const [showTeamUser, setShowTeamUser] = useState(false);
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   const [teamButton, setTeamButton] = useState<number>(0);
+  const [suggestPK, setsuggestPK] = useState<number>(0)
   useEffect(() => {
     getTeamButton();
+    // 
+    getSuggestPK()
   }, [teamFlag, teamPK]);
   async function getTeamButton() {
     if (projectCode === undefined) {
@@ -41,13 +41,21 @@ function TeamDetailModal({
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          console.log('buttoncheck')
-          console.log(res)
           setTeamButton(res.data.data);
         })
         .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
     }
   }
+  function getSuggestPK() {
+    const token: string | null = localStorage.getItem("token")
+    if (token) {
+      axios.get(`/api/users/check/${teamPK}`, {
+        headers: { Authorization: token }
+      })
+        .then((res: any) => { setsuggestPK(res.data.data);})
+    }
+  }
+
   function closeTeamModal() {
     setShowTeamUser(false);
   }
@@ -108,10 +116,10 @@ function TeamDetailModal({
     const token: string | null = localStorage.getItem("token");
     if (token) {
       axios.delete("/api/team/teamwithdraw", {
-        headers: { Authorization: token },
         data: {
-          suggetPK: suggestPK,
+          suggestPK: suggestPK,
         },
+        headers: { Authorization: token },
       });
     }
   }

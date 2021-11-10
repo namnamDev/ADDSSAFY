@@ -1,3 +1,4 @@
+// 팀이 받은 가입신청유저
 import React, { ReactElement, useState, Fragment } from "react";
 import Image from "next/image";
 import UserDetailModal from "./UserDetailModal";

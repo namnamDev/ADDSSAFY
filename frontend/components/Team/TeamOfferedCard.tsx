@@ -1,38 +1,51 @@
+// 유저가 팀한테 받은 제안
 import React, { ReactElement, useState } from "react";
 import TeamDetailModal from "./TeamDetailModal";
-
+import axios from 'axios'
 interface Props {
   teamPK: number;
   projectCode: number;
-  suggestPK:number,
+  suggestPK: number,
 }
 
 function TeamOfferedCard({ teamPK, projectCode, suggestPK }: Props): ReactElement {
   const [teamFlag, setTeamFlag] = useState<boolean>(false)
-
-  const apply = () => {
-    alert(`${teamPK}팀에 지원했습니다.`);
-  };
-
-  const accept = () => {
-    // // 유저가 팀의 제안을 수락
-    // if (typeof token !== "string") return;
-    // axios
-    //   .get(`/api/team/recruit/user`, {
-    //     headers: { Authorization: token },
-    //     data: {
-    //       teamPK: teamPK,
-    //       projectCode: projectCode,
-    //       suggestPK: suggestPK,
-    //       suggest: true,
-    //     },
-    //   })
-    //   .then((res: any) => {
-    //     setTeamButton(res.data.data);
-    //     console.log(res);
-    //   })
-    //   .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
-  };
+  // 제안 수락
+  function accept() {
+    const token: string | null = localStorage.getItem("token");
+    if (token) {
+      axios.post(
+        "/api/team/recruit/user",
+        {
+          teamPk: teamPK,
+          projectCode: projectCode,
+          suggetPK: suggestPK,
+          boolean: true,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+  }
+  // 제안 거절
+  function reject() {
+    const token: string | null = localStorage.getItem("token");
+    if (token) {
+      axios.post(
+        "/api/team/recruit/user",
+        {
+          teamPk: teamPK,
+          projectCode: projectCode,
+          suggetPK: suggestPK,
+          boolean: false,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      );
+    }
+  }
   return (
     <tr className="">
       <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -52,7 +65,7 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK }: Props): ReactElemen
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-        // onClick={() => SendMM()}
+          onClick={() => accept()}
         >
           수락
         </span>
@@ -60,12 +73,12 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK }: Props): ReactElemen
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-        // onClick={() => SendMM()}
+          onClick={() => reject()}
         >
           거절
         </span>
       </td>
-      <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} suggestPK={suggestPK}/>
+      <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} suggestPK={suggestPK} />
 
     </tr>
   );

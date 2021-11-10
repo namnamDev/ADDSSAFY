@@ -16,9 +16,8 @@ function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElem
   // 유저리스트 호출
   useEffect(() => {
     if (myTeamPK > 0) {
-      console.log(myTeamPK)
       axios.get(`/api/team/offer/${myTeamPK}`)
-        .then((res: any) => { console.log(res); setUserList([...res.data.data]) })
+        .then((res: any) => {setUserList([...res.data.data]) })
     }
   }, [myTeamPK])
 

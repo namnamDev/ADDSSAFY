@@ -17,7 +17,7 @@ function TeamOfferedList({ projectCode }: Props): ReactElement {
         axios.get(`/api/users/offered/${projectCode}`, {
           headers: { Authorization: token }
         })
-          .then((res: any) => { console.log(res); console.log('test중입니다'); setTeamList([...res.data.data]) })
+          .then((res: any) => { setTeamList([...res.data.data]) })
 
       }
     }
@@ -61,8 +61,8 @@ function TeamOfferedList({ projectCode }: Props): ReactElement {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {teamList.map((team:any) => (
-                  <TeamOfferedCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK}/>
+                {teamList.map((team: any) => (
+                  <TeamOfferedCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK} />
                 ))}
               </tbody>
             </table>

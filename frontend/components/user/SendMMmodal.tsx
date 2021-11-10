@@ -17,14 +17,12 @@ function SendMM({ flagMM, setflagMM, mmid }: Props): ReactElement {
     function sendMessage() {
         const mymmid: string | null = localStorage.getItem("mmid");
         const mmtoken: string | null = localStorage.getItem("mmtoken");
-        console.log(message);
         if (mymmid && mmtoken)
             axios
                 .post("/api/v4/channels/direct", [mymmid, mmid], {
                     headers: { Authorization: mmtoken },
                 })
                 .then((res: any) => {
-                    console.log(res.data.id);
                     axios
                         .post(
                             "/api/v4/posts",
