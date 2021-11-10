@@ -258,7 +258,7 @@ public class TeamSvcImpl implements TeamSvcInter{
     }
     @Override
     public BaseResponse teamToUserSuggest(TeamToUserSuggest teamToUserSuggest){
-        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Member member = memberRepo.findById(teamToUserSuggest.getUserPK()).orElseThrow(() -> new IllegalStateException("해당 유저정보가 없습니다"));
         Team team = teamRepo.findById(teamToUserSuggest.getTeamPK()).orElseThrow(()->new IllegalStateException("팀이 존재하지않습니다."));
         Long teamPK = team.getId();
         int projectCode = team.getType();
