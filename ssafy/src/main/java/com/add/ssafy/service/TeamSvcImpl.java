@@ -190,13 +190,13 @@ public class TeamSvcImpl implements TeamSvcInter{
         }
 
         //해당 팀으로 유저가 가입제안 한경우 (가입 철회버튼)
-        Optional<Propose> ifUserSuggest = proposeRepo.findPropose(teamPK, member.getId(), true);
+        Optional<Propose> ifUserSuggest = proposeRepo.findPropose(teamPK, member.getId(), false);
         if(ifUserSuggest.isPresent()){
             return BaseResponse.builder().msg("팀이 유저에게 제안을 하였습니다.").data(1).build();
         }
 
         //해당 팀에서 유저에게 이미 가입 제안 한 경우 (제안받기버튼)
-        Optional<Propose> ifTeamSuggest = proposeRepo.findPropose(teamPK, member.getId(), false);
+        Optional<Propose> ifTeamSuggest = proposeRepo.findPropose(teamPK, member.getId(), true);
         if(ifTeamSuggest.isPresent()){
             return BaseResponse.builder().msg("유저가 팀에 가입신청했습니다.").data(2).status("200").build();
         }
