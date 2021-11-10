@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
     @Autowired
     MemberSvcInter memberSvcInter;
-    @Autowired
-    TeamSvcInter teamSvcInter;
 //    @PostMapping("/login")
 //    public ResponseEntity login(@RequestBody UserRequest userRequest){
 //        return ResponseEntity.ok(memberSvcInter.login(userRequest));
@@ -50,9 +48,9 @@ public class UsersController {
 
         return ResponseEntity.ok(memberSvcInter.userToTeamSuggested(projectCode,false));
     }
-    @GetMapping("/check/{userPK}/teamPK")
-    public ResponseEntity<BaseResponse>teamSuggestedCheck(@PathVariable(name="userPK")Long userPK,@PathVariable(name="teamPK")Long teamPK){
-        return ResponseEntity.ok(teamSvcInter.suggestedCheck(userPK,teamPK,true));
+    @GetMapping("/check/{teamPK}")
+    public ResponseEntity<BaseResponse>teamSuggestedCheck(@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(memberSvcInter.suggestedCheck(teamPK,true));
 
     }
 

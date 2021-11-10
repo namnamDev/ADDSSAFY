@@ -18,4 +18,6 @@ public interface MemberSvcInter {
 
     //유저가 팀에 보냇던 제안들
     BaseResponse userToTeamSuggested(int projectCode, boolean direction);
+
+    BaseResponse suggestedCheck(Long teamPK, boolean direction);
 }

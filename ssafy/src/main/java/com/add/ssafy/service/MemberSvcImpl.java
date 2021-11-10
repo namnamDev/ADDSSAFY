@@ -16,6 +16,7 @@ import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.HashTag;
 import com.add.ssafy.entity.Member;
 import com.add.ssafy.entity.MemberHashtag;
+import com.add.ssafy.entity.Propose;
 import com.add.ssafy.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,5 +186,17 @@ public class MemberSvcImpl implements MemberSvcInter {
         Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
 
         return BaseResponse.builder().status("200").msg("성공").data(proposeRepo.userToTeamSuggested(member.getId(),projectCode,direction)).build();
+    }
+
+    @Override
+    public BaseResponse suggestedCheck( Long teamPK, boolean direction){
+        Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
+        Long userPK = member.getId();
+        Optional<Propose> proposeCheck = proposeRepo.findPropose(teamPK,userPK,direction);
+        if (proposeCheck.isPresent()){
+            return BaseResponse.builder().msg("지원함").status("200").data(proposeCheck.get().getId()).build();
+        }else{
+            return BaseResponse.builder().msg("지원하지 않음").status("200").data(0).build();
+        }
     }
 }
