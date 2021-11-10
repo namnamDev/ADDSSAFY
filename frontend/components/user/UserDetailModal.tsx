@@ -36,9 +36,41 @@ function UserDetailModal({
       }
     }
   }, [flag, userPK]);
-  const apply = () => {
-    alert(`${userPK}팀에 지원했습니다.`);
-  };
+  function acceptUser() {
+
+  }
+  function rejectUser() {
+
+  }
+  function withdrawSuggest() {
+
+  }
+
+  function Suggest() {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios
+        .get(`/api/team/myteam/${projectCode}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          console.log(userPK)
+          axios.post('/api/team/applyuser', {
+            teamPK: res.data.data,
+            userPK: userPK,
+            MMtoken: MMtoken,
+            msg: "저희와 함께가시죠"
+          },{
+            headers:{Authorization:token}
+          })
+            .then((res) => console.log(res))
+            .catch((err) => alert(err))
+        });
+
+
+    }
+  }
   return (
     <div>
       <Transition appear show={flag} as={Fragment}>
@@ -85,14 +117,14 @@ function UserDetailModal({
                       <button
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={apply}
+                        onClick={acceptUser}
                       >
                         유저의 제안 수락
                       </button>
                       <button
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={apply}
+                        onClick={rejectUser}
                       >
                         유저의 제안 거절
                       </button>
@@ -101,7 +133,7 @@ function UserDetailModal({
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
+                      onClick={withdrawSuggest}
                     >
                       유저에게 가입 제안 취소
                     </button>
@@ -109,7 +141,7 @@ function UserDetailModal({
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
+                      onClick={Suggest}
                     >
                       유저에게 가입 제안
                     </button>

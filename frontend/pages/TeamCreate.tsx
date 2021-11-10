@@ -44,8 +44,6 @@ function TeamCreate({ }: Props): ReactElement {
         )
         .then((res: any) => {
           if (typeof token === "string") {
-            console.log("can오는지")
-            console.log(can)
             axios
               .post(
                 "/api/team/create",

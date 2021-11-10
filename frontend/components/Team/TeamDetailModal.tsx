@@ -108,7 +108,11 @@ function TeamDetailModal({
         {
           headers: { Authorization: token },
         }
-      );
+      )
+      .then(()=>{
+        alert('가입신청이 완료되었습니다');
+        location.reload()
+      })
     }
   }
   // 가입 신청 철회
@@ -121,7 +125,10 @@ function TeamDetailModal({
         },
         headers: { Authorization: token },
       })
-      .then(()=>{alert('가입신청이 철회되었습니다'); })
+      .then(()=>{
+        alert('가입신청이 철회되었습니다');
+        location.reload()
+     })
     }
   }
   return (

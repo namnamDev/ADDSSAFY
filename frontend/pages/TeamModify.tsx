@@ -5,16 +5,15 @@ import Footer from "../components/basic/Footer";
 import TeamModifyHashTag from "../components/hashtag/TeamModifyHashTag";
 import { useRouter } from "next/router";
 
-interface Props {}
+interface Props { }
 
-function TeamModify({}: Props): ReactElement {
+function TeamModify({ }: Props): ReactElement {
   const router = useRouter();
   // 팀 정보 미리 가져오기
   const [webex, setwebex] = useState<string>("");
   const [introduce, setintroduce] = useState<string>("");
   const [can, setCan] = useState<number[]>([]);
   const [teamTags, setTeamTags] = useState<any>({});
-  console.log(can)
   useEffect(() => {
     if (router.query.teamPk) {
       const token: string | null = localStorage.getItem("token");
@@ -96,7 +95,6 @@ function TeamModify({}: Props): ReactElement {
         <div className="">
           <TeamModifyHashTag onCanChanged={setCan} teamHashTag={teamTags} />
         </div>
-
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
             <button
