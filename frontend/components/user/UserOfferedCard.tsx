@@ -8,12 +8,39 @@ interface Props {
 }
 
 function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElement {
-  const [flag, setflag] = useState<boolean>(false)
-  
+  const [flag, setflag] = useState<boolean>(false);
+
+  // 제안을 보낸 시간 구하기
+  const now = new Date(person.suggestDate);
+  new Date(now.setHours(now.getHours() + 11));
+
   const apply = () => {
     alert(`${person}팀에 지원했습니다.`);
   };
 
+  // 시간으로 변환
+  function timeForToday(value: any) {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return "방금전";
+    if (betweenTime < 60) {
+      return `${betweenTime}분전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일전`;
+    }
+
+    return `${Math.floor(betweenTimeDay / 365)}년전`;
+  }
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -21,11 +48,11 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
           className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
           onClick={() => setflag(true)}
         >
-          교육생 이름
+          {person.userName}
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">반</div>
+        <div className="text-sm text-gray-900">{timeForToday(now)}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
@@ -43,7 +70,14 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
           거절
         </span>
       </td>
-      <UserDetailModal projectCode={projectCode} userPK={person.userPk} mmid={person.mmid} flag={flag} setflag={setflag} leaderCheck={leadercheck} />
+      <UserDetailModal
+        projectCode={projectCode}
+        userPK={person.userPK}
+        mmid={person.mmid}
+        flag={flag}
+        setflag={setflag}
+        leaderCheck={leadercheck}
+      />
     </tr>
   );
 }
