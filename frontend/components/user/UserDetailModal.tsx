@@ -21,6 +21,8 @@ function UserDetailModal({
   setflag,
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
+  const [suggestPK, setSuggestPK] = useState<number>(0)
+  const [teamPK, setTeamPK] = useState<number>(0)
   useEffect(() => {
     if (userPK) {
       const token: string | null = localStorage.getItem("token");
@@ -33,42 +35,64 @@ function UserDetailModal({
             setUserButton(res.data.data);
           })
           .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+        // teamPK받아오기
+        axios
+          .get(`/api/team/myteam/${projectCode}`, {
+            headers: { Authorization: token },
+          })
+          .then((res: any) => { setTeamPK(res.data.data) })
       }
     }
+
   }, [flag, userPK]);
+
+  useEffect(() => {
+    getSuggestPK()
+  }, [teamPK])
+
   function acceptUser() {
 
   }
   function rejectUser() {
 
   }
+  function getSuggestPK() {
+    const token: string | null = localStorage.getItem("token")
+    if (token) {
+      axios.get(`/api/team/check/${userPK}/${teamPK}`, {
+        headers: { Authorization: token }
+      })
+        .then((res: any) => { setSuggestPK(res.data.data); })
+    }
+  }
   function withdrawSuggest() {
-
+    getSuggestPK()
+    const token: string | null = localStorage.getItem("token")
+    if (token) {
+      axios.delete('/api/team/userwithdraw', {
+        data: {
+          suggestPK: suggestPK
+        },
+        headers: { Authorization: token }
+      })
+        .then(() => location.reload())
+    }
   }
 
   function Suggest() {
     const MMtoken: string | null = localStorage.getItem('mmtoken')
     const token: string | null = localStorage.getItem('token')
     if (typeof token === "string") {
-      axios
-        .get(`/api/team/myteam/${projectCode}`, {
-          headers: { Authorization: token },
-        })
-        .then((res: any) => {
-          console.log(userPK)
-          axios.post('/api/team/applyuser', {
-            teamPK: res.data.data,
-            userPK: userPK,
-            MMtoken: MMtoken,
-            msg: "저희와 함께가시죠"
-          },{
-            headers:{Authorization:token}
-          })
-            .then((res) => console.log(res))
-            .catch((err) => alert(err))
-        });
-
-
+      axios.post('/api/team/applyuser', {
+        teamPK: teamPK,
+        userPK: userPK,
+        MMtoken: MMtoken,
+        msg: "저희와 함께가시죠"
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('가입제안이 완료되었습니다'); location.reload() })
+        .catch((err) => alert(err))
     }
   }
   return (

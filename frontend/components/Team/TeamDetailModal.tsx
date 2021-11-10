@@ -52,7 +52,7 @@ function TeamDetailModal({
       axios.get(`/api/users/check/${teamPK}`, {
         headers: { Authorization: token }
       })
-        .then((res: any) => { setsuggestPK(res.data.data);})
+        .then((res: any) => { setsuggestPK(res.data.data); })
     }
   }
 
@@ -109,10 +109,10 @@ function TeamDetailModal({
           headers: { Authorization: token },
         }
       )
-      .then(()=>{
-        alert('가입신청이 완료되었습니다');
-        location.reload()
-      })
+        .then(() => {
+          alert('가입신청이 완료되었습니다');
+          location.reload()
+        })
     }
   }
   // 가입 신청 철회
@@ -125,10 +125,10 @@ function TeamDetailModal({
         },
         headers: { Authorization: token },
       })
-      .then(()=>{
-        alert('가입신청이 철회되었습니다');
-        location.reload()
-     })
+        .then(() => {
+          alert('가입신청이 철회되었습니다');
+          location.reload()
+        })
     }
   }
   return (
