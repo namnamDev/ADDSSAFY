@@ -82,6 +82,16 @@ public class TeamSvcImpl implements TeamSvcInter{
         TeamMember insertTeamMember = TeamMember.builder().team(savedTeam).member(member).leader(true).build();
         TeamMember savedTeamMember = teamMemberRepo.save(insertTeamMember);
         //모든 팀 제의 제거
+        List<Propose> beforeDeleteOfUser = proposeRepo.findAllByUser(member.getId());
+        for (int i = 0 ; i < beforeDeleteOfUser.size();i++){
+            proposeRepo.delete(beforeDeleteOfUser.get(i));
+        }
+        //해시태그 등록
+        List<Long> want = createTeamRequest.getWant();
+        for(int i =0;i< want.size();i++){
+            Optional<HashTag> hashTag= hashtagRepo.findById(want.get(i));
+            teamHashtagRepo.save(TeamHashtag.builder().team(savedTeam).hashTag(hashTag.get()).build());
+        }
         msg= "성공";
         status="200";
         }catch (IllegalStateException e){
