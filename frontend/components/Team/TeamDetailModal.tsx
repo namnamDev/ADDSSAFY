@@ -30,6 +30,9 @@ function TeamDetailModal({
     getTeamButton();
   }, [teamFlag, teamPK]);
   async function getTeamButton() {
+    if (projectCode === undefined) {
+      return;
+    }
     // 어떤 버튼을 활성화 할 것인지
     const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
@@ -38,6 +41,8 @@ function TeamDetailModal({
           headers: { Authorization: token },
         })
         .then((res: any) => {
+          console.log('buttoncheck')
+          console.log(res)
           setTeamButton(res.data.data);
         })
         .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
