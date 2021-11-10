@@ -101,7 +101,7 @@ public class TeamController {
     public ResponseEntity<BaseResponse>teamDelegate(@RequestBody DelegateRequest delegateRequest){
         return ResponseEntity.ok(teamSvcInter.teamDelegate(delegateRequest));
     }
-    @GetMapping("/check/{userPK}/teamPK")
+    @GetMapping("/check/{userPK}/{teamPK}")
     public ResponseEntity<BaseResponse>teamSuggestedCheck(@PathVariable(name="userPK")Long userPK,@PathVariable(name="teamPK")Long teamPK){
         return ResponseEntity.ok(teamSvcInter.suggestedCheck(userPK,teamPK,false));
 
