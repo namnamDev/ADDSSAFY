@@ -264,7 +264,7 @@ function TeamDetailModal({
                   </div>
                 </div>
               ) : (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+                <div className="fixed inline-block sm:min-w-lg lg:min-w-lg  max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 text-center"
@@ -272,6 +272,7 @@ function TeamDetailModal({
                   <div className="mt-2 ">
                     <div className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
+                      <br />
                       <TeamUserList
                         teamPK={teamPK}
                         showUser={setShowTeamUser}

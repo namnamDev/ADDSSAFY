@@ -62,26 +62,36 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
             />
           </div>
           <dl>
-            {myteamhistory.length > 0 ? (
-              <div>
-                {Object.values(myteamhistory).map((team: any, i: any) => (
-                  <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" key={i}>
-                    {team.projectCode === 0 ? (
-                      <dt className="text-sm font-medium text-gray-500">공통프로젝트</dt>
-                    ) : null}{" "}
-                    {team.projectCode === 1 ? (
-                      <dt className="text-sm font-medium text-gray-500">특화프로젝트</dt>
-                    ) : null}
-                    {team.projectCode === 2 ? (
-                      <dt className="text-sm font-medium text-gray-500">자율프로젝트</dt>
-                    ) : null}
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {team.name}
-                    </dd>
-                  </div>
-                ))}
-              </div>
-            ) : null}
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {
+                  myteamhistory.length > 0 && myteamhistory[0].name !== null
+                    ? <div>{myteamhistory[0].name}</div>
+                    : <div>없음</div>
+                }
+              </dd>
+            </div>
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm  text-gray-500 font-bold">특화프로젝트</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {
+                  myteamhistory.length > 1 && myteamhistory[1].name !== null
+                    ? <div>{myteamhistory[1].name}</div>
+                    : <div>없음</div>
+                }
+              </dd>
+            </div>
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {
+                  myteamhistory.length > 2 && myteamhistory[2].name !== null
+                    ? <div>{myteamhistory[2].name}</div>
+                    : <div>없음</div>
+                }
+              </dd>
+            </div>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이름</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
