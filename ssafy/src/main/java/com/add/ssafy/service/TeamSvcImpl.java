@@ -371,6 +371,6 @@ public class TeamSvcImpl implements TeamSvcInter{
     public BaseResponse teamLeaderInfo(Long teamPK){
         TeamMember leader = teamMemberRepo.findteamLeader(teamPK);
         UserDetailDto res = memberRepo.findUserDetailDTOById(leader.getMember().getId());
-        return return BaseResponse.builder().msg("지원함").status("200").data(res).build();;
+        return BaseResponse.builder().msg("지원함").status("200").data(res).build();
     }
 }
