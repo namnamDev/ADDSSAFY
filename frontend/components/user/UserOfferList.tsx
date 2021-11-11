@@ -60,6 +60,7 @@ function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElem
                     projectCode={projectCode}
                     leadercheck={leadercheck}
                     setUserList={setUserList}
+                    suggestPK={person.suggestPK}
                   />
                 ))}
               </tbody>

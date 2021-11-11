@@ -69,6 +69,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
               headers: { Authorization: mmtoken },
             })
             .then(() => {
+              alert('팀나가기에 성공했습니다')
               setTimeout(() => {
                 location.reload();
               }, 500);

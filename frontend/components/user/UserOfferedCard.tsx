@@ -57,9 +57,64 @@ function UserOfferedCard({ person, projectCode, leadercheck, suggestPK, myTeamPK
       }, {
         headers: { Authorization: token }
       })
-        .then(() => { alert('팀가입이 수락하였습니다'); location.reload() })
+        .then((res: any) => { alert('팀가입이 수락하였습니다'); inviteUser(res.data.data.mmChannelId) })
         .catch((err) => alert(err))
     }
+  }
+  function inviteUser(channel_id: string) {
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof mmtoken === 'string' && token) {
+      axios
+        .get(`/api/users/detail/${person.userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios.post(`/api/v4/channels/${channel_id}/members`,
+            {
+              user_id: res.data.data.userDetailDto.mmid
+            },
+            {
+              headers: { Authorization: mmtoken }
+            })
+            .then(() => { location.reload() })
+        });
+
+    }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem('token')
+    // 거절메시지 보내주기
+    if (mymmid && mmtoken && token)
+      axios
+        .get(`/api/users/detail/${person.userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.userDetailDto.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
   }
   function rejectUser() {
     const token: string | null = localStorage.getItem('token')
@@ -72,7 +127,7 @@ function UserOfferedCard({ person, projectCode, leadercheck, suggestPK, myTeamPK
       }, {
         headers: { Authorization: token }
       })
-        .then(() => { alert('팀가입을 거절하였습니다'); location.reload() })
+        .then(() => { alert('팀가입을 거절하였습니다'); sendMessage("가입신청이 거절되었습니다") })
         .catch((err) => alert(err))
     }
   }

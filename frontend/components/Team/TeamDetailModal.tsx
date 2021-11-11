@@ -6,6 +6,7 @@ import { ArrowLeftIcon, MailIcon } from "@heroicons/react/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import UserDetailModal from "../user/UserDetailModal";
 import UserDetail from "../user/UserDetail";
+import SendMM from "../user/SendMMmodal";
 
 interface Props {
   projectCode: number;
@@ -53,8 +54,7 @@ function TeamDetailModal({
           headers: { Authorization: token }
         })
         .then((res: any) => {
-          console.log(res)
-          axios.get(`/api/users/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
+          axios.get(`/api/team/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
             headers: { Authorization: token }
           })
             .then((res: any) => { setsuggestPK(res.data.data); })
@@ -72,15 +72,33 @@ function TeamDetailModal({
       axios.post(
         "/api/team/recruit/user",
         {
-          teamPk: teamPK,
+          teamPK: teamPK,
           projectCode: Number(projectCode),
-          suggetPK: suggestPK,
-          boolean: true,
+          suggestPK: suggestPK,
+          suggest: true,
         },
         {
           headers: { Authorization: token },
         }
-      );
+      )
+        .then((res: any) => {
+          inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken)
+        })
+    }
+  }
+  function inviteUser(channel_id: string, leaderMMToken: string) {
+    const mmid: string | null = localStorage.getItem('mmid')
+    console.log(channel_id, leaderMMToken)
+    if (typeof mmid === 'string') {
+      axios.post(`/api/v4/channels/${channel_id}/members`,
+        {
+          user_id: mmid
+        },
+        {
+          headers: { Authorization: "Bearer " + leaderMMToken }
+        })
+        .then(() => { alert('요청이 수락되어, 메타모스트채널에 초대되었습니다'); location.reload() })
+
     }
   }
   // 제안 거절
@@ -90,10 +108,10 @@ function TeamDetailModal({
       axios.post(
         "/api/team/recruit/user",
         {
-          teamPk: teamPK,
+          teamPK: teamPK,
           projectCode: projectCode,
-          suggetPK: suggestPK,
-          boolean: false,
+          suggestPK: suggestPK,
+          suggest: false,
         },
         {
           headers: { Authorization: token },
@@ -117,23 +135,64 @@ function TeamDetailModal({
       )
         .then(() => {
           alert('가입신청이 완료되었습니다');
-          location.reload()
+          sendMessage("가입요청이 왔습니다")
         })
     }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    // 팀장mmid 가져오기
+    if (mymmid && mmtoken)
+      axios.get(`/api/team/leaderinfo/${teamPK}`)
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
   }
   // 가입 신청 철회
   function withdraw() {
     const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.delete("/api/team/teamwithdraw", {
-        data: {
-          suggestPK: suggestPK,
-        },
-        headers: { Authorization: token },
-      })
-        .then(() => {
-          alert('가입신청이 철회되었습니다');
-          location.reload()
+      axios.get('/api/users/mypage',
+        {
+          headers: { Authorization: token }
+        })
+        .then((res: any) => {
+          axios.get(`/api/users/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
+            headers: { Authorization: token }
+          })
+            .then((res: any) => {
+              axios.delete("/api/team/teamwithdraw", {
+                data: {
+                  suggestPK: res.data.data,
+                },
+                headers: { Authorization: token },
+              })
+                .then(() => {
+                  alert('가입신청이 철회되었습니다');
+                  sendMessage("가입요청이 철회되었습니다")
+                })
+            })
         })
     }
   }
@@ -203,7 +262,6 @@ function TeamDetailModal({
                       />
                     </div>
                   </div>
-
                   <div className="mt-4 flex flex-row space-x-2 justify-center">
                     {teamButton === 0 ? (
                       false
