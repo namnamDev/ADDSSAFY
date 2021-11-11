@@ -45,8 +45,8 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate }: Props)
         "/api/team/recruit/user",
         {
           teamPk: teamPK,
-          projectCode: projectCode,
-          suggetPK: suggestPK,
+          projectCode: Number(projectCode),
+          suggestPK: suggestPK,
           boolean: true,
         },
         {

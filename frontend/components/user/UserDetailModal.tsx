@@ -10,6 +10,7 @@ interface Props {
   mmid: string;
   leaderCheck: boolean;
   setflag: (value: any) => any;
+  suggestPK?: number
 }
 
 function UserDetailModal({
@@ -18,10 +19,11 @@ function UserDetailModal({
   userPK,
   mmid,
   leaderCheck,
+  suggestPK,
   setflag,
+
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
-  const [suggestPK, setSuggestPK] = useState<number>(0)
   const [teamPK, setTeamPK] = useState<number>(0)
   useEffect(() => {
     if (userPK) {
@@ -43,11 +45,6 @@ function UserDetailModal({
           .then((res: any) => {
             console.log('teampk', res.data.data)
             setTeamPK(res.data.data);
-            // sugPK 받아오기
-            axios.get(`/api/team/check/${userPK}/${res.data.data}`, {
-              headers: { Authorization: token }
-            })
-              .then((res1: any) => { console.log('sugpk', res1.data.data); setSuggestPK(res1.data.data); })
           })
 
       }
@@ -59,7 +56,7 @@ function UserDetailModal({
     const token: string | null = localStorage.getItem('token')
     if (typeof token === "string") {
       axios.post('/api/team/recruit/team', {
-        teamPk: teamPK,
+        teamPK: teamPK,
         projectCode: Number(projectCode),
         suggestPK: suggestPK,
         suggest: true
@@ -74,8 +71,8 @@ function UserDetailModal({
     const token: string | null = localStorage.getItem('token')
     if (typeof token === "string") {
       axios.post('/api/team/recruit/team', {
-        teamPk: teamPK,
-        projectCode: projectCode,
+        teamPK: teamPK,
+        projectCode: Number(projectCode),
         suggestPK: suggestPK,
         suggest: false
       }, {

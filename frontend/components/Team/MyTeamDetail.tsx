@@ -88,7 +88,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
           {/* 팀멤버들 사진 */}
           <div className="w-3/4 mx-auto">
             {teammember.map((member: any, i: number) => (
-              <div key={i} className="group">
+              <div key={i} className="">
                 <Image
                   className="h-10 w-10 rounded-lg hover:opacity-75"
                   src={member.profile}

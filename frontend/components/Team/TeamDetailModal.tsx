@@ -48,10 +48,17 @@ function TeamDetailModal({
   function getSuggestPK() {
     const token: string | null = localStorage.getItem("token")
     if (token) {
-      axios.get(`/api/users/check/${teamPK}`, {
-        headers: { Authorization: token }
-      })
-        .then((res: any) => { setsuggestPK(res.data.data); })
+      axios.get('/api/users/mypage',
+        {
+          headers: { Authorization: token }
+        })
+        .then((res: any) => {
+          console.log(res)
+          axios.get(`/api/users/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
+            headers: { Authorization: token }
+          })
+            .then((res: any) => { setsuggestPK(res.data.data); })
+        })
     }
   }
 
