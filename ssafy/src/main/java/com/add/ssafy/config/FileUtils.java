@@ -50,6 +50,10 @@ public class FileUtils {
     }
 
     public static void deleteProfile(String profileFilePath) {
+        if(profileFilePath.isEmpty()){
+            return;
+        }
+        
         String basePath = SetFilePath();
         String  aa = profileFilePath.replace("/image",basePath);
         File file = new File(aa);
