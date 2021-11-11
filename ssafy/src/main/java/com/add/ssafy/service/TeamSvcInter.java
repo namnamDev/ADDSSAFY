@@ -42,4 +42,6 @@ public interface TeamSvcInter {
     BaseResponse suggestedCheck(Long userPK, Long teamPK, boolean direction);
 
     BaseResponse teamLeaderInfo(Long teamPK);
+
+    BaseResponse uploadPPT(UploadPPTRequest uploadPPTRequest);
 }

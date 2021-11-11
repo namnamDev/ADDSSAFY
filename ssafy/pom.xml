@@ -95,6 +95,12 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
+		<!-- mattermost api-->
+		<dependency>
+			<groupId>net.bis5.mattermost4j</groupId>
+			<artifactId>mattermost4j-core</artifactId>
+			<version>0.22.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -106,9 +106,15 @@ public class TeamController {
         return ResponseEntity.ok(teamSvcInter.suggestedCheck(userPK,teamPK,false));
 
     }
-
+    //특정 팀의 팀장가져오기 
     @GetMapping("/leaderinfo/{teamPK}")
     public ResponseEntity<BaseResponse>teamLeaderInfo(@PathVariable(name="teamPK")Long teamPK){
         return ResponseEntity.ok(teamSvcInter.teamLeaderInfo(teamPK));
+    }
+    
+    //ppt업로드
+    @PostMapping("/uploadppt")
+    public ResponseEntity<BaseResponse>uploadPPT(UploadPPTRequest uploadPPTRequest){
+        return ResponseEntity.ok(teamSvcInter.uploadPPT(uploadPPTRequest));
     }
 }

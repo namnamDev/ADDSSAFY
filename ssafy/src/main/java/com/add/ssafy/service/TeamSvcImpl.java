@@ -1,6 +1,7 @@
 package com.add.ssafy.service;
 
 import com.add.ssafy.Repository.*;
+import com.add.ssafy.config.FileUtils;
 import com.add.ssafy.config.SecurityUtil;
 import com.add.ssafy.dto.*;
 import com.add.ssafy.dto.request.*;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -96,6 +98,14 @@ public class TeamSvcImpl implements TeamSvcInter{
             msg = e.getMessage();
             return BaseResponse.builder().status(status).msg(msg).build();
         }
+
+
+
+
+
+
+
+
             return BaseResponse.builder().status(status).msg(msg).build();
 
 
@@ -339,6 +349,8 @@ public class TeamSvcImpl implements TeamSvcInter{
             }
             return BaseResponse.builder().msg("초대 성공").status("200").data(RecruitTrueDto.builder().leaderMMToken(leaderMMToken).succecs(true).mmChannelId(mmChannelId).build()).build();
         }
+
+
         return BaseResponse.builder().msg("거절하였습니다.").status("200").data(true).build();
     }
 
@@ -372,5 +384,18 @@ public class TeamSvcImpl implements TeamSvcInter{
         TeamMember leader = teamMemberRepo.findteamLeader(teamPK);
         UserDetailDto res = memberRepo.findUserDetailDTOById(leader.getMember().getId());
         return BaseResponse.builder().msg("지원함").status("200").data(res).build();
+
     }
-}
+
+    @Override
+    public BaseResponse uploadPPT(UploadPPTRequest uploadPPTRequest){
+        Team team = teamRepo.findById(uploadPPTRequest.getTeamPK()).orElseThrow(()->new IllegalStateException("팀이 존재하지않습니다."));
+        try {
+            team.setPpt(FileUtils.uploadProfile(uploadPPTRequest.getPpt()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        teamRepo.save(team);
+        return BaseResponse.builder().msg("PPT등록 성공").status("200").data(true).build();
+
+    }}
