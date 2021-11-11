@@ -51,9 +51,9 @@ public class FileUtils {
 
     public static void deleteProfile(String profileFilePath) {
         String basePath = SetFilePath();
-        profileFilePath.replace("/image",basePath);
-        File file = new File(profileFilePath);
-        System.out.println(file.exists());
+        String  aa = profileFilePath.replace("/image",basePath);
+        File file = new File(aa);
+        System.out.println("in UTIL " + file.exists());
         if (file.exists()) {
             file.delete();
         }

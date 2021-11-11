@@ -391,6 +391,7 @@ public class TeamSvcImpl implements TeamSvcInter{
     public BaseResponse uploadPPT(UploadPPTRequest uploadPPTRequest){
         Team team = teamRepo.findById(uploadPPTRequest.getTeamPK()).orElseThrow(()->new IllegalStateException("팀이 존재하지않습니다."));
         try {
+            System.out.println("in SVC"+team.getPpt());
             FileUtils.deleteProfile(team.getPpt());
             team.setPpt(FileUtils.uploadProfile(uploadPPTRequest.getPpt()));
 
