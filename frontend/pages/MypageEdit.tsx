@@ -80,7 +80,7 @@ function Mypage({ }: Props): ReactElement {
       <div className="w-3/5 mx-auto text-center">
         <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <p className="text-lg leading-6 font-bold text-gray-900">내 정보 수정</p>
+            <div className="text-lg leading-6 font-bold text-gray-900">내 정보 수정</div>
           </div>
           <div className="">
             <dl>

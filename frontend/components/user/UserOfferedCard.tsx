@@ -2,13 +2,16 @@
 import React, { ReactElement, useState, Fragment } from "react";
 import Image from "next/image";
 import UserDetailModal from "./UserDetailModal";
+import axios from 'axios'
 interface Props {
   person: any;
   projectCode: number;
   leadercheck: boolean;
+  suggestPK: number,
+  myTeamPK: number
 }
 
-function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElement {
+function UserOfferedCard({ person, projectCode, leadercheck, suggestPK, myTeamPK }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false);
 
   // 제안을 보낸 시간 구하기
@@ -42,6 +45,92 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
+  function acceptUser() {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPK: myTeamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: true
+      }, {
+        headers: { Authorization: token }
+      })
+        .then((res: any) => { alert('팀가입이 수락하였습니다'); inviteUser(res.data.data.mmChannelId) })
+        .catch((err) => alert(err))
+    }
+  }
+  function inviteUser(channel_id: string) {
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof mmtoken === 'string' && token) {
+      axios
+        .get(`/api/users/detail/${person.userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios.post(`/api/v4/channels/${channel_id}/members`,
+            {
+              user_id: res.data.data.userDetailDto.mmid
+            },
+            {
+              headers: { Authorization: mmtoken }
+            })
+            .then(() => { location.reload() })
+        });
+
+    }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem('token')
+    // 거절메시지 보내주기
+    if (mymmid && mmtoken && token)
+      axios
+        .get(`/api/users/detail/${person.userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.userDetailDto.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
+  }
+  function rejectUser() {
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPK: myTeamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: false
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀가입을 거절하였습니다'); sendMessage("가입신청이 거절되었습니다") })
+        .catch((err) => alert(err))
+    }
+  }
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -58,7 +147,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => apply()}
+          onClick={() => acceptUser()}
         >
           수락
         </span>
@@ -66,7 +155,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-          onClick={() => apply()}
+          onClick={() => rejectUser()}
         >
           거절
         </span>
@@ -78,6 +167,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
         flag={flag}
         setflag={setflag}
         leaderCheck={leadercheck}
+        suggestPK={suggestPK}
       />
     </tr>
   );

@@ -7,9 +7,10 @@ interface Props {
   flag: boolean;
   projectCode: number;
   userPK: number;
-  mmid: string;
+  mmid?: string;
   leaderCheck: boolean;
   setflag: (value: any) => any;
+  suggestPK?: number
 }
 
 function UserDetailModal({
@@ -18,9 +19,12 @@ function UserDetailModal({
   userPK,
   mmid,
   leaderCheck,
+  suggestPK,
   setflag,
+
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
+  const [teamPK, setTeamPK] = useState<number>(0)
   useEffect(() => {
     if (userPK) {
       const token: string | null = localStorage.getItem("token");
@@ -33,12 +37,134 @@ function UserDetailModal({
             setUserButton(res.data.data);
           })
           .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+        // teamPK받아오기
+        axios
+          .get(`/api/team/myteam/${projectCode}`, {
+            headers: { Authorization: token },
+          })
+          .then((res: any) => {
+            setTeamPK(res.data.data);
+          })
       }
     }
   }, [flag, userPK]);
-  const apply = () => {
-    alert(`${userPK}팀에 지원했습니다.`);
-  };
+
+  function inviteUser(channel_id: string) {
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof mmtoken === 'string' && token) {
+      axios
+        .get(`/api/users/detail/${userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios.post(`/api/v4/channels/${channel_id}/members`,
+            {
+              user_id: res.data.data.userDetailDto.mmid
+            },
+            {
+              headers: { Authorization: mmtoken }
+            })
+            .then(() => location.reload())
+        });
+
+    }
+  }
+  function acceptUser() {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPK: teamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: true
+      }, {
+        headers: { Authorization: token }
+      })
+        .then((res: any) => { alert('팀가입이 수락하였습니다'); inviteUser(res.data.data.mmChannelId) })
+        .catch((err) => alert(err))
+    }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem('token')
+    // 거절메시지 보내주기
+    if (mymmid && mmtoken && token)
+      axios
+        .get(`/api/users/detail/${userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.userDetailDto.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
+  }
+  function rejectUser() {
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPK: teamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: false
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀가입을 거절하였습니다'); sendMessage("가입신청이 거절되었습니다") })
+        .catch((err) => alert(err))
+    }
+  }
+
+  function withdrawSuggest() {
+    const token: string | null = localStorage.getItem("token")
+    if (token) {
+      axios.delete('/api/team/userwithdraw', {
+        data: {
+          suggestPK: suggestPK
+        },
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀제안이 철회되었습니다'); sendMessage("팀제안이 철회되었습니다") })
+    }
+  }
+
+  function Suggest() {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/applyuser', {
+        teamPK: teamPK,
+        userPK: userPK,
+        MMtoken: MMtoken,
+        msg: "저희와 함께가시죠"
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('가입제안이 완료되었습니다'); sendMessage("팀제안 요청이 왔습니다") })
+        .catch((err) => alert(err))
+    }
+  }
   return (
     <div>
       <Transition appear show={flag} as={Fragment}>
@@ -73,9 +199,9 @@ function UserDetailModal({
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
                 ></Dialog.Title>
                 <div className="mt-2 ">
-                  <p className="text-sm text-gray-500  ">
+                  <div className="text-sm text-gray-500  ">
                     <UserDetail userPk={userPK} mmid={mmid} />
-                  </p>
+                  </div>
                 </div>
                 <div className="mt-4 flex flex-row space-x-2 justify-center">
                   {userButton === 0 || leaderCheck === false ? (
@@ -85,14 +211,14 @@ function UserDetailModal({
                       <button
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={apply}
+                        onClick={acceptUser}
                       >
                         유저의 제안 수락
                       </button>
                       <button
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={apply}
+                        onClick={rejectUser}
                       >
                         유저의 제안 거절
                       </button>
@@ -101,7 +227,7 @@ function UserDetailModal({
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
+                      onClick={withdrawSuggest}
                     >
                       유저에게 가입 제안 취소
                     </button>
@@ -109,7 +235,7 @@ function UserDetailModal({
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
+                      onClick={Suggest}
                     >
                       유저에게 가입 제안
                     </button>

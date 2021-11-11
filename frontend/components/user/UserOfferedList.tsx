@@ -64,6 +64,8 @@ function UserOfferedList({ projectCode, leadercheck, myTeamPK }: Props): ReactEl
                     person={user}
                     projectCode={projectCode}
                     leadercheck={leadercheck}
+                    suggestPK={user.suggestPK}
+                    myTeamPK={myTeamPK}
                   />
                 ))}
               </tbody>

@@ -3,19 +3,6 @@ import { PaperClipIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-const person = {
-  name: "Jane Cooper",
-  userId: 1,
-  title: "Regional Paradigm Technician",
-  department: "Optimization",
-  role: "Admin",
-  email: "jane.cooper@example.com",
-  image:
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  address: "ssafy@ssafy.com",
-  sigfiles: ["특화 ppt"],
-};
-
 interface Props {
   teamPK: number;
 }
@@ -31,7 +18,7 @@ function TeamDetail({ teamPK }: Props): ReactElement {
   }, [])
   useEffect(() => {
     axios.get(`/api/team/info/${teamPK}`)
-      .then((res: any) => { setteamhashtags(res.data.data) })
+      .then((res: any) => { setteamhashtags(res.data.data);})
       .catch((err) => alert(err))
   },[])
   return (
@@ -39,7 +26,7 @@ function TeamDetail({ teamPK }: Props): ReactElement {
       <div className="leading-6 text-gray-900 font-extrabold text-4xl text-center">{teamdata.name}</div>
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mx-8">
         <div className="px-4 py-5 sm:px-6">
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">팀 정보</p>
+          <div className="mt-1 max-w-2xl text-sm text-gray-500">팀 정보</div>
         </div>
         <div className="text-center">
           <dl>

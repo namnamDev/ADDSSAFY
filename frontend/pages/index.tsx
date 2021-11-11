@@ -117,7 +117,9 @@ function Index({ }: Props): ReactElement {
         </Dialog>
       </Transition.Root>
       <div className="animation02">
-        <div className="name">{click ? <p onClick={enter}>+ SSAFY</p> : null}</div>
+        <div className="name">
+          {click ? <div onClick={enter}>+ SSAFY</div> : null}
+        </div>
       </div>
     </div>
   );

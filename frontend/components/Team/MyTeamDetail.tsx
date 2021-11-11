@@ -65,13 +65,25 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
         .then(() => {
           // Mattermost channel 나가기
           axios
-            .delete(`/api/v4/channels/${mmchannel}/members/${mmid}`, {
-              headers: { Authorization: mmtoken },
-            })
+            .post(
+              "/api/v4/posts",
+              {
+                channel_id: mmchannel,
+                message: "멤버가 채널을 나갔습니다",
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
             .then(() => {
-              setTimeout(() => {
-                location.reload();
-              }, 500);
+              alert('팀나가기에 성공했습니다')
+              axios
+                .delete(`/api/v4/channels/${mmchannel}/members/${mmid}`, {
+                  headers: { Authorization: mmtoken },
+                })
+                .then(() => {
+                  location.reload()
+                });
             });
         });
     }
@@ -84,25 +96,20 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     <div>
       <div className="bg-white text-center">
         <div className="mx-auto py-10 px-4">
-          <p className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</p>
+          <div className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</div>
           {/* 팀멤버들 사진 */}
-          <div className="grid grid-cols-6 w-3/4 mx-auto">
+          <div className="w-3/4 mx-auto">
             {teammember.map((member: any, i: number) => (
-              <div key={i} className="group">
-                <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8 relative">
-                  <Image
-                    src={member.profile}
-                    alt={member.userPk}
-                    className="w-full h-full object-center object-cover group-hover:opacity-75"
-                    width="80%"
-                    height="100%"
-                    layout="responsive"
-                    objectFit="cover"
-                  />
-                </div>
+              <div key={i} className="">
+                <Image
+                  className="h-10 w-10 rounded-lg hover:opacity-75"
+                  src={member.profile}
+                  alt={member.userPk}
+                  width="100"
+                  height="100"
+                />
                 <div className="text-center">
-                  <p className="mt-4 text-medium text-gray-700">{member.userName}</p>
-                  <p className="mt-1 text-sm text-gray-900">{member.Number}</p>
+                  <div className="mt-4 text-medium text-gray-700">{member.userName}</div>
                 </div>
               </div>
             ))}

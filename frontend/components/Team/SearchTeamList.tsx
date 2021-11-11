@@ -2,81 +2,6 @@ import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import TeamCard from "./TeamCard";
-const people = [
-  {
-    userId: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 2,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 3,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 4,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 5,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 6,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
-
 interface Props {
   list: any;
   projectCode: number;
@@ -106,19 +31,13 @@ function SearchTeamList({ list, projectCode }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Class Info
+                    Introduce
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    MM
                   </th>
                 </tr>
               </thead>

@@ -11,9 +11,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-interface Props {}
+interface Props { }
 
-function TeamCreate({}: Props): ReactElement {
+function TeamCreate({ }: Props): ReactElement {
   const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
@@ -85,7 +85,7 @@ function TeamCreate({}: Props): ReactElement {
       <div className="w-3/5 mx-auto">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <p className="text-lg leading-6 font-medium text-gray-900">팀 만들기</p>
+            <div className="text-lg leading-6 font-medium text-gray-900">팀 만들기</div>
           </div>
           <div className="border-t border-gray-200">
             <dl>
@@ -123,7 +123,7 @@ function TeamCreate({}: Props): ReactElement {
                     <Typography className="text-bold">웹엑스 주소는 어디에?</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <p className="mb-5">Webex프로그램을 실행시킨 후,</p>
+                    <div className="mb-5">Webex프로그램을 실행시킨 후,</div>
                     <Image src="/images/copywebexlink.gif" alt="" height="500" width="1000" />
                   </AccordionDetails>
                 </Accordion>

@@ -38,7 +38,7 @@ function Mypage({ }: Props): ReactElement {
       <div className="w-1/2 mx-auto text-center">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"></div>
-          <p className="text-lg leading-6 font-bold text-gray-900">{userinfo.userName}님의 프로필</p>
+          <div className="text-lg leading-6 font-bold text-gray-900">{userinfo.userName}님의 프로필</div>
           <div className="px-4 py-2 sm:px-6">
           </div>
           <div className="text-center mb-10">

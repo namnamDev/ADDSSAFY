@@ -5,9 +5,9 @@ import Footer from "../components/basic/Footer";
 import TeamModifyHashTag from "../components/hashtag/TeamModifyHashTag";
 import { useRouter } from "next/router";
 
-interface Props {}
+interface Props { }
 
-function TeamModify({}: Props): ReactElement {
+function TeamModify({ }: Props): ReactElement {
   const router = useRouter();
   // 팀 정보 미리 가져오기
   const [webex, setwebex] = useState<string>("");
@@ -69,7 +69,7 @@ function TeamModify({}: Props): ReactElement {
       <div className="w-3/5 mx-auto text-center">
         <div className="shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <p className="text-lg leading-6 font-medium text-gray-900">팀정보 수정하기</p>
+            <div className="text-lg leading-6 font-medium text-gray-900">팀정보 수정하기</div>
           </div>
           <div className="border-t border-gray-200">
             <dl>
@@ -95,7 +95,6 @@ function TeamModify({}: Props): ReactElement {
         <div className="">
           <TeamModifyHashTag onCanChanged={setCan} teamHashTag={teamTags} />
         </div>
-
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
             <button

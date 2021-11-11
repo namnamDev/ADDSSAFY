@@ -106,9 +106,9 @@ function Footer({ }: Props): ReactElement {
           width="150"
           alt=""
         ></Image>
-        <p className="mt-6 text-xs lg:text-sm leading-none text-gray-900 dark:text-gray-50 cursor-pointer">
+        <div className="mt-6 text-xs lg:text-sm leading-none text-gray-900 dark:text-gray-50 cursor-pointer">
           2021 우리의 마지막 프로젝트, 싸피에 더하다
-        </p>
+        </div>
       </div>
     </div>
   );
