@@ -83,21 +83,10 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
         List<TeamDto> res = queryFactory
                 .from(qTeam)
                 .where(builder)
-//                .where(qTeam.type.eq(projectCode))
-//                .where(qTeam.id
-//                        .in(
-//                                JPAExpressions.select(qTeamHashtag.team().id)
-//                                    .from(qTeamHashtag)
-//                                    .where(qTeamHashtag.hashTag().id.in(can))
-//                                    .groupBy(qTeamHashtag.team())
-//                                    .having(qTeamHashtag.team().count().eq(Long.valueOf(can.size())))
-//                                        .fetchAll()
-//                            )
-//                        )
                 .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
                 .join(qMember).on(qTeamMember.member().eq(qMember))
-                .innerJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
-                .innerJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
+                .leftJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
+                .leftJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
                 .transform(GroupBy.groupBy(qTeam.id)
                         .list(
                                 Projections.constructor(
@@ -120,56 +109,6 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
                         )
                 );
         return res;
-//        QTeam qTeam= QTeam.team;
-//        QTeamMember qTeamMember = QTeamMember.teamMember;
-//        QTeamHashtag qTeamHashtag = QTeamHashtag.teamHashtag;
-//        QHashTag qHashTag = QHashTag.hashTag;
-//
-//        QMember qMember = QMember.member;
-//
-//        BooleanBuilder builder = new BooleanBuilder();
-//        BooleanBuilder builderHashs = new BooleanBuilder();
-//        for(int i =0;i<can.size();i++){
-//            Long temp = can.get(i);
-//            builderHashs.or(qTeamHashtag.hashTag().id.eq(temp));
-//        }
-//        builder.and(qTeam.type.eq(projectCode));
-//        builder.and(builderHashs);
-//        List<TeamDto> res = queryFactory
-//                .from(qTeam)
-//                .where(builder).in(
-//                        ExpressionUtils
-//                                .as(JPAExpressions
-//                                        .selectFrom(qTeamHashtag)
-//                                        .where(qTeamHashtag.team().id)
-//                                        .in((TeamHashtag) can)))
-//                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
-//                .join(qMember).on(qTeamMember.member().eq(qMember))
-//                .innerJoin(qTeamHashtag).on(qTeam.eq(qTeamHashtag.team()))
-//                .innerJoin(qHashTag).on(qTeamHashtag.hashTag().eq(qHashTag))
-//                .transform(GroupBy.groupBy(qTeam.id)
-//                        .list(
-//                                Projections.constructor(
-//                                        TeamDto.class
-//                                        , qTeam.id
-//                                        , qTeam.name
-//                                        , qTeam.introduce
-//                                        , qTeam.webexLink
-//                                        , qTeam.ppt
-//                                        , qTeam.mmChannel
-//                                        ,GroupBy.list(Projections.constructor(
-//                                                UserDto.class
-//                                                , qMember.id
-//                                                , qMember.name
-//                                                , qTeamMember.leader
-//                                                , qMember.profile
-//                                                , qMember.mmid
-//                                        ))
-//                                )
-//                        )
-//                );
-//        return res;
-//        return null;
     }
 
     @Override
