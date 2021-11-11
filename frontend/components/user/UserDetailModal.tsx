@@ -198,7 +198,7 @@ function UserDetailModal({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
                 ></Dialog.Title>
-                <div className="mt-2 ">
+                <div className="">
                   <div className="text-sm text-gray-500  ">
                     <UserDetail userPk={userPK} mmid={mmid} />
                   </div>
@@ -210,14 +210,14 @@ function UserDetailModal({
                     <>
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-green-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={acceptUser}
                       >
                         유저의 제안 수락
                       </button>
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-red-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={rejectUser}
                       >
                         유저의 제안 거절
@@ -226,7 +226,7 @@ function UserDetailModal({
                   ) : userButton === 2 ? (
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-red-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={withdrawSuggest}
                     >
                       유저에게 가입 제안 취소
@@ -234,7 +234,7 @@ function UserDetailModal({
                   ) : (
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-blue-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={Suggest}
                     >
                       유저에게 가입 제안
@@ -242,7 +242,7 @@ function UserDetailModal({
                   )}
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-gray-500 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={() => setflag(false)}
                   >
                     창 닫기

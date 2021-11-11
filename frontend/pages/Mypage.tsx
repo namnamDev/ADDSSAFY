@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "../components/basic/Footer";
@@ -42,7 +41,7 @@ function Mypage({ }: Props): ReactElement {
           <div className="px-4 py-2 sm:px-6">
           </div>
           <div className="text-center mb-10">
-            <Image
+            <img
               className="rounded-full mx-auto"
               src={userinfo.profile}
               alt=""

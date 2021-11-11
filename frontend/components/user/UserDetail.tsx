@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import SendMMmodal from "./SendMMmodal";
+import { MailIcon } from "@heroicons/react/solid";
 
 interface Props {
   userPk: number;
@@ -166,9 +167,10 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
         {checkMMid ? (
           <button
             type="button"
-            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-blue-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
             onClick={() => setflagMM(true)}
           >
+            <MailIcon className="h-6 w-6 text-blue-800 mr-2" aria-hidden="true" />
             매터모스트 메시지 보내기
           </button>
         ) : null}
