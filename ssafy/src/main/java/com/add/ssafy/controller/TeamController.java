@@ -106,4 +106,9 @@ public class TeamController {
         return ResponseEntity.ok(teamSvcInter.suggestedCheck(userPK,teamPK,false));
 
     }
+
+    @GetMapping("/leaderinfo/{teamPK}")
+    public ResponseEntity<BaseResponse>teamLeaderInfo(@PathVariable(name="teamPK")Long teamPK){
+        return ResponseEntity.ok(teamSvcInter.teamLeaderInfo(teamPK));
+    }
 }

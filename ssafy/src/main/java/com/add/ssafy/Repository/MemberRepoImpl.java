@@ -152,7 +152,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                         )
                 );
         System.out.println(transform);
-                return transform.get(userPK);
+        return transform.get(userPK);
 //                .groupBy(qMember.id)
 //                .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
 //                .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))

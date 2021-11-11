@@ -2,10 +2,7 @@ package com.add.ssafy.service;
 
 import com.add.ssafy.Repository.*;
 import com.add.ssafy.config.SecurityUtil;
-import com.add.ssafy.dto.HashTagsDto;
-import com.add.ssafy.dto.RecruitTrueDto;
-import com.add.ssafy.dto.TeamAddTagsDto;
-import com.add.ssafy.dto.TeamDto;
+import com.add.ssafy.dto.*;
 import com.add.ssafy.dto.request.*;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.*;
@@ -368,5 +365,12 @@ public class TeamSvcImpl implements TeamSvcInter{
         }else{
             return BaseResponse.builder().msg("지원하지 않음").status("200").data(0).build();
         }
+    }
+
+    @Override
+    public BaseResponse teamLeaderInfo(Long teamPK){
+        TeamMember leader = teamMemberRepo.findteamLeader(teamPK);
+        UserDetailDto res = memberRepo.findUserDetailDTOById(leader.getMember().getId());
+        return return BaseResponse.builder().msg("지원함").status("200").data(res).build();;
     }
 }

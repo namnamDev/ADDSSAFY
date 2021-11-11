@@ -40,4 +40,6 @@ public interface TeamSvcInter {
     BaseResponse teamDelegate(DelegateRequest delegateRequest);
 
     BaseResponse suggestedCheck(Long userPK, Long teamPK, boolean direction);
+
+    BaseResponse teamLeaderInfo(Long teamPK);
 }
