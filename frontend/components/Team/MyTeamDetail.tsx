@@ -65,14 +65,25 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
         .then(() => {
           // Mattermost channel 나가기
           axios
-            .delete(`/api/v4/channels/${mmchannel}/members/${mmid}`, {
-              headers: { Authorization: mmtoken },
-            })
+            .post(
+              "/api/v4/posts",
+              {
+                channel_id: mmchannel,
+                message: "멤버가 채널을 나갔습니다",
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
             .then(() => {
               alert('팀나가기에 성공했습니다')
-              setTimeout(() => {
-                location.reload();
-              }, 500);
+              axios
+                .delete(`/api/v4/channels/${mmchannel}/members/${mmid}`, {
+                  headers: { Authorization: mmtoken },
+                })
+                .then(() => {
+                  location.reload()
+                });
             });
         });
     }

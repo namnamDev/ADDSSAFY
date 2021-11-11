@@ -88,8 +88,9 @@ function TeamDetailModal({
   }
   function inviteUser(channel_id: string, leaderMMToken: string) {
     const mmid: string | null = localStorage.getItem('mmid')
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
     console.log(channel_id, leaderMMToken)
-    if (typeof mmid === 'string') {
+    if (typeof mmid === 'string' && mmtoken) {
       axios.post(`/api/v4/channels/${channel_id}/members`,
         {
           user_id: mmid
@@ -97,7 +98,23 @@ function TeamDetailModal({
         {
           headers: { Authorization: "Bearer " + leaderMMToken }
         })
-        .then(() => { alert('요청이 수락되어, 메타모스트채널에 초대되었습니다'); location.reload() })
+        .then(() => {
+          alert('요청이 수락되어, 메타모스트채널에 초대되었습니다');
+          axios
+            .post(
+              "/api/v4/posts",
+              {
+                channel_id: channel_id,
+                message: "새멤버가 추가되었습니다, 안녕하세요~ *^^*",
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
+            .then(() => {
+              location.reload();
+            });
+        })
 
     }
   }

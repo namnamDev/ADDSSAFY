@@ -73,26 +73,20 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate, teamName
         })
         .then(() => {
           alert('요청이 수락되어, 메타모스트채널에 초대되었습니다');
-          axios.post("/api/v4/channels/direct", [mmid, channel_id],
-            {
-              headers: { Authorization: mmtoken },
-            })
-            .then((res: any) => {
-              axios
-                .post(
-                  "/api/v4/posts",
-                  {
-                    channel_id: res.data.id,
-                    message: "새멤버가 추가되었습니다, 안녕하세요~ *^^*",
-                  },
-                  {
-                    headers: { Authorization: mmtoken },
-                  }
-                )
-                .then(() => {
-                  location.reload();
-                });
-            })
+          axios
+            .post(
+              "/api/v4/posts",
+              {
+                channel_id: channel_id,
+                message: "새멤버가 추가되었습니다, 안녕하세요~ *^^*",
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
+            .then(() => {
+              location.reload();
+            });
         })
 
     }
