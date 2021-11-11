@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 
 public class UploadPPTRequest {
+    @NotNull
     private Long teamPK;
+    @NotNull
     private MultipartFile ppt;
 }

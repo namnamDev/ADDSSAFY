@@ -115,6 +115,7 @@ public class TeamController {
     //ppt업로드
     @PostMapping("/uploadppt")
     public ResponseEntity<BaseResponse>uploadPPT(UploadPPTRequest uploadPPTRequest){
+        System.out.println(uploadPPTRequest.toString());
         return ResponseEntity.ok(teamSvcInter.uploadPPT(uploadPPTRequest));
     }
 }
