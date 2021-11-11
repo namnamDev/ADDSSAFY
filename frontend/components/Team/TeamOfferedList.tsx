@@ -68,7 +68,7 @@ function TeamOfferedList({ projectCode }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {teamList.map((team: any) => (
-                  <TeamOfferedCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK} suggestDate={team.suggestDate} />
+                  <TeamOfferedCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK} suggestDate={team.suggestDate} teamName={team.teamName}/>
                 ))}
               </tbody>
             </table>

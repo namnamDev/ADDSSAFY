@@ -7,7 +7,7 @@ interface Props {
   flag: boolean;
   projectCode: number;
   userPK: number;
-  mmid: string;
+  mmid?: string;
   leaderCheck: boolean;
   setflag: (value: any) => any;
   suggestPK?: number
@@ -43,14 +43,33 @@ function UserDetailModal({
             headers: { Authorization: token },
           })
           .then((res: any) => {
-            console.log('teampk', res.data.data)
             setTeamPK(res.data.data);
           })
-
       }
     }
   }, [flag, userPK]);
 
+  function inviteUser(channel_id: string) {
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof mmtoken === 'string' && token) {
+      axios
+        .get(`/api/users/detail/${userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios.post(`/api/v4/channels/${channel_id}/members`,
+            {
+              user_id: res.data.data.userDetailDto.mmid
+            },
+            {
+              headers: { Authorization: mmtoken }
+            })
+            .then(() => location.reload())
+        });
+
+    }
+  }
   function acceptUser() {
     const MMtoken: string | null = localStorage.getItem('mmtoken')
     const token: string | null = localStorage.getItem('token')
@@ -63,9 +82,43 @@ function UserDetailModal({
       }, {
         headers: { Authorization: token }
       })
-        .then(() => { alert('팀가입이 수락하였습니다'); location.reload() })
+        .then((res: any) => { alert('팀가입이 수락하였습니다'); inviteUser(res.data.data.mmChannelId) })
         .catch((err) => alert(err))
     }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem('token')
+    // 거절메시지 보내주기
+    if (mymmid && mmtoken && token)
+      axios
+        .get(`/api/users/detail/${userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.userDetailDto.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
   }
   function rejectUser() {
     const token: string | null = localStorage.getItem('token')
@@ -78,7 +131,7 @@ function UserDetailModal({
       }, {
         headers: { Authorization: token }
       })
-        .then(() => { alert('팀가입을 거절하였습니다'); location.reload() })
+        .then(() => { alert('팀가입을 거절하였습니다'); sendMessage("가입신청이 거절되었습니다") })
         .catch((err) => alert(err))
     }
   }
@@ -92,7 +145,7 @@ function UserDetailModal({
         },
         headers: { Authorization: token }
       })
-        .then(() => location.reload())
+        .then(() => { alert('팀제안이 철회되었습니다'); sendMessage("팀제안이 철회되었습니다") })
     }
   }
 
@@ -108,7 +161,7 @@ function UserDetailModal({
       }, {
         headers: { Authorization: token }
       })
-        .then(() => { alert('가입제안이 완료되었습니다'); location.reload() })
+        .then(() => { alert('가입제안이 완료되었습니다'); sendMessage("팀제안 요청이 왔습니다") })
         .catch((err) => alert(err))
     }
   }

@@ -6,10 +6,11 @@ interface Props {
   teamPK: number;
   projectCode: number;
   suggestPK: number,
-  suggestDate:string
+  suggestDate: string,
+  teamName: string
 }
 
-function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): ReactElement {
+function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate, teamName }: Props): ReactElement {
   const [teamFlag, setTeamFlag] = useState<boolean>(false)
   // 제안을 보낸 시간 구하기
   const now = new Date(suggestDate);
@@ -44,15 +45,33 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate }: Props)
       axios.post(
         "/api/team/recruit/user",
         {
-          teamPk: teamPK,
+          teamPK: teamPK,
           projectCode: Number(projectCode),
           suggestPK: suggestPK,
-          boolean: true,
+          suggest: true,
         },
         {
           headers: { Authorization: token },
         }
-      );
+      )
+        .then((res: any) => {
+          inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken)
+        })
+    }
+  }
+  function inviteUser(channel_id: string, leaderMMToken: string) {
+    const mmid: string | null = localStorage.getItem('mmid')
+    console.log(channel_id, leaderMMToken)
+    if (typeof mmid === 'string') {
+      axios.post(`/api/v4/channels/${channel_id}/members`,
+        {
+          user_id: mmid
+        },
+        {
+          headers: { Authorization: "Bearer " + leaderMMToken }
+        })
+        .then(() => { alert('요청이 수락되어, 메타모스트채널에 초대되었습니다'); location.reload() })
+
     }
   }
   // 제안 거절
@@ -62,15 +81,16 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate }: Props)
       axios.post(
         "/api/team/recruit/user",
         {
-          teamPk: teamPK,
+          teamPK: teamPK,
           projectCode: projectCode,
           suggestPK: suggestPK,
-          boolean: false,
+          suggest: false,
         },
         {
           headers: { Authorization: token },
         }
-      );
+      )
+        .then(() => { alert('제안을 거절하였습니다'); location.reload() })
     }
   }
   return (
@@ -80,7 +100,7 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate }: Props)
           className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
           onClick={() => setTeamFlag(true)}
         >
-          팀이름
+          {teamName}
         </div>
       </td>
 

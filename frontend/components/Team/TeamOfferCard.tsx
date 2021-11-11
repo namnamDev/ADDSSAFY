@@ -6,7 +6,7 @@ interface Props {
   teamPK: number;
   projectCode: number;
   suggestPK: number;
-  suggestDate:string
+  suggestDate: string
 }
 
 function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): ReactElement {
@@ -50,7 +50,7 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
       })
       .catch((err) => alert(err));
   }, [teamPK]);
-  // 가입 신청 철회
+
   // 가입 신청 철회
   function withdraw() {
     const token: string | null = localStorage.getItem("token");
@@ -63,9 +63,39 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
       })
         .then(() => {
           alert('가입신청이 철회되었습니다');
-          location.reload()
+          sendMessage("가입요청이 철회되었습니다")
         })
     }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    // 팀장mmid 가져오기
+    if (mymmid && mmtoken)
+      axios.get(`/api/team/leaderinfo/${teamPK}`)
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
   }
 
   return (

@@ -2,18 +2,18 @@
 import React, { ReactElement, useState, Fragment } from "react";
 import Image from "next/image";
 import UserDetailModal from "./UserDetailModal";
+import axios from 'axios'
 interface Props {
   person: any;
   projectCode: number;
   leadercheck: boolean;
   setUserList: (value: any[]) => any;
+  suggestPK: number
 }
 
-function UserOfferCard({ person, projectCode, leadercheck, setUserList }: Props): ReactElement {
+function UserOfferCard({ person, projectCode, leadercheck, setUserList, suggestPK }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false)
-  const apply = () => {
-    alert(`${person}팀에 지원했습니다.`);
-  };
+
   // 제안을 보낸 시간 구하기
   const now = new Date(person.suggestDate);
   new Date(now.setHours(now.getHours() + 11));
@@ -40,6 +40,52 @@ function UserOfferCard({ person, projectCode, leadercheck, setUserList }: Props)
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
+  function withdrawSuggest() {
+    const token: string | null = localStorage.getItem("token")
+    if (token) {
+      axios.delete('/api/team/userwithdraw', {
+        data: {
+          suggestPK: suggestPK
+        },
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀제안이 철회되었습니다'); sendMessage("팀제안이 철회되었습니다") })
+    }
+  }
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem('token')
+    // 거절메시지 보내주기
+    if (mymmid && mmtoken && token)
+      axios
+        .get(`/api/users/detail/${person.userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          axios
+            .post("/api/v4/channels/direct", [mymmid, res.data.data.userDetailDto.mmid], {
+              headers: { Authorization: mmtoken },
+            })
+            .then((res: any) => {
+              axios
+                .post(
+                  "/api/v4/posts",
+                  {
+                    channel_id: res.data.id,
+                    message: message,
+                  },
+                  {
+                    headers: { Authorization: mmtoken },
+                  }
+                )
+                .then(() => {
+                  alert("메시지를 성공적으로 전송하였습니다");
+                  location.reload();
+                });
+            })
+        });
+  }
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -56,7 +102,7 @@ function UserOfferCard({ person, projectCode, leadercheck, setUserList }: Props)
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-          onClick={() => apply()}
+          onClick={() => withdrawSuggest()}
         >
           제안 철회
         </span>

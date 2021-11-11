@@ -35,7 +35,6 @@ const filters: filters[] = [
     options: [],
   },
 ];
-interface Props {}
 
 interface list {
   hashTagPK: number;
