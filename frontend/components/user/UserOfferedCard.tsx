@@ -2,13 +2,16 @@
 import React, { ReactElement, useState, Fragment } from "react";
 import Image from "next/image";
 import UserDetailModal from "./UserDetailModal";
+import axios from 'axios'
 interface Props {
   person: any;
   projectCode: number;
   leadercheck: boolean;
+  suggestPK: number,
+  myTeamPK: number
 }
 
-function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElement {
+function UserOfferedCard({ person, projectCode, leadercheck, suggestPK, myTeamPK }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false);
 
   // 제안을 보낸 시간 구하기
@@ -42,6 +45,37 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
+  function acceptUser() {
+    const MMtoken: string | null = localStorage.getItem('mmtoken')
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPK: myTeamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: true
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀가입이 수락하였습니다'); location.reload() })
+        .catch((err) => alert(err))
+    }
+  }
+  function rejectUser() {
+    const token: string | null = localStorage.getItem('token')
+    if (typeof token === "string") {
+      axios.post('/api/team/recruit/team', {
+        teamPK: myTeamPK,
+        projectCode: Number(projectCode),
+        suggestPK: suggestPK,
+        suggest: false
+      }, {
+        headers: { Authorization: token }
+      })
+        .then(() => { alert('팀가입을 거절하였습니다'); location.reload() })
+        .catch((err) => alert(err))
+    }
+  }
   return (
     <tr>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -58,7 +92,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => apply()}
+          onClick={() => acceptUser()}
         >
           수락
         </span>
@@ -66,7 +100,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-          onClick={() => apply()}
+          onClick={() => rejectUser()}
         >
           거절
         </span>
@@ -78,6 +112,7 @@ function UserOfferedCard({ person, projectCode, leadercheck }: Props): ReactElem
         flag={flag}
         setflag={setflag}
         leaderCheck={leadercheck}
+        suggestPK={suggestPK}
       />
     </tr>
   );

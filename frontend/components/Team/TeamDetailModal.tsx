@@ -26,7 +26,6 @@ function TeamDetailModal({
   const [suggestPK, setsuggestPK] = useState<number>(0)
   useEffect(() => {
     getTeamButton();
-    // 
     getSuggestPK()
   }, [teamFlag, teamPK]);
   async function getTeamButton() {
@@ -49,10 +48,17 @@ function TeamDetailModal({
   function getSuggestPK() {
     const token: string | null = localStorage.getItem("token")
     if (token) {
-      axios.get(`/api/users/check/${teamPK}`, {
-        headers: { Authorization: token }
-      })
-        .then((res: any) => { setsuggestPK(res.data.data); })
+      axios.get('/api/users/mypage',
+        {
+          headers: { Authorization: token }
+        })
+        .then((res: any) => {
+          console.log(res)
+          axios.get(`/api/users/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
+            headers: { Authorization: token }
+          })
+            .then((res: any) => { setsuggestPK(res.data.data); })
+        })
     }
   }
 
@@ -67,7 +73,7 @@ function TeamDetailModal({
         "/api/team/recruit/user",
         {
           teamPk: teamPK,
-          projectCode: projectCode,
+          projectCode: Number(projectCode),
           suggetPK: suggestPK,
           boolean: true,
         },

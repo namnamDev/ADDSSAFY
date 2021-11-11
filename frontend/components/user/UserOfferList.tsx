@@ -20,7 +20,6 @@ function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElem
         .then((res: any) => { setUserList([...res.data.data]) })
     }
   }, [myTeamPK])
-
   function SendMM() {
     alert("message");
   }

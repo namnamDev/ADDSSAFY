@@ -5,25 +5,17 @@ import Footer from "../components/basic/Footer";
 
 const features = [
   { name: "WHO", description: "박종한, 남근형, 조영우" },
-  { name: "WHAT", description: "팀빌딩 및 교육비지원금관리" },
-  { name: "WHEN", description: "20.10.11 - 20.11.15" },
-  { name: "WHERE", description: "SSAFY" },
-  {
-    name: "WHY",
-    description:
-      "구글드라이브로 진행되는 다소 답답함 프로세스와 교육생들의 7주를 책임질 프로젝트에 있어 원활한 팀빌딩을 위해",
-  },
-  { name: "HOW", description: "자율프로젝트를 통해서" },
+
 ];
 
-interface Props {}
+interface Props { }
 
-function Main({}: Props): ReactElement {
+function Main({ }: Props): ReactElement {
   return (
     <div className="">
       <Navbar />
-      <div className="bg-white w-4/5 mx-auto">
-        <div className="max-w-2xl mx-auto py-20 px-4 grid items-center grid-cols-1 gap-y-16 gap-x-8 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid-cols-2">
+      <div className="bg-white w-full mx-auto">
+        <div className="max-w-5xl mx-auto py-5 px-4 grid items-center grid-cols-1 gap-y-16 gap-x-8 lg:grid-cols-2">
           <div>
             <div className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               Project SSAFY
@@ -39,17 +31,17 @@ function Main({}: Props): ReactElement {
               ))}
             </dl>
           </div>
-          <div className="grid grid-cols-3 grid-rows-3 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8">
             <Image
-              src="/images/samsung.jpg"
+              src="/images/mainbg.png"
               alt="Walnut card tray with white powder coated steel divider and 3 punchout holes."
               className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
+              width="100"
+              height="100"
               layout="responsive"
               objectFit="cover"
             />
-            <Image
+            {/* <Image
               src="/images/ssg.jpg"
               alt="Top down view of walnut card tray with embedded magnets and card groove."
               className="bg-gray-100 rounded-lg"
@@ -120,9 +112,9 @@ function Main({}: Props): ReactElement {
               height="100%"
               layout="responsive"
               objectFit="cover"
-            />
+            /> */}
           </div>
-        </div>  
+        </div>
         <div className="text-center">우수작품</div>
         <div className="wrapper">
           <div className="item">
