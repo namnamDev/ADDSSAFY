@@ -90,7 +90,24 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
   }
   // ppt업로드
   const [open, setOpen] = useState(false);
-
+  const [file, setFile] = useState("");
+  function upload(file: any) {
+    setFile(file)
+  }
+  async function uploadPPT() {
+    setOpen(false)
+    const formData = new FormData()
+    formData.append('ppt', file)
+    formData.append('teamPK', String(teamPK))
+    for (let value of formData.values()) {
+      console.log(value);
+    }
+    axios.post('/api/team/uploadppt', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+  }
   const cancelButtonRef = useRef(null);
   return (
     <div>
@@ -197,7 +214,14 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                         PPT 업로드하기
                       </Dialog.Title>
                       <div className="mt-10">
-                        <input type="file" className="" />
+                        <input
+                          type="file"
+                          accept=".pptx,.ppt,application/pdf"
+                          onChange={(event: any) => {
+                            upload(event.target.files[0])
+                          }}
+                        />
+
                       </div>
                     </div>
                   </div>
@@ -206,7 +230,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                   <button
                     type="button"
                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2  sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={uploadPPT}
                   >
                     Upload
                   </button>
