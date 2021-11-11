@@ -115,7 +115,12 @@ function Main({ }: Props): ReactElement {
             /> */}
           </div>
         </div>
-        <div className="text-center">우수작품</div>
+        <hr className="w-1/2 mx-auto my-5"/>
+        <div className="lg:text-center">
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+             SSAFY Project Gallery
+          </p>
+        </div>
         <div className="wrapper">
           <div className="item">
             <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />

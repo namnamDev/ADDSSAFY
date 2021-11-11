@@ -1,10 +1,9 @@
 import React, { ReactElement, Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Transition, Menu, Popover } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import Tooltip from '@mui/material/Tooltip';
 import axios from "axios";
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { LogoutIcon, UserIcon } from '@heroicons/react/outline'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -82,13 +81,17 @@ function Navbar({ }: Props): ReactElement {
                   <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer" onClick={() => gototeammenu(2)}>
                     자율프로젝트
                   </div>
-                  <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer" onClick={() => router.push("/Mypage")}>
-                    내프로필
-                  </div>
-                  <div className="font-medium text-red-200 hover:text-red-500 float-left cursor-pointer" onClick={logout}>
-                    로그아웃
-                  </div>
                 </div>
+                <Tooltip title="마이페이지">
+                  <div className="font-medium text-gray-500 hover:text-gray-900 float-left cursor-pointer mx-2" onClick={() => router.push("/Mypage")}>
+                    <UserIcon className="h-6 w-6" />
+                  </div>
+                </Tooltip>
+                <Tooltip title="로그아웃">
+                  <div className="font-medium text-red-200 hover:text-red-500 float-left cursor-pointer mx-2" onClick={logout}>
+                    <LogoutIcon className="h-8 w-8" />
+                  </div>
+                </Tooltip>
                 <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                   <div className="whitespace-nowrap text-xs font-bold text-gray-900 pr-2">
                     {mynickname}
