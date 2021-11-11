@@ -67,20 +67,21 @@ public class FileUtils {
         String contentType = file.getContentType();
         System.out.println(file.getContentType()+" 22222222222222");
         String originalFileExtension;
-        if (contentType.equals("image/jpeg")) {
-            originalFileExtension = ".jpg";
-        } else if (contentType.equals("image/png")) {
-            originalFileExtension = ".png";
-        } else if (contentType.equals("image/gif")) {
-            originalFileExtension = ".gif";
-        } else if (contentType.equals("video/mp4")) {
-            originalFileExtension = ".mp4";
-        } else if (contentType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")) {
-            originalFileExtension = ".ppt";
-        } else {
-            throw new RuntimeException("동영상이나 이미지가 아닙니다.");
-        }
-        return originalFileExtension;
+        return ".ppt";
+//        if (contentType.equals("image/jpeg")) {
+//            originalFileExtension = ".jpg";
+//        } else if (contentType.equals("image/png")) {
+//            originalFileExtension = ".png";
+//        } else if (contentType.equals("image/gif")) {
+//            originalFileExtension = ".gif";
+//        } else if (contentType.equals("video/mp4")) {
+//            originalFileExtension = ".mp4";
+//        } else if (contentType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")) {
+//            originalFileExtension = ".ppt";
+//        } else {
+//            throw new RuntimeException("동영상이나 이미지가 아닙니다.");
+//        }
+//        return originalFileExtension;
     }
 
     public static String SetFilePath() {
