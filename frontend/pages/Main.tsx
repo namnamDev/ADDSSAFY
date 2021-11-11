@@ -123,7 +123,7 @@ function Main({ }: Props): ReactElement {
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+            <div className="polaroid"><Image src="/images/iseau.gif" width="390" height="220" alt="" />
               <div className="caption">ISEAU</div>
             </div>
           </div>
@@ -133,18 +133,18 @@ function Main({ }: Props): ReactElement {
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
-              <div className="caption">알잘알</div>
+            <div className="polaroid"><Image src="/images/alzalal.gif" width="390" height="220" alt="" />
+              <div className="caption">alzalal</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
-              <div className="caption">pjt1</div>
+            <div className="polaroid"><Image src="/images/bts.gif" width="390" height="220" alt="" />
+              <div className="caption">BTS</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
-              <div className="caption">pjt2</div>
+            <div className="polaroid"><Image src="/images/mokomoko.gif" width="390" height="220" alt="" />
+              <div className="caption">MokoMoko</div>
             </div>
           </div>
         </div>

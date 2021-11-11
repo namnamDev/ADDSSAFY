@@ -64,12 +64,12 @@ function Navbar({ }: Props): ReactElement {
               <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
                 <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                   <div className="flex items-center justify-between w-full md:w-auto">
-                    <a href="#">
+                    <div className="cursor-pointer" onClick={() => router.push("/Main")}>
                       <img
                         className="h-14 w-auto"
                         src="/images/mainlogo.jpg"
                       />
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">

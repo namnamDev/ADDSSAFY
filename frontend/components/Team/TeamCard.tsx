@@ -44,7 +44,7 @@ function TeamCard({ teamPK, projectCode }: Props): ReactElement {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">반</div>
+        <div className="text-sm text-gray-900">{teamdata.introduce}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {enough ? (
@@ -56,14 +56,6 @@ function TeamCard({ teamPK, projectCode }: Props): ReactElement {
             구인중
           </span>
         )}
-      </td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span
-          className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
-        >
-          MatterMost
-        </span>
       </td>
       <TeamDetailModal
         projectCode={projectCode}
