@@ -210,14 +210,14 @@ function UserDetailModal({
                     <>
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-green-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-green-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={acceptUser}
                       >
                         유저의 제안 수락
                       </button>
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-red-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={rejectUser}
                       >
                         유저의 제안 거절
@@ -226,7 +226,7 @@ function UserDetailModal({
                   ) : userButton === 2 ? (
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-red-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={withdrawSuggest}
                     >
                       유저에게 가입 제안 취소
@@ -234,7 +234,7 @@ function UserDetailModal({
                   ) : (
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-blue-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={Suggest}
                     >
                       유저에게 가입 제안
@@ -242,7 +242,7 @@ function UserDetailModal({
                   )}
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-gray-500 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                     onClick={() => setflag(false)}
                   >
                     창 닫기
