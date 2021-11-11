@@ -74,7 +74,7 @@ function TeamDetailModal({
         {
           teamPk: teamPK,
           projectCode: Number(projectCode),
-          suggetPK: suggestPK,
+          suggestPK: suggestPK,
           boolean: true,
         },
         {
@@ -92,7 +92,7 @@ function TeamDetailModal({
         {
           teamPk: teamPK,
           projectCode: projectCode,
-          suggetPK: suggestPK,
+          suggestPK: suggestPK,
           boolean: false,
         },
         {

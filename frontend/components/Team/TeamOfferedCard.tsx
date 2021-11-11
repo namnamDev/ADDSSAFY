@@ -64,7 +64,7 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate }: Props)
         {
           teamPk: teamPK,
           projectCode: projectCode,
-          suggetPK: suggestPK,
+          suggestPK: suggestPK,
           boolean: false,
         },
         {
