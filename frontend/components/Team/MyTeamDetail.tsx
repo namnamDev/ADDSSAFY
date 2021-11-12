@@ -117,9 +117,9 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
         <div className="mx-auto py-10 px-4">
           <div className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</div>
           {/* 팀멤버들 사진 */}
-          <div className="w-3/4 mx-auto">
+          <div className="w-3/4 mx-auto flex flex-row justify-center">
             {teammember.map((member: any, i: number) => (
-              <div key={i} className="">
+              <div key={i} className="mx-2">
                 <Image
                   className="h-10 w-10 rounded-lg hover:opacity-75"
                   src={member.profile}
