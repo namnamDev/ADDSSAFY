@@ -26,8 +26,6 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
       axios
         .get(`/api/team/teamuser/${teamPK}`)
         .then((res: any) => {
-          console.log(123)
-          console.log(res)
           setteammember([...res.data.data]);
           {
             res.data.data.map((member: any, i: number) => {
@@ -45,6 +43,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     axios
       .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => {
+        console.log(res)
         setppt(res.data.data.ppt)
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
@@ -99,7 +98,6 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [pk, setpk] = useState<number>(0);
   const [mmid, setmmid] = useState<string>("");
   function userDetail(userPK: number, mmid: string) {
-    console.log(mmid)
     setflag(true);
     setpk(userPK);
     setmmid(mmid)
