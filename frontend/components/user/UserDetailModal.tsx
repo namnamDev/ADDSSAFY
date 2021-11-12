@@ -21,7 +21,6 @@ function UserDetailModal({
   leaderCheck,
   suggestPK,
   setflag,
-
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
   const [teamPK, setTeamPK] = useState<number>(0)

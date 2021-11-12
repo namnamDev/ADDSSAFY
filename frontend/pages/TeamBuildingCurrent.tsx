@@ -41,12 +41,10 @@ function TeamBuildingCurrent({}: Props): ReactElement {
   const createTeam = () => {
     const token: string | null = localStorage.getItem('token')
     if (token && projectCode !== '0') {
-      console.log(1)
       axios.get(`/api/team/myteam/${projectCode - 1}`, {
         headers: { Authorization: token }
       })
         .then((res: any) => {
-          console.log(res)
           if (res.data.data > 0) {
             router.push(`/TeamCreate/?projectNo=${projectCode}`);
           } else {
@@ -107,7 +105,7 @@ function TeamBuildingCurrent({}: Props): ReactElement {
       <Navbar />
       <div className="text-center">
         <section data-aos="fade-up" className="">
-          {isTeam ? <MyTeamDetail teamPK={myteamPk} /> : null}
+          {isTeam ? <MyTeamDetail teamPK={myteamPk} projectCode={projectCode}/> : null}
           <br />
           <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
             <div className="self-center place-self-start ml-4 font-bold text-xl">

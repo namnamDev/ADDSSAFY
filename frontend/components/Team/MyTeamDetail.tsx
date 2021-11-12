@@ -3,14 +3,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { range } from "lodash";
+import UserDetailModal from "../user/UserDetailModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon, FolderAddIcon } from "@heroicons/react/outline";
 
 interface Props {
   teamPK: number;
+  projectCode: number;
 }
 
-function MyTeamDetail({ teamPK }: Props): ReactElement {
+function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const router = useRouter();
   const [teammember, setteammember] = useState<any>([]);
   const [webex, setwebex] = useState<string>("");
@@ -24,6 +26,8 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
       axios
         .get(`/api/team/teamuser/${teamPK}`)
         .then((res: any) => {
+          console.log(123)
+          console.log(res)
           setteammember([...res.data.data]);
           {
             res.data.data.map((member: any, i: number) => {
@@ -90,6 +94,16 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
         });
     }
   }
+  // 유저상세
+  const [flag, setflag] = useState<boolean>(false);
+  const [pk, setpk] = useState<number>(0);
+  const [mmid, setmmid] = useState<string>("");
+  function userDetail(userPK: number, mmid: string) {
+    console.log(mmid)
+    setflag(true);
+    setpk(userPK);
+    setmmid(mmid)
+  }
   // ppt업로드
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState("");
@@ -119,7 +133,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
           {/* 팀멤버들 사진 */}
           <div className="w-3/4 mx-auto flex flex-row justify-center">
             {teammember.map((member: any, i: number) => (
-              <div key={i} className="mx-2">
+              <div key={i} className="mx-2" onClick={() => userDetail(member.userPk, member.mmid)}>
                 <Image
                   className="h-10 w-10 rounded-lg hover:opacity-75"
                   src={member.profile}
@@ -132,6 +146,14 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
                 </div>
               </div>
             ))}
+            <UserDetailModal
+              projectCode={projectCode}
+              userPK={pk}
+              mmid={mmid}
+              flag={flag}
+              setflag={setflag}
+              leaderCheck={isleader}
+            />
           </div>
           <div className="mt-5 text-center">
             <span className="hidden sm:block">

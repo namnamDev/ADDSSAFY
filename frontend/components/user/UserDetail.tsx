@@ -27,7 +27,6 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          console.log(res.data.data.userDetailDto.teamList)
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);
@@ -52,7 +51,6 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   }
   //
   const [flagMM, setflagMM] = useState<boolean>(false);
-  console.log(userinfo);
   return (
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
