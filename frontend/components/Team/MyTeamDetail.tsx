@@ -15,6 +15,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
   const [teammember, setteammember] = useState<any>([]);
   const [webex, setwebex] = useState<string>("");
   const [mmchannel, setmmchannel] = useState<string>("");
+  const [ppt, setppt] = useState<string>("")
   // 팀멤버 정보 받아오기
   const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
@@ -40,6 +41,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
     axios
       .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => {
+        setppt(res.data.data.ppt)
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
       })
@@ -143,16 +145,25 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
               {isleader ? (
                 <button
                   type="button"
-                  className="inline-flex items-center px-4 py-2 border bg-green-200 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-green-100 mx-2"
+                  className="inline-flex items-center px-4 py-2 border bg-green-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-green-50 mx-2"
                   onClick={() => setOpen(true)}
                 >
                   팀 PPT 업로드
                 </button>
               ) : null}
+              {ppt ? (
+                <button
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 border bg-gray-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 mx-2"
+                  onClick={() => router.push(`https://k5d204.p.ssafy.io${ppt}`)}
+                >
+                  PPT 다운로드
+                </button>
+              ) : null}
               {isleader ? (
                 <button
                   type="button"
-                  className="inline-flex items-center px-4 py-2 border bg-blue-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-100 mx-2"
+                  className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50 mx-2"
                   onClick={() => router.push(`/TeamModify/?teamPk=${teamPK}`)}
                 >
                   팀 정보 수정
@@ -161,7 +172,7 @@ function MyTeamDetail({ teamPK }: Props): ReactElement {
 
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 border bg-red-400 text-black rounded-md shadow-sm text-sm font-medium hover:bg-red-100 mx-2"
+                className="inline-flex items-center px-4 py-2 border bg-red-500 text-black rounded-md shadow-sm text-sm font-medium hover:bg-red-50 mx-2"
                 onClick={teamexit}
               >
                 팀 나가기
