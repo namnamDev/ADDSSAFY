@@ -67,7 +67,7 @@ public class FileUtils {
         String contentType = file.getContentType();
         System.out.println(file.getContentType()+" 22222222222222");
         String originalFileExtension;
-        return ".ppt";
+        return ".pptx";
 //        if (contentType.equals("image/jpeg")) {
 //            originalFileExtension = ".jpg";
 //        } else if (contentType.equals("image/png")) {

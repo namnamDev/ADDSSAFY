@@ -15,8 +15,8 @@ spring:
          format_sql: true
   servlet:
     multipart:
-      maxFileSize: 5MB
-      maxRequestSize: 5MB
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
   cache:
     type: redisdl
   redis:
