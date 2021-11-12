@@ -6,6 +6,7 @@ import { range } from "lodash";
 import UserDetailModal from "../user/UserDetailModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon, FolderAddIcon } from "@heroicons/react/outline";
+import { compose } from "@mui/system";
 
 interface Props {
   teamPK: number;
@@ -17,7 +18,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [teammember, setteammember] = useState<any>([]);
   const [webex, setwebex] = useState<string>("");
   const [mmchannel, setmmchannel] = useState<string>("");
-  const [ppt, setppt] = useState<string>("")
+  const [ppt, setppt] = useState<string>("");
   // 팀멤버 정보 받아오기
   const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
@@ -26,8 +27,6 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
       axios
         .get(`/api/team/teamuser/${teamPK}`)
         .then((res: any) => {
-          console.log(123)
-          console.log(res)
           setteammember([...res.data.data]);
           {
             res.data.data.map((member: any, i: number) => {
@@ -45,7 +44,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     axios
       .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => {
-        setppt(res.data.data.ppt)
+        setppt(res.data.data.ppt);
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
       })
@@ -82,13 +81,13 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
               }
             )
             .then(() => {
-              alert('팀나가기에 성공했습니다')
+              alert("팀나가기에 성공했습니다");
               axios
                 .delete(`/api/v4/channels/${mmchannel}/members/${mmid}`, {
                   headers: { Authorization: mmtoken },
                 })
                 .then(() => {
-                  location.reload()
+                  location.reload();
                 });
             });
         });
@@ -99,30 +98,36 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [pk, setpk] = useState<number>(0);
   const [mmid, setmmid] = useState<string>("");
   function userDetail(userPK: number, mmid: string) {
-    console.log(mmid)
     setflag(true);
     setpk(userPK);
-    setmmid(mmid)
+    setmmid(mmid);
   }
   // ppt업로드
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState("");
   function upload(file: any) {
-    setFile(file)
+    const ext = file.target.files[0].name
+      .slice(file.target.files[0].name.indexOf(".") + 1)
+      .toLowerCase();
+    if (ext != "ppt" && ext != "pptx" && ext != "pdf") {
+      file.preventDefault();
+      file.target.value = null;
+      alert("ppt와 pdf 형식만 등록 가능합니다.");
+
+      return;
+    }
+    setFile(file.target.files[0]);
   }
   async function uploadPPT() {
-    setOpen(false)
-    const formData = new FormData()
-    formData.append('ppt', file)
-    formData.append('teamPK', String(teamPK))
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    axios.post('/api/team/uploadppt', formData, {
+    setOpen(false);
+    const formData = new FormData();
+    formData.append("ppt", file);
+    formData.append("teamPK", String(teamPK));
+    axios.post("/api/team/uploadppt", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-      }
-    })
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
   const cancelButtonRef = useRef(null);
   return (
@@ -249,12 +254,12 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                       <div className="mt-10">
                         <input
                           type="file"
-                          accept=".pptx,.ppt,application/pdf"
+                          name="file"
+                          accept=".pptx,application/pdf"
                           onChange={(event: any) => {
-                            upload(event.target.files[0])
+                            upload(event);
                           }}
                         />
-
                       </div>
                     </div>
                   </div>
