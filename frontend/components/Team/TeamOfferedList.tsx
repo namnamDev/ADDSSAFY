@@ -9,19 +9,21 @@ interface Props {
 
 function TeamOfferedList({ projectCode }: Props): ReactElement {
   const router = useRouter();
-  const [teamList, setTeamList] = useState<any>([])
+  const [teamList, setTeamList] = useState<any>([]);
   useEffect(() => {
     if (projectCode) {
-      const token: string | null = localStorage.getItem('token')
+      const token: string | null = localStorage.getItem("token");
       if (token) {
-        axios.get(`/api/users/offered/${projectCode}`, {
-          headers: { Authorization: token }
-        })
-          .then((res: any) => { setTeamList([...res.data.data]) })
-
+        axios
+          .get(`/api/users/offered/${projectCode}`, {
+            headers: { Authorization: token },
+          })
+          .then((res: any) => {
+            setTeamList([...res.data.data]);
+          });
       }
     }
-  }, [projectCode])
+  }, [projectCode]);
   // MM보내기
   function SendMM() {
     alert("message");
@@ -29,7 +31,7 @@ function TeamOfferedList({ projectCode }: Props): ReactElement {
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="py-2 align-middle inline-block min-w-full">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50 h-16">
@@ -68,7 +70,14 @@ function TeamOfferedList({ projectCode }: Props): ReactElement {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {teamList.map((team: any) => (
-                  <TeamOfferedCard key={team.suggestPK} teamPK={team.teamPK} projectCode={projectCode} suggestPK={team.suggestPK} suggestDate={team.suggestDate} teamName={team.teamName}/>
+                  <TeamOfferedCard
+                    key={team.suggestPK}
+                    teamPK={team.teamPK}
+                    projectCode={projectCode}
+                    suggestPK={team.suggestPK}
+                    suggestDate={team.suggestDate}
+                    teamName={team.teamName}
+                  />
                 ))}
               </tbody>
             </table>
