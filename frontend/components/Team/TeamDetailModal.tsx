@@ -20,9 +20,11 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   const [teamButton, setTeamButton] = useState<number>(0);
   const [suggestPK, setsuggestPK] = useState<number>(0);
+  const [suggestedTeamName, setsuggestedTeamName] = useState<object>({})
   useEffect(() => {
     getTeamButton();
     getSuggestPK();
+    getTeamDetail();
   }, [teamFlag, teamPK]);
   async function getTeamButton() {
     if (projectCode === undefined) {
@@ -59,14 +61,23 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
         });
     }
   }
-
+  function getTeamDetail() {
+    axios.get(`/api/team/detail/${teamPK}`)
+      .then((res: any) => {
+        if(typeof res !== null){
+          console.log(res.data.data.name)
+          setsuggestedTeamName(res.data.data)
+        }
+      })
+  }
   function closeTeamModal() {
     setShowTeamUser(false);
   }
   // 제안 수락
   function accept() {
     const token: string | null = localStorage.getItem("token");
-    if (token) {
+    const username: string | null = localStorage.getItem("username")
+    if (token && username) {
       axios
         .post(
           "/api/team/recruit/user",
@@ -81,11 +92,12 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
           }
         )
         .then((res: any) => {
-          inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken);
+          inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken, username);
+
         });
     }
   }
-  function inviteUser(channel_id: string, leaderMMToken: string) {
+  function inviteUser(channel_id: string, leaderMMToken: string, username: string) {
     const mmid: string | null = localStorage.getItem('mmid')
     const mmtoken: string | null = localStorage.getItem('mmtoken')
     if (typeof mmid === 'string' && mmtoken) {
@@ -97,6 +109,10 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
           headers: { Authorization: "Bearer " + leaderMMToken }
         })
         .then(() => {
+          axios.post('/hooks/d6z6ihr7wtg49dwkcsxe4f3kar', {
+            channel_id: "ipmeb6dbftfxfd681bh9cx3ufc",
+            text: `${username}님이 "${suggestedTeamName}"팀에 가입하였습니다`
+          })
           alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
           axios
             .post(
