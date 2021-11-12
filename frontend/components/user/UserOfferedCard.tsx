@@ -77,7 +77,7 @@ function UserOfferedCard({
           // 봇으로 알려주기
           axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
-            text: "`" + `${person.nickname}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀에 가입하였습니다"
+            text: "`" + `${person.userName}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀에 가입하였습니다"
           })
           inviteUser(res.data.data.mmChannelId);
         })
