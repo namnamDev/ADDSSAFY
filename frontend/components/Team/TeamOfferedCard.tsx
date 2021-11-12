@@ -1,5 +1,5 @@
 // 유저가 팀한테 받은 제안
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import TeamDetailModal from "./TeamDetailModal";
 import axios from 'axios'
 interface Props {
@@ -55,14 +55,26 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate, teamName
         }
       )
         .then((res: any) => {
+          getTeamDetail()
           inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken)
         })
     }
   }
+  let suggestTeamName = ""
+  function getTeamDetail() {
+    axios.get(`/api/team/detail/${teamPK}`)
+      .then((res: any) => {
+        if (res.data.data == null) {
+          return
+        }
+        suggestTeamName = (res.data.data.name)
+      })
+  }
   function inviteUser(channel_id: string, leaderMMToken: string) {
     const mmid: string | null = localStorage.getItem('mmid')
     const mmtoken: string | null = localStorage.getItem('mmtoken')
-    if (typeof mmid === 'string' && mmtoken) {
+    const nickname: string | null = localStorage.getItem("nickname")
+    if (typeof mmid === 'string' && mmtoken && nickname) {
       axios.post(`/api/v4/channels/${channel_id}/members`,
         {
           user_id: mmid
@@ -71,6 +83,11 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate, teamName
           headers: { Authorization: "Bearer " + leaderMMToken }
         })
         .then(() => {
+          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+            channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
+            text: "`" + `${nickname}` + "`" + "님이" + "`" + `${suggestTeamName}` + "`" + "팀을 가입하였습니다"
+
+          })
           alert('요청이 수락되어, 메타모스트채널에 초대되었습니다');
           axios
             .post(

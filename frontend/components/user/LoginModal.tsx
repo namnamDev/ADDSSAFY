@@ -50,9 +50,16 @@ function LoginModal({ }: Props): ReactElement {
                 }
               )
                 // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
-                .then((res: any) => {
-                  localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
-                  router.push('/Main')
+                .then((res1: any) => {
+                  localStorage.setItem("token", "Bearer " + res1.data.data.accessToken);
+                  axios.post('/api/v4/channels/nie5fdtbkjykpynqwj5mynpwcy/members', {
+                    user_id: res.data.id
+                  }, {
+                    headers: { Authorization: "Bearer " + "68g4frygktyapq9idribi8ns6e" }
+                  })
+                    .then((res) => {
+                      router.push('/Main')
+                    })
                 })
                 .catch((err) => alert(err))
             };

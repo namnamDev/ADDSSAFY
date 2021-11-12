@@ -53,7 +53,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   const [flagMM, setflagMM] = useState<boolean>(false);
   return (
     <div className="text-center">
-      <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
+      <div className=" shadow overflow-hidden sm:rounded-lg mt-5 min-w-md">
         <div className="px-4 py-5 sm:px-6">
           <div className="text-lg leading-6 font-medium text-gray-900">교육생 정보</div>
         </div>
