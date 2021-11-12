@@ -44,7 +44,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   };
   //
   const [flagMM, setflagMM] = useState<boolean>(false);
-
+  console.log(userinfo);
   return (
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
@@ -166,6 +166,12 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
             </div>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">자기 소개</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {userinfo.introduce}
+              </dd>
+            </div>
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">이전 프로젝트 소개자료</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {userinfo.introduce}
               </dd>

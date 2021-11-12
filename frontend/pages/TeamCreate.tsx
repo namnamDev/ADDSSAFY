@@ -11,9 +11,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-interface Props { }
+interface Props {}
 
-function TeamCreate({ }: Props): ReactElement {
+function TeamCreate({}: Props): ReactElement {
   const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
@@ -124,7 +124,7 @@ function TeamCreate({ }: Props): ReactElement {
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="mb-5">Webex프로그램을 실행시킨 후,</div>
-                    <Image src="/images/copywebexlink.gif" alt="" height="500" width="1000" />
+                    <Image src="/image/copywebexlink.gif" alt="" height="500" width="1000" />
                   </AccordionDetails>
                 </Accordion>
               </div>
