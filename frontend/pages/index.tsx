@@ -119,14 +119,6 @@ function Index({}: Props): ReactElement {
       <div className="animation02">
         <div className="name">{click ? <p onClick={enter}>+ SSAFY</p> : null}</div>
       </div>
-      <div className="wrapper">
-        <Image src="/image/peopool.gif" width="1" height="1" alt="" />
-        <Image src="/image/iseau.gif" width="1" height="1" alt="" />
-        <Image src="/image/thefan.gif" width="1" height="1" alt="" />
-        <Image src="/image/alzalal.gif" width="1" height="1" alt="" />
-        <Image src="/image/bts.gif" width="1" height="1" alt="" />
-        <Image src="/image/mokomoko.gif" width="1" height="1" alt="" />
-      </div>
     </div>
   );
 }
