@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import axios from "axios";
 
@@ -9,21 +8,27 @@ interface Props {
 
 function TeamDetail({ teamPK }: Props): ReactElement {
   const router = useRouter();
-  const [teamdata, setteamdata] = useState<any>({})
-  const [teamhashtags, setteamhashtags] = useState<any>({})
+  const [teamdata, setteamdata] = useState<any>({});
+  const [teamhashtags, setteamhashtags] = useState<any>({});
   useEffect(() => {
-    axios.get(`/api/team/detail/${teamPK}`)
+    axios
+      .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => setteamdata(res.data.data))
-      .catch((err) => alert(err))
-  }, [])
+      .catch((err) => alert(err));
+  }, []);
   useEffect(() => {
-    axios.get(`/api/team/info/${teamPK}`)
-      .then((res: any) => { setteamhashtags(res.data.data);})
-      .catch((err) => alert(err))
-  },[])
+    axios
+      .get(`/api/team/info/${teamPK}`)
+      .then((res: any) => {
+        setteamhashtags(res.data.data);
+      })
+      .catch((err) => alert(err));
+  }, []);
   return (
     <div className="">
-      <div className="leading-6 text-gray-900 font-extrabold text-4xl text-center">{teamdata.name}</div>
+      <div className="leading-6 text-gray-900 font-extrabold text-4xl text-center">
+        {teamdata.name}
+      </div>
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mx-8">
         <div className="px-4 py-5 sm:px-6">
           <div className="mt-1 max-w-2xl text-sm text-gray-500">팀 정보</div>
@@ -32,54 +37,41 @@ function TeamDetail({ teamPK }: Props): ReactElement {
           <dl>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">기술스택</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{Object.keys(teamhashtags).map((section: any, i: number) => (
-                <div key={i}>
-                  {teamhashtags[section].map((tag: any, j: any) =>
-                    <div key={j}>
-                      {
-                        section === 'DEVOPS'
-                          ?
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {Object.keys(teamhashtags).map((section: any, i: number) => (
+                  <div key={i}>
+                    {teamhashtags[section].map((tag: any, j: any) => (
+                      <div key={j}>
+                        {section === "DEVOPS" ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                             {tag.hashTagName}
                           </span>
-                          : null
-                      }
-                      {
-                        section === 'FE'
-                          ?
+                        ) : null}
+                        {section === "FE" ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                             {tag.hashTagName}
                           </span>
-                          : null
-                      }
-                      {
-                        section === 'BE'
-                          ?
+                        ) : null}
+                        {section === "BE" ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
                             {tag.hashTagName}
                           </span>
-                          : null
-                      }
-                      {
-                        section === 'ETC'
-                          ?
+                        ) : null}
+                        {section === "ETC" ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                             {tag.hashTagName}
                           </span>
-                          : null
-                      }
-                      {
-                        section === 'FOUR'
-                          ?
+                        ) : null}
+                        {section === "FOUR" ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                             {tag.hashTagName}
                           </span>
-                          : null
-                      }
-                    </div>
-                  )}
-                </div>
-              ))}</dd>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">팀 소개</dt>

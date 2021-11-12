@@ -14,20 +14,15 @@ interface Props {
   setTeamFlag: (value: any) => any;
   teamPK: number;
 }
-function TeamDetailModal({
-  projectCode,
-  teamFlag,
-  setTeamFlag,
-  teamPK,
-}: Props): ReactElement {
+function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props): ReactElement {
   // 팀정보 모달창
   const [showTeamUser, setShowTeamUser] = useState(false);
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   const [teamButton, setTeamButton] = useState<number>(0);
-  const [suggestPK, setsuggestPK] = useState<number>(0)
+  const [suggestPK, setsuggestPK] = useState<number>(0);
   useEffect(() => {
     getTeamButton();
-    getSuggestPK()
+    getSuggestPK();
   }, [teamFlag, teamPK]);
   async function getTeamButton() {
     if (projectCode === undefined) {
@@ -47,18 +42,21 @@ function TeamDetailModal({
     }
   }
   function getSuggestPK() {
-    const token: string | null = localStorage.getItem("token")
+    const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.get('/api/users/mypage',
-        {
-          headers: { Authorization: token }
+      axios
+        .get("/api/users/mypage", {
+          headers: { Authorization: token },
         })
         .then((res: any) => {
-          axios.get(`/api/team/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
-            headers: { Authorization: token }
-          })
-            .then((res: any) => { setsuggestPK(res.data.data); })
-        })
+          axios
+            .get(`/api/team/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
+              headers: { Authorization: token },
+            })
+            .then((res: any) => {
+              setsuggestPK(res.data.data);
+            });
+        });
     }
   }
 
@@ -69,37 +67,41 @@ function TeamDetailModal({
   function accept() {
     const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.post(
-        "/api/team/recruit/user",
-        {
-          teamPK: teamPK,
-          projectCode: Number(projectCode),
-          suggestPK: suggestPK,
-          suggest: true,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      )
+      axios
+        .post(
+          "/api/team/recruit/user",
+          {
+            teamPK: teamPK,
+            projectCode: Number(projectCode),
+            suggestPK: suggestPK,
+            suggest: true,
+          },
+          {
+            headers: { Authorization: token },
+          }
+        )
         .then((res: any) => {
-          inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken)
-        })
+          inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken);
+        });
     }
   }
   function inviteUser(channel_id: string, leaderMMToken: string) {
-    const mmid: string | null = localStorage.getItem('mmid')
-    const mmtoken: string | null = localStorage.getItem('mmtoken')
-    console.log(channel_id, leaderMMToken)
-    if (typeof mmid === 'string' && mmtoken) {
-      axios.post(`/api/v4/channels/${channel_id}/members`,
-        {
-          user_id: mmid
-        },
-        {
-          headers: { Authorization: "Bearer " + leaderMMToken }
-        })
+    const mmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    console.log(channel_id, leaderMMToken);
+    if (typeof mmid === "string" && mmtoken) {
+      axios
+        .post(
+          `/api/v4/channels/${channel_id}/members`,
+          {
+            user_id: mmid,
+          },
+          {
+            headers: { Authorization: "Bearer " + leaderMMToken },
+          }
+        )
         .then(() => {
-          alert('요청이 수락되어, 메타모스트채널에 초대되었습니다');
+          alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
           axios
             .post(
               "/api/v4/posts",
@@ -114,8 +116,7 @@ function TeamDetailModal({
             .then(() => {
               location.reload();
             });
-        })
-
+        });
     }
   }
   // 제안 거절
@@ -140,20 +141,21 @@ function TeamDetailModal({
   function apply() {
     const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.post(
-        "/api/team/applyteam",
-        {
-          teamPK: teamPK,
-          msg: "가입신청합니다",
-        },
-        {
-          headers: { Authorization: token },
-        }
-      )
+      axios
+        .post(
+          "/api/team/applyteam",
+          {
+            teamPK: teamPK,
+            msg: "가입신청합니다",
+          },
+          {
+            headers: { Authorization: token },
+          }
+        )
         .then(() => {
-          alert('가입신청이 완료되었습니다');
-          sendMessage("가입요청이 왔습니다")
-        })
+          alert("가입신청이 완료되었습니다");
+          sendMessage("가입요청이 왔습니다");
+        });
     }
   }
   function sendMessage(message: string) {
@@ -161,56 +163,56 @@ function TeamDetailModal({
     const mmtoken: string | null = localStorage.getItem("mmtoken");
     // 팀장mmid 가져오기
     if (mymmid && mmtoken)
-      axios.get(`/api/team/leaderinfo/${teamPK}`)
-        .then((res: any) => {
-          axios
-            .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
-              headers: { Authorization: mmtoken },
-            })
-            .then((res: any) => {
-              axios
-                .post(
-                  "/api/v4/posts",
-                  {
-                    channel_id: res.data.id,
-                    message: message,
-                  },
-                  {
-                    headers: { Authorization: mmtoken },
-                  }
-                )
-                .then(() => {
-                  alert("메시지를 성공적으로 전송하였습니다");
-                  location.reload();
-                });
-            })
-        });
+      axios.get(`/api/team/leaderinfo/${teamPK}`).then((res: any) => {
+        axios
+          .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
+            headers: { Authorization: mmtoken },
+          })
+          .then((res: any) => {
+            axios
+              .post(
+                "/api/v4/posts",
+                {
+                  channel_id: res.data.id,
+                  message: message,
+                },
+                {
+                  headers: { Authorization: mmtoken },
+                }
+              )
+              .then(() => {
+                location.reload();
+              });
+          });
+      });
   }
   // 가입 신청 철회
   function withdraw() {
     const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.get('/api/users/mypage',
-        {
-          headers: { Authorization: token }
+      axios
+        .get("/api/users/mypage", {
+          headers: { Authorization: token },
         })
         .then((res: any) => {
-          axios.get(`/api/users/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
-            headers: { Authorization: token }
-          })
-            .then((res: any) => {
-              axios.delete("/api/team/teamwithdraw", {
-                data: {
-                  suggestPK: res.data.data,
-                },
-                headers: { Authorization: token },
-              })
-                .then(() => {
-                  alert('가입신청이 철회되었습니다');
-                  sendMessage("가입요청이 철회되었습니다")
-                })
+          axios
+            .get(`/api/users/check/${res.data.data.userDetailDto.userPk}/${teamPK}`, {
+              headers: { Authorization: token },
             })
-        })
+            .then((res: any) => {
+              axios
+                .delete("/api/team/teamwithdraw", {
+                  data: {
+                    suggestPK: res.data.data,
+                  },
+                  headers: { Authorization: token },
+                })
+                .then(() => {
+                  alert("가입신청이 철회되었습니다");
+                  sendMessage("가입요청이 철회되었습니다");
+                });
+            });
+        });
     }
   }
   return (
@@ -288,6 +290,7 @@ function TeamDetailModal({
                         <button
                           type="button"
                           className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-green-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          onClick={() => accept()}
                         >
                           팀의 제안 수락
                         </button>

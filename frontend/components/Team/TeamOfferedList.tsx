@@ -1,5 +1,4 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import TeamOfferedCard from "./TeamOfferedCard";
 import axios from "axios";
 
@@ -8,7 +7,6 @@ interface Props {
 }
 
 function TeamOfferedList({ projectCode }: Props): ReactElement {
-  const router = useRouter();
   const [teamList, setTeamList] = useState<any>([]);
   useEffect(() => {
     if (projectCode) {
@@ -24,10 +22,7 @@ function TeamOfferedList({ projectCode }: Props): ReactElement {
       }
     }
   }, [projectCode]);
-  // MM보내기
-  function SendMM() {
-    alert("message");
-  }
+
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
       <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-1">

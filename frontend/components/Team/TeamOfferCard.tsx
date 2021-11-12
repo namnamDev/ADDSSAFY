@@ -6,7 +6,7 @@ interface Props {
   teamPK: number;
   projectCode: number;
   suggestPK: number;
-  suggestDate: string
+  suggestDate: string;
 }
 
 function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): ReactElement {
@@ -36,7 +36,7 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
-  const [teamFlag, setTeamFlag] = useState<boolean>(false)
+  const [teamFlag, setTeamFlag] = useState<boolean>(false);
   const [teamdata, setteamdata] = useState<any>({});
   const [enough, setenough] = useState<boolean>(false);
   useEffect(() => {
@@ -55,16 +55,17 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
   function withdraw() {
     const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.delete("/api/team/teamwithdraw", {
-        data: {
-          suggestPK: suggestPK,
-        },
-        headers: { Authorization: token },
-      })
-        .then(() => {
-          alert('가입신청이 철회되었습니다');
-          sendMessage("가입요청이 철회되었습니다")
+      axios
+        .delete("/api/team/teamwithdraw", {
+          data: {
+            suggestPK: suggestPK,
+          },
+          headers: { Authorization: token },
         })
+        .then(() => {
+          alert("가입신청이 철회되었습니다");
+          sendMessage("가입요청이 철회되었습니다");
+        });
     }
   }
   function sendMessage(message: string) {
@@ -72,30 +73,28 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
     const mmtoken: string | null = localStorage.getItem("mmtoken");
     // 팀장mmid 가져오기
     if (mymmid && mmtoken)
-      axios.get(`/api/team/leaderinfo/${teamPK}`)
-        .then((res: any) => {
-          axios
-            .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
-              headers: { Authorization: mmtoken },
-            })
-            .then((res: any) => {
-              axios
-                .post(
-                  "/api/v4/posts",
-                  {
-                    channel_id: res.data.id,
-                    message: message,
-                  },
-                  {
-                    headers: { Authorization: mmtoken },
-                  }
-                )
-                .then(() => {
-                  alert("메시지를 성공적으로 전송하였습니다");
-                  location.reload();
-                });
-            })
-        });
+      axios.get(`/api/team/leaderinfo/${teamPK}`).then((res: any) => {
+        axios
+          .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
+            headers: { Authorization: mmtoken },
+          })
+          .then((res: any) => {
+            axios
+              .post(
+                "/api/v4/posts",
+                {
+                  channel_id: res.data.id,
+                  message: message,
+                },
+                {
+                  headers: { Authorization: mmtoken },
+                }
+              )
+              .then(() => {
+                location.reload();
+              });
+          });
+      });
   }
 
   return (
@@ -124,7 +123,12 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
           제안 철회
         </div>
       </td>
-      <TeamDetailModal projectCode={projectCode} teamFlag={teamFlag} setTeamFlag={setTeamFlag} teamPK={teamPK} />
+      <TeamDetailModal
+        projectCode={projectCode}
+        teamFlag={teamFlag}
+        setTeamFlag={setTeamFlag}
+        teamPK={teamPK}
+      />
     </tr>
   );
 }
