@@ -10,7 +10,7 @@ interface Props {
   mmid?: string;
   leaderCheck: boolean;
   setflag: (value: any) => any;
-  suggestPK?: number
+  suggestPK?: number;
 }
 
 function UserDetailModal({
@@ -21,10 +21,9 @@ function UserDetailModal({
   leaderCheck,
   suggestPK,
   setflag,
-
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
-  const [teamPK, setTeamPK] = useState<number>(0)
+  const [teamPK, setTeamPK] = useState<number>(0);
   useEffect(() => {
     if (userPK) {
       const token: string | null = localStorage.getItem("token");
@@ -44,52 +43,62 @@ function UserDetailModal({
           })
           .then((res: any) => {
             setTeamPK(res.data.data);
-          })
+          });
       }
     }
   }, [flag, userPK]);
 
   function inviteUser(channel_id: string) {
-    const mmtoken: string | null = localStorage.getItem('mmtoken')
-    const token: string | null = localStorage.getItem('token')
-    if (typeof mmtoken === 'string' && token) {
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem("token");
+    if (typeof mmtoken === "string" && token) {
       axios
         .get(`/api/users/detail/${userPK}`, {
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          axios.post(`/api/v4/channels/${channel_id}/members`,
-            {
-              user_id: res.data.data.userDetailDto.mmid
-            },
-            {
-              headers: { Authorization: mmtoken }
-            })
-            .then(() => location.reload())
+          axios
+            .post(
+              `/api/v4/channels/${channel_id}/members`,
+              {
+                user_id: res.data.data.userDetailDto.mmid,
+              },
+              {
+                headers: { Authorization: mmtoken },
+              }
+            )
+            .then(() => location.reload());
         });
-
     }
   }
   function acceptUser() {
-    const MMtoken: string | null = localStorage.getItem('mmtoken')
-    const token: string | null = localStorage.getItem('token')
+    const MMtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
-      axios.post('/api/team/recruit/team', {
-        teamPK: teamPK,
-        projectCode: Number(projectCode),
-        suggestPK: suggestPK,
-        suggest: true
-      }, {
-        headers: { Authorization: token }
-      })
-        .then((res: any) => { alert('팀가입이 수락하였습니다'); inviteUser(res.data.data.mmChannelId) })
-        .catch((err) => alert(err))
+      axios
+        .post(
+          "/api/team/recruit/team",
+          {
+            teamPK: teamPK,
+            projectCode: Number(projectCode),
+            suggestPK: suggestPK,
+            suggest: true,
+          },
+          {
+            headers: { Authorization: token },
+          }
+        )
+        .then((res: any) => {
+          alert("팀가입이 수락하였습니다");
+          inviteUser(res.data.data.mmChannelId);
+        })
+        .catch((err) => alert(err));
     }
   }
   function sendMessage(message: string) {
     const mymmid: string | null = localStorage.getItem("mmid");
     const mmtoken: string | null = localStorage.getItem("mmtoken");
-    const token: string | null = localStorage.getItem('token')
+    const token: string | null = localStorage.getItem("token");
     // 거절메시지 보내주기
     if (mymmid && mmtoken && token)
       axios
@@ -114,55 +123,74 @@ function UserDetailModal({
                   }
                 )
                 .then(() => {
-                  alert("메시지를 성공적으로 전송하였습니다");
                   location.reload();
                 });
-            })
+            });
         });
   }
   function rejectUser() {
-    const token: string | null = localStorage.getItem('token')
+    const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
-      axios.post('/api/team/recruit/team', {
-        teamPK: teamPK,
-        projectCode: Number(projectCode),
-        suggestPK: suggestPK,
-        suggest: false
-      }, {
-        headers: { Authorization: token }
-      })
-        .then(() => { alert('팀가입을 거절하였습니다'); sendMessage("가입신청이 거절되었습니다") })
-        .catch((err) => alert(err))
+      axios
+        .post(
+          "/api/team/recruit/team",
+          {
+            teamPK: teamPK,
+            projectCode: Number(projectCode),
+            suggestPK: suggestPK,
+            suggest: false,
+          },
+          {
+            headers: { Authorization: token },
+          }
+        )
+        .then(() => {
+          alert("팀가입을 거절하였습니다");
+          sendMessage("가입신청이 거절되었습니다");
+        })
+        .catch((err) => alert(err));
     }
   }
 
   function withdrawSuggest() {
-    const token: string | null = localStorage.getItem("token")
+    const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.delete('/api/team/userwithdraw', {
-        data: {
-          suggestPK: suggestPK
-        },
-        headers: { Authorization: token }
-      })
-        .then(() => { alert('팀제안이 철회되었습니다'); sendMessage("팀제안이 철회되었습니다") })
+      axios
+        .delete("/api/team/userwithdraw", {
+          data: {
+            suggestPK: suggestPK,
+          },
+          headers: { Authorization: token },
+        })
+        .then(() => {
+          alert("팀제안이 철회되었습니다");
+          sendMessage("팀제안이 철회되었습니다");
+        });
     }
   }
 
   function Suggest() {
-    const MMtoken: string | null = localStorage.getItem('mmtoken')
-    const token: string | null = localStorage.getItem('token')
+    const MMtoken: string | null = localStorage.getItem("mmtoken");
+    const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {
-      axios.post('/api/team/applyuser', {
-        teamPK: teamPK,
-        userPK: userPK,
-        MMtoken: MMtoken,
-        msg: "저희와 함께가시죠"
-      }, {
-        headers: { Authorization: token }
-      })
-        .then(() => { alert('가입제안이 완료되었습니다'); sendMessage("팀제안 요청이 왔습니다") })
-        .catch((err) => alert(err))
+      axios
+        .post(
+          "/api/team/applyuser",
+          {
+            teamPK: teamPK,
+            userPK: userPK,
+            MMtoken: MMtoken,
+            msg: "저희와 함께가시죠",
+          },
+          {
+            headers: { Authorization: token },
+          }
+        )
+        .then(() => {
+          alert("가입제안이 완료되었습니다");
+          sendMessage("팀제안 요청이 왔습니다");
+        })
+        .catch((err) => alert(err));
     }
   }
   return (

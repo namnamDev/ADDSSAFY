@@ -1,6 +1,4 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
 import UserOfferedCard from "./UserOfferedCard";
 import axios from "axios";
 interface Props {
@@ -10,7 +8,6 @@ interface Props {
 }
 
 function UserOfferedList({ projectCode, leadercheck, myTeamPK }: Props): ReactElement {
-  const router = useRouter();
   const [userList, setUserlist] = useState<any>([]);
   // 유저리스트 호출
   useEffect(() => {
@@ -20,10 +17,6 @@ function UserOfferedList({ projectCode, leadercheck, myTeamPK }: Props): ReactEl
       });
     }
   }, [myTeamPK]);
-  // 수락, 거절
-  function SendMM() {
-    alert("message");
-  }
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
       <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-1">
