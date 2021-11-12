@@ -5,9 +5,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 
-interface Props { }
+interface Props {}
 
-function Index({ }: Props): ReactElement {
+function Index({}: Props): ReactElement {
   const router = useRouter();
 
   const cancelButtonRef = useRef(null);
@@ -84,10 +84,7 @@ function Index({ }: Props): ReactElement {
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
               &#8203;
             </span>
             <Transition.Child
@@ -111,12 +108,7 @@ function Index({ }: Props): ReactElement {
                   </button>
                 </div>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <Image
-                    src="/images/mmlogo.png"
-                    alt=""
-                    width="500"
-                    height="95"
-                  />
+                  <Image src="/images/mmlogo.png" alt="" width="500" height="95" />
                   <LoginModal />
                 </div>
               </div>
@@ -125,9 +117,15 @@ function Index({ }: Props): ReactElement {
         </Dialog>
       </Transition.Root>
       <div className="animation02">
-        <div className="name">
-          {click ? <div onClick={enter}>+ SSAFY</div> : null}
-        </div>
+        <div className="name">{click ? <p onClick={enter}>+ SSAFY</p> : null}</div>
+      </div>
+      <div className="wrapper">
+        <Image src="/image/peopool.gif" width="1" height="1" alt="" />
+        <Image src="/image/iseau.gif" width="1" height="1" alt="" />
+        <Image src="/image/thefan.gif" width="1" height="1" alt="" />
+        <Image src="/image/alzalal.gif" width="1" height="1" alt="" />
+        <Image src="/image/bts.gif" width="1" height="1" alt="" />
+        <Image src="/image/mokomoko.gif" width="1" height="1" alt="" />
       </div>
     </div>
   );
