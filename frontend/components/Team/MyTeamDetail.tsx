@@ -6,6 +6,7 @@ import { range } from "lodash";
 import UserDetailModal from "../user/UserDetailModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon, FolderAddIcon } from "@heroicons/react/outline";
+import { compose } from "@mui/system";
 
 interface Props {
   teamPK: number;
@@ -17,7 +18,8 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [teammember, setteammember] = useState<any>([]);
   const [webex, setwebex] = useState<string>("");
   const [mmchannel, setmmchannel] = useState<string>("");
-  const [ppt, setppt] = useState<string>("")
+  const [ppt, setppt] = useState<string>("");
+  const [teamName, setTeamName] = useState<string>("")
   // 팀멤버 정보 받아오기
   const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
@@ -43,10 +45,10 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     axios
       .get(`/api/team/detail/${teamPK}`)
       .then((res: any) => {
-        console.log(res)
-        setppt(res.data.data.ppt)
+        setppt(res.data.data.ppt);
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
+        setTeamName(res.data.data.name)
       })
       .catch((err) => alert(err));
   }, []);
@@ -59,6 +61,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     const token: string | null = localStorage.getItem("token");
     const mmid: string | null = localStorage.getItem("mmid");
     const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const nickname: string | null = localStorage.getItem("nickname")
     if (token && mmid && mmtoken) {
       axios
         .delete("/api/team/exit", {
@@ -68,6 +71,10 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then(() => {
+          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+            channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
+            text: "`" + `${nickname}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀을 탈퇴하였습니다"
+          })
           // Mattermost channel 나가기
           axios
             .post(
@@ -81,13 +88,13 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
               }
             )
             .then(() => {
-              alert('팀나가기에 성공했습니다')
+              alert("팀나가기에 성공했습니다");
               axios
                 .delete(`/api/v4/channels/${mmchannel}/members/${mmid}`, {
                   headers: { Authorization: mmtoken },
                 })
                 .then(() => {
-                  location.reload()
+                  location.reload();
                 });
             });
         });
@@ -100,27 +107,37 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   function userDetail(userPK: number, mmid: string) {
     setflag(true);
     setpk(userPK);
-    setmmid(mmid)
+    setmmid(mmid);
   }
   // ppt업로드
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState("");
   function upload(file: any) {
-    setFile(file)
+    const ext = file.target.files[0].name
+      .slice(file.target.files[0].name.indexOf(".") + 1)
+      .toLowerCase();
+    if (ext != "ppt" && ext != "pptx" && ext != "pdf") {
+      file.preventDefault();
+      file.target.value = null;
+      alert("ppt와 pdf 형식만 등록 가능합니다.");
+
+      return;
+    }
+    setFile(file.target.files[0]);
   }
   async function uploadPPT() {
-    setOpen(false)
-    const formData = new FormData()
-    formData.append('ppt', file)
-    formData.append('teamPK', String(teamPK))
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    axios.post('/api/team/uploadppt', formData, {
+    setOpen(false);
+    const formData = new FormData();
+    formData.append("ppt", file);
+    formData.append("teamPK", String(teamPK));
+    axios.post("/api/team/uploadppt", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       }
     })
+      .then(() => {
+        alert('파일이 성공적으로 업로드 되었습니다')
+      })
   }
   const cancelButtonRef = useRef(null);
   return (
@@ -247,12 +264,12 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                       <div className="mt-10">
                         <input
                           type="file"
-                          accept=".pptx,.ppt,application/pdf"
+                          name="file"
+                          accept=".pptx,application/pdf"
                           onChange={(event: any) => {
-                            upload(event.target.files[0])
+                            upload(event);
                           }}
                         />
-
                       </div>
                     </div>
                   </div>

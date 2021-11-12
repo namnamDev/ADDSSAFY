@@ -11,6 +11,10 @@ module.exports = {
         source: "/api/:path*",
         destination: `http://k5d204.p.ssafy.io:8080/api/:path*`,
       },
+      {
+        source: "/hooks/:path*",
+        destination: `https://meeting.ssafy.com/hooks/:path*`,
+      },
     ];
   },
   reactStrictMode: true,

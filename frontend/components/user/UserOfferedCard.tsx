@@ -1,5 +1,5 @@
 // 팀이 받은 가입신청유저
-import React, { ReactElement, useState, Fragment } from "react";
+import React, { ReactElement, useState, Fragment, useEffect } from "react";
 import UserDetailModal from "./UserDetailModal";
 import axios from "axios";
 interface Props {
@@ -46,6 +46,15 @@ function UserOfferedCard({
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
+  const [teamName, setTeamName] = useState<string>("")
+  useEffect(() => {
+    axios
+      .get(`/api/team/detail/${myTeamPK}`)
+      .then((res: any) => {
+        setTeamName(res.data.data.name)
+      })
+      .catch((err) => alert(err));
+  }, []);
   function acceptUser() {
     const MMtoken: string | null = localStorage.getItem("mmtoken");
     const token: string | null = localStorage.getItem("token");
@@ -65,6 +74,11 @@ function UserOfferedCard({
         )
         .then((res: any) => {
           alert("팀가입이 수락하였습니다");
+          // 봇으로 알려주기
+          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+            channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
+            text: "`" + `${person.userName}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀에 가입하였습니다"
+          })
           inviteUser(res.data.data.mmChannelId);
         })
         .catch((err) => alert(err));
