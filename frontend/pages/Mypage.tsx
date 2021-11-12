@@ -6,9 +6,9 @@ import Link from "next/link";
 import Footer from "../components/basic/Footer";
 import axios from "axios";
 
-interface Props {}
+interface Props { }
 
-function Mypage({}: Props): ReactElement {
+function Mypage({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
 
@@ -42,7 +42,7 @@ function Mypage({}: Props): ReactElement {
           </div>
           <div className="px-4 py-2 sm:px-6"></div>
           <div className="text-center mb-10">
-            <Image
+            <img
               className="rounded-full mx-auto"
               src={userinfo.profile}
               alt=""

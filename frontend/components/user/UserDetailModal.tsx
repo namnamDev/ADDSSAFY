@@ -253,13 +253,13 @@ function UserDetailModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+              <div className="sm:w-3/5 lg:w-1/3 fixed inline-block p-6 h-9/10 transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
                 ></Dialog.Title>
                 <div className="">
-                  <div className="text-sm text-gray-500  ">
+                  <div className="text-sm text-gray-500">
                     <UserDetail userPk={userPK} mmid={mmid} />
                   </div>
                 </div>

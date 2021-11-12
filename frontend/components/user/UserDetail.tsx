@@ -125,7 +125,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dt className="text-sm font-medium text-gray-500">기술스택</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {Object.keys(usertags).map((section: any, i: number) => (
-                  <div key={i}>
+                  <div key={i} className="">
                     {usertags[section].map((tag: any, j: any) => (
                       <div key={j}>
                         {section === "DEVOPS" ? (
