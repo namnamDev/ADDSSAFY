@@ -27,6 +27,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then((res: any) => {
+          console.log(res.data.data.userDetailDto.teamList)
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);
@@ -42,6 +43,13 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   const goBlog = () => {
     router.push("www.naver.com", "_blank");
   };
+  function downloadPPT(ppt: string) {
+    if (ppt) {
+      router.push(ppt)
+    } else {
+      alert('PPT파일이 아직 업로드되지 않았습니다')
+    }
+  }
   //
   const [flagMM, setflagMM] = useState<boolean>(false);
   console.log(userinfo);
@@ -67,7 +75,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {
                   myteamhistory.length > 0 && myteamhistory[0].name !== null
-                    ? <div>{myteamhistory[0].name}</div>
+                    ? <div onClick={() => downloadPPT(myteamhistory[0].ppt)}>{myteamhistory[0].name}</div>
                     : <div>없음</div>
                 }
               </dd>
@@ -77,7 +85,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {
                   myteamhistory.length > 1 && myteamhistory[1].name !== null
-                    ? <div>{myteamhistory[1].name}</div>
+                    ? <div onClick={() => downloadPPT(myteamhistory[1].ppt)}>{myteamhistory[1].name}</div>
                     : <div>없음</div>
                 }
               </dd>
@@ -87,7 +95,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {
                   myteamhistory.length > 2 && myteamhistory[2].name !== null
-                    ? <div>{myteamhistory[2].name}</div>
+                    ? <div onClick={() => downloadPPT(myteamhistory[2].ppt)}>{myteamhistory[2].name}</div>
                     : <div>없음</div>
                 }
               </dd>
