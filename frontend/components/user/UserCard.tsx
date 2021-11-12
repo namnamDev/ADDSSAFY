@@ -50,34 +50,44 @@ function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
   const [flagMM, setflagMM] = useState<boolean>(false);
   return (
     <tr>
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center mx-auto">
-          <div className="flex-shrink-0 h-10 w-10">
-            {/* <Image
-              className="h-10 w-10 rounded-full"
-              src={person.profile}
-              alt=""
-              width="100%"
-              height="100%"
-            /> */}
-          </div>
-          <div className="">
-            <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => userdetail(person.userPk, person.mmid)}
-            >
-              {person.userName}
-            </div>
-          </div>
+      <td className="px-6 py-4 cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
+        <div
+          className="text-sm font-medium text-gray-900 my-2.5"
+        >
+          {
+            person.profile.length > 10
+              ? <img
+                className="h-10 w-10 rounded-full mx-auto"
+                src={person.profile}
+                alt=""
+                width="100%"
+                height="100%"
+              />
+              : <img
+                className="h-10 w-10 rounded-full mx-auto"
+                src="/images/noimg.png"
+                alt=""
+                width="100%"
+                height="100%"
+              />
+          }
+
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4 cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
+        <div
+          className="text-sm font-medium text-gray-900 cursor-pointer my-2.5"
+        >
+          {person.userName}
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
         <div className="text-sm text-gray-900">
           {person.classRegion} {person.classNumber}
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">{person.userPhone}</td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <td className="px-6 py-4 whitespace-nowrap cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>{person.userPhone}</td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
         {isteam ? (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
             팀있음

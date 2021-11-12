@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import SendMMmodal from "./SendMMmodal";
+import { MailIcon } from "@heroicons/react/solid";
 
 interface Props {
   userPk: number;
@@ -43,7 +44,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   };
   //
   const [flagMM, setflagMM] = useState<boolean>(false);
-
+  console.log(userinfo);
   return (
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
@@ -61,26 +62,36 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
             />
           </div>
           <dl>
-            {myteamhistory.length > 0 ? (
-              <div>
-                {Object.values(myteamhistory).map((team: any, i: any) => (
-                  <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" key={i}>
-                    {team.projectCode === 0 ? (
-                      <dt className="text-sm font-medium text-gray-500">공통프로젝트</dt>
-                    ) : null}{" "}
-                    {team.projectCode === 1 ? (
-                      <dt className="text-sm font-medium text-gray-500">특화프로젝트</dt>
-                    ) : null}
-                    {team.projectCode === 2 ? (
-                      <dt className="text-sm font-medium text-gray-500">자율프로젝트</dt>
-                    ) : null}
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {team.name}
-                    </dd>
-                  </div>
-                ))}
-              </div>
-            ) : null}
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {
+                  myteamhistory.length > 0 && myteamhistory[0].name !== null
+                    ? <div>{myteamhistory[0].name}</div>
+                    : <div>없음</div>
+                }
+              </dd>
+            </div>
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm  text-gray-500 font-bold">특화프로젝트</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {
+                  myteamhistory.length > 1 && myteamhistory[1].name !== null
+                    ? <div>{myteamhistory[1].name}</div>
+                    : <div>없음</div>
+                }
+              </dd>
+            </div>
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {
+                  myteamhistory.length > 2 && myteamhistory[2].name !== null
+                    ? <div>{myteamhistory[2].name}</div>
+                    : <div>없음</div>
+                }
+              </dd>
+            </div>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">이름</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -159,6 +170,12 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
                 {userinfo.introduce}
               </dd>
             </div>
+            <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">이전 프로젝트 소개자료</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {userinfo.introduce}
+              </dd>
+            </div>
           </dl>
         </div>
       </div>
@@ -166,9 +183,10 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
         {checkMMid ? (
           <button
             type="button"
-            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md hover:bg-blue-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
             onClick={() => setflagMM(true)}
           >
+            <MailIcon className="h-6 w-6 text-blue-800 mr-2" aria-hidden="true" />
             매터모스트 메시지 보내기
           </button>
         ) : null}

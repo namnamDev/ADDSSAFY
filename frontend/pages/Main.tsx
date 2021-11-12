@@ -3,14 +3,11 @@ import Navbar from "../components/basic/Navbar";
 import Image from "next/image";
 import Footer from "../components/basic/Footer";
 
-const features = [
-  { name: "WHO", description: "박종한, 남근형, 조영우" },
+const features = [{ name: "WHO", description: "박종한, 남근형, 조영우" }];
 
-];
+interface Props {}
 
-interface Props { }
-
-function Main({ }: Props): ReactElement {
+function Main({}: Props): ReactElement {
   return (
     <div className="">
       <Navbar />
@@ -115,35 +112,46 @@ function Main({ }: Props): ReactElement {
             /> */}
           </div>
         </div>
-        <div className="text-center">우수작품</div>
+        <hr className="w-1/2 mx-auto my-5"/>
+        <div className="lg:text-center">
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+             SSAFY Project Gallery
+          </p>
+        </div>
         <div className="wrapper">
           <div className="item">
-            <div className="polaroid"><Image src="/images/peopool.gif" width="390" height="220" alt="" />
+            <div className="polaroid">
+              <Image src="/image/peopool.gif" width="390" height="220" alt="" />
               <div className="caption">PeoPool</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/iseau.gif" width="390" height="220" alt="" />
+            <div className="polaroid">
+              <Image src="/image/iseau.gif" width="390" height="220" alt="" />
               <div className="caption">ISEAU</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/thefan.gif" width="390" height="220" alt="" />
+            <div className="polaroid">
+              <Image src="/image/thefan.gif" width="390" height="220" alt="" />
               <div className="caption">theFAN</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/alzalal.gif" width="390" height="220" alt="" />
+            <div className="polaroid">
+              <Image src="/image/alzalal.gif" width="390" height="220" alt="" />
               <div className="caption">alzalal</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/bts.gif" width="390" height="220" alt="" />
+            <div className="polaroid">
+              <Image src="/image/bts.gif" width="390" height="220" alt="" />
               <div className="caption">BTS</div>
             </div>
           </div>
           <div className="item">
-            <div className="polaroid"><Image src="/images/mokomoko.gif" width="390" height="220" alt="" />
+            <div className="polaroid">
+              <Image src="/image/mokomoko.gif" width="390" height="220" alt="" />
               <div className="caption">MokoMoko</div>
             </div>
           </div>
