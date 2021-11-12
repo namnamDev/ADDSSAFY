@@ -12,4 +12,5 @@ public class TeamForUserDetailDto {
     private String name;
     private boolean isLeader;
     private int projectCode;
+    private String ppt;
 }

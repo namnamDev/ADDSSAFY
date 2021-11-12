@@ -86,7 +86,8 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                         , qTeam.id
                                         , qTeam.name
                                         , qTeamMember.leader
-                                        , qTeam.type))
+                                        , qTeam.type
+                                        , qTeam.ppt))
                                 , qMember.blog
                                 , qMember.baekjoonId
                                 , qMember.blog
@@ -133,7 +134,8 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                                 , qTeam.id
                                                 , qTeam.name
                                                 , qTeamMember.leader
-                                                , qTeam.type))
+                                                , qTeam.type
+                                                , qTeam.ppt))
                                         , qMember.blog
                                         , qMember.baekjoonId
                                         , qMember.blog
@@ -211,7 +213,8 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                        , qTeam.id
                                        , qTeam.name
                                        , qTeamMember.leader
-                                       , qTeam.type))
+                                       , qTeam.type
+                                       , qTeam.ppt))
                                , qMember.blog
                                , qMember.baekjoonId
                                , qMember.blog

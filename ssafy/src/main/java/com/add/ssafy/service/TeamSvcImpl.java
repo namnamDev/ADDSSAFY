@@ -7,13 +7,16 @@ import com.add.ssafy.dto.*;
 import com.add.ssafy.dto.request.*;
 import com.add.ssafy.dto.response.BaseResponse;
 import com.add.ssafy.entity.*;
+import net.bis5.mattermost.client4.hook.IncomingWebhookClient;
+import net.bis5.mattermost.model.IncomingWebhookRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.util.*;
-
+//import com.fasterxml.jackson.annotation.JsonInclude;
+//import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Service
 @Transactional
 public class TeamSvcImpl implements TeamSvcInter{
@@ -29,6 +32,14 @@ public class TeamSvcImpl implements TeamSvcInter{
     HashtagRepo hashtagRepo;
     @Autowired
     ProposeRepo proposeRepo;
+
+//    IncomingWebhookClient client = new IncomingWebhookClient("https://meeting.ssafy.com/hooks/h5u9s7z41idzfqfcxsp41nkx7w");
+//    IncomingWebhookRequest payload = new IncomingWebhookRequest();
+////    payload
+//    payload.setText("Hello World!");
+//    payload.setUsername("Override Username");
+//
+//    client.postByIncomingWebhook(payload);
     @Override
     public BaseResponse getTeamUserList(Long teamPK){
 
