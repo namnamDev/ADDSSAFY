@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import Navbar from "../components/basic/Navbar";
 import { useRouter } from "next/router";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "../components/basic/Footer";
@@ -25,6 +24,7 @@ function Mypage({ }: Props): ReactElement {
           headers: { Authorization: token }
         })
         .then((res: any) => {
+          console.log(res)
           setuserinfo(res.data.data.userDetailDto)
           setusertags(res.data.data.memberHashTags)
           setmyteamhistory(res.data.data.userDetailDto.teamList)
@@ -42,7 +42,7 @@ function Mypage({ }: Props): ReactElement {
           <div className="px-4 py-2 sm:px-6">
           </div>
           <div className="text-center mb-10">
-            <Image
+            <img
               className="rounded-full mx-auto"
               src={userinfo.profile}
               alt=""
@@ -56,33 +56,36 @@ function Mypage({ }: Props): ReactElement {
                 <dt className="text-sm  text-gray-500 font-bold">이름</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userinfo.userName}</dd>
               </div>
-              {/* 프로젝트 */}
-              {
-                myteamhistory.length > 0
-                  ? <div>
-                    {Object.values(myteamhistory).map((team: any, i: any) => (
-                      <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" key={i}>
-                        {
-                          team.projectCode === 0
-                            ? <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
-                            : null
-                        }                {
-                          team.projectCode === 1
-                            ? <dt className="text-sm  text-gray-500 font-bold">특화프로젝트</dt>
-                            : null
-                        }
-                        {
-                          team.projectCode === 2
-                            ? <dt className="text-sm  text-gray-500 font-bold">자율프로젝트</dt>
-                            : null
-                        }
-                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{team.name}</dd>
-                      </div>
-                    ))}
-                  </div>
-                  : null
-              }
-              {/*  */}
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  {
+                    myteamhistory.length > 0 && myteamhistory[0].name !== null
+                      ? <div>{myteamhistory[0].name}</div>
+                      : <div>없음</div>
+                  }
+                </dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm  text-gray-500 font-bold">특화프로젝트</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  {
+                    myteamhistory.length > 1 && myteamhistory[1].name !== null
+                      ? <div>{myteamhistory[1].name}</div>
+                      : <div>없음</div>
+                  }
+                </dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  {
+                    myteamhistory.length > 2 && myteamhistory[2].name !== null
+                      ? <div>{myteamhistory[2].name}</div>
+                      : <div>없음</div>
+                  }
+                </dd>
+              </div>
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm  text-gray-500 font-bold">이메일주소</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">

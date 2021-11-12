@@ -264,7 +264,7 @@ function TeamDetailModal({
                   </div>
                 </div>
               ) : (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+                <div className="fixed inline-block sm:min-w-lg lg:min-w-lg  max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 text-center"
@@ -272,6 +272,7 @@ function TeamDetailModal({
                   <div className="mt-2 ">
                     <div className="text-sm text-gray-500  ">
                       <TeamDetail teamPK={teamPK} />
+                      <br />
                       <TeamUserList
                         teamPK={teamPK}
                         showUser={setShowTeamUser}
@@ -286,14 +287,13 @@ function TeamDetailModal({
                       <>
                         <button
                           type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                          onClick={() => accept()}
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-green-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         >
                           팀의 제안 수락
                         </button>
                         <button
                           type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                           onClick={() => reject()}
                         >
                           팀의 제안 거절
@@ -302,7 +302,7 @@ function TeamDetailModal({
                     ) : teamButton === 2 ? (
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={() => withdraw()}
                       >
                         팀 가입 신청 취소
@@ -310,7 +310,7 @@ function TeamDetailModal({
                     ) : (
                       <button
                         type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={() => apply()}
                       >
                         팀 가입 신청
@@ -319,7 +319,7 @@ function TeamDetailModal({
 
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-gray-300 shadow-sm border-transparent rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={() => setTeamFlag(false)}
                     >
                       창 닫기

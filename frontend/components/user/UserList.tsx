@@ -27,6 +27,12 @@ function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
+                    Profile
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     Name
                   </th>
                   <th
