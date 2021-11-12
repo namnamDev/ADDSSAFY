@@ -121,6 +121,9 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
         'Content-Type': 'multipart/form-data',
       }
     })
+      .then(() => {
+        alert('파일이 성공적으로 업로드 되었습니다')
+      })
   }
   const cancelButtonRef = useRef(null);
   return (

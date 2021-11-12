@@ -11,9 +11,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-interface Props {}
+interface Props { }
 
-function TeamCreate({}: Props): ReactElement {
+function TeamCreate({ }: Props): ReactElement {
   const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
@@ -65,6 +65,11 @@ function TeamCreate({}: Props): ReactElement {
                     query: { projectNo: Number(idx) },
                   });
                 }, 500);
+                // 봇으로 알려주기
+                axios.post('/hooks/d6z6ihr7wtg49dwkcsxe4f3kar', {
+                  channel_id: "ipmeb6dbftfxfd681bh9cx3ufc",
+                  text: `${username}님이 "${teamtitle}"팀을 생성하였습니다`
+                })
               });
           }
         });
