@@ -27,7 +27,6 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          console.log(res.data.data.userDetailDto.teamList);
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);
@@ -52,7 +51,6 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   }
   //
   const [flagMM, setflagMM] = useState<boolean>(false);
-  console.log(userinfo);
   return (
     <div className="text-center">
       <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
@@ -95,7 +93,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               </dd>
             </div>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+              <dt className="text-sm  text-gray-500 font-bold">자율프로젝트</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {myteamhistory.length > 2 && myteamhistory[2].name !== null ? (
                   <div onClick={() => downloadPPT(myteamhistory[2].ppt)}>
