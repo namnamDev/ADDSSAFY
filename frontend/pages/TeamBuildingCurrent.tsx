@@ -43,8 +43,8 @@ function TeamBuildingCurrent({}: Props): ReactElement {
   };
   // 팀이 있는지 체크
   const [myteamPk, setmyteamPk] = useState<number>(0);
-  Aos.init({ duration: 2000 });
   useEffect(() => {
+    Aos.init({ duration: 2000 });
     setmyteamPk(0);
     setIsTeam(false);
     setleadercheck(false);

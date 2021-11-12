@@ -26,7 +26,7 @@ function UserOfferList({ projectCode, leadercheck, myTeamPK }: Props): ReactElem
   }
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
+      <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-1">
         <div className="py-2 align-middle inline-block min-w-full">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
