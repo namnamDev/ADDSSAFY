@@ -2,17 +2,23 @@
 import React, { ReactElement, useState, Fragment } from "react";
 import Image from "next/image";
 import UserDetailModal from "./UserDetailModal";
-import axios from 'axios'
+import axios from "axios";
 interface Props {
   person: any;
   projectCode: number;
   leadercheck: boolean;
   setUserList: (value: any[]) => any;
-  suggestPK: number
+  suggestPK: number;
 }
 
-function UserOfferCard({ person, projectCode, leadercheck, setUserList, suggestPK }: Props): ReactElement {
-  const [flag, setflag] = useState<boolean>(false)
+function UserOfferCard({
+  person,
+  projectCode,
+  leadercheck,
+  setUserList,
+  suggestPK,
+}: Props): ReactElement {
+  const [flag, setflag] = useState<boolean>(false);
 
   // 제안을 보낸 시간 구하기
   const now = new Date(person.suggestDate);
@@ -41,21 +47,25 @@ function UserOfferCard({ person, projectCode, leadercheck, setUserList, suggestP
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
   function withdrawSuggest() {
-    const token: string | null = localStorage.getItem("token")
+    const token: string | null = localStorage.getItem("token");
     if (token) {
-      axios.delete('/api/team/userwithdraw', {
-        data: {
-          suggestPK: suggestPK
-        },
-        headers: { Authorization: token }
-      })
-        .then(() => { alert('팀제안이 철회되었습니다'); sendMessage("팀제안이 철회되었습니다") })
+      axios
+        .delete("/api/team/userwithdraw", {
+          data: {
+            suggestPK: suggestPK,
+          },
+          headers: { Authorization: token },
+        })
+        .then(() => {
+          alert("팀제안이 철회되었습니다");
+          sendMessage("팀제안이 철회되었습니다");
+        });
     }
   }
   function sendMessage(message: string) {
     const mymmid: string | null = localStorage.getItem("mmid");
     const mmtoken: string | null = localStorage.getItem("mmtoken");
-    const token: string | null = localStorage.getItem('token')
+    const token: string | null = localStorage.getItem("token");
     // 거절메시지 보내주기
     if (mymmid && mmtoken && token)
       axios
@@ -80,10 +90,9 @@ function UserOfferCard({ person, projectCode, leadercheck, setUserList, suggestP
                   }
                 )
                 .then(() => {
-                  alert("메시지를 성공적으로 전송하였습니다");
                   location.reload();
                 });
-            })
+            });
         });
   }
   return (
@@ -107,7 +116,14 @@ function UserOfferCard({ person, projectCode, leadercheck, setUserList, suggestP
           제안 철회
         </span>
       </td>
-      <UserDetailModal projectCode={projectCode} userPK={person.userPK} mmid={person.mmid} flag={flag} setflag={setflag} leaderCheck={leadercheck} />
+      <UserDetailModal
+        projectCode={projectCode}
+        userPK={person.userPK}
+        mmid={person.mmid}
+        flag={flag}
+        setflag={setflag}
+        leaderCheck={leadercheck}
+      />
     </tr>
   );
 }

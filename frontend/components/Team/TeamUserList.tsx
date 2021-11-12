@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import Image from "next/image";
 import axios from "axios";
-import SendMMmodal from '../user/SendMMmodal'
-
+import SendMMmodal from "../user/SendMMmodal";
 
 interface Props {
   teamPK: number;
@@ -11,14 +9,15 @@ interface Props {
 }
 
 function TeamUserList({ teamPK, showUser, teammodalUserPK }: Props): ReactElement {
-  const [flagMM, setflagMM] = useState<boolean>(false)
-  const [mmid, setMmid] = useState<string>("")
+  const [flagMM, setflagMM] = useState<boolean>(false);
+  const [mmid, setMmid] = useState<string>("");
   // 팀유저정보
-  const [people, setpeople] = useState<any>([])
+  const [people, setpeople] = useState<any>([]);
   useEffect(() => {
-    axios.get(`/api/team/teamuser/${teamPK}`)
-      .then((res: any) => { setpeople(res.data.data) })
-  }, [])
+    axios.get(`/api/team/teamuser/${teamPK}`).then((res: any) => {
+      setpeople(res.data.data);
+    });
+  }, []);
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
@@ -58,33 +57,33 @@ function TeamUserList({ teamPK, showUser, teammodalUserPK }: Props): ReactElemen
                 {people.map((person: any) => (
                   <tr key={person.userPk}>
                     <td className="px-6 py-4">
-                      <div
-                        className="text-sm font-medium text-gray-900 my-1"
-                      >
-                        {
-                          person.profile.length > 10
-                            ? <img
-                              className="h-10 w-10 rounded-full mx-auto"
-                              src={person.profile}
-                              alt=""
-                              width="100%"
-                              height="100%"
-                            />
-                            : <img
-                              className="h-10 w-10 rounded-full mx-auto"
-                              src="/images/noimg.png"
-                              alt=""
-                              width="100%"
-                              height="100%"
-                            />
-                        }
-
+                      <div className="text-sm font-medium text-gray-900 my-1">
+                        {person.profile.length > 10 ? (
+                          <img
+                            className="h-10 w-10 rounded-full mx-auto"
+                            src={person.profile}
+                            alt=""
+                            width="100%"
+                            height="100%"
+                          />
+                        ) : (
+                          <img
+                            className="h-10 w-10 rounded-full mx-auto"
+                            src="/images/noimg.png"
+                            alt=""
+                            width="100%"
+                            height="100%"
+                          />
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div
                         className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-                        onClick={() => { showUser(true); teammodalUserPK(person.userPk) }}
+                        onClick={() => {
+                          showUser(true);
+                          teammodalUserPK(person.userPk);
+                        }}
                       >
                         {person.userName}
                       </div>
@@ -103,7 +102,10 @@ function TeamUserList({ teamPK, showUser, teammodalUserPK }: Props): ReactElemen
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <span
                         className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-                        onClick={() => { setMmid(person.mmid); setflagMM(true); }}
+                        onClick={() => {
+                          setMmid(person.mmid);
+                          setflagMM(true);
+                        }}
                       >
                         MatterMost
                       </span>
