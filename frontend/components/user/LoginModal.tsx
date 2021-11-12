@@ -10,28 +10,54 @@ function LoginModal({ }: Props): ReactElement {
   // 로그인
   const [loginid, setloginid] = useState<string>("");
   const [loginpw, setloginpw] = useState<string>("");
+  const [base64data, setBase64data] = useState<string | undefined>();
   function login() {
+    // mm login
     axios
       .post("/api/v4/users/login", {
         login_id: loginid,
         password: loginpw,
       })
-
       .then((res: unknown | any) => {
-        console.log(res.data.id);
-        // 데이터정보 날려주기
-        axios.post('/api/users/login',
-          {
-            email: loginid,
-            mmid: res.data.id,
-            password: loginpw
-          }
-        )
-          // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
-          .then((res: any) => {
-            console.log(res);
-            localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+        localStorage.setItem("mmtoken", "Bearer " + res.headers.token);
+        localStorage.setItem("mmid", res.data.id);
+        localStorage.setItem("username", res.data.username);
+        localStorage.setItem("nickname", res.data.nickname);
+        // 이미지가져오기
+        axios
+          .get(`/api/v4/users/${res.data.id}/image`, {
+            headers: {
+              Authorization: "Bearer " + res.headers.token,
+              "Content-Type": "multipart/form-data",
+            },
+            responseType: "blob",
           })
+          .then((res1: any) => {
+            const fileReaderInstance: any = new FileReader();
+            fileReaderInstance.readAsDataURL(res1.data);
+            fileReaderInstance.onload = async () => {
+              setBase64data(fileReaderInstance.result);
+              // backend login
+              axios.post('/api/users/login',
+                {
+                  email: loginid,
+                  password: "test",
+                  mmid: res.data.id,
+                  username: res.data.username,
+                  nickname: res.data.nickname,
+                  image: fileReaderInstance.result,
+                  mmToken: res.headers.token
+                }
+              )
+                // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
+                .then((res: any) => {
+                  localStorage.setItem("token", "Bearer " + res.data.data.accessToken);
+                  router.push('/Main')
+                })
+                .catch((err) => alert(err))
+            };
+          });
+
       })
       .catch(() => alert('Mattermost계정을 올바르게 입력해주세요'))
   }
@@ -40,7 +66,6 @@ function LoginModal({ }: Props): ReactElement {
     <div className="min-h-full flex items-center justify-center pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="rounded-md shadow-sm -space-y-px">
-
           <div>
             <input
               id="MM-ID"
@@ -50,6 +75,7 @@ function LoginModal({ }: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="MatterMost ID"
               onChange={(e) => setloginid(e.target.value)}
+              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
             ></input>
           </div>
           <div>
@@ -62,6 +88,7 @@ function LoginModal({ }: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="Password"
               onChange={(e) => setloginpw(e.target.value)}
+              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
             ></input>
           </div>
         </div>

@@ -1,96 +1,26 @@
-import React, { ReactElement, useState } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import React, { ReactElement, useState, useEffect } from "react";
 import UserOfferedCard from "./UserOfferedCard";
-const people = [
-  {
-    userId: 1,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 2,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 3,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 4,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 5,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "leave",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    userId: 6,
-    name: "Jane Cooper",
-    classNo: 123123,
-    address: "부산시 해운대구",
-    class: "구미2반",
-    email: "jane.cooper@example.com",
-    phone: "01000000000",
-    status: "Studying",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
-
+import axios from "axios";
 interface Props {
-  list: number[];
+  projectCode: number;
+  leadercheck: boolean;
+  myTeamPK: number;
 }
 
-function UserOfferedList({ list }: Props): ReactElement {
-  const router = useRouter();
-  // MM보내기
-  function SendMM() {
-    alert("message");
-  }
+function UserOfferedList({ projectCode, leadercheck, myTeamPK }: Props): ReactElement {
+  const [userList, setUserlist] = useState<any>([]);
+  // 유저리스트 호출
+  useEffect(() => {
+    if (myTeamPK > 0) {
+      axios.get(`/api/team/offered/${myTeamPK}`).then((res: any) => {
+        setUserlist([...res.data.data]);
+      });
+    }
+  }, [myTeamPK]);
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-1">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div className="-my-2 overflow-hidden sm:-mx-6 lg:-mx-1">
+        <div className="py-2 align-middle inline-block min-w-full ">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50 h-16">
@@ -122,8 +52,15 @@ function UserOfferedList({ list }: Props): ReactElement {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {people.map((person) => (
-                  <UserOfferedCard key={person.userId} person={person} />
+                {userList.map((user: any) => (
+                  <UserOfferedCard
+                    key={user.suggestPK}
+                    person={user}
+                    projectCode={projectCode}
+                    leadercheck={leadercheck}
+                    suggestPK={user.suggestPK}
+                    myTeamPK={myTeamPK}
+                  />
                 ))}
               </tbody>
             </table>

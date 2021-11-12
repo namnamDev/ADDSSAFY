@@ -7,7 +7,7 @@ import Image from "next/image";
 
 interface Props {}
 
-function Main({}: Props): ReactElement {
+function Index({}: Props): ReactElement {
   const router = useRouter();
 
   const cancelButtonRef = useRef(null);
@@ -20,11 +20,6 @@ function Main({}: Props): ReactElement {
   }, 3000);
   // +ssafy 클릭했을때 실행
   function enter() {
-    // 로그인돼있는지 확인 토큰으로
-    // 로그인 되어 있으면
-    // 토큰에 담긴 유저 타입에 따라 메인페이지로 이동
-    // router.push('/Main')
-    // router.push(`/ManageMain`)
     // 안돼있으면 로그인 모달 띄우기
     setLoginModal(true);
   }
@@ -128,4 +123,4 @@ function Main({}: Props): ReactElement {
   );
 }
 
-export default Main;
+export default Index;

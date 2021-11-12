@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
-interface Props {}
+import axios from "axios";
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -13,105 +14,171 @@ interface list {
   prop: string;
   image: string;
 }
-function Mypage({}: Props): ReactElement {
-  const person = {
-    name: "Jane Cooper",
-    userId: 1,
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    address: "ssafy@ssafy.com",
-    sigfiles: ["공통프로젝트", "특화프로젝트"],
-  };
+function Mypage({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const [can, setCan] = useState<number[]>([]);
-  const [want, setWant] = useState<number[]>([]);
-  // 퇴소처리
-  function leave(PK: number) {
-    return;
-  }
-  const phoneChange = (value: String) => {
-    console.log(value);
-  };
+
   // 로그인정보 헤더 보내서 유저정보 가져오기
+  const [userinfo, setuserinfo] = useState<any>({});
+  const [usertags, setusertags] = useState<any>({});
+  const [myteamhistory, setmyteamhistory] = useState<any>({});
+  const [mytoken, setmytoken] = useState<string>("");
+  // 정보수정을 위한 변수들
+  const [changePhone, setchangePhone] = useState<string>("");
+  const [changeGit, setchangeGit] = useState<string>("");
+  const [changeBlog, setchangeBlog] = useState<string>("");
+  const [changeIntroduce, setchangeIntroduce] = useState<string>("");
   useEffect(() => {
-    return () => {};
+    const token: string | null = localStorage.getItem("token");
+    if (typeof token === "string") {
+      setmytoken(token);
+      axios
+        .get("/api/users/mypage", {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          setuserinfo(res.data.data.userDetailDto);
+          setusertags(res.data.data.memberHashTags);
+          setmyteamhistory(res.data.data.userDetailDto.teamList);
+          setchangePhone(res.data.data.userDetailDto.userPhone);
+          setchangeGit(res.data.data.userDetailDto.git);
+          setchangeBlog(res.data.data.userDetailDto.blog);
+          setchangeIntroduce(res.data.data.userDetailDto.introduce);
+        })
+        .catch(() => alert("회원님의 정보를 가져올 수 없습니다, 다시 로그인해주세요"));
+    }
   }, []);
-  console.log(can);
-  console.log(want);
+  // 정보수정
+
+  function editmydata() {
+    axios
+      .put(
+        "/api/users/update",
+        {
+          blog: changeBlog,
+          introduce: changeIntroduce,
+          github: changeGit,
+          phone: changePhone,
+          can: can,
+        },
+        { headers: { Authorization: mytoken } }
+      )
+      .then(() => {
+        alert("회원정보수정 완료했습니다.");
+        setTimeout(() => {
+          router.push("/Mypage");
+        }, 1000);
+      })
+      .catch(() => {
+        alert("정보수정에 실패했습니다, 다시 시도해주세요");
+      });
+  }
   return (
     <div>
       <Navbar />
-      <div className="mx-48">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
+      <div className="w-3/5 mx-auto text-center">
+        <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">내 정보 수정</h3>
+            <div className="text-lg leading-6 font-bold text-gray-900">내 정보 수정</div>
           </div>
-          <div className="border-t border-gray-200">
+          <div className="">
             <dl>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">연락처</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-bold text-gray-500">이름</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  {userinfo.userName}
+                </dd>
               </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">GITHUB 주소</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+              {/* 프로젝트 */}
+              {myteamhistory.length > 0 ? (
+                <div>
+                  {Object.values(myteamhistory).map((team: any, i: any) => (
+                    <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" key={i}>
+                      {team.projectCode === 0 ? (
+                        <dt className="text-sm font-bold text-gray-500">공통프로젝트</dt>
+                      ) : null}{" "}
+                      {team.projectCode === 1 ? (
+                        <dt className="text-sm font-bold text-gray-500">특화프로젝트</dt>
+                      ) : null}
+                      {team.projectCode === 2 ? (
+                        <dt className="text-sm font-bold text-gray-500">자율프로젝트</dt>
+                      ) : null}
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {team.name}
+                      </dd>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              {/*  */}
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-bold text-gray-500">이메일주소</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    defaultValue={userinfo.email}
+                    disabled
+                  />
+                </dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-bold text-gray-500">연락처</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    defaultValue={userinfo.userPhone}
+                    onChange={(e) => setchangePhone(e.target.value)}
+                  />
+                </dd>
+              </div>
+              {/* 기술스택 */}
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-bold text-gray-500">GITHUB 주소</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
+                  <input
+                    type="text"
+                    defaultValue={userinfo.git}
+                    onChange={(e) => setchangeGit(e.target.value)}
+                  />
+                </dd>
+              </div>
+              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-bold text-gray-500">블로그 주소</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
+                  <input
+                    type="text"
+                    defaultValue={userinfo.blog}
+                    onChange={(e) => setchangeBlog(e.target.value)}
+                  />
+                </dd>
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">블로그 주소</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
-              </div>
-              {/* <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">백준 티어</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">플레1</dd>
-              </div> */}
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">자기 소개</dt>
-                <input
-                  className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
-                  defaultValue="010-1234-1234"
-                  onChange={(e) => phoneChange(e.target.value)}
-                />
+                <dt className="text-sm font-bold text-gray-500">자기 소개</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    defaultValue={userinfo.introduce}
+                    onChange={(e) => setchangeIntroduce(e.target.value)}
+                  />
+                </dd>
               </div>
             </dl>
           </div>
         </div>
-        <UserCreateHashTag onCanChanged={setCan} onWantChanged={setWant} />
-        {/* <DndProvider backend={HTML5Backend}>
-          <UserHashTag onCanChanged={setCan} onWantChanged={setWant} />
-        </DndProvider> */}
-
+        <UserCreateHashTag onCanChanged={setCan} userHashTag={usertags} />
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
             <button
               type="button"
-              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
-              //   onClick={() =>
-              //     router.push(
-              //     )
-              //   }
+              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-bold text-gray-700 hover:bg-blue-50"
+              onClick={editmydata}
             >
               정보수정
             </button>
             <button
               type="button"
-              className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-bold text-gray-700 hover:bg-gray-50"
               onClick={() => history.go(-1)}
             >
               나가기

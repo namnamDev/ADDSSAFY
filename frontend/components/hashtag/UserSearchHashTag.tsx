@@ -2,26 +2,39 @@ import React, { ReactElement, useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import UserList from "../user/UserList";
-import TeamDump from "../../dummy/json/teamDump.json";
 import axios from "axios";
 const filters: filters[] = [
   {
-    id: "can",
-    name: "can",
+    id: "BE",
+    name: "BE",
     options: [],
   },
   {
-    id: "want",
-    name: "want",
+    id: "FE",
+    name: "FE",
     options: [],
   },
   {
-    id: "except",
-    name: "except",
+    id: "DEVOPS",
+    name: "DevOps",
+    options: [],
+  },
+  {
+    id: "FOUR",
+    name: "4차 산업 기술",
+    options: [],
+  },
+  {
+    id: "ETC",
+    name: "기타",
+    options: [],
+  },
+  {
+    id: "GOODBADGE",
+    name: "뱃지",
     options: [],
   },
 ];
-interface Props {}
 
 interface list {
   hashTagPK: number;
@@ -34,75 +47,52 @@ interface filters {
   name: string;
   options: list[];
 }
-function UserSearchHashTag({}: Props): ReactElement {
+interface Props {
+  projectCode: number;
+  leadercheck: boolean;
+}
+function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<list[]>([]);
-  const [want, setWant] = useState<list[]>([]);
-  const [except, setExcept] = useState<list[]>([]);
   const [searchList, setSearchList] = useState<number[]>([]);
+  useEffect(() => {
+    setSearchList([]);
+  }, [projectCode]);
   const check = (section: any, option: any) => {
-    if (section === "can") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = !option.check;
-        setCan([...can, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = !option.check;
-        const result = can.filter((value) => value != option.hashTagPK);
-        setCan(result);
-      }
-    } else if (section === "want") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = true;
-        setWant([...want, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = false;
-        const result = want.filter((value) => value != option.hashTagPK);
-        setWant(result);
-      }
-    } else if (section === "except") {
-      // 추가하는부분
-      if (option.check === false) {
-        option.check = true;
-        setExcept([...except, option.hashTagPK]);
-      }
-      // 빼는부분
-      else if (option.check === true) {
-        option.check = false;
-        const result = except.filter((value) => value != option.hashTagPK);
-        setExcept(result);
-      }
+    // 추가하는부분
+    if (option.check === false) {
+      option.check = !option.check;
+      setCan([...can, option.hashTagPK]);
+    }
+    // 빼는부분
+    else if (option.check === true) {
+      option.check = !option.check;
+      const result = can.filter((value: any) => value != option.hashTagPK);
+      setCan(result);
     }
   };
   const search = () => {
-    console.log(can);
-    console.log(want);
-    console.log(except);
-    setSearchList(TeamDump);
+    const token: string | null = localStorage.getItem("token");
+    if (token) {
+      axios
+        .post("/api/search/user", {
+          projectCode: projectCode,
+          can: can,
+        })
+        .then((res: any) => {
+          setSearchList([...res.data.data]);
+        })
+        .catch((err) => alert(err));
+    }
   };
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
-      // 할 수 있다.can
       filters[0].options.push(...clonedeep(res.data.data.BE));
-      filters[0].options.push(...clonedeep(res.data.data.FE));
-      filters[0].options.push(...clonedeep(res.data.data.DEVOPS));
-      filters[0].options.push(...clonedeep(res.data.data.FOUR));
-      filters[0].options.push(...clonedeep(res.data.data.ETC));
-      filters[0].options.push(...clonedeep(res.data.data.GOODBADGE));
-      // 할 수 있다.can
-      filters[1].options.push(...clonedeep(res.data.data.BE));
       filters[1].options.push(...clonedeep(res.data.data.FE));
-      filters[1].options.push(...clonedeep(res.data.data.DEVOPS));
-      filters[1].options.push(...clonedeep(res.data.data.FOUR));
-      filters[1].options.push(...clonedeep(res.data.data.ETC));
-      filters[1].options.push(...clonedeep(res.data.data.GOODBADGE));
-      // 제외 except
-      filters[2].options.push(...clonedeep(res.data.data.BADBADGE));
+      filters[2].options.push(...clonedeep(res.data.data.DEVOPS));
+      filters[3].options.push(...clonedeep(res.data.data.FOUR));
+      filters[4].options.push(...clonedeep(res.data.data.ETC));
+      filters[5].options.push(...clonedeep(res.data.data.GOODBADGE));
       filters.map((value) => {
         value.options.map((val) => {
           val.check = false;
@@ -116,9 +106,9 @@ function UserSearchHashTag({}: Props): ReactElement {
   return (
     <div className="bg-white ">
       <div>
-        <main className="max-w-7xl mx-auto px-6">
+        <main className="w-full mx-auto">
           {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">교육생 검색</h1>
+            <div className="text-4xl font-extrabold tracking-tight text-gray-900">교육생 검색</div>
           </div> */}
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
@@ -128,7 +118,7 @@ function UserSearchHashTag({}: Props): ReactElement {
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
                       <>
-                        <h3 className="-my-3 flow-root">
+                        <div className="-my-3 flow-root">
                           <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
@@ -139,7 +129,7 @@ function UserSearchHashTag({}: Props): ReactElement {
                               )}
                             </span>
                           </Disclosure.Button>
-                        </h3>
+                        </div>
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
                             {section.options.map((option, optionIdx) => (
@@ -181,7 +171,7 @@ function UserSearchHashTag({}: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  <UserList list={searchList} />
+                  <UserList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
                 </div>
               </div>
             </div>

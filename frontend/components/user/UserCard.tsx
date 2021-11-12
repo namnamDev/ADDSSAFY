@@ -1,138 +1,122 @@
-import React, { ReactElement, useState, Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import UserDetail from "../user/UserDetail";
+import React, { ReactElement, useState, Fragment, useEffect, useRef } from "react";
+import UserDetailModal from "./UserDetailModal";
 import Image from "next/image";
+import SendMMmodal from "./SendMMmodal";
 interface Props {
-  person: object;
+  projectCode: number;
+  person: {
+    backjun: string | null;
+    blog: string;
+    classNumber: string;
+    classRegion: string;
+    email: string;
+    git: string;
+    introduce: string;
+    isleave: boolean;
+    mmid: string;
+    portfolio: string;
+    profile: string;
+    status: string;
+    studentNumber: string;
+    teamList: any;
+    userAddress: string;
+    userName: string;
+    userPhone: string;
+    userPk: number;
+  };
+  leadercheck: boolean;
 }
 
-function UserCard({ person }: Props): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showUser, setShowUser] = useState(false);
-  function closeModal() {
-    setIsOpen(false);
-    setShowUser(false);
+function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
+  // 팀있는지 체크하기
+  const [isteam, setisteam] = useState<boolean>(false);
+  useEffect(() => {
+    if (person.teamList.length >= projectCode + 1) {
+      if (person.teamList[projectCode].teamPK != null) {
+        setisteam(true);
+      }
+    }
+  }, []);
+  // 유저상세
+  const [flag, setflag] = useState<boolean>(false);
+  const [pk, setpk] = useState<number>(0);
+  const [mmid, setmmid] = useState<string>("");
+  function userdetail(pk: number, mmid: string) {
+    setflag(true);
+    setpk(pk);
+    setmmid(mmid);
   }
-  function openModal(person: number) {
-    setIsOpen(true);
-  }
-  const apply = () => {
-    alert(`${person}팀에 지원했습니다.`);
-  };
-  function SendMM() {
-    alert("message");
-  }
+  // Mattermost
+  const [flagMM, setflagMM] = useState<boolean>(false);
   return (
     <tr>
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
-              alt=""
-              width="100%"
-              height="100%"
-            />
-          </div>
-          <div className="ml-4">
-            <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            >
-              이름
-            </div>
-          </div>
+      <td className="px-6 py-4 cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
+        <div
+          className="text-sm font-medium text-gray-900 my-2.5"
+        >
+          {
+            person.profile.length > 10
+              ? <img
+                className="h-10 w-10 rounded-full mx-auto"
+                src={person.profile}
+                alt=""
+                width="100%"
+                height="100%"
+              />
+              : <img
+                className="h-10 w-10 rounded-full mx-auto"
+                src="/images/noimg.png"
+                alt=""
+                width="100%"
+                height="100%"
+              />
+          }
+
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">반</div>
+      <td className="px-6 py-4 cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
+        <div
+          className="text-sm font-medium text-gray-900 cursor-pointer my-2.5"
+        >
+          {person.userName}
+        </div>
       </td>
-
-      <td className="px-6 py-4 whitespace-nowrap">010-5303-1984</td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {/* {person.status === "leave" ? (
-          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-500">
-            팀장
+      <td className="px-6 py-4 whitespace-nowrap cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
+        <div className="text-sm text-gray-900">
+          {person.classRegion} {person.classNumber}
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>{person.userPhone}</td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer" onClick={() => userdetail(person.userPk, person.mmid)}>
+        {isteam ? (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+            팀있음
           </span>
         ) : (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-            팀원
+            무소속
           </span>
-        )} */}
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          무소속
-        </span>
+        )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <span
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-black cursor-pointer"
-          onClick={() => SendMM()}
+          onClick={() => {
+            setflagMM(true);
+          }}
         >
           MatterMost
         </span>
       </td>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
-          <div className="flex justify-center my-8  text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block align-middle " aria-hidden="true">
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
-                  onClick={() => setShowUser(false)}
-                ></Dialog.Title>
-                <div className="mt-2 ">
-                  <p className="text-sm text-gray-500  ">
-                    <UserDetail />
-                  </p>
-                </div>
-
-                <div className="mt-4 flex flex-row space-x-2 justify-center">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={apply}
-                  >
-                    제안 보내기
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
-                  >
-                    창 닫기
-                  </button>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+      <UserDetailModal
+        projectCode={projectCode}
+        userPK={pk}
+        mmid={mmid}
+        flag={flag}
+        setflag={setflag}
+        leaderCheck={leadercheck}
+      />
+      <SendMMmodal flagMM={flagMM} setflagMM={setflagMM} mmid={person.mmid} />
     </tr>
   );
 }

@@ -1,185 +1,134 @@
-import React, { ReactElement, Fragment, useState, useRef, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import Image from "next/image";
-import TeamUserList from "./TeamUserList";
-import TeamDetail from "./TeamDetail";
-import UserDetail from "../user/UserDetail";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
+// 유저가 가입신청한 팀
+import React, { ReactElement, useState, useEffect } from "react";
+import axios from "axios";
+import TeamDetailModal from "./TeamDetailModal";
 interface Props {
   teamPK: number;
+  projectCode: number;
+  suggestPK: number;
+  suggestDate: string;
 }
 
-function TeamOfferCard({ teamPK }: Props): ReactElement {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showUser, setShowUser] = useState(false);
-  function closeModal() {
-    setIsOpen(false);
-    setShowUser(false);
+function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): ReactElement {
+  // 제안을 보낸 시간 구하기
+  const now = new Date(suggestDate);
+  new Date(now.setHours(now.getHours() + 11));
+  // 시간으로 변환
+  function timeForToday(value: any) {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return "방금전";
+    if (betweenTime < 60) {
+      return `${betweenTime}분전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일전`;
+    }
+
+    return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
-  function openModal(teamPK: number) {
-    setIsOpen(true);
+  const [teamFlag, setTeamFlag] = useState<boolean>(false);
+  const [teamdata, setteamdata] = useState<any>({});
+  const [enough, setenough] = useState<boolean>(false);
+  useEffect(() => {
+    axios
+      .get(`/api/team/detail/${teamPK}`)
+      .then((res: any) => {
+        setteamdata(res.data.data);
+        if (res.data.data.teamuser.length >= 5) {
+          setenough(true);
+        }
+      })
+      .catch((err) => alert(err));
+  }, [teamPK]);
+
+  // 가입 신청 철회
+  function withdraw() {
+    const token: string | null = localStorage.getItem("token");
+    if (token) {
+      axios
+        .delete("/api/team/teamwithdraw", {
+          data: {
+            suggestPK: suggestPK,
+          },
+          headers: { Authorization: token },
+        })
+        .then(() => {
+          alert("가입신청이 철회되었습니다");
+          sendMessage("가입요청이 철회되었습니다");
+        });
+    }
   }
-  const apply = () => {
-    alert(`${teamPK}팀에 지원했습니다.`);
-  };
+  function sendMessage(message: string) {
+    const mymmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    // 팀장mmid 가져오기
+    if (mymmid && mmtoken)
+      axios.get(`/api/team/leaderinfo/${teamPK}`).then((res: any) => {
+        axios
+          .post("/api/v4/channels/direct", [mymmid, res.data.data.mmid], {
+            headers: { Authorization: mmtoken },
+          })
+          .then((res: any) => {
+            axios
+              .post(
+                "/api/v4/posts",
+                {
+                  channel_id: res.data.id,
+                  message: message,
+                },
+                {
+                  headers: { Authorization: mmtoken },
+                }
+              )
+              .then(() => {
+                location.reload();
+              });
+          });
+      });
+  }
 
   return (
-    <tr>
-      <td className=" py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="flex-shrink-0 h-10 w-10">
-            <Image
-              className="h-10 w-10 rounded-full"
-              src="https://previews.123rf.com/images/eltoro69/eltoro691509/eltoro69150900056/46006637-%ED%8C%80-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%ED%94%84%EB%A0%88-%EC%A0%A0-%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%EC%A0%81-%EC%9D%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg"
-              alt=""
-              width="100%"
-              height="100%"
-            />
-          </div>
-          <div className="ml-4">
-            <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            >
-              팀이름
-            </div>
-          </div>
+    <tr className="h-10">
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div
+          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          onClick={() => setTeamFlag(true)}
+        >
+          {teamdata.name}
         </div>
       </td>
-
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+        <div className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
           팀원 구인 중
-        </span>
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="text-sm text-gray-900">{timeForToday(now)}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span
+        <div
           className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-400 text-black cursor-pointer"
-          // onClick={() => SendMM()}
+          onClick={() => withdraw()}
         >
           제안 철회
-        </span>
+        </div>
       </td>
-
-      {/* 팀 정보
-      <div>
-        <h3 className="text-gray-500">프로젝트 트랙(블록체인, 미정, 빅데이터 추천)</h3>
-        <h2 className="text-gray-500 text-[11px]">교육생1,교육생2,교육생3</h2>
-        <h3 className="text-gray-500">팀 소개</h3>
-        <h3 className="text-gray-500">현재인원 : 4명</h3>
-      </div> */}
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed z-10 inset-0  " onClose={closeModal}>
-          <div className="flex justify-center my-8  text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block align-middle " aria-hidden="true">
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              {showUser ? (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl  overflow-auto scrollbar-hide">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
-                    onClick={() => setShowUser(false)}
-                  >
-                    <ArrowLeftIcon className="text-sm" width="20px" />
-                    뒤로 가기
-                  </Dialog.Title>
-                  <div className="mt-2 ">
-                    <p className="text-sm text-gray-500  ">
-                      <UserDetail
-                        userPK={123}
-                        // userdata={{
-                        //   userId: 0,
-                        //   name: "",
-                        //   classNo: 0,
-                        //   address: "",
-                        //   class: "",
-                        //   email: "",
-                        //   phone: "",
-                        //   status: "",
-                        //   image: "",
-                        //   sigfiles: [],
-                        // }}
-                      />
-                    </p>
-                  </div>
-
-                  <div className="mt-4 flex flex-row space-x-2 justify-center">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
-                    >
-                      MM 보내기
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModal}
-                    >
-                      창 닫기
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="fixed inline-block min-w-lg max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 text-center"
-                  >
-                    {teamPK}팀 정보
-                  </Dialog.Title>
-                  <div className="mt-2 ">
-                    <p className="text-sm text-gray-500  ">
-                      <TeamDetail teamPK={teamPK} />
-                      <TeamUserList teamPK={teamPK} showUser={setShowUser} />
-                    </p>
-                  </div>
-
-                  <div className="mt-4 flex flex-row space-x-2 justify-center">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={apply}
-                    >
-                      지원하기
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={closeModal}
-                    >
-                      창 닫기
-                    </button>
-                  </div>
-                </div>
-              )}
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+      <TeamDetailModal
+        projectCode={projectCode}
+        teamFlag={teamFlag}
+        setTeamFlag={setTeamFlag}
+        teamPK={teamPK}
+      />
     </tr>
   );
 }
