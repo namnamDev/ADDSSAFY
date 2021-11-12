@@ -1,13 +1,17 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import Navbar from "../components/basic/Navbar";
 import Image from "next/image";
 import Footer from "../components/basic/Footer";
-
+import "aos/dist/aos.css";
+import Aos from "aos";
 const features = [{ name: "WHO", description: "박종한, 남근형, 조영우" }];
 
 interface Props {}
 
 function Main({}: Props): ReactElement {
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
   return (
     <div className="">
       <Navbar />

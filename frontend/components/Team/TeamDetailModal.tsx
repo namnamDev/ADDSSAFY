@@ -86,20 +86,16 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
     }
   }
   function inviteUser(channel_id: string, leaderMMToken: string) {
-    const mmid: string | null = localStorage.getItem("mmid");
-    const mmtoken: string | null = localStorage.getItem("mmtoken");
-    console.log(channel_id, leaderMMToken);
-    if (typeof mmid === "string" && mmtoken) {
-      axios
-        .post(
-          `/api/v4/channels/${channel_id}/members`,
-          {
-            user_id: mmid,
-          },
-          {
-            headers: { Authorization: "Bearer " + leaderMMToken },
-          }
-        )
+    const mmid: string | null = localStorage.getItem('mmid')
+    const mmtoken: string | null = localStorage.getItem('mmtoken')
+    if (typeof mmid === 'string' && mmtoken) {
+      axios.post(`/api/v4/channels/${channel_id}/members`,
+        {
+          user_id: mmid
+        },
+        {
+          headers: { Authorization: "Bearer " + leaderMMToken }
+        })
         .then(() => {
           alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
           axios

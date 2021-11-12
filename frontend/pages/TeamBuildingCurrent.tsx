@@ -39,7 +39,23 @@ function TeamBuildingCurrent({}: Props): ReactElement {
   };
   // 팀생성
   const createTeam = () => {
-    router.push(`/TeamCreate/?projectNo=${projectCode}`);
+    const token: string | null = localStorage.getItem('token')
+    if (token && projectCode !== '0') {
+      axios.get(`/api/team/myteam/${projectCode - 1}`, {
+        headers: { Authorization: token }
+      })
+        .then((res: any) => {
+          if (res.data.data > 0) {
+            router.push(`/TeamCreate/?projectNo=${projectCode}`);
+          } else {
+            alert('이전 프로젝트를 먼저 진행해주세요')
+            router.push(`TeamBuildingCurrent?projectNo=${projectCode - 1}`);
+          }
+        })
+    } else {
+      router.push(`/TeamCreate/?projectNo=${projectCode}`);
+    }
+
   };
   // 팀이 있는지 체크
   const [myteamPk, setmyteamPk] = useState<number>(0);
@@ -89,7 +105,7 @@ function TeamBuildingCurrent({}: Props): ReactElement {
       <Navbar />
       <div className="text-center">
         <section data-aos="fade-up" className="">
-          {isTeam ? <MyTeamDetail teamPK={myteamPk} /> : null}
+          {isTeam ? <MyTeamDetail teamPK={myteamPk} projectCode={projectCode}/> : null}
           <br />
           <div className="grid grid-cols-2 mt-4 w-2/3 mx-auto">
             <div className="self-center place-self-start ml-4 font-bold text-xl">

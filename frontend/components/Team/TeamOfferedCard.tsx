@@ -62,7 +62,6 @@ function TeamOfferedCard({ teamPK, projectCode, suggestPK, suggestDate, teamName
   function inviteUser(channel_id: string, leaderMMToken: string) {
     const mmid: string | null = localStorage.getItem('mmid')
     const mmtoken: string | null = localStorage.getItem('mmtoken')
-    console.log(channel_id, leaderMMToken)
     if (typeof mmid === 'string' && mmtoken) {
       axios.post(`/api/v4/channels/${channel_id}/members`,
         {
