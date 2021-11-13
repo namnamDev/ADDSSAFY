@@ -6,9 +6,9 @@ import "aos/dist/aos.css";
 import Aos from "aos";
 const features = [{ name: "WHO", description: "박종한, 남근형, 조영우" }];
 
-interface Props {}
+interface Props { }
 
-function Main({}: Props): ReactElement {
+function Main({ }: Props): ReactElement {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
@@ -43,83 +43,18 @@ function Main({}: Props): ReactElement {
                 layout="responsive"
                 objectFit="cover"
               />
-              {/* <Image
-              src="/images/ssg.jpg"
-              alt="Top down view of walnut card tray with embedded magnets and card groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/ssg.jpg"
-              alt="Side of walnut card tray with card groove and recessed card area."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/apple.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/ssg.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/google.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/kb.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/ssg.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            />
-            <Image
-              src="/images/ssg.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="bg-gray-100 rounded-lg"
-              width="80%"
-              height="100%"
-              layout="responsive"
-              objectFit="cover"
-            /> */}
             </div>
           </div>
           <hr className="w-1/2 mx-auto my-5" />
           <div className="lg:text-center">
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900">
+              How To Use
+            </p>
+
+          </div>
+          <hr className="w-1/2 mx-auto my-5" />
+          <div className="lg:text-center">
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900">
               SSAFY Project Gallery
             </p>
           </div>

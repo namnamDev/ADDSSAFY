@@ -64,8 +64,6 @@ function UserDetailModal({
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          console.log(res)
-          console.log(1)
           if (res.data.data.userDetailDto == null) {
             return
           }
