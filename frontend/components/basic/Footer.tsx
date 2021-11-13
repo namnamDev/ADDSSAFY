@@ -72,33 +72,6 @@ function Footer({ }: Props): ReactElement {
                 </li>
               </ul>
             </div>
-<<<<<<< HEAD
-            <div className="w-full lg:w-1/2 flex">
-              <div className="w-full lg:w-1/2 px-6">
-                <ul>
-                  <li>
-                    <a
-                      href=""
-                      className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}
-                    >
-                      Privacy policy
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.naver.com')}>
-                      Terms of service
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="w-full lg:w-1/2 px-6 flex flex-col justify-between">
-                <div className="flex items-center mb-6">
-                  <div className="grid grid-cols-4 gap-7">
-                    <FaFacebook size="24" className="cursor-pointer" onClick={() => router.push('https://ko-kr.facebook.com/')} />
-                    <FaTwitter size="24" className="cursor-pointer" onClick={() => router.push('https://twitter.com/?lang=ko')} />
-                    <FaYoutube size="24" className="cursor-pointer" onClick={() => router.push('https://www.youtube.com/')} />
-                    <FaGithub size="24" className="cursor-pointer" onClick={() => router.push('https://github.com/')} />
-=======
             <div className="w-full lg:w-4/12 px-4">
               <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">
                 Other Resources
@@ -109,7 +82,6 @@ function Footer({ }: Props): ReactElement {
                     className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
                   >
                     MIT License
->>>>>>> frontend
                   </div>
                 </li>
                 <li>
