@@ -16,7 +16,7 @@ function Main({ }: Props): ReactElement {
       <Navbar />
       <section data-aos="fade-up" className="">
         <div className="bg-white w-full mx-auto">
-          <div className="max-w-5xl mx-auto py-5 px-4 grid items-center grid-cols-1 gap-y-16 gap-x-8 lg:grid-cols-2">
+          <div className="max-w-5xl mx-auto py-5 px-4 grid items-center grid-cols-2 gap-y-16 gap-x-8">
             <div className="text-center">
               <div className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                 Project SSAFY
@@ -93,6 +93,37 @@ function Main({ }: Props): ReactElement {
             </div>
           </div>
           <hr className="w-2/3 mx-auto my-5" />
+          <div className="text-center w-3/4 mx-auto">
+            <div className="flex flex-wrap items-center">
+              <div className="w-full mt-10">
+                <h3 className="text-4xl mb-2 font-semibold leading-normal">
+                  How to enjoy the SSAFY Prject
+                </h3>
+                <div className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
+                  <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    사람들이 나를 찾을 수 있도록 남들보다 빠르게 나의 기술스택을 설정해둔다
+                  </div>
+                  <br />
+                  <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    나와 마음이 맞는 팀을 검색해서 미리 컨택을 한다, 팀정보를 미리 확인해 구성원들을 미리 파악해놓는다
+                  </div>
+                  <br />
+                  <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    팀장으로 프로젝트를 이끌어보고 싶다면, 팀을 생성후 필요한 기술스택에 맞는 교육생들을 검색해서 컨택을 한다
+                  </div>
+                  <br />
+                  <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                    팀이 결성되었다면 Webex, Mattermost를 활용해 프로젝트에 대한 회의를 시작한다
+                  </div>
+                  <br />
+                  <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                    끝까지 달린다
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr className="w-2/3 mx-auto my-5" />
           <div className="text-center">
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900">
               SSAFY Project Gallery
@@ -136,6 +167,8 @@ function Main({ }: Props): ReactElement {
               </div>
             </div>
           </div>
+          <hr className="w-2/3 mx-auto my-5" />
+
         </div>
       </section>
       <Footer />
