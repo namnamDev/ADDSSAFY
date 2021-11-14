@@ -151,7 +151,7 @@ function Main({ }: Props): ReactElement {
             <div className="item">
               <div className="polaroid">
                 <Image src="/image/alzalal.gif" width="390" height="220" alt="" />
-                <div className="caption">alzalal</div>
+                <div className="caption">Alzalal</div>
               </div>
             </div>
             <div className="item">
