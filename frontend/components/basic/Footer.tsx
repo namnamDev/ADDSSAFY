@@ -14,7 +14,7 @@ function Footer({ }: Props): ReactElement {
         <div className="w-full lg:w-6/12 px-4">
           <h4 className="text-3xl font-semibold">Final Project</h4>
           <h5 className="text-sm mt-2 mb-2">
-            2021 우리의 마지막 프로젝트, 싸피에 더하다
+            2021 우리의 마지막 프로젝트
           </h5>
           <div className="mt-6 flex">
             <FaFacebook size="24" className="cursor-pointer mr-3" onClick={() => router.push('https://ko-kr.facebook.com/')} />
