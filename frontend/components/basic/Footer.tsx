@@ -9,7 +9,7 @@ function Footer({ }: Props): ReactElement {
   const [mode, setMode] = useState("auto");
   const router = useRouter();
   return (
-    <div className="pt-12 bg-gray-50">
+    <div className="pt-12 bg-gray-50 mt-28">
       <div className="flex flex-wrap text-center lg:text-left w-4/5 mx-auto">
         <div className="w-full lg:w-6/12 px-4">
           <h4 className="text-3xl font-semibold">Final Project</h4>

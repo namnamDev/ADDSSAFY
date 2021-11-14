@@ -35,13 +35,13 @@ function Main({ }: Props): ReactElement {
               />
             </div>
           </div>
-          <hr className="w-2/3 mx-auto my-5" />
-          <div className="w-2/3 mx-auto">
+          <hr className="w-2/3 mx-auto my-10" />
+          <div className="w-2/3 mx-auto mt-10">
             <div className="justify-center flex flex-wrap">
               <div className="w-full lg:w-12/12 px-4">
                 <div className="flex flex-wrap">
                   <div className="w-4/12 px-4">
-                    <div className="text-xl font-semibold text-center">
+                    <div className="text-3xl font-semibold text-center">
                       Mattermost
                     </div>
                     <div className="">
@@ -57,7 +57,7 @@ function Main({ }: Props): ReactElement {
                     </div>
                   </div>
                   <div className="w-4/12 px-4">
-                    <div className="text-xl font-semibold text-center">
+                    <div className="text-3xl font-semibold text-center">
                       Search
                     </div>
                     <div className="">
@@ -73,7 +73,7 @@ function Main({ }: Props): ReactElement {
                     </div>
                   </div>
                   <div className="w-4/12 px-4">
-                    <div className="text-xl font-semibold text-center">
+                    <div className="text-3xl font-semibold text-center">
                       Create
                     </div>
                     <div className="">
@@ -96,7 +96,7 @@ function Main({ }: Props): ReactElement {
           <div className="text-center w-3/4 mx-auto">
             <div className="flex flex-wrap items-center">
               <div className="w-full mt-10">
-                <h3 className="text-4xl mb-2 font-semibold leading-normal">
+                <h3 className="text-5xl mb-10 font-semibold leading-normal">
                   How to enjoy the SSAFY Prject
                 </h3>
                 <div className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
@@ -123,9 +123,9 @@ function Main({ }: Props): ReactElement {
               </div>
             </div>
           </div>
-          <hr className="w-2/3 mx-auto my-5" />
+          <hr className="w-2/3 mx-auto my-14" />
           <div className="text-center">
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900">
+            <p className="mt-2 text-5xl leading-8 font-extrabold tracking-tight text-gray-900">
               SSAFY Project Gallery
             </p>
           </div>
@@ -167,8 +167,6 @@ function Main({ }: Props): ReactElement {
               </div>
             </div>
           </div>
-          <hr className="w-2/3 mx-auto my-5" />
-
         </div>
       </section>
       <Footer />
