@@ -9,96 +9,108 @@ function Footer({ }: Props): ReactElement {
   const [mode, setMode] = useState("auto");
   const router = useRouter();
   return (
-    <div className="pt-12">
-      <div className=" border-t border-b border-gray-100 dark:border-gray-700 py-3">
-        <div className="mx-auto container px-4 xl:px-12 2xl:px-4">
-          <div className="lg:flex">
-            <div className="w-full lg:w-1/2 mb-16 lg:mb-0 flex">
-              <div className="w-full lg:w-1/2 px-6">
-                <ul>
-                  <li>
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://edu.ssafy.com/comm/login/SecurityLoginForm.do')}>
-                      Edu SSAFY
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://job.ssafy.com/job/support/userPwdCheckForm.do')}>
-                      Job SSAFY
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a
-                      href=""
-                      className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://meeting.ssafy.com/login')}
-                    >
-                      Meeting SSAFY
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.youtube.com/channel/UC_XI3ByFO1uZIIH-g-zJZiw')}>
-                      Youtube SSAFY
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp')}>
-                      SSAFY
-                    </a>
-                  </li>
-                </ul>
+    <div className="pt-12 bg-gray-50 mt-28">
+      <div className="flex flex-wrap text-center lg:text-left w-4/5 mx-auto">
+        <div className="w-full lg:w-6/12 px-4">
+          <h4 className="text-3xl font-semibold">Final Project</h4>
+          <h5 className="text-sm mt-2 mb-2">
+            2021 우리의 마지막 프로젝트
+          </h5>
+          <div className="mt-6 flex">
+            <FaFacebook size="24" className="cursor-pointer mr-3" onClick={() => router.push('https://ko-kr.facebook.com/')} />
+            <FaTwitter size="24" className="cursor-pointer mr-3" onClick={() => router.push('https://twitter.com/?lang=ko')} />
+            <FaYoutube size="24" className="cursor-pointer mr-3" onClick={() => router.push('https://www.youtube.com/')} />
+            <FaGithub size="24" className="cursor-pointer" onClick={() => router.push('https://github.com/')} />
+          </div>
+        </div>
+        <div className="w-full lg:w-6/12 px-4">
+          <div className="flex flex-wrap items-top mb-6">
+            <div className="w-full lg:w-4/12 px-4 ml-auto">
+              <div className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">
+                About SSAFY LINK
               </div>
-              <div className="w-full lg:w-1/2 px-6">
-                <ul>
-                  <li>
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
-                      Free components
-                    </a>
-                  </li>
-
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
-                      Blog
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
-                      Changelog
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="w-full lg:w-1/2 flex">
-              <div className="w-full lg:w-1/2 px-6">
-                <ul>
-                  <li>
-                    <a
-                      href=""
-                      className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}
-                    >
-                      Privacy policy
-                    </a>
-                  </li>
-                  <li className="mt-6">
-                    <a className="text-xs lg:text-sm leading-none hover:text-brand dark:hover:text-brand text-gray-800 dark:text-gray-50 cursor-pointer" onClick={() => router.push('www.naver.com')}>
-                      Terms of service
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="w-full lg:w-1/2 px-6 flex flex-col justify-between">
-                <div className="flex items-center mb-6">
-                  <div className="grid grid-cols-4 gap-7">
-                    <FaFacebook size="24" className="cursor-pointer" onClick={() => router.push('https://ko-kr.facebook.com/')} />
-                    <FaTwitter size="24" className="cursor-pointer" onClick={() => router.push('https://twitter.com/?lang=ko')} />
-                    <FaYoutube size="24" className="cursor-pointer" onClick={() => router.push('https://www.youtube.com/')} />
-                    <FaGithub size="24" className="cursor-pointer" onClick={() => router.push('https://github.com/')} />
+              <ul className="list-unstyled">
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm cursor-pointer"
+                    onClick={() => router.push('https://edu.ssafy.com/comm/login/SecurityLoginForm.do')}
+                  >
+                    Edu SSAFY
                   </div>
-                </div>
-              </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm cursor-pointer"
+                    onClick={() => router.push('https://job.ssafy.com/job/support/userPwdCheckForm.do')}
+                  >
+                    Job SSAFY
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm cursor-pointer"
+                    onClick={() => router.push('https://meeting.ssafy.com/login')}
+                  >
+                    Meeting SSAFY
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm cursor-pointer"
+                    onClick={() => router.push('https://www.youtube.com/channel/UC_XI3ByFO1uZIIH-g-zJZiw')}
+                  >
+                    Youtube SSAFY
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm cursor-pointer"
+                    onClick={() => router.push('https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp')}
+                  >
+                    SSAFY
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="w-full lg:w-4/12 px-4">
+              <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">
+                Other Resources
+              </span>
+              <ul className="list-unstyled">
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  >
+                    MIT License
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  >
+                    Terms & Conditions
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  >
+                    Privacy Policy
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="text-blueGray-600 hover:text-blueGray-800 block pb-2 text-sm"
+                  >
+                    Contact Us
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
+
       <div className="py-3 flex flex-col justify-center items-center">
         <Image
           src="/images/footerssafy.png"
@@ -106,9 +118,7 @@ function Footer({ }: Props): ReactElement {
           width="150"
           alt=""
         ></Image>
-        <div className="mt-6 text-xs lg:text-sm leading-none text-gray-900 dark:text-gray-50 cursor-pointer">
-          2021 우리의 마지막 프로젝트, 싸피에 더하다
-        </div>
+        Copyright © {new Date().getFullYear()}, D204
       </div>
     </div>
   );

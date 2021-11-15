@@ -26,6 +26,7 @@ function TeamCreate({ }: Props): ReactElement {
     const token: string | null = localStorage.getItem("token");
     const MMtoken: string | null = localStorage.getItem("mmtoken");
     const username: string | null = localStorage.getItem("username");
+    const nickname: string | null = localStorage.getItem("nickname");
     const now = moment().format("YYYYMMDDHHmmss");
     // mattermost 채널생성
     if (typeof MMtoken === "string" && typeof username == "string") {
@@ -35,7 +36,7 @@ function TeamCreate({ }: Props): ReactElement {
           {
             team_id: "tfctt9yko7f93jge3itn1tseoo",
             type: "P",
-            display_name: username + "님의 프로젝트",
+            display_name: teamtitle,
             name: now + username,
           },
           {
@@ -66,9 +67,9 @@ function TeamCreate({ }: Props): ReactElement {
                   });
                 }, 500);
                 // 봇으로 알려주기
-                axios.post('/hooks/d6z6ihr7wtg49dwkcsxe4f3kar', {
-                  channel_id: "ipmeb6dbftfxfd681bh9cx3ufc",
-                  text: `${username}님이 "${teamtitle}"팀을 생성하였습니다`
+                axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+                  channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
+                  text: "`" + `${nickname}` + "`" + "님이" + "`" + `${teamtitle}` + "`" + "팀을 생성하였습니다"
                 })
               });
           }

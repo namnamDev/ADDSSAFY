@@ -53,7 +53,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
   const [flagMM, setflagMM] = useState<boolean>(false);
   return (
     <div className="text-center">
-      <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
+      <div className=" shadow overflow-hidden sm:rounded-lg mt-5 min-w-md">
         <div className="px-4 py-5 sm:px-6">
           <div className="text-lg leading-6 font-medium text-gray-900">교육생 정보</div>
         </div>
@@ -125,7 +125,7 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dt className="text-sm font-medium text-gray-500">기술스택</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {Object.keys(usertags).map((section: any, i: number) => (
-                  <div key={i}>
+                  <div key={i} className="">
                     {usertags[section].map((tag: any, j: any) => (
                       <div key={j}>
                         {section === "DEVOPS" ? (

@@ -19,6 +19,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [webex, setwebex] = useState<string>("");
   const [mmchannel, setmmchannel] = useState<string>("");
   const [ppt, setppt] = useState<string>("");
+  const [teamName, setTeamName] = useState<string>("")
   // 팀멤버 정보 받아오기
   const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
@@ -47,6 +48,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
         setppt(res.data.data.ppt);
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
+        setTeamName(res.data.data.name)
       })
       .catch((err) => alert(err));
   }, []);
@@ -59,6 +61,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     const token: string | null = localStorage.getItem("token");
     const mmid: string | null = localStorage.getItem("mmid");
     const mmtoken: string | null = localStorage.getItem("mmtoken");
+    const nickname: string | null = localStorage.getItem("nickname")
     if (token && mmid && mmtoken) {
       axios
         .delete("/api/team/exit", {
@@ -68,6 +71,10 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then(() => {
+          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+            channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
+            text: "`" + `${nickname}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀을 탈퇴하였습니다"
+          })
           // Mattermost channel 나가기
           axios
             .post(
@@ -187,7 +194,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                   className="inline-flex items-center px-4 py-2 border bg-gray-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 mx-2"
                   onClick={() => router.push(`https://k5d204.p.ssafy.io${ppt}`)}
                 >
-                  PPT 다운로드
+                  PPT/PDF 다운로드
                 </button>
               ) : null}
               {isleader ? (

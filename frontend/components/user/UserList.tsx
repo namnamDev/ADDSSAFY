@@ -7,9 +7,17 @@ interface Props {
   list: number[];
   projectCode: number;
   leadercheck: boolean;
+  isTeamAsc: boolean;
+  setIsTeamAsc: any;
 }
 
-function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
+function UserList({
+  list,
+  projectCode,
+  leadercheck,
+  isTeamAsc,
+  setIsTeamAsc,
+}: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
@@ -51,6 +59,7 @@ function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
                   <th
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    onClick={() => setIsTeamAsc(!isTeamAsc)}
                   >
                     Status
                   </th>

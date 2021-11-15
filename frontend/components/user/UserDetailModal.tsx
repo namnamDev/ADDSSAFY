@@ -24,6 +24,8 @@ function UserDetailModal({
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
   const [teamPK, setTeamPK] = useState<number>(0);
+  const [teamName, setTeamName] = useState<string>("")
+  const [userName, setUserName] = useState<string>("")
   useEffect(() => {
     if (userPK) {
       const token: string | null = localStorage.getItem("token");
@@ -43,11 +45,34 @@ function UserDetailModal({
           })
           .then((res: any) => {
             setTeamPK(res.data.data);
+            axios
+              .get(`/api/team/detail/${res.data.data}`)
+              .then((res: any) => {
+                setTeamName(res.data.data.name)
+              })
           });
       }
     }
   }, [flag, userPK]);
+  useEffect(() => {
+    const token: string | null = localStorage.getItem("token");
+    const myMMid: string | null = localStorage.getItem("mmid");
+    if (userPK === undefined) return;
+    if (typeof token === "string" && myMMid) {
+      axios
+        .get(`/api/users/detail/${userPK}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          if (res.data.data.userDetailDto == null) {
+            return
+          }
+          setUserName(res.data.data.userDetailDto.userName);
 
+        });
+
+    }
+  }, [flag, userPK])
   function inviteUser(channel_id: string) {
     const mmtoken: string | null = localStorage.getItem("mmtoken");
     const token: string | null = localStorage.getItem("token");
@@ -90,6 +115,11 @@ function UserDetailModal({
         )
         .then((res: any) => {
           alert("팀가입이 수락하였습니다");
+          // 봇으로 알려주기
+          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+            channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
+            text: "`" + `${userName}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀에 가입하였습니다"
+          })
           inviteUser(res.data.data.mmChannelId);
         })
         .catch((err) => alert(err));
@@ -221,13 +251,13 @@ function UserDetailModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
+              <div className="sm:w-3/5 lg:w-1/3 fixed inline-block p-6 h-9/10 transition-all transform text-left bg-white rounded-2xl overflow-auto scrollbar-hide">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
                 ></Dialog.Title>
                 <div className="">
-                  <div className="text-sm text-gray-500  ">
+                  <div className="text-sm text-gray-500">
                     <UserDetail userPk={userPK} mmid={mmid} />
                   </div>
                 </div>
