@@ -55,6 +55,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<list[]>([]);
   const [searchList, setSearchList] = useState<number[]>([]);
+  const [isNameAsc, setIsNameAsc] = useState<boolean>(true)
   useEffect(() => {
     setSearchList([]);
   }, [projectCode]);
@@ -80,11 +81,49 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
           can: can,
         })
         .then((res: any) => {
-          setSearchList([...res.data.data]);
+          console.log(res.data.data)
+          // 오름차순
+          var list = res.data.data.sort(function (a: any, b: any) {
+            if (a.userName > b.userName) {
+              return 1;
+            }
+            if (a.userName < b.userName) {
+              return -1;
+            }
+            return 0;
+          });
+          setSearchList([...list]);
         })
         .catch((err) => alert(err));
     }
   };
+  // 이름 오름차순
+  useEffect(() => {
+    if(isNameAsc === true){
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.userName > b.userName) {
+          return 1;
+        }
+        if (a.userName < b.userName) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    }
+    else {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.userName < b.userName) {
+          return 1;
+        }
+        if (a.userName > b.userName) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    }
+  }, [isNameAsc])
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
       filters[0].options.push(...clonedeep(res.data.data.BE));
@@ -171,7 +210,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  <UserList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
+                  <UserList list={searchList} projectCode={projectCode} leadercheck={leadercheck} setIsNameAsc={setIsNameAsc} isNameAsc={isNameAsc}/>
                 </div>
               </div>
             </div>

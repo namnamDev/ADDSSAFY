@@ -2,18 +2,27 @@ import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import UserCard from "./UserCard";
-
+import Tooltip from '@mui/material/Tooltip';
 interface Props {
   list: number[];
   projectCode: number;
   leadercheck: boolean;
+  setIsNameAsc: (value: boolean) => any
+  isNameAsc: boolean
 }
 
-function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
+function UserList({ list, projectCode, leadercheck, setIsNameAsc, isNameAsc }: Props): ReactElement {
   const router = useRouter();
   // MM보내기
   function SendMM() {
     alert("message");
+  }
+  function sortName() {
+    if (isNameAsc === true) {
+      setIsNameAsc(false)
+    } else {
+      setIsNameAsc(true)
+    }
   }
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
@@ -31,9 +40,14 @@ function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    onClick={sortName}
                   >
-                    Name
+                    {
+                      isNameAsc
+                        ? <Tooltip title="내림차순보기"><div>Name</div></Tooltip>
+                        : <Tooltip title="오름차순보기"><div>Name</div></Tooltip>
+                    }
                   </th>
                   <th
                     scope="col"
@@ -52,7 +66,11 @@ function UserList({ list, projectCode, leadercheck }: Props): ReactElement {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Status
+                    {/* {
+                      isTeamAsc
+                        ? <Tooltip title="내림차순보기"><div>Status</div></Tooltip>
+                        : <Tooltip title="오름차순보기"><div>Status</div></Tooltip>
+                    } */}
                   </th>
                   <th
                     scope="col"
