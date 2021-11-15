@@ -47,6 +47,10 @@ function UserOfferCard({
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
   function withdrawSuggest() {
+    if (leadercheck === false) {
+      alert('권한이 없습니다')
+      return
+    }
     const token: string | null = localStorage.getItem("token");
     if (token) {
       axios
