@@ -61,7 +61,6 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
     setSearchList([]);
   }, [projectCode]);
   useEffect(() => {
-    console.log(isTeamAsc);
     if (isTeamAsc) {
       sortTeamAsc();
     } else {

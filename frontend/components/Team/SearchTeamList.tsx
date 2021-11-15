@@ -2,16 +2,32 @@ import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import TeamCard from "./TeamCard";
+import Tooltip from "@mui/material/Tooltip";
+import { SortAscendingIcon } from "@heroicons/react/outline";
+import { SortDescendingIcon } from "@heroicons/react/outline";
 interface Props {
   list: any;
   projectCode: number;
+  setIsNameAsc: (value: boolean) => any;
+  isNameAsc: boolean;
+  isTeamAsc: boolean;
+  setIsTeamAsc: any;
 }
 
-function SearchTeamList({ list, projectCode }: Props): ReactElement {
-  const router = useRouter();
-  // MM보내기
-  function SendMM() {
-    alert("message");
+function SearchTeamList({
+  list,
+  projectCode,
+  setIsNameAsc,
+  isNameAsc,
+  isTeamAsc,
+  setIsTeamAsc,
+}: Props): ReactElement {
+  function sortName() {
+    if (isNameAsc === true) {
+      setIsNameAsc(false);
+    } else {
+      setIsNameAsc(true);
+    }
   }
   return (
     <div className="flex flex-col mx-1 mt-2 text-center">
@@ -23,9 +39,22 @@ function SearchTeamList({ list, projectCode }: Props): ReactElement {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer "
+                    onClick={sortName}
                   >
-                    Name
+                    {isNameAsc ? (
+                      <Tooltip title="내림차순보기">
+                        <div className="flex flex-row justify-center">
+                          Name<>&nbsp;</> <SortAscendingIcon width="20px" />
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="오름차순보기">
+                        <div className="flex flex-row justify-center">
+                          Name<>&nbsp;</> <SortDescendingIcon width="20px" />
+                        </div>
+                      </Tooltip>
+                    )}
                   </th>
                   <th
                     scope="col"
@@ -35,9 +64,22 @@ function SearchTeamList({ list, projectCode }: Props): ReactElement {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    onClick={() => setIsTeamAsc(!isTeamAsc)}
                   >
-                    Status
+                    {isTeamAsc ? (
+                      <Tooltip title="구인중인 팀 순으로 정렬">
+                        <div className="flex flex-row justify-center">
+                          Status<>&nbsp;</> <SortAscendingIcon width="20px" />
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="인원이 충족된 팀 순으로 정렬">
+                        <div className="flex flex-row justify-center">
+                          Status<>&nbsp;</> <SortDescendingIcon width="20px" />
+                        </div>
+                      </Tooltip>
+                    )}
                   </th>
                 </tr>
               </thead>
@@ -45,8 +87,10 @@ function SearchTeamList({ list, projectCode }: Props): ReactElement {
                 {list.map((team: any) => (
                   <TeamCard
                     key={team.teamDto.teamPK}
+                    teamdata={team.teamDto}
                     teamPK={team.teamDto.teamPK}
                     projectCode={projectCode}
+                    enough={team.enough}
                   />
                 ))}
               </tbody>
