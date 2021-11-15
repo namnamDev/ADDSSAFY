@@ -6,28 +6,13 @@ import TeamDetailModal from "./TeamDetailModal";
 interface Props {
   teamPK: number;
   projectCode: number;
+  teamdata: any;
+  enough: boolean;
 }
 
-function TeamCard({ teamPK, projectCode }: Props): ReactElement {
+function TeamCard({ teamPK, projectCode, teamdata, enough }: Props): ReactElement {
   const [teamFlag, setTeamFlag] = useState<boolean>(false);
   // 팀정보 불러오기
-  const [teamdata, setteamdata] = useState<any>({});
-  const [enough, setenough] = useState<boolean>(false);
-
-  useEffect(() => {
-    axios
-      .get(`/api/team/detail/${teamPK}`)
-      .then((res: any) => {
-        setteamdata(res.data.data);
-        if (res.data.data.teamuser.length >= 5) {
-          setenough(true);
-        }
-      })
-      .catch((err) => alert(err));
-  }, []);
-  const apply = () => {
-    alert(`${teamPK}팀에 지원했습니다.`);
-  };
 
   return (
     <tr>

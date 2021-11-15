@@ -55,8 +55,66 @@ interface Props {
 function TeamSearchHashTag({ projectCode }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<number[]>([]);
-  const [index, setIndex] = useState(0);
   const [searchList, setSearchList] = useState<number[]>([]);
+  const [isTeamAsc, setIsTeamAsc] = useState<boolean>(true);
+  const [isNameAsc, setIsNameAsc] = useState<boolean>(true);
+  useEffect(() => {
+    if (isTeamAsc) {
+      sortTeamAsc();
+    } else {
+      sortTeamDesc();
+    }
+  }, [isTeamAsc]);
+  const sortTeamDesc = () => {
+    var list = searchList.sort(function (a: any, b: any) {
+      if (a.enough > b.enough) {
+        return 1;
+      }
+      if (a.enough < b.enough) {
+        return -1;
+      }
+      return 0;
+    });
+    setSearchList([...list]);
+  };
+  const sortTeamAsc = () => {
+    var list = searchList.sort(function (a: any, b: any) {
+      if (a.enough < b.enough) {
+        return 1;
+      }
+      if (a.enough > b.enough) {
+        return -1;
+      }
+      return 0;
+    });
+    setSearchList([...list]);
+  };
+  // 이름 오름차순
+  useEffect(() => {
+    if (isNameAsc === true) {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.teamDto.name > b.teamDto.name) {
+          return 1;
+        }
+        if (a.teamDto.name < b.teamDto.name) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    } else {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.teamDto.name < b.teamDto.name) {
+          return 1;
+        }
+        if (a.teamDto.name > b.teamDto.name) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    }
+  }, [isNameAsc]);
   const check = (option: any) => {
     // 추가하는부분
     if (option.check === false) {
@@ -85,9 +143,24 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
           { headers: { Authorization: token } }
         )
         .then((res: any) => {
+          getIsFull(res.data.data);
           setSearchList([...res.data.data]);
         });
     }
+  };
+  const getIsFull = (res: any) => {
+    res.map((value: any) => {
+      axios
+        .get(`/api/team/detail/${value.teamDto.teamPK}`)
+        .then((res: any) => {
+          if (res.data.data.teamuser.length >= 5) {
+            value.enough = true;
+          } else {
+            value.enough = false;
+          }
+        })
+        .catch((err) => alert(err));
+    });
   };
   useEffect(() => {
     setSearchList([]);
@@ -178,11 +251,14 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  {index === 0 ? (
-                    <SearchTeamList list={searchList} projectCode={projectCode} />
-                  ) : (
-                    "교육생 검색"
-                  )}
+                  <SearchTeamList
+                    list={searchList}
+                    projectCode={projectCode}
+                    setIsNameAsc={setIsNameAsc}
+                    isNameAsc={isNameAsc}
+                    isTeamAsc={isTeamAsc}
+                    setIsTeamAsc={setIsTeamAsc}
+                  />
                 </div>
               </div>
             </div>

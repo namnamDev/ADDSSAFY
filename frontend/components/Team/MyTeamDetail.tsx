@@ -19,7 +19,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [webex, setwebex] = useState<string>("");
   const [mmchannel, setmmchannel] = useState<string>("");
   const [ppt, setppt] = useState<string>("");
-  const [teamName, setTeamName] = useState<string>("")
+  const [teamName, setTeamName] = useState<string>("");
   // 팀멤버 정보 받아오기
   const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
@@ -48,7 +48,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
         setppt(res.data.data.ppt);
         setwebex(res.data.data.webexLink);
         setmmchannel(res.data.data.mmChannel);
-        setTeamName(res.data.data.name)
+        setTeamName(res.data.data.name);
       })
       .catch((err) => alert(err));
   }, []);
@@ -61,7 +61,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     const token: string | null = localStorage.getItem("token");
     const mmid: string | null = localStorage.getItem("mmid");
     const mmtoken: string | null = localStorage.getItem("mmtoken");
-    const nickname: string | null = localStorage.getItem("nickname")
+    const nickname: string | null = localStorage.getItem("nickname");
     if (token && mmid && mmtoken) {
       axios
         .delete("/api/team/exit", {
@@ -71,10 +71,18 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then(() => {
-          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+          axios.post("/hooks/3hprxzpnzpygdk7eymrnirdd6o", {
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
-            text: "`" + `${nickname}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀을 탈퇴하였습니다"
-          })
+            text:
+              "`" +
+              `${nickname}` +
+              "`" +
+              "님이" +
+              "`" +
+              `${teamName}` +
+              "`" +
+              "팀을 탈퇴하였습니다",
+          });
           // Mattermost channel 나가기
           axios
             .post(
@@ -130,14 +138,15 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     const formData = new FormData();
     formData.append("ppt", file);
     formData.append("teamPK", String(teamPK));
-    axios.post("/api/team/uploadppt", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      }
-    })
-      .then(() => {
-        alert('파일이 성공적으로 업로드 되었습니다')
+    axios
+      .post("/api/team/uploadppt", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
+      .then(() => {
+        alert("파일이 성공적으로 업로드 되었습니다");
+      });
   }
   const cancelButtonRef = useRef(null);
   return (
@@ -146,11 +155,11 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
         <div className="mx-auto py-10 px-4">
           <div className="text-2xl font-extrabold traRcking-tight text-gray-900 mb-10">팀멤버</div>
           {/* 팀멤버들 사진 */}
-          <div className="w-3/4 mx-auto flex flex-row justify-center">
+          <div className="w-3/4 mx-auto flex flex-row justify-center cursor-pointer">
             {teammember.map((member: any, i: number) => (
               <div key={i} className="mx-2" onClick={() => userDetail(member.userPk, member.mmid)}>
                 <Image
-                  className="h-10 w-10 rounded-lg hover:opacity-75"
+                  className="h-10 w-10 rounded-lg hover:opacity-75 "
                   src={member.profile}
                   alt={member.userPk}
                   width="100"
