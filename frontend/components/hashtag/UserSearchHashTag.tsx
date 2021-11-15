@@ -150,19 +150,30 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
     res.map((value: any) => {
       if (value.teamList.length >= projectCode + 1) {
         if (value.teamList[projectCode].teamPK != null) {
-          value.teamList[projectCode].isTeam = true;
+          value[projectCode] = true;
         } else {
-          value.teamList[projectCode].isTeam = false;
+          value[projectCode] = false;
         }
+      } else {
+        value[projectCode] = false;
       }
+      // if (value.teamList.length >= projectCode + 1) {
+      //   if (value.teamList[projectCode].teamPK != null) {
+      //     value.teamList[projectCode].isTeam = true;
+      //   } else {
+      //     value.teamList[projectCode].isTeam = false;
+      //   }
+      // } else {
+      //   value[projectCode].isTeam = false;
+      // }
     });
   };
   const sortTeamDesc = () => {
     var list = searchList.sort(function (a: any, b: any) {
-      if (a.teamList[projectCode].isTeam > b.teamList[projectCode].isTeam) {
+      if (a[projectCode] > b[projectCode]) {
         return 1;
       }
-      if (a.teamList[projectCode].isTeam < b.teamList[projectCode].isTeam) {
+      if (a[projectCode] < b[projectCode]) {
         return -1;
       }
       return 0;
@@ -171,10 +182,10 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
   };
   const sortTeamAsc = () => {
     var list = searchList.sort(function (a: any, b: any) {
-      if (a.teamList[projectCode].isTeam < b.teamList[projectCode].isTeam) {
+      if (a[projectCode] < b[projectCode]) {
         return 1;
       }
-      if (a.teamList[projectCode].isTeam > b.teamList[projectCode].isTeam) {
+      if (a[projectCode] > b[projectCode]) {
         return -1;
       }
       return 0;
