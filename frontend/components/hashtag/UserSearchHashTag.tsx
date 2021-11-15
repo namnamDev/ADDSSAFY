@@ -56,6 +56,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
   const [can, setCan] = useState<list[]>([]);
   const [searchList, setSearchList] = useState<number[]>([]);
   const [isTeamAsc, setIsTeamAsc] = useState<boolean>(true);
+  const [isNameAsc, setIsNameAsc] = useState<boolean>(true);
   useEffect(() => {
     setSearchList([]);
   }, [projectCode]);
@@ -90,11 +91,47 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
         })
         .then((res: any) => {
           setIsTeam(res.data.data);
-          setSearchList([...res.data.data]);
+
+          var list = res.data.data.sort(function (a: any, b: any) {
+            if (a.userName > b.userName) {
+              return 1;
+            }
+            if (a.userName < b.userName) {
+              return -1;
+            }
+            return 0;
+          });
+          setSearchList([...list]);
         })
         .catch((err) => alert(err));
     }
   };
+  // 이름 오름차순
+  useEffect(() => {
+    if (isNameAsc === true) {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.userName > b.userName) {
+          return 1;
+        }
+        if (a.userName < b.userName) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    } else {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.userName < b.userName) {
+          return 1;
+        }
+        if (a.userName > b.userName) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    }
+  }, [isNameAsc]);
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
       filters[0].options.push(...clonedeep(res.data.data.BE));
@@ -221,6 +258,8 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
                     list={searchList}
                     projectCode={projectCode}
                     leadercheck={leadercheck}
+                    setIsNameAsc={setIsNameAsc}
+                    isNameAsc={isNameAsc}
                     isTeamAsc={isTeamAsc}
                     setIsTeamAsc={setIsTeamAsc}
                   />

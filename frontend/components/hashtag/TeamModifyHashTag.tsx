@@ -78,6 +78,9 @@ function TeamModifyHashTag({ onCanChanged, teamHashTag }: Props): ReactElement {
       }
     });
   };
+  useEffect(() => {
+    onCanChanged([...can]);
+  }, [can]);
   return (
     <div className="bg-white shadow-md">
       <div>

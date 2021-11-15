@@ -253,7 +253,7 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
               leaveTo="opacity-0 scale-95"
             >
               {showTeamUser ? (
-                <div className="fixed inline-block min-w-md max-w-5xl p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl  overflow-auto scrollbar-hide">
+                <div className="fixed inline-block min-w-md sm:w-3/5 lg:w-1/3 p-6 h-9/10  transition-all transform text-left bg-white rounded-2xl  overflow-auto scrollbar-hide">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 text-left flex flex-row m-2 hover:underline cursor-pointer"
