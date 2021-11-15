@@ -5,9 +5,9 @@ import Footer from "../components/basic/Footer";
 import TeamModifyHashTag from "../components/hashtag/TeamModifyHashTag";
 import { useRouter } from "next/router";
 
-interface Props { }
+interface Props {}
 
-function TeamModify({ }: Props): ReactElement {
+function TeamModify({}: Props): ReactElement {
   const router = useRouter();
   // 팀 정보 미리 가져오기
   const [webex, setwebex] = useState<string>("");
@@ -40,6 +40,7 @@ function TeamModify({ }: Props): ReactElement {
   }, [router.query.teamPk]);
   function editTeaminfo() {
     const token: string | null = localStorage.getItem("token");
+    console.log(can);
     if (typeof token === "string") {
       axios
         .put(
