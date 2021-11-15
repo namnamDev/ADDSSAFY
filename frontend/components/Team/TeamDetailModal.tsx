@@ -20,7 +20,7 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   const [teamButton, setTeamButton] = useState<number>(0);
   const [suggestPK, setsuggestPK] = useState<number>(0);
-  const [suggestedTeamName, setsuggestedTeamName] = useState<string>("")
+  const [suggestedTeamName, setsuggestedTeamName] = useState<string>("");
   useEffect(() => {
     getTeamButton();
     getSuggestPK();
@@ -62,13 +62,12 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
     }
   }
   function getTeamDetail() {
-    axios.get(`/api/team/detail/${teamPK}`)
-      .then((res: any) => {
-        if (res.data.data == null) {
-          return
-        }
-        setsuggestedTeamName(res.data.data.name)
-      })
+    axios.get(`/api/team/detail/${teamPK}`).then((res: any) => {
+      if (res.data.data == null) {
+        return;
+      }
+      setsuggestedTeamName(res.data.data.name);
+    });
   }
   function closeTeamModal() {
     setShowTeamUser(false);
@@ -76,7 +75,7 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
   // 제안 수락
   function accept() {
     const token: string | null = localStorage.getItem("token");
-    const nickname: string | null = localStorage.getItem("nickname")
+    const nickname: string | null = localStorage.getItem("nickname");
     if (token && nickname) {
       axios
         .post(
@@ -93,41 +92,30 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
         )
         .then((res: any) => {
           inviteUser(res.data.data.mmChannelId, res.data.data.leaderMMToken, nickname);
-
         });
     }
   }
   function inviteUser(channel_id: string, leaderMMToken: string, nickname: string) {
-    const mmid: string | null = localStorage.getItem('mmid')
-    const mmtoken: string | null = localStorage.getItem('mmtoken')
-    if (typeof mmid === 'string' && mmtoken) {
-      axios.post(`/api/v4/channels/${channel_id}/members`,
-        {
-          user_id: mmid
-        },
-        {
-          headers: { Authorization: "Bearer " + leaderMMToken }
-        })
+    const mmid: string | null = localStorage.getItem("mmid");
+    const mmtoken: string | null = localStorage.getItem("mmtoken");
+    if (typeof mmid === "string" && mmtoken) {
+      axios
+        .post(
+          `/api/v4/channels/${channel_id}/members`,
+          {
+            user_id: mmid,
+          },
+          {
+            headers: { Authorization: "Bearer " + leaderMMToken },
+          }
+        )
         .then(() => {
-          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+          axios.post("/hooks/3hprxzpnzpygdk7eymrnirdd6o", {
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
-            text: `${nickname}님이 "${suggestedTeamName}"팀에 가입하였습니다`
-          })
+            text: `${nickname}님이 "${suggestedTeamName}"팀에 가입하였습니다`,
+          });
           alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
-          axios
-            .post(
-              "/api/v4/posts",
-              {
-                channel_id: channel_id,
-                message: "새멤버가 추가되었습니다, 안녕하세요~ *^^*",
-              },
-              {
-                headers: { Authorization: mmtoken },
-              }
-            )
-            .then(() => {
-              location.reload();
-            });
+          location.reload();
         });
     }
   }

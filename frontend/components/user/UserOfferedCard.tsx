@@ -112,20 +112,6 @@ function UserOfferedCard({
               }
             )
             .then(() => {
-              axios
-                .post(
-                  "/api/v4/posts",
-                  {
-                    channel_id: channel_id,
-                    message: "새멤버가 추가되었습니다, 안녕하세요~ *^^*",
-                  },
-                  {
-                    headers: { Authorization: mmtoken },
-                  }
-                )
-                .then(() => {
-                  location.reload();
-                });
               location.reload();
             });
         });
