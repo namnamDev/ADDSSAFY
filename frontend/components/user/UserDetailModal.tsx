@@ -24,8 +24,8 @@ function UserDetailModal({
 }: Props): ReactElement {
   const [userButton, setUserButton] = useState();
   const [teamPK, setTeamPK] = useState<number>(0);
-  const [teamName, setTeamName] = useState<string>("")
-  const [userName, setUserName] = useState<string>("")
+  const [teamName, setTeamName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   useEffect(() => {
     if (userPK) {
       const token: string | null = localStorage.getItem("token");
@@ -45,11 +45,9 @@ function UserDetailModal({
           })
           .then((res: any) => {
             setTeamPK(res.data.data);
-            axios
-              .get(`/api/team/detail/${res.data.data}`)
-              .then((res: any) => {
-                setTeamName(res.data.data.name)
-              })
+            axios.get(`/api/team/detail/${res.data.data}`).then((res: any) => {
+              setTeamName(res.data.data.name);
+            });
           });
       }
     }
@@ -65,14 +63,12 @@ function UserDetailModal({
         })
         .then((res: any) => {
           if (res.data.data.userDetailDto == null) {
-            return
+            return;
           }
           setUserName(res.data.data.userDetailDto.userName);
-
         });
-
     }
-  }, [flag, userPK])
+  }, [flag, userPK]);
   function inviteUser(channel_id: string) {
     const mmtoken: string | null = localStorage.getItem("mmtoken");
     const token: string | null = localStorage.getItem("token");
@@ -116,10 +112,18 @@ function UserDetailModal({
         .then((res: any) => {
           alert("팀가입이 수락하였습니다");
           // 봇으로 알려주기
-          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+          axios.post("/hooks/3hprxzpnzpygdk7eymrnirdd6o", {
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
-            text: "`" + `${userName}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀에 가입하였습니다"
-          })
+            text:
+              "`" +
+              `${userName}` +
+              "`" +
+              "님이" +
+              "`" +
+              `${teamName}` +
+              "`" +
+              "팀에 가입하였습니다",
+          });
           inviteUser(res.data.data.mmChannelId);
         })
         .catch((err) => alert(err));

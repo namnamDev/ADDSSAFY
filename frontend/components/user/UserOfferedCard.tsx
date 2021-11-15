@@ -46,12 +46,12 @@ function UserOfferedCard({
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }
-  const [teamName, setTeamName] = useState<string>("")
+  const [teamName, setTeamName] = useState<string>("");
   useEffect(() => {
     axios
       .get(`/api/team/detail/${myTeamPK}`)
       .then((res: any) => {
-        setTeamName(res.data.data.name)
+        setTeamName(res.data.data.name);
       })
       .catch((err) => alert(err));
   }, []);
@@ -75,10 +75,18 @@ function UserOfferedCard({
         .then((res: any) => {
           alert("팀가입이 수락하였습니다");
           // 봇으로 알려주기
-          axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+          axios.post("/hooks/3hprxzpnzpygdk7eymrnirdd6o", {
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
-            text: "`" + `${person.userName}` + "`" + "님이" + "`" + `${teamName}` + "`" + "팀에 가입하였습니다"
-          })
+            text:
+              "`" +
+              `${person.userName}` +
+              "`" +
+              "님이" +
+              "`" +
+              `${teamName}` +
+              "`" +
+              "팀에 가입하였습니다",
+          });
           inviteUser(res.data.data.mmChannelId);
         })
         .catch((err) => alert(err));
