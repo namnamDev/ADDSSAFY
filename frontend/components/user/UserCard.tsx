@@ -3,27 +3,8 @@ import UserDetailModal from "./UserDetailModal";
 import Image from "next/image";
 import SendMMmodal from "./SendMMmodal";
 interface Props {
-  projectCode: number;
-  person: {
-    backjun: string | null;
-    blog: string;
-    classNumber: string;
-    classRegion: string;
-    email: string;
-    git: string;
-    introduce: string;
-    isleave: boolean;
-    mmid: string;
-    portfolio: string;
-    profile: string;
-    status: string;
-    studentNumber: string;
-    teamList: any;
-    userAddress: string;
-    userName: string;
-    userPhone: string;
-    userPk: number;
-  };
+  projectCode: any;
+  person: any;
   leadercheck: boolean;
 }
 
@@ -91,7 +72,7 @@ function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
         className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer"
         onClick={() => userdetail(person.userPk, person.mmid)}
       >
-        {person.teamList[projectCode].isTeam ? (
+        {person[projectCode] ? (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
             팀있음
           </span>
