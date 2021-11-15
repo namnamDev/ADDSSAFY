@@ -124,13 +124,14 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     const ext = file.target.files[0].name
       .slice(file.target.files[0].name.indexOf(".") + 1)
       .toLowerCase();
-    if (ext != "ppt" && ext != "pptx" && ext != "pdf") {
+
+    if (ext != "pptx" && ext != "pdf") {
       file.preventDefault();
       file.target.value = null;
-      alert("ppt와 pdf 형식만 등록 가능합니다.");
-
+      alert("pptx와 pdf 형식만 등록 가능합니다.");
       return;
     }
+
     setFile(file.target.files[0]);
   }
   async function uploadPPT() {
@@ -146,6 +147,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
       })
       .then(() => {
         alert("파일이 성공적으로 업로드 되었습니다");
+        location.reload();
       });
   }
   const cancelButtonRef = useRef(null);
@@ -194,7 +196,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                   className="inline-flex items-center px-4 py-2 border bg-green-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-green-50 mx-2"
                   onClick={() => setOpen(true)}
                 >
-                  팀 PPT 업로드
+                  팀 PPT/PDF 업로드
                 </button>
               ) : null}
               {ppt ? (
@@ -268,7 +270,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                        PPT 업로드하기
+                        PPT/PDF 업로드하기
                       </Dialog.Title>
                       <div className="mt-10">
                         <input
