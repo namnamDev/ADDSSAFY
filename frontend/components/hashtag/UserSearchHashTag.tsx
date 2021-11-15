@@ -55,9 +55,18 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
   const clonedeep = require("lodash.clonedeep");
   const [can, setCan] = useState<list[]>([]);
   const [searchList, setSearchList] = useState<number[]>([]);
+  const [isTeamAsc, setIsTeamAsc] = useState<boolean>(true);
+  const [isNameAsc, setIsNameAsc] = useState<boolean>(true);
   useEffect(() => {
     setSearchList([]);
   }, [projectCode]);
+  useEffect(() => {
+    if (isTeamAsc) {
+      sortTeamAsc();
+    } else {
+      sortTeamDesc();
+    }
+  }, [isTeamAsc]);
   const check = (section: any, option: any) => {
     // 추가하는부분
     if (option.check === false) {
@@ -80,11 +89,48 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
           can: can,
         })
         .then((res: any) => {
-          setSearchList([...res.data.data]);
+          setIsTeam(res.data.data);
+
+          var list = res.data.data.sort(function (a: any, b: any) {
+            if (a.userName > b.userName) {
+              return 1;
+            }
+            if (a.userName < b.userName) {
+              return -1;
+            }
+            return 0;
+          });
+          setSearchList([...list]);
         })
         .catch((err) => alert(err));
     }
   };
+  // 이름 오름차순
+  useEffect(() => {
+    if (isNameAsc === true) {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.userName > b.userName) {
+          return 1;
+        }
+        if (a.userName < b.userName) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    } else {
+      var list = searchList.sort(function (a: any, b: any) {
+        if (a.userName < b.userName) {
+          return 1;
+        }
+        if (a.userName > b.userName) {
+          return -1;
+        }
+        return 0;
+      });
+      setSearchList([...list]);
+    }
+  }, [isNameAsc]);
   const getHashTagList = () => {
     axios.get("/api/search/hashtag").then(function (res: any) {
       filters[0].options.push(...clonedeep(res.data.data.BE));
@@ -100,6 +146,42 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
       });
     });
   };
+  const setIsTeam = (res: any) => {
+    res.map((value: any) => {
+      if (value.teamList.length >= projectCode + 1) {
+        if (value.teamList[projectCode].teamPK != null) {
+          value.teamList[projectCode].isTeam = true;
+        } else {
+          value.teamList[projectCode].isTeam = false;
+        }
+      }
+    });
+  };
+  const sortTeamDesc = () => {
+    var list = searchList.sort(function (a: any, b: any) {
+      if (a.teamList[projectCode].isTeam > b.teamList[projectCode].isTeam) {
+        return 1;
+      }
+      if (a.teamList[projectCode].isTeam < b.teamList[projectCode].isTeam) {
+        return -1;
+      }
+      return 0;
+    });
+    setSearchList([...list]);
+  };
+  const sortTeamAsc = () => {
+    var list = searchList.sort(function (a: any, b: any) {
+      if (a.teamList[projectCode].isTeam < b.teamList[projectCode].isTeam) {
+        return 1;
+      }
+      if (a.teamList[projectCode].isTeam > b.teamList[projectCode].isTeam) {
+        return -1;
+      }
+      return 0;
+    });
+    setSearchList([...list]);
+  };
+
   useEffect(() => {
     if (filters[0].options.length == 0) getHashTagList();
   }, []);
@@ -171,7 +253,15 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
               <div className="lg:col-span-3">
                 <div className="">
                   <div className="font-bold text-lg mb-4">검색 결과</div>
-                  <UserList list={searchList} projectCode={projectCode} leadercheck={leadercheck} />
+                  <UserList
+                    list={searchList}
+                    projectCode={projectCode}
+                    leadercheck={leadercheck}
+                    setIsNameAsc={setIsNameAsc}
+                    isNameAsc={isNameAsc}
+                    isTeamAsc={isTeamAsc}
+                    setIsTeamAsc={setIsTeamAsc}
+                  />
                 </div>
               </div>
             </div>
