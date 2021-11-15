@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import UserCard from "./UserCard";
 import Tooltip from "@mui/material/Tooltip";
+import { SortAscendingIcon } from "@heroicons/react/outline";
+import { SortDescendingIcon } from "@heroicons/react/outline";
 interface Props {
   list: number[];
   projectCode: number;
@@ -55,11 +57,15 @@ function UserList({
                   >
                     {isNameAsc ? (
                       <Tooltip title="내림차순보기">
-                        <div>Name</div>
+                        <div className="flex flex-row">
+                          Name<>&nbsp;</> <SortAscendingIcon width="20px" />
+                        </div>
                       </Tooltip>
                     ) : (
                       <Tooltip title="오름차순보기">
-                        <div>Name</div>
+                        <div className="flex flex-row">
+                          Name<>&nbsp;</> <SortDescendingIcon width="20px" />
+                        </div>
                       </Tooltip>
                     )}
                   </th>
@@ -78,14 +84,22 @@ function UserList({
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => setIsTeamAsc(!isTeamAsc)}
                   >
-                    {/* {
-                      isTeamAsc
-                        ? <Tooltip title="내림차순보기"><div>Status</div></Tooltip>
-                        : <Tooltip title="오름차순보기"><div>Status</div></Tooltip>
-                    } */}
+                    {isTeamAsc ? (
+                      <Tooltip title="팀이 없는 교육생 순으로 정렬">
+                        <div className="flex flex-row">
+                          Status<>&nbsp;</> <SortAscendingIcon width="20px" />
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="팀이 있는 교육생 순으로 정렬">
+                        <div className="flex flex-row">
+                          Status<>&nbsp;</> <SortDescendingIcon width="20px" />
+                        </div>
+                      </Tooltip>
+                    )}
                   </th>
                   <th
                     scope="col"
