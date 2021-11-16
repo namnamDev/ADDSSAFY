@@ -13,4 +13,5 @@ public class RecruitTrueDto {
     private boolean succecs;
     private String leaderMMToken;
     private String mmChannelId;
+    private String userNickname;
 }

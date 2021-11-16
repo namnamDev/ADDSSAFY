@@ -358,7 +358,7 @@ public class TeamSvcImpl implements TeamSvcInter{
                     proposeRepo.delete(beforeDeleteOfTeam.get(i));
                 }
             }
-            return BaseResponse.builder().msg("초대 성공").status("200").data(RecruitTrueDto.builder().leaderMMToken(leaderMMToken).succecs(true).mmChannelId(mmChannelId).build()).build();
+            return BaseResponse.builder().msg("초대 성공").status("200").data(RecruitTrueDto.builder().userNickname(memberSuggest.getUserNick()).leaderMMToken(leaderMMToken).succecs(true).mmChannelId(mmChannelId).build()).build();
         }
 
 
