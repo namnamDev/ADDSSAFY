@@ -165,14 +165,24 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
                 <Link
                   href={
-                    userinfo.blog === undefined
+                    userinfo.git === undefined
                       ? "#"
-                      : userinfo.blog.includes("http")
-                      ? userinfo.blog
-                      : "https://" + userinfo.blog
+                      : userinfo.git.includes("http")
+                      ? userinfo.git
+                      : "https://" + userinfo.git
                   }
                 >
-                  <a target="_blank">{userinfo.git}</a>
+                  <a
+                    target={
+                      userinfo.git === undefined
+                        ? "#"
+                        : userinfo.git.includes("http")
+                        ? userinfo.git
+                        : "https://" + userinfo.git
+                    }
+                  >
+                    {userinfo.git}
+                  </a>
                 </Link>
               </dd>
             </div>
@@ -181,14 +191,24 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
                 <Link
                   href={
-                    userinfo.git === undefined
+                    userinfo.blog === undefined
                       ? "#"
-                      : userinfo.git.includes("http")
-                      ? userinfo.git
-                      : "https://" + userinfo.git
+                      : userinfo.blog.includes("http")
+                      ? userinfo.blog
+                      : "https://" + userinfo.blog
                   }
                 >
-                  <a target="_blank">{userinfo.blog}</a>
+                  <a
+                    target={
+                      userinfo.blog === undefined
+                        ? "#"
+                        : userinfo.blog.includes("http")
+                        ? userinfo.blog
+                        : "https://" + userinfo.blog
+                    }
+                  >
+                    {userinfo.blog}
+                  </a>
                 </Link>
               </dd>
             </div>

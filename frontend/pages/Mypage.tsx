@@ -151,7 +151,17 @@ function Mypage({}: Props): ReactElement {
                         : "https://" + userinfo.git
                     }
                   >
-                    <a target="_blank">{userinfo.git}</a>
+                    <a
+                      target={
+                        userinfo.git === undefined
+                          ? "#"
+                          : userinfo.git.includes("http")
+                          ? userinfo.git
+                          : "https://" + userinfo.git
+                      }
+                    >
+                      {userinfo.git}
+                    </a>
                   </Link>
                 </dd>
               </div>
@@ -167,7 +177,17 @@ function Mypage({}: Props): ReactElement {
                         : "https://" + userinfo.blog
                     }
                   >
-                    <a target="_blank">{userinfo.blog}</a>
+                    <a
+                      target={
+                        userinfo.blog === undefined
+                          ? "#"
+                          : userinfo.blog.includes("http")
+                          ? userinfo.blog
+                          : "https://" + userinfo.blog
+                      }
+                    >
+                      {userinfo.blog}
+                    </a>
                   </Link>
                 </dd>
               </div>
