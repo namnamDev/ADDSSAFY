@@ -91,7 +91,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                 , qMember.blog
                                 , qMember.baekjoonId
                                 , qMember.blog
-                                , qMember.blog
+                                , qMember.github
                                 , qMember.mmid
 
                                 , qMember.authority
@@ -139,7 +139,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                         , qMember.blog
                                         , qMember.baekjoonId
                                         , qMember.blog
-                                        , qMember.blog
+                                        , qMember.github
                                         , qMember.mmid
 
                                         , qMember.authority
@@ -155,24 +155,8 @@ public class MemberRepoImpl implements MemberRepoCustom{
                 );
         System.out.println(transform);
         return transform.get(userPK);
-//                .groupBy(qMember.id)
-//                .leftJoin(qTeamMember).on(qMember.eq(qTeamMember.member()))
-//                .leftJoin(qTeam).on(qTeamMember.team().eq(qTeam))
-//                .where(qMember.id.eq(userPK).and(qMember.authority.eq(Authority.ROLE_USER)))
-//                .fetchOne();
     }
 
-//    public long ifUserHasTeam(int projectCode, Long memberPK){
-//        QMember qMember = QMember.member;
-//        QTeam qTeam= QTeam.team;
-//        QTeamMember qTeamMember = QTeamMember.teamMember;
-//        return queryFactory.selectFrom(qTeam)
-//                .where(qTeam.type.eq(projectCode).and(qMember.id.eq(memberPK)))
-//                .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
-//                .join(qMember).on(qTeamMember.member().eq(qMember))
-//                .fetchCount();
-////                .where(qMember.id.eq(memberPK))
-//    }
 
     @Override
     public List<UserDetailDto> searchUserList(List<Long> can, int projectCode){
@@ -181,7 +165,6 @@ public class MemberRepoImpl implements MemberRepoCustom{
         QTeam qTeam = QTeam.team;
         QTeamMember qTeamMember = QTeamMember.teamMember;
         BooleanBuilder builder = new BooleanBuilder();
-//        builder.and(qTeam.type.eq(projectCode));
         if (can.size()>0){
             builder.and(qMember.id
                     .in(
@@ -218,7 +201,7 @@ public class MemberRepoImpl implements MemberRepoCustom{
                                , qMember.blog
                                , qMember.baekjoonId
                                , qMember.blog
-                               , qMember.blog
+                               , qMember.github
                                , qMember.mmid
 
                                , qMember.authority

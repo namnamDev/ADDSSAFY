@@ -29,6 +29,8 @@ public class Member {
 
     private String blog;
 
+    private String github;
+
     private String baekjoonId;
 
     private String introduce;

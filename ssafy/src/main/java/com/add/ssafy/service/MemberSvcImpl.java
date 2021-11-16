@@ -141,8 +141,10 @@ public class MemberSvcImpl implements MemberSvcInter {
         Member member = memberRepo.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new IllegalStateException("로그인 유저정보가 없습니다"));
 
         member.setBlog(updateMemberRequest.getBlog());
+        member.setGithub(updateMemberRequest.getGithub());
         member.setIntroduce(updateMemberRequest.getIntroduce());
         member.setUserPhone(updateMemberRequest.getPhone());
+
         List<Long>can = updateMemberRequest.getCan();
         memberRepo.save(member);
         memberRepo.flush();
