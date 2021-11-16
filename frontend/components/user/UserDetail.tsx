@@ -163,7 +163,15 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">GITHUB 주소</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
-                <Link href="#">
+                <Link
+                  href={
+                    userinfo.blog === undefined
+                      ? "#"
+                      : userinfo.blog.includes("http")
+                      ? userinfo.blog
+                      : "https://" + userinfo.blog
+                  }
+                >
                   <a target="_blank">{userinfo.git}</a>
                 </Link>
               </dd>
@@ -171,8 +179,16 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">블로그 주소</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
-                <Link href="https://www.naver.com">
-                  <a target="_blank">About</a>
+                <Link
+                  href={
+                    userinfo.git === undefined
+                      ? "#"
+                      : userinfo.git.includes("http")
+                      ? userinfo.git
+                      : "https://" + userinfo.git
+                  }
+                >
+                  <a target="_blank">{userinfo.blog}</a>
                 </Link>
               </dd>
             </div>

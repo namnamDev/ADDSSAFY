@@ -57,11 +57,12 @@ function UserOfferedCard({
   }, []);
   function acceptUser() {
     if (leadercheck === false) {
-      alert('권한이 없습니다')
-      return
+      alert("권한이 없습니다");
+      return;
     }
     const MMtoken: string | null = localStorage.getItem("mmtoken");
     const token: string | null = localStorage.getItem("token");
+
     if (typeof token === "string") {
       axios
         .post(
@@ -83,7 +84,7 @@ function UserOfferedCard({
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
             text:
               "`" +
-              `${person.userName}` +
+              `${res.data.data.userNickname}` +
               "`" +
               "님이" +
               "`" +
@@ -116,7 +117,7 @@ function UserOfferedCard({
               }
             )
             .then(() => {
-              location.reload();
+              // location.reload();
             });
         });
     }
@@ -156,8 +157,8 @@ function UserOfferedCard({
   }
   function rejectUser() {
     if (leadercheck === false) {
-      alert('권한이 없습니다')
-      return
+      alert("권한이 없습니다");
+      return;
     }
     const token: string | null = localStorage.getItem("token");
     if (typeof token === "string") {

@@ -62,6 +62,7 @@ function UserCreateHashTag({ onCanChanged, userHashTag }: Props): ReactElement {
             if (hashTag.hashTagPK === value.hashTagPK) {
               value.check = true;
               can.push(value.hashTagPK);
+              onCanChanged([...can]);
             }
           });
         });

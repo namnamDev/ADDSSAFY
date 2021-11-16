@@ -116,7 +116,7 @@ function UserDetailModal({
             channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
             text:
               "`" +
-              `${userName}` +
+              `${res.data.data.userNickname}` +
               "`" +
               "님이" +
               "`" +

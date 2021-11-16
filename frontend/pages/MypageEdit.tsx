@@ -6,7 +6,7 @@ import Link from "next/link";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
 import axios from "axios";
-interface Props { }
+interface Props {}
 
 interface list {
   hashTagPK: number;
@@ -14,7 +14,7 @@ interface list {
   prop: string;
   image: string;
 }
-function Mypage({ }: Props): ReactElement {
+function Mypage({}: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const [can, setCan] = useState<number[]>([]);
@@ -38,6 +38,7 @@ function Mypage({ }: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then((res: any) => {
+          console.log(res.data.data);
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);
@@ -74,6 +75,7 @@ function Mypage({ }: Props): ReactElement {
         alert("정보수정에 실패했습니다, 다시 시도해주세요");
       });
   }
+
   return (
     <div>
       <Navbar />
@@ -115,11 +117,7 @@ function Mypage({ }: Props): ReactElement {
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-bold text-gray-500">이메일주소</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <input
-                    type="text"
-                    defaultValue={userinfo.email}
-                    disabled
-                  />
+                  <input type="text" defaultValue={userinfo.email} disabled />
                 </dd>
               </div>
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -127,8 +125,10 @@ function Mypage({ }: Props): ReactElement {
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   <input
                     type="text"
-                    defaultValue={userinfo.userPhone}
-                    onChange={(e) => setchangePhone(e.target.value)}
+                    value={changePhone}
+                    onChange={(e) => {
+                      setchangePhone(e.target.value);
+                    }}
                   />
                 </dd>
               </div>
@@ -138,7 +138,7 @@ function Mypage({ }: Props): ReactElement {
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
                   <input
                     type="text"
-                    defaultValue={userinfo.git}
+                    value={changeGit}
                     onChange={(e) => setchangeGit(e.target.value)}
                   />
                 </dd>
@@ -148,7 +148,7 @@ function Mypage({ }: Props): ReactElement {
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 cursor-pointer hover:underline">
                   <input
                     type="text"
-                    defaultValue={userinfo.blog}
+                    value={changeBlog}
                     onChange={(e) => setchangeBlog(e.target.value)}
                   />
                 </dd>
@@ -158,7 +158,7 @@ function Mypage({ }: Props): ReactElement {
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   <input
                     type="text"
-                    defaultValue={userinfo.introduce}
+                    value={changeIntroduce}
                     onChange={(e) => setchangeIntroduce(e.target.value)}
                   />
                 </dd>
