@@ -59,13 +59,24 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
         </div>
         <div className="border-t border-gray-200">
           <div className="text-center my-10">
-            <img
-              className="rounded-full mx-auto"
-              src={userinfo.profile}
-              alt=""
-              width="100"
-              height="100"
-            />
+            {
+              userinfo.profile && userinfo.profile.length > 10
+                ? <img
+                  className="rounded-full mx-auto"
+                  src={userinfo.profile}
+                  alt=""
+                  width="100"
+                  height="100"
+                />
+                : <img
+                  className="rounded-full mx-auto"
+                  src="/images/noimg.png"
+                  alt=""
+                  width="100"
+                  height="100"
+                />
+            }
+
           </div>
           <dl>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -168,8 +179,8 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
                     userinfo.git === undefined
                       ? "#"
                       : userinfo.git.includes("http")
-                      ? userinfo.git
-                      : "https://" + userinfo.git
+                        ? userinfo.git
+                        : "https://" + userinfo.git
                   }
                 >
                   <a
@@ -177,8 +188,8 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
                       userinfo.git === undefined
                         ? "#"
                         : userinfo.git.includes("http")
-                        ? userinfo.git
-                        : "https://" + userinfo.git
+                          ? userinfo.git
+                          : "https://" + userinfo.git
                     }
                   >
                     {userinfo.git}
@@ -194,8 +205,8 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
                     userinfo.blog === undefined
                       ? "#"
                       : userinfo.blog.includes("http")
-                      ? userinfo.blog
-                      : "https://" + userinfo.blog
+                        ? userinfo.blog
+                        : "https://" + userinfo.blog
                   }
                 >
                   <a
@@ -203,8 +214,8 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
                       userinfo.blog === undefined
                         ? "#"
                         : userinfo.blog.includes("http")
-                        ? userinfo.blog
-                        : "https://" + userinfo.blog
+                          ? userinfo.blog
+                          : "https://" + userinfo.blog
                     }
                   >
                     {userinfo.blog}
