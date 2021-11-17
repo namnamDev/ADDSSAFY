@@ -78,7 +78,7 @@ function UserCard({ person, projectCode, leadercheck }: Props): ReactElement {
           </span>
         ) : (
           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-            무소속
+            팀없음
           </span>
         )}
       </td>
