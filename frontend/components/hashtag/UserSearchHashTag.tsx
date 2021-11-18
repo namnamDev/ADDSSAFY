@@ -157,15 +157,6 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
       } else {
         value[projectCode] = false;
       }
-      // if (value.teamList.length >= projectCode + 1) {
-      //   if (value.teamList[projectCode].teamPK != null) {
-      //     value.teamList[projectCode].isTeam = true;
-      //   } else {
-      //     value.teamList[projectCode].isTeam = false;
-      //   }
-      // } else {
-      //   value[projectCode].isTeam = false;
-      // }
     });
   };
   const sortTeamDesc = () => {
@@ -200,9 +191,6 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
     <div className="bg-white ">
       <div>
         <main className="w-full mx-auto">
-          {/* <div className="relative z-10 flex items-baseline justify-between pt-5 pb-6 border-b border-gray-200">
-            <div className="text-4xl font-extrabold tracking-tight text-gray-900">교육생 검색</div>
-          </div> */}
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
               {/* Filters */}

@@ -7,9 +7,9 @@ import Footer from "../components/basic/Footer";
 import axios from "axios";
 import withAuth from "../ts/isLogin";
 
-interface Props {}
+interface Props { }
 
-function Mypage({}: Props): ReactElement {
+function Mypage({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
 
@@ -80,7 +80,7 @@ function Mypage({}: Props): ReactElement {
                 </dd>
               </div>
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
+                <dt className="text-sm  text-gray-500 font-bold">자율프로젝트</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   {myteamhistory.length > 2 && myteamhistory[2].name !== null ? (
                     <div>{myteamhistory[2].name}</div>
@@ -148,8 +148,8 @@ function Mypage({}: Props): ReactElement {
                       userinfo.git === undefined
                         ? "#"
                         : userinfo.git.includes("http")
-                        ? userinfo.git
-                        : "https://" + userinfo.git
+                          ? userinfo.git
+                          : "https://" + userinfo.git
                     }
                   >
                     <a
@@ -157,8 +157,8 @@ function Mypage({}: Props): ReactElement {
                         userinfo.git === undefined
                           ? "#"
                           : userinfo.git.includes("http")
-                          ? userinfo.git
-                          : "https://" + userinfo.git
+                            ? userinfo.git
+                            : "https://" + userinfo.git
                       }
                     >
                       {userinfo.git}
@@ -174,8 +174,8 @@ function Mypage({}: Props): ReactElement {
                       userinfo.blog === undefined
                         ? "#"
                         : userinfo.blog.includes("http")
-                        ? userinfo.blog
-                        : "https://" + userinfo.blog
+                          ? userinfo.blog
+                          : "https://" + userinfo.blog
                     }
                   >
                     <a
@@ -183,8 +183,8 @@ function Mypage({}: Props): ReactElement {
                         userinfo.blog === undefined
                           ? "#"
                           : userinfo.blog.includes("http")
-                          ? userinfo.blog
-                          : "https://" + userinfo.blog
+                            ? userinfo.blog
+                            : "https://" + userinfo.blog
                       }
                     >
                       {userinfo.blog}
@@ -205,7 +205,7 @@ function Mypage({}: Props): ReactElement {
           <span className="hidden sm:block">
             <button
               type="button"
-              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm  text-gray-700 hover:bg-blue-50"
+              className="mr-2 inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm  text-gray-700 hover:bg-blue-50"
               onClick={() => router.push("/MypageEdit")}
             >
               정보수정

@@ -14,9 +14,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import withAuth from "../ts/isLogin";
 import { Tooltip } from "@mui/material";
 
-interface Props {}
+interface Props { }
 
-function TeamCreate({}: Props): ReactElement {
+function TeamCreate({ }: Props): ReactElement {
   const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
@@ -96,7 +96,6 @@ function TeamCreate({}: Props): ReactElement {
   const onTeamWebexChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTeamWebex(e.target.value);
   };
-  console.log(teamtitle);
   return (
     <div>
       <Navbar />
@@ -113,6 +112,7 @@ function TeamCreate({}: Props): ReactElement {
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
                   placeholder="팀 이름을 입력해주세요"
                   onChange={(e) => onTeamTitleChanged(e)}
+                  maxLength={16}
                 />
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -121,6 +121,7 @@ function TeamCreate({}: Props): ReactElement {
                   className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
                   placeholder="팀 소개를 입력해주세요"
                   onChange={(e) => onTeamIntroChanged(e)}
+                  maxLength={100}
                 />
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -155,7 +156,7 @@ function TeamCreate({}: Props): ReactElement {
             {teamtitle === "" ? (
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-red-200 hover:bg-red-100"
+                className="mr-2 inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-red-200 hover:bg-red-100"
                 onClick={create}
                 disabled
               >
@@ -164,7 +165,7 @@ function TeamCreate({}: Props): ReactElement {
             ) : (
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-blue-200 hover:bg-blue-100"
+                className="mr-2 inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-blue-200 hover:bg-blue-100"
                 onClick={create}
               >
                 팀 생성

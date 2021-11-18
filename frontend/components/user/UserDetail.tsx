@@ -5,6 +5,7 @@ import Link from "next/link";
 import axios from "axios";
 import SendMMmodal from "./SendMMmodal";
 import { MailIcon } from "@heroicons/react/solid";
+import { Tooltip } from "@mui/material";
 
 interface Props {
   userPk: number;
@@ -82,37 +83,43 @@ function UserDetail({ userPk, mmid }: Props): ReactElement {
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm  text-gray-500 font-bold">공통프로젝트</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {myteamhistory.length > 0 && myteamhistory[0].name !== null ? (
-                  <div onClick={() => downloadPPT(myteamhistory[0].ppt)} className="cursor-pointer">
-                    {myteamhistory[0].name}
-                  </div>
-                ) : (
-                  <div>없음</div>
-                )}
+                <Tooltip title="PPT/PDF 다운로드받기">
+                  {myteamhistory.length > 0 && myteamhistory[0].name !== null ? (
+                    <div onClick={() => downloadPPT(myteamhistory[0].ppt)} className="cursor-pointer">
+                      {myteamhistory[0].name}
+                    </div>
+                  ) : (
+                    <div>없음</div>
+                  )}
+                </Tooltip>
               </dd>
             </div>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm  text-gray-500 font-bold">특화프로젝트</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {myteamhistory.length > 1 && myteamhistory[1].name !== null ? (
-                  <div onClick={() => downloadPPT(myteamhistory[1].ppt)} className="cursor-pointer">
-                    {myteamhistory[1].name}
-                  </div>
-                ) : (
-                  <div>없음</div>
-                )}
+                <Tooltip title="PPT/PDF 다운로드받기">
+                  {myteamhistory.length > 1 && myteamhistory[1].name !== null ? (
+                    <div onClick={() => downloadPPT(myteamhistory[1].ppt)} className="cursor-pointer">
+                      {myteamhistory[1].name}
+                    </div>
+                  ) : (
+                    <div>없음</div>
+                  )}
+                </Tooltip>
               </dd>
             </div>
             <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm  text-gray-500 font-bold">자율프로젝트</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {myteamhistory.length > 2 && myteamhistory[2].name !== null ? (
-                  <div onClick={() => downloadPPT(myteamhistory[2].ppt)} className="cursor-pointer">
-                    {myteamhistory[2].name}
-                  </div>
-                ) : (
-                  <div>없음</div>
-                )}
+                <Tooltip title="PPT/PDF 다운로드받기">
+                  {myteamhistory.length > 2 && myteamhistory[2].name !== null ? (
+                    <div onClick={() => downloadPPT(myteamhistory[2].ppt)} className="cursor-pointer">
+                      {myteamhistory[2].name}
+                    </div>
+                  ) : (
+                    <div>없음</div>
+                  )}
+                </Tooltip>
               </dd>
             </div>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

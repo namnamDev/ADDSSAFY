@@ -8,7 +8,7 @@ import Footer from "../components/basic/Footer";
 import axios from "axios";
 import withAuth from "../ts/isLogin";
 
-interface Props {}
+interface Props { }
 
 interface list {
   hashTagPK: number;
@@ -16,7 +16,7 @@ interface list {
   prop: string;
   image: string;
 }
-function MypageEdit({}: Props): ReactElement {
+function MypageEdit({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const [can, setCan] = useState<number[]>([]);
@@ -40,7 +40,6 @@ function MypageEdit({}: Props): ReactElement {
           headers: { Authorization: token },
         })
         .then((res: any) => {
-          console.log(res.data.data);
           setuserinfo(res.data.data.userDetailDto);
           setusertags(res.data.data.memberHashTags);
           setmyteamhistory(res.data.data.userDetailDto.teamList);
@@ -81,7 +80,7 @@ function MypageEdit({}: Props): ReactElement {
   return (
     <div>
       <Navbar />
-      <div className="w-3/5 mx-auto text-center">
+      <div className="w-1/2 mx-auto text-center">
         <div className=" shadow overflow-hidden sm:rounded-lg mt-5">
           <div className="px-4 py-5 sm:px-6">
             <div className="text-lg leading-6 font-bold text-gray-900">내 정보 수정</div>
@@ -92,34 +91,6 @@ function MypageEdit({}: Props): ReactElement {
                 <dt className="text-sm font-bold text-gray-500">이름</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   {userinfo.userName}
-                </dd>
-              </div>
-              {/* 프로젝트 */}
-              {myteamhistory.length > 0 ? (
-                <div>
-                  {Object.values(myteamhistory).map((team: any, i: any) => (
-                    <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" key={i}>
-                      {team.projectCode === 0 ? (
-                        <dt className="text-sm font-bold text-gray-500">공통프로젝트</dt>
-                      ) : null}{" "}
-                      {team.projectCode === 1 ? (
-                        <dt className="text-sm font-bold text-gray-500">특화프로젝트</dt>
-                      ) : null}
-                      {team.projectCode === 2 ? (
-                        <dt className="text-sm font-bold text-gray-500">자율프로젝트</dt>
-                      ) : null}
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {team.name}
-                      </dd>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-              {/*  */}
-              <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-bold text-gray-500">이메일주소</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <input type="text" defaultValue={userinfo.email} disabled />
                 </dd>
               </div>
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -173,7 +144,7 @@ function MypageEdit({}: Props): ReactElement {
           <span className="hidden sm:block">
             <button
               type="button"
-              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-bold text-gray-700 hover:bg-blue-50"
+              className="mr-2 inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-bold text-gray-700 hover:bg-blue-50"
               onClick={editmydata}
             >
               정보수정

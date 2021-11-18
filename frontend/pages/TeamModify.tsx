@@ -41,7 +41,6 @@ function TeamModify({}: Props): ReactElement {
   }, [router.query.teamPk]);
   function editTeaminfo() {
     const token: string | null = localStorage.getItem("token");
-    console.log(can);
     if (typeof token === "string") {
       axios
         .put(
