@@ -3,6 +3,7 @@ import React, { ReactElement, useState, Fragment } from "react";
 import Image from "next/image";
 import UserDetailModal from "./UserDetailModal";
 import axios from "axios";
+import { useRouter } from "next/router";
 interface Props {
   person: any;
   projectCode: number;
@@ -19,6 +20,7 @@ function UserOfferCard({
   suggestPK,
 }: Props): ReactElement {
   const [flag, setflag] = useState<boolean>(false);
+  const router = useRouter();
 
   // 제안을 보낸 시간 구하기
   const now = new Date(person.suggestDate);
