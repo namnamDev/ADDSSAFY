@@ -22,6 +22,7 @@ function UserDetailModal({
   suggestPK,
   setflag,
 }: Props): ReactElement {
+  const router = useRouter();
   const [userButton, setUserButton] = useState();
   const [teamPK, setTeamPK] = useState<number>(0);
   const [teamName, setTeamName] = useState<string>("");
@@ -88,7 +89,7 @@ function UserDetailModal({
                 headers: { Authorization: mmtoken },
               }
             )
-            .then(() => location.reload());
+            .then(() => router.reload());
         });
     }
   }
@@ -157,7 +158,7 @@ function UserDetailModal({
                   }
                 )
                 .then(() => {
-                  location.reload();
+                  router.reload();
                 });
             });
         });

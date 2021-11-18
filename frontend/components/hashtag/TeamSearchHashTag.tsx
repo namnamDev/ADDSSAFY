@@ -32,7 +32,7 @@ const filters: filters[] = [
   },
   {
     id: "GOODBADGE",
-    name: "뱃지",
+    name: "뱃지(개발예정)",
     options: [],
   },
 ];
@@ -180,6 +180,9 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
       });
     });
   };
+  const badge = (event: any) => {
+    alert("클릭");
+  };
   useEffect(() => {
     if (filters[0].options.length == 0) getHashTagList();
   }, []);
@@ -225,6 +228,7 @@ function TeamSearchHashTag({ projectCode }: Props): ReactElement {
                                   defaultChecked={option.check}
                                   className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                                   onClick={() => check(option)}
+                                  disabled={section.id === "GOODBADGE"}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}

@@ -11,9 +11,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-interface Props { }
+import withAuth from "../ts/isLogin";
 
-function TeamCreate({ }: Props): ReactElement {
+interface Props {}
+
+function TeamCreate({}: Props): ReactElement {
   const router = useRouter();
   const idx = router.query.projectNo;
   const [can, setCan] = useState<number[]>([]);
@@ -67,10 +69,18 @@ function TeamCreate({ }: Props): ReactElement {
                   });
                 }, 500);
                 // 봇으로 알려주기
-                axios.post('/hooks/3hprxzpnzpygdk7eymrnirdd6o', {
+                axios.post("/hooks/3hprxzpnzpygdk7eymrnirdd6o", {
                   channel_id: "nie5fdtbkjykpynqwj5mynpwcy",
-                  text: "`" + `${nickname}` + "`" + "님이" + "`" + `${teamtitle}` + "`" + "팀을 생성하였습니다"
-                })
+                  text:
+                    "`" +
+                    `${nickname}` +
+                    "`" +
+                    "님이" +
+                    "`" +
+                    `${teamtitle}` +
+                    "`" +
+                    "팀을 생성하였습니다",
+                });
               });
           }
         });
@@ -162,4 +172,4 @@ function TeamCreate({ }: Props): ReactElement {
   );
 }
 
-export default TeamCreate;
+export default withAuth(TeamCreate);

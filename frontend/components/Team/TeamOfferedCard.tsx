@@ -2,6 +2,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import TeamDetailModal from "./TeamDetailModal";
 import axios from "axios";
+import { useRouter } from "next/router";
 interface Props {
   teamPK: number;
   projectCode: number;
@@ -17,6 +18,8 @@ function TeamOfferedCard({
   suggestDate,
   teamName,
 }: Props): ReactElement {
+  const router = useRouter();
+
   const [teamFlag, setTeamFlag] = useState<boolean>(false);
   // 제안을 보낸 시간 구하기
   const now = new Date(suggestDate);
@@ -105,7 +108,7 @@ function TeamOfferedCard({
               "팀을 가입하였습니다",
           });
           alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
-          location.reload();
+          router.reload();
         });
     }
   }
@@ -128,26 +131,21 @@ function TeamOfferedCard({
         )
         .then(() => {
           alert("제안을 거절하였습니다");
-          location.reload();
+          router.reload();
         });
     }
   }
   return (
     <tr className="">
-      <td className="px-6 py-4 whitespace-nowrap text-center">
+      <td className="px-6 py-4 whitespace-nowrap text-center max-w-0">
         <div
-          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          className=" text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5 truncate"
           onClick={() => setTeamFlag(true)}
         >
           {teamName}
         </div>
       </td>
 
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          팀원 구인 중
-        </span>
-      </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">{timeForToday(now)}</div>
       </td>

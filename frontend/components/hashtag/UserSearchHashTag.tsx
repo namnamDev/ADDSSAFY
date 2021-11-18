@@ -31,7 +31,7 @@ const filters: filters[] = [
   },
   {
     id: "GOODBADGE",
-    name: "뱃지",
+    name: "뱃지(개발예정)",
     options: [],
   },
 ];
@@ -238,6 +238,7 @@ function UserSearchHashTag({ projectCode, leadercheck }: Props): ReactElement {
                                   defaultChecked={option.check}
                                   className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                                   onClick={() => check(section.name, option)}
+                                  disabled={section.id === "GOODBADGE"}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}

@@ -6,6 +6,8 @@ import Link from "next/link";
 import UserCreateHashTag from "../components/hashtag/UserCreateHashTag";
 import Footer from "../components/basic/Footer";
 import axios from "axios";
+import withAuth from "../ts/isLogin";
+
 interface Props {}
 
 interface list {
@@ -14,7 +16,7 @@ interface list {
   prop: string;
   image: string;
 }
-function Mypage({}: Props): ReactElement {
+function MypageEdit({}: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
   const [can, setCan] = useState<number[]>([]);
@@ -191,4 +193,4 @@ function Mypage({}: Props): ReactElement {
   );
 }
 
-export default Mypage;
+export default withAuth(MypageEdit);

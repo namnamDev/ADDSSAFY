@@ -2,6 +2,7 @@
 import React, { ReactElement, useState, Fragment, useEffect } from "react";
 import UserDetailModal from "./UserDetailModal";
 import axios from "axios";
+import { useRouter } from "next/router";
 interface Props {
   person: any;
   projectCode: number;
@@ -17,6 +18,8 @@ function UserOfferedCard({
   suggestPK,
   myTeamPK,
 }: Props): ReactElement {
+  const router = useRouter();
+
   const [flag, setflag] = useState<boolean>(false);
 
   // 제안을 보낸 시간 구하기
@@ -117,7 +120,7 @@ function UserOfferedCard({
               }
             )
             .then(() => {
-              // location.reload();
+              // router.reload();
             });
         });
     }
@@ -150,7 +153,7 @@ function UserOfferedCard({
                   }
                 )
                 .then(() => {
-                  location.reload();
+                  router.reload();
                 });
             });
         });

@@ -3,6 +3,7 @@ import Navbar from "../components/basic/Navbar";
 import axios from "axios";
 import Footer from "../components/basic/Footer";
 import TeamModifyHashTag from "../components/hashtag/TeamModifyHashTag";
+import withAuth from "../ts/isLogin";
 import { useRouter } from "next/router";
 
 interface Props {}
@@ -120,4 +121,4 @@ function TeamModify({}: Props): ReactElement {
   );
 }
 
-export default TeamModify;
+export default withAuth(TeamModify);

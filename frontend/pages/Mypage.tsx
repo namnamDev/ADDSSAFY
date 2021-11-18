@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "../components/basic/Footer";
 import axios from "axios";
+import withAuth from "../ts/isLogin";
 
 interface Props {}
 
@@ -224,4 +225,4 @@ function Mypage({}: Props): ReactElement {
   );
 }
 
-export default Mypage;
+export default withAuth(Mypage);
