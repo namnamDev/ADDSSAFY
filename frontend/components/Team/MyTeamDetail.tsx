@@ -7,6 +7,7 @@ import UserDetailModal from "../user/UserDetailModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon, FolderAddIcon } from "@heroicons/react/outline";
 import { compose } from "@mui/system";
+import { Tooltip } from "@mui/material";
 
 interface Props {
   teamPK: number;
@@ -20,6 +21,22 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
   const [mmchannel, setmmchannel] = useState<string>("");
   const [ppt, setppt] = useState<string>("");
   const [teamName, setTeamName] = useState<string>("");
+  // 다음 프로젝트에 팀이 있으면 나가기 막기
+  const [CantExit, setCantExit] = useState<number>(1)
+  useEffect(() => {
+    const token: string | null = localStorage.getItem('token')
+    if (token && projectCode < 2) {
+      axios
+        .get(`/api/team/myteam/${projectCode + 1}`, {
+          headers: { Authorization: token },
+        })
+        .then((res: any) => {
+          if (res.data.data > 0) {
+            setCantExit(0)
+          }
+        })
+    }
+  }, [projectCode])
   // 팀멤버 정보 받아오기
   const [isleader, setisleader] = useState<boolean>(false);
   useEffect(() => {
@@ -62,6 +79,10 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
     const mmid: string | null = localStorage.getItem("mmid");
     const mmtoken: string | null = localStorage.getItem("mmtoken");
     const nickname: string | null = localStorage.getItem("nickname");
+    if (CantExit==0){
+      alert('이후 프로젝트팀에 소속이 되어있다면, 팀나가기가 진행되지 않습니다')
+      return
+    }
     if (token && mmid && mmtoken) {
       axios
         .delete("/api/team/exit", {
@@ -217,14 +238,15 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                   팀 정보 수정
                 </button>
               ) : null}
-
-              <button
-                type="button"
-                className="inline-flex items-center px-4 py-2 border bg-red-500 text-black rounded-md shadow-sm text-sm font-medium hover:bg-red-50 mx-2"
-                onClick={teamexit}
-              >
-                팀 나가기
-              </button>
+              <Tooltip title="이후 프로젝트에 팀에 소속되어 있으면, 탈퇴가 진행되지 않습니다">
+                <button
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 border bg-red-500 text-white rounded-md shadow-sm text-sm font-medium hover:bg-red-50 mx-2"
+                  onClick={teamexit}
+                >
+                  팀 나가기
+                </button>
+              </Tooltip>
             </span>
           </div>
         </div>
