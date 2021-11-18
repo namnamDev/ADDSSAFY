@@ -207,7 +207,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
               <button
                 type="button"
                 className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50 mx-2"
-                onClick={() => router.push(`${webex}`)}
+                onClick={() => window.open(`${webex}`, "_blank")}
               >
                 웹엑스 바로가기
               </button>

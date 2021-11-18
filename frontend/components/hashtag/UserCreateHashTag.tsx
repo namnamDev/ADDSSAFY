@@ -5,7 +5,7 @@ import axios from "axios";
 const filters: filters[] = [
   {
     id: "can",
-    name: "기술스택 설정",
+    name: "기술스택 및 기타",
     options: [],
   },
 ];
