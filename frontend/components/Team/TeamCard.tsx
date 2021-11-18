@@ -16,11 +16,11 @@ function TeamCard({ teamPK, projectCode, teamdata, enough }: Props): ReactElemen
 
   return (
     <tr>
-      <td className=" py-4 whitespace-nowrap text-center">
+      <td className=" py-4 whitespace-nowrap text-center max-w-0">
         <div className="">
           <div className="">
             <div
-              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer"
+              className="text-sm font-medium text-gray-900 hover:underline cursor-pointer truncate"
               onClick={() => setTeamFlag(true)}
             >
               {teamdata.name}
@@ -28,8 +28,8 @@ function TeamCard({ teamPK, projectCode, teamdata, enough }: Props): ReactElemen
           </div>
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">{teamdata.introduce}</div>
+      <td className="px-6 py-4 whitespace-nowrap max-w-0">
+        <div className="text-sm text-gray-900 truncate">{teamdata.introduce}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {enough ? (

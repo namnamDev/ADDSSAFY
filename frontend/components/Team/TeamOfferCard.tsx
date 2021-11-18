@@ -101,9 +101,9 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
 
   return (
     <tr className="h-10">
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4 whitespace-nowrap max-w-0">
         <div
-          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5 truncate"
           onClick={() => setTeamFlag(true)}
         >
           {teamdata.name}

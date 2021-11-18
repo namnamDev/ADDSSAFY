@@ -12,6 +12,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import withAuth from "../ts/isLogin";
+import { Tooltip } from "@mui/material";
 
 interface Props {}
 
@@ -95,6 +96,7 @@ function TeamCreate({}: Props): ReactElement {
   const onTeamWebexChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTeamWebex(e.target.value);
   };
+  console.log(teamtitle);
   return (
     <div>
       <Navbar />
@@ -150,13 +152,25 @@ function TeamCreate({}: Props): ReactElement {
         <TeamCreateHashTag onCanChanged={setCan} />
         <div className="mt-5 text-right">
           <span className="hidden sm:block">
-            <button
-              type="button"
-              className="inline-flex items-center px-4 py-2 border bg-blue-100 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-blue-50"
-              onClick={create}
-            >
-              팀 생성
-            </button>
+            {teamtitle === "" ? (
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-red-200 hover:bg-red-100"
+                onClick={create}
+                disabled
+              >
+                팀 생성
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-blue-200 hover:bg-blue-100"
+                onClick={create}
+              >
+                팀 생성
+              </button>
+            )}
+
             <button
               type="button"
               className="inline-flex items-center px-4 py-2 border bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"

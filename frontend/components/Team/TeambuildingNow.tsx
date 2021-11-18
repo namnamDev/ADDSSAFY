@@ -88,9 +88,9 @@ function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
         <tbody className="bg-white divide-y divide-gray-200">
           {teamlist.map((team: any, i: number) => (
             <tr key={i}>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 py-4 whitespace-nowrap max-w-0">
                 <div
-                  className="text-sm font-medium text-gray-900 cursor-pointer"
+                  className="text-sm font-medium text-gray-900 cursor-pointer truncate"
                   onClick={() => {
                     teamDetail(team.teamDto.teamPK);
                   }}
@@ -118,7 +118,6 @@ function TeambuildingNow({ leaderCheck, projectCode }: Props): ReactElement {
         teamFlag={teamFlag}
         setTeamFlag={setTeamFlag}
         teamPK={teamPK}
-
       />
       {/* 유저상세보기 */}
       <UserDetailModal
