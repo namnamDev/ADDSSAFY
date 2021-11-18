@@ -137,20 +137,15 @@ function TeamOfferedCard({
   }
   return (
     <tr className="">
-      <td className="px-6 py-4 whitespace-nowrap text-center">
+      <td className="px-6 py-4 whitespace-nowrap text-center max-w-0">
         <div
-          className="text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5"
+          className=" text-sm font-medium text-gray-900 hover:underline cursor-pointer my-2.5 truncate"
           onClick={() => setTeamFlag(true)}
         >
           {teamName}
         </div>
       </td>
 
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          팀원 구인 중
-        </span>
-      </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">{timeForToday(now)}</div>
       </td>

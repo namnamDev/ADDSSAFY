@@ -109,11 +109,6 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
           {teamdata.name}
         </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <div className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          팀원 구인 중
-        </div>
-      </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">{timeForToday(now)}</div>
       </td>
