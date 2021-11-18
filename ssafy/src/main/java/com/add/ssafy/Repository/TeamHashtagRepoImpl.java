@@ -82,6 +82,7 @@ public class TeamHashtagRepoImpl implements TeamHashtagRepoCustom {
         System.out.println(can.size());
         List<TeamDto> res = queryFactory
                 .from(qTeam)
+                .orderBy(qTeam.id.asc())
                 .where(builder)
                 .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
                 .join(qMember).on(qTeamMember.member().eq(qMember))
