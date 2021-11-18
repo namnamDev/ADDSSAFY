@@ -50,6 +50,7 @@ public class TeamRepoImpl implements TeamRepoCustom {
         List<TeamDto> res = queryFactory
                 .from(qTeam)
                 .where(qTeam.type.eq(projectCode))
+                .orderBy(qTeam.id.asc())
                 .join(qTeamMember).on(qTeam.eq(qTeamMember.team()))
                 .join(qMember).on(qTeamMember.member().eq(qMember))
                 .transform(GroupBy.groupBy(qTeam.id)
