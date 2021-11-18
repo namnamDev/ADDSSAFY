@@ -4,10 +4,10 @@ import Image from "next/image";
 import Footer from "../components/basic/Footer";
 import "aos/dist/aos.css";
 import Aos from "aos";
+import withAuth from "../ts/isLogin";
+interface Props {}
 
-interface Props { }
-
-function Main({ }: Props): ReactElement {
+function Main({}: Props): ReactElement {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
@@ -41,9 +41,7 @@ function Main({ }: Props): ReactElement {
               <div className="w-full lg:w-12/12 px-4">
                 <div className="flex flex-wrap">
                   <div className="w-4/12 px-4">
-                    <div className="text-3xl font-semibold text-center">
-                      Mattermost
-                    </div>
+                    <div className="text-3xl font-semibold text-center">Mattermost</div>
                     <div className="">
                       <Image
                         alt="..."
@@ -57,9 +55,7 @@ function Main({ }: Props): ReactElement {
                     </div>
                   </div>
                   <div className="w-4/12 px-4">
-                    <div className="text-3xl font-semibold text-center">
-                      Search
-                    </div>
+                    <div className="text-3xl font-semibold text-center">Search</div>
                     <div className="">
                       <Image
                         alt="..."
@@ -73,9 +69,7 @@ function Main({ }: Props): ReactElement {
                     </div>
                   </div>
                   <div className="w-4/12 px-4">
-                    <div className="text-3xl font-semibold text-center">
-                      Create
-                    </div>
+                    <div className="text-3xl font-semibold text-center">Create</div>
                     <div className="">
                       <Image
                         alt="..."
@@ -105,11 +99,13 @@ function Main({ }: Props): ReactElement {
                   </div>
                   <br />
                   <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                    나와 마음이 맞는 팀을 검색해서 미리 컨택을 한다, 팀정보를 미리 확인해 구성원들을 미리 파악해놓는다
+                    나와 마음이 맞는 팀을 검색해서 미리 컨택을 한다, 팀정보를 미리 확인해 구성원들을
+                    미리 파악해놓는다
                   </div>
                   <br />
                   <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    팀장으로 프로젝트를 이끌어보고 싶다면, 팀을 생성후 필요한 기술스택에 맞는 교육생들을 검색해서 컨택을 한다
+                    팀장으로 프로젝트를 이끌어보고 싶다면, 팀을 생성후 필요한 기술스택에 맞는
+                    교육생들을 검색해서 컨택을 한다
                   </div>
                   <br />
                   <div className="px-4 py-2 my-1 inline-flex text-base leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
@@ -174,4 +170,4 @@ function Main({ }: Props): ReactElement {
   );
 }
 
-export default Main;
+export default withAuth(Main);
