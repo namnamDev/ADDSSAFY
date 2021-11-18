@@ -2,6 +2,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import axios from "axios";
 import TeamDetailModal from "./TeamDetailModal";
+import { useRouter } from "next/router";
 interface Props {
   teamPK: number;
   projectCode: number;
@@ -11,6 +12,7 @@ interface Props {
 
 function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): ReactElement {
   // 제안을 보낸 시간 구하기
+  const router = useRouter();
   const now = new Date(suggestDate);
   new Date(now.setHours(now.getHours() + 11));
   // 시간으로 변환
@@ -91,7 +93,7 @@ function TeamOfferCard({ teamPK, projectCode, suggestPK, suggestDate }: Props): 
                 }
               )
               .then(() => {
-                location.reload();
+                router.reload();
               });
           });
       });

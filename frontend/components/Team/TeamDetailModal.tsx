@@ -7,6 +7,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import UserDetailModal from "../user/UserDetailModal";
 import UserDetail from "../user/UserDetail";
 import SendMM from "../user/SendMMmodal";
+import { useRouter } from "next/router";
 
 interface Props {
   projectCode: number;
@@ -16,6 +17,8 @@ interface Props {
 }
 function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props): ReactElement {
   // 팀정보 모달창
+  const router = useRouter();
+
   const [showTeamUser, setShowTeamUser] = useState(false);
   const [teammodalUserPK, setteammodalUserPK] = useState<number>(0);
   const [teamButton, setTeamButton] = useState<number>(0);
@@ -115,7 +118,7 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
             text: `${nickname}님이 "${suggestedTeamName}"팀에 가입하였습니다`,
           });
           alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
-          location.reload();
+          router.reload();
         });
     }
   }
@@ -181,7 +184,7 @@ function TeamDetailModal({ projectCode, teamFlag, setTeamFlag, teamPK }: Props):
                 }
               )
               .then(() => {
-                location.reload();
+                router.reload();
               });
           });
       });

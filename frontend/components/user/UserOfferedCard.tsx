@@ -117,7 +117,7 @@ function UserOfferedCard({
               }
             )
             .then(() => {
-              // location.reload();
+              // router.reload();
             });
         });
     }
@@ -150,7 +150,7 @@ function UserOfferedCard({
                   }
                 )
                 .then(() => {
-                  location.reload();
+                  router.reload();
                 });
             });
         });

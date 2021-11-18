@@ -2,6 +2,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import TeamDetailModal from "./TeamDetailModal";
 import axios from "axios";
+import { useRouter } from "next/router";
 interface Props {
   teamPK: number;
   projectCode: number;
@@ -17,6 +18,8 @@ function TeamOfferedCard({
   suggestDate,
   teamName,
 }: Props): ReactElement {
+  const router = useRouter();
+
   const [teamFlag, setTeamFlag] = useState<boolean>(false);
   // 제안을 보낸 시간 구하기
   const now = new Date(suggestDate);
@@ -105,7 +108,7 @@ function TeamOfferedCard({
               "팀을 가입하였습니다",
           });
           alert("요청이 수락되어, 메타모스트채널에 초대되었습니다");
-          location.reload();
+          router.reload();
         });
     }
   }
@@ -128,7 +131,7 @@ function TeamOfferedCard({
         )
         .then(() => {
           alert("제안을 거절하였습니다");
-          location.reload();
+          router.reload();
         });
     }
   }

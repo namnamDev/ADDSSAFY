@@ -48,8 +48,8 @@ function UserOfferCard({
   }
   function withdrawSuggest() {
     if (leadercheck === false) {
-      alert('권한이 없습니다')
-      return
+      alert("권한이 없습니다");
+      return;
     }
     const token: string | null = localStorage.getItem("token");
     if (token) {
@@ -94,7 +94,7 @@ function UserOfferCard({
                   }
                 )
                 .then(() => {
-                  location.reload();
+                  router.reload();
                 });
             });
         });

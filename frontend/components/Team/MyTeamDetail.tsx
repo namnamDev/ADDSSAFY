@@ -102,7 +102,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
                   headers: { Authorization: mmtoken },
                 })
                 .then(() => {
-                  location.reload();
+                  router.reload();
                 });
             });
         });
@@ -147,7 +147,7 @@ function MyTeamDetail({ teamPK, projectCode }: Props): ReactElement {
       })
       .then(() => {
         alert("파일이 성공적으로 업로드 되었습니다");
-        location.reload();
+        router.reload();
       });
   }
   const cancelButtonRef = useRef(null);

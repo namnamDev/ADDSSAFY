@@ -88,7 +88,7 @@ function UserDetailModal({
                 headers: { Authorization: mmtoken },
               }
             )
-            .then(() => location.reload());
+            .then(() => router.reload());
         });
     }
   }
@@ -157,7 +157,7 @@ function UserDetailModal({
                   }
                 )
                 .then(() => {
-                  location.reload();
+                  router.reload();
                 });
             });
         });
