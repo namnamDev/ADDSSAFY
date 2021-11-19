@@ -7,9 +7,9 @@ import Footer from "../components/basic/Footer";
 import axios from "axios";
 import withAuth from "../ts/isLogin";
 
-interface Props {}
+interface Props { }
 
-function Mypage({}: Props): ReactElement {
+function Mypage({ }: Props): ReactElement {
   const router = useRouter();
   const PK = router.query.userPK;
 
@@ -103,7 +103,7 @@ function Mypage({}: Props): ReactElement {
               </div>
               {/* 기술스택 */}
               <div className=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm  text-gray-500 font-bold">기술스택 및 기타</dt>
+                <dt className="text-sm  text-gray-500 font-bold">기술스택</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   {Object.keys(usertags).map((section: any, i: number) => (
                     <div key={i}>
@@ -148,8 +148,8 @@ function Mypage({}: Props): ReactElement {
                       userinfo.git === undefined
                         ? "#"
                         : userinfo.git.includes("http")
-                        ? userinfo.git
-                        : "https://" + userinfo.git
+                          ? userinfo.git
+                          : "https://" + userinfo.git
                     }
                   >
                     <a
@@ -157,8 +157,8 @@ function Mypage({}: Props): ReactElement {
                         userinfo.git === undefined
                           ? "#"
                           : userinfo.git.includes("http")
-                          ? userinfo.git
-                          : "https://" + userinfo.git
+                            ? userinfo.git
+                            : "https://" + userinfo.git
                       }
                     >
                       {userinfo.git}
@@ -174,8 +174,8 @@ function Mypage({}: Props): ReactElement {
                       userinfo.blog === undefined
                         ? "#"
                         : userinfo.blog.includes("http")
-                        ? userinfo.blog
-                        : "https://" + userinfo.blog
+                          ? userinfo.blog
+                          : "https://" + userinfo.blog
                     }
                   >
                     <a
@@ -183,8 +183,8 @@ function Mypage({}: Props): ReactElement {
                         userinfo.blog === undefined
                           ? "#"
                           : userinfo.blog.includes("http")
-                          ? userinfo.blog
-                          : "https://" + userinfo.blog
+                            ? userinfo.blog
+                            : "https://" + userinfo.blog
                       }
                     >
                       {userinfo.blog}
