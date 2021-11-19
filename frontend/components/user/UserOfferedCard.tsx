@@ -120,7 +120,7 @@ function UserOfferedCard({
               }
             )
             .then(() => {
-              // router.reload();
+              router.reload();
             });
         });
     }
