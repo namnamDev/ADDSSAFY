@@ -129,6 +129,7 @@ function UserOfferCard({
         flag={flag}
         setflag={setflag}
         leaderCheck={leadercheck}
+        suggestPK={suggestPK}
       />
     </tr>
   );
