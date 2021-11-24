@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Tooltip } from "@mui/material";
 
 interface Props {}
 
@@ -38,33 +39,36 @@ function LoginModal({}: Props): ReactElement {
             fileReaderInstance.onload = async () => {
               setBase64data(fileReaderInstance.result);
               // backend login
-              axios.post('/api/users/login',
-                {
+              axios
+                .post("/api/users/login", {
                   email: loginid,
                   password: "test",
                   mmid: res.data.id,
                   username: res.data.username,
                   nickname: res.data.nickname,
                   image: fileReaderInstance.result,
-                  mmToken: res.headers.token
-                }
-              )
+                  mmToken: res.headers.token,
+                })
                 // 로그인이 되면 정보에 따라서 return창을 다르게 해줘야할텐데 backend에 저장되는걸로 자동으로
                 .then((res1: any) => {
                   localStorage.setItem("token", "Bearer " + res1.data.data.accessToken);
-                  axios.post('/api/v4/channels/nie5fdtbkjykpynqwj5mynpwcy/members', {
-                    user_id: res.data.id
-                  }, {
-                    headers: { Authorization: "Bearer " + "68g4frygktyapq9idribi8ns6e" }
-                  })
+                  axios
+                    .post(
+                      "/api/v4/channels/nie5fdtbkjykpynqwj5mynpwcy/members",
+                      {
+                        user_id: res.data.id,
+                      },
+                      {
+                        headers: { Authorization: "Bearer " + "68g4frygktyapq9idribi8ns6e" },
+                      }
+                    )
                     .then((res) => {
-                      router.push('/Main')
-                    })
+                      router.push("/Main");
+                    });
                 })
-                .catch((err) => alert(err))
+                .catch((err) => alert(err));
             };
           });
-
       })
       .catch(() => alert("Mattermost계정을 올바르게 입력해주세요"));
   }
@@ -82,7 +86,11 @@ function LoginModal({}: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="MatterMost ID"
               onChange={(e) => setloginid(e.target.value)}
-              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  login();
+                }
+              }}
             ></input>
           </div>
           <div>
@@ -95,7 +103,11 @@ function LoginModal({}: Props): ReactElement {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="Password"
               onChange={(e) => setloginpw(e.target.value)}
-              onKeyPress={(e) => { if (e.key === "Enter") { login() } }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  login();
+                }
+              }}
             ></input>
           </div>
         </div>
@@ -113,6 +125,10 @@ function LoginModal({}: Props): ReactElement {
             </span>
             Login
           </button>
+          <div className="text-xs mt-3 text-center">
+            현재는 <span className="text-blue-600">구미 2반</span> 교육생만 사용이 가능합니다.
+            <div>{"\n"}</div> 추후 업데이트 할 예정입니다
+          </div>
         </div>
       </div>
     </div>
