@@ -11,4 +11,4 @@ SSAFY에서는 2학기에 3건의 팀 프로젝트를 수행하는데요, 교육
 
 자세한 소개는 아래의 링크를 통해 볼 수 있습니다. 
 
-[TheFan PPT](https://docs.google.com/presentation/d/17u7ZrBPyF9OkzgLQ-hyuUgywU2t9aGWr/edit?usp=sharing&ouid=108415128869879365252&rtpof=true&sd=true)
+[ADDSSAFY PPT](https://docs.google.com/presentation/d/17u7ZrBPyF9OkzgLQ-hyuUgywU2t9aGWr/edit?usp=sharing&ouid=108415128869879365252&rtpof=true&sd=true)
